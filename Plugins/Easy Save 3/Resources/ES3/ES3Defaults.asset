@@ -35,6 +35,7 @@ MonoBehaviour:
     referenceMode: 2
     serializationDepthLimit: 64
     assemblyNames:
+    - Assembly-CSharp
     - Assembly-CSharp-firstpass
     - BetterHierarchyDemoScripts
     - DOTween.Modules
@@ -43,6 +44,7 @@ MonoBehaviour:
     - Febucci.TextAnimator.Demo.Runtime
     - Febucci.TextAnimator.Runtime
     - Febucci.TextAnimator.TMP.Runtime
+    - UltimateEditorEnhancer
     - VInspector
     - Wingman
     showAdvancedSettings: 0

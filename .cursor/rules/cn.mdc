@@ -1,0 +1,20 @@
+---
+description:
+1) 所有非 Editor 目录下的 `[SerializeField]` 字段必须使用 `[InspectorCN("中文")]` 或者在 `Assets/Editor/Localization/translation.zh-cn.json` 词库中提供映射。
+2) 若两者都未提供，将被视为违反规范。
+- 自动化:
+  - 构建后由 `InspectorCNEnforcer` 在 Unity 中输出警告。
+  - 在评审中请检查：
+    - 是否存在 `[SerializeField]` 但没有 `[InspectorCN]`；
+    - 或未在词库中添加键：`类型名.字段名` 或 `字段名`。
+- 例外:
+  - `Editor/` 目录内的编辑器专用脚本可豁免。
+- 修复建议:
+  - 在字段上添加 `[InspectorCN("中文")]`；
+  - 或向 `translation.zh-cn.json` 添加映射项，如：
+    ```json
+    { "english": "UIProgressController.targetRawImage", "chinese": "目标RawImage" }
+    ```
+globs:仅C# .cs 文件
+alwaysApply: true
+---
