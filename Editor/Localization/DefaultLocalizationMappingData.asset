@@ -1,0 +1,286 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70dc3f413eacb014ebfdcb5b10918840, type: 3}
+  m_Name: DefaultLocalizationMappingData
+  m_EditorClassIdentifier: 
+  items:
+  - english: Settings
+    chinese: "\u8BBE\u7F6E"
+  - english: Options
+    chinese: "\u9009\u9879"
+  - english: Save
+    chinese: "\u4FDD\u5B58"
+  - english: Load
+    chinese: "\u52A0\u8F7D"
+  - english: Create
+    chinese: "\u521B\u5EFA"
+  - english: Delete
+    chinese: "\u5220\u9664"
+  - english: Open
+    chinese: "\u6253\u5F00"
+  - english: Close
+    chinese: "\u5173\u95ED"
+  - english: Apply
+    chinese: "\u5E94\u7528"
+  - english: Cancel
+    chinese: "\u53D6\u6D88"
+  - english: OK
+    chinese: "\u786E\u5B9A"
+  - english: Reset
+    chinese: "\u91CD\u7F6E"
+  - english: Default
+    chinese: "\u9ED8\u8BA4"
+  - english: Target
+    chinese: "\u76EE\u6807"
+  - english: Duration
+    chinese: "\u65F6\u957F"
+  - english: Delay
+    chinese: "\u5EF6\u8FDF"
+  - english: Loops
+    chinese: "\u5FAA\u73AF"
+  - english: Loop
+    chinese: "\u5FAA\u73AF"
+  - english: Ease
+    chinese: "\u7F13\u52A8"
+  - english: Tween
+    chinese: "\u8865\u95F4"
+  - english: Sequence
+    chinese: "\u5E8F\u5217"
+  - english: Play
+    chinese: "\u64AD\u653E"
+  - english: Pause
+    chinese: "\u6682\u505C"
+  - english: Stop
+    chinese: "\u505C\u6B62"
+  - english: Kill
+    chinese: "\u7EC8\u6B62"
+  - english: From
+    chinese: "\u8D77\u59CB"
+  - english: Relative
+    chinese: "\u76F8\u5BF9"
+  - english: Snapping
+    chinese: "\u5BF9\u9F50"
+  - english: AutoKill
+    chinese: "\u81EA\u52A8\u7EC8\u6B62"
+  - english: AutoPlay
+    chinese: "\u81EA\u52A8\u64AD\u653E"
+  - english: Blendable
+    chinese: "\u53EF\u6DF7\u5408"
+  - english: Path
+    chinese: "\u8DEF\u5F84"
+  - english: LookAt
+    chinese: "\u671D\u5411"
+  - english: Axis
+    chinese: "\u8F74"
+  - english: Constraint
+    chinese: "\u7EA6\u675F"
+  - english: Vibrato
+    chinese: "\u632F\u52A8"
+  - english: Randomness
+    chinese: "\u968F\u673A\u5EA6"
+  - english: Elastic
+    chinese: "\u5F39\u6027"
+  - english: Bounce
+    chinese: "\u53CD\u5F39"
+  - english: Back
+    chinese: "\u56DE\u5F39"
+  - english: Quad
+    chinese: "\u4E8C\u6B21"
+  - english: Cubic
+    chinese: "\u4E09\u6B21"
+  - english: Quart
+    chinese: "\u56DB\u6B21"
+  - english: Quint
+    chinese: "\u4E94\u6B21"
+  - english: Expo
+    chinese: "\u6307\u6570"
+  - english: Sine
+    chinese: "\u6B63\u5F26"
+  - english: Power
+    chinese: "\u5E42"
+  - english: Linear
+    chinese: "\u7EBF\u6027"
+  - english: Fade
+    chinese: "\u6DE1\u5165\u6DE1\u51FA"
+  - english: Color
+    chinese: "\u989C\u8272"
+  - english: Scale
+    chinese: "\u7F29\u653E"
+  - english: Rotate
+    chinese: "\u65CB\u8F6C"
+  - english: Move
+    chinese: "\u79FB\u52A8"
+  - english: Value
+    chinese: "\u6570\u503C"
+  - english: Audio
+    chinese: "\u97F3\u9891"
+  - english: Text
+    chinese: "\u6587\u672C"
+  - english: Anchor
+    chinese: "\u951A\u70B9"
+  - english: Sprite
+    chinese: "\u7CBE\u7075"
+  - english: Rect
+    chinese: "\u77E9\u5F62"
+  - english: Clamp
+    chinese: "\u9650\u5236"
+  - english: ClampForever
+    chinese: "\u6C38\u4E45\u9650\u5236"
+  - english: Yoyo
+    chinese: "\u5F80\u8FD4"
+  - english: SELF
+    chinese: "\u81EA\u8EAB"
+  - english: OTHER
+    chinese: "\u5176\u4ED6"
+  - english: Use As Tween Target
+    chinese: "\u7528\u4F5C\u8865\u95F4\u76EE\u6807"
+  - english: Will animate components on this gameObject
+    chinese: "\u5C06\u5728\u6B64\u5BF9\u8C61\u4E0A\u64AD\u653E\u52A8\u753B"
+  - english: Will animate components on the given gameObject instead than on this
+      one
+    chinese: "\u5C06\u5728\u6307\u5B9A\u5BF9\u8C61\u4E0A\u64AD\u653E\u52A8\u753B\u800C\u975E\u5F53\u524D\u5BF9\u8C61"
+  - english: Switches to Runtime Edit Mode, where you can change animations values
+      and restart them
+    chinese: "\u5207\u6362\u5230\u8FD0\u884C\u65F6\u7F16\u8F91\u6A21\u5F0F\uFF0C\u53EF\u4FEE\u6539\u52A8\u753B\u53C2\u6570\u5E76\u91CD\u65B0\u5F00\u59CB"
+  - english: Add Manager
+    chinese: "\u6DFB\u52A0\u7BA1\u7406\u5668"
+  - english: Adds a manager component which allows you to choose additional options
+      for this gameObject
+    chinese: "\u6DFB\u52A0\u7BA1\u7406\u5668\u7EC4\u4EF6\u4EE5\u542F\u7528\u66F4\u591A\u9009\u9879"
+  - english: If unchecked, this animation will not be created
+    chinese: "\u672A\u52FE\u9009\u5219\u4E0D\u4F1A\u521B\u5EFA\u6B64\u52A8\u753B"
+  - english: AutoGenerate
+    chinese: "\u81EA\u52A8\u751F\u6210"
+  - english: If selected, the tween will be generated at startup (during Start for
+      RectTransform position tween, Awake for all the others)
+    chinese: "\u9009\u4E2D\u540E\u5728\u542F\u52A8\u65F6\u751F\u6210\u8865\u95F4(RectTransform
+      \u4F4D\u7F6E\u4E8E Start\uFF0C\u5176\u4F59\u4E8E Awake)"
+  - english: AutoPlay
+    chinese: "\u81EA\u52A8\u64AD\u653E"
+  - english: If selected, the tween will play automatically
+    chinese: "\u9009\u4E2D\u540E\u8865\u95F4\u81EA\u52A8\u64AD\u653E"
+  - english: AutoKill
+    chinese: "\u81EA\u52A8\u7EC8\u6B62"
+  - english: If selected, the tween will be killed when it completes, and won't be
+      reusable
+    chinese: "\u9009\u4E2D\u540E\u8865\u95F4\u5B8C\u6210\u5373\u9500\u6BC1\uFF0C\u65E0\u6CD5\u590D\u7528"
+  - english: SpeedBased
+    chinese: "\u57FA\u4E8E\u901F\u5EA6"
+  - english: If selected, the duration will count as units/degree x second
+    chinese: "\u9009\u4E2D\u540E\u65F6\u957F\u6309\u5355\u4F4D/\u89D2\u5EA6\u6BCF\u79D2\u8BA1\u7B97"
+  - english: Set to -1 for infinite loops
+    chinese: "\u8BBE\u4E3A -1 \u8868\u793A\u65E0\u9650\u5FAA\u73AF"
+  - english: Scramble Mode
+    chinese: "\u6270\u52A8\u6A21\u5F0F"
+  - english: Custom Scramble
+    chinese: "\u81EA\u5B9A\u4E49\u6270\u52A8"
+  - english: How much will the punch vibrate
+    chinese: "\u51B2\u51FB\u7684\u632F\u52A8\u5F3A\u5EA6"
+  - english: How much the vector will go beyond the starting position when bouncing
+      backwards
+    chinese: "\u56DE\u5F39\u65F6\u8D85\u51FA\u8D77\u59CB\u4F4D\u7F6E\u7684\u5E45\u5EA6"
+  - english: The shake randomness
+    chinese: "\u6296\u52A8\u7684\u968F\u673A\u5EA6"
+  - english: If selected the shake will fade out, otherwise it will constantly play
+      with full force
+    chinese: "\u9009\u4E2D\u5219\u6296\u52A8\u9010\u6E10\u51CF\u5F31\uFF0C\u5426\u5219\u6301\u7EED\u6EE1\u5E45\u5EA6"
+  - english: AutoPlay only
+    chinese: "\u4EC5\u81EA\u52A8\u64AD\u653E"
+  - english: Easy Save
+    chinese: Easy Save
+  - english: -- When changes are made
+    chinese: "\u2014\u2014 \u5F53\u53D1\u751F\u53D8\u66F4\u65F6"
+  - english: Should Easy Save update the reference manager when objects in your scene
+      changes?
+    chinese: "\u5F53\u573A\u666F\u5BF9\u8C61\u53D8\u5316\u65F6\u662F\u5426\u66F4\u65B0\u5F15\u7528\u7BA1\u7406\u5668\uFF1F"
+  - english: -- When scene is saved
+    chinese: "\u2014\u2014 \u5F53\u573A\u666F\u4FDD\u5B58\u65F6"
+  - english: Should Easy Save update the reference manager when objects in your scene
+      is saved?
+    chinese: "\u5F53\u573A\u666F\u88AB\u4FDD\u5B58\u65F6\u662F\u5426\u66F4\u65B0\u5F15\u7528\u7BA1\u7406\u5668\uFF1F"
+  - english: -- When scene is opened
+    chinese: "\u2014\u2014 \u5F53\u573A\u666F\u6253\u5F00\u65F6"
+  - english: Should Easy Save update the reference manager you open a scene in the
+      Editor?
+    chinese: "\u5728\u7F16\u8F91\u5668\u6253\u5F00\u573A\u666F\u65F6\u662F\u5426\u66F4\u65B0\u5F15\u7528\u7BA1\u7406\u5668\uFF1F"
+  - english: Reference depth
+    chinese: "\u5F15\u7528\u6DF1\u5EA6"
+  - english: How deep should Easy Save look when gathering references from an object?
+      Higher means deeper.
+    chinese: "\u6536\u96C6\u5BF9\u8C61\u5F15\u7528\u65F6\u7684\u6DF1\u5EA6\uFF0C\u6570\u503C\u8D8A\u5927\u904D\u5386\u8D8A\u6DF1\u3002"
+  - english: Reference timeout (seconds)
+    chinese: "\u5F15\u7528\u8D85\u65F6(\u79D2)"
+  - english: How many seconds should Easy Save taking collecting references for an
+      object before timing out?
+    chinese: "\u6536\u96C6\u67D0\u5BF9\u8C61\u5F15\u7528\u7684\u8D85\u65F6\u65F6\u95F4(\u79D2)\u3002"
+  - english: Add All Prefabs to Manager
+    chinese: "\u5C06\u6240\u6709\u9884\u5236\u4F53\u52A0\u5165\u7BA1\u7406\u5668"
+  - english: Should all prefabs with ES3Prefab Components be added to the manager?
+    chinese: "\u662F\u5426\u5C06\u6240\u6709\u5E26 ES3Prefab \u7EC4\u4EF6\u7684\u9884\u5236\u4F53\u52A0\u5165\u7BA1\u7406\u5668\uFF1F"
+  - english: There are Components on this GameObject which will be saved.
+    chinese: "\u6B64\u5BF9\u8C61\u4E0A\u5B58\u5728\u5C06\u88AB\u4FDD\u5B58\u7684\u7EC4\u4EF6\u3002"
+  - english: No Components on this GameObject will be saved
+    chinese: "\u6B64\u5BF9\u8C61\u4E0A\u6CA1\u6709\u4F1A\u88AB\u4FDD\u5B58\u7684\u7EC4\u4EF6\u3002"
+  - english: Type is explicitly supported
+    chinese: "\u7C7B\u578B\u5DF2\u663E\u5F0F\u652F\u6301"
+  - english: Auto cache default file
+    chinese: "\u81EA\u52A8\u7F13\u5B58\u9ED8\u8BA4\u6587\u4EF6"
+  - english: When enabled, the default file as defined at the top of the Settings
+      window will be cached when the application starts.
+    chinese: "\u542F\u7528\u540E\uFF0C\u8BBE\u7F6E\u7A97\u53E3\u9876\u90E8\u6307\u5B9A\u7684\u9ED8\u8BA4\u6587\u4EF6\u4F1A\u5728\u5E94\u7528\u542F\u52A8\u65F6\u7F13\u5B58\u3002"
+  - english: Auto cache file on load
+    chinese: "\u52A0\u8F7D\u65F6\u81EA\u52A8\u7F13\u5B58\u6587\u4EF6"
+  - english: Whether we should automatically cache the file when we attempt to load
+      from it and it doesn't exist in the cache.
+    chinese: "\u5F53\u5C1D\u8BD5\u52A0\u8F7D\u4E14\u7F13\u5B58\u4E2D\u4E0D\u5B58\u5728\u65F6\uFF0C\u662F\u5426\u81EA\u52A8\u7F13\u5B58\u8BE5\u6587\u4EF6\u3002"
+  - english: Pretty print JSON
+    chinese: "\u7F8E\u5316 JSON"
+  - english: Postprocess raw cached data
+    chinese: "\u540E\u5904\u7406\u7F13\u5B58\u6570\u636E"
+  - english: Buffer Size
+    chinese: "\u7F13\u51B2\u533A\u5927\u5C0F"
+  - english: Serialisation Depth
+    chinese: "\u5E8F\u5217\u5316\u6DF1\u5EA6"
+  - english: Key
+    chinese: "\u952E"
+  - english: Type
+    chinese: "\u7C7B\u578B"
+  - english: File
+    chinese: "\u6587\u4EF6"
+  - english: Path
+    chinese: "\u8DEF\u5F84"
+  - english: Encryption
+    chinese: "\u52A0\u5BC6"
+  - english: Serialize
+    chinese: "\u5E8F\u5217\u5316"
+  - english: Deserialize
+    chinese: "\u53CD\u5E8F\u5217\u5316"
+  - english: Reference
+    chinese: "\u5F15\u7528"
+  - english: Overwrite
+    chinese: "\u8986\u76D6"
+  - english: Append
+    chinese: "\u8FFD\u52A0"
+  - english: Add
+    chinese: "\u6DFB\u52A0"
+  - english: Remove
+    chinese: "\u79FB\u9664"
+  - english: Clear
+    chinese: "\u6E05\u7A7A"
+  - english: Exists
+    chinese: "\u5B58\u5728"
+  - english: Compression
+    chinese: "\u538B\u7F29"
+  - english: Directory
+    chinese: "\u76EE\u5F55"
+  - english: Backup
+    chinese: "\u5907\u4EFD"
