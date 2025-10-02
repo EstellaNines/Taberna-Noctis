@@ -38,6 +38,9 @@ MonoBehaviour:
     - Assembly-CSharp
     - Assembly-CSharp-firstpass
     - BetterHierarchyDemoScripts
+    - ChocDino.UIFX
+    - ChocDino.UIFX.Demos
+    - ChocDino.UIFX.TMP
     - DOTween.Modules
     - DOTweenPro.Scripts
     - Febucci.Attributes.Runtime

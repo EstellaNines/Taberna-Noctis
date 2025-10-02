@@ -13,11 +13,20 @@ MonoBehaviour:
   m_Name: SceneHistory
   m_EditorClassIdentifier: 
   _items:
-  - name: LoadingScreen
-    path: Assets/Scenes/LoadingScreen.unity
-  - name: SaveFilesScreen
-    path: Assets/Scenes/SaveFilesScreen.unity
+  - name: DayScreen
+    path: Assets/Scenes/DayScreen.unity
   - name: StartScreen
     path: Assets/Scenes/StartScreen.unity
+  - name: SaveFilesScreen
+    path: Assets/Scenes/SaveFilesScreen.unity
+  - name: LoadingScreen
+    path: Assets/Scenes/LoadingScreen.unity
   - name: TEST
     path: Assets/Scenes/Test/TEST.unity
+  - name: UGUIBlurredBackgroundUIOverUI-Demo
+    path: Assets/Plugins/Kamgam/UGUIBlurredBackground/Examples/UGUIBlurredBackgroundUIOverUI-Demo.unity
+  - name: UGUIBlurredBackgroundUIOverUI-Layers-Demo (Built-In RP & HDRP only)
+    path: Assets/Plugins/Kamgam/UGUIBlurredBackground/Examples/UGUIBlurredBackgroundUIOverUI-Layers-Demo
+      (Built-In RP & HDRP only).unity
+  - name: UGUIBlurredBackgroundMaskableDemo
+    path: Assets/Plugins/Kamgam/UGUIBlurredBackground/Examples/UGUIBlurredBackgroundMaskableDemo.unity

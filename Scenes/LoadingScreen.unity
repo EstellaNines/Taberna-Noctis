@@ -641,24 +641,45 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
+      inSlope: 0.19997132
+      outSlope: 0.19997132
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.38409704
+      value: 0.07680839
+      inSlope: 0.2953863
+      outSlope: 0.2953863
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.2610134
+    - serializedVersion: 3
+      time: 0.72118944
+      value: 0.86926216
+      inSlope: 0.4017649
+      outSlope: 0.4017649
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.5114569
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 0.4689128
+      outSlope: 0.4689128
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1561157989
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,7 +691,7 @@ GameObject:
   - component: {fileID: 1561157990}
   - component: {fileID: 1561157991}
   m_Layer: 5
-  m_Name: Glasslinking
+  m_Name: GlassClinking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -899,15 +920,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1794588992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58385c5fed9310243a78b6a261f882cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 86cd215f2418b65439e4acaa92a5dc97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glassClinking: {fileID: 1561157991}
-  loadingRoot: {fileID: 2125266846}
-  progressUI: {fileID: 1528946676}
-  targetSceneName: TEST
-  postClinkDelay: 0.2
-  autoStart: 1
+  autoStartOnMessage: 1
+  steps:
+  - stepName: GlassingClinking
+    component: {fileID: 1561157991}
+    startMethod: 
+    rootToActivate: {fileID: 1561157989}
+    setActiveOnStart: 1
+    hideOnFinish: 1
+  - stepName: Progress
+    component: {fileID: 1528946676}
+    startMethod: 
+    rootToActivate: {fileID: 1528946674}
+    setActiveOnStart: 1
+    hideOnFinish: 1
 --- !u!1 &2125266846
 GameObject:
   m_ObjectHideFlags: 0
