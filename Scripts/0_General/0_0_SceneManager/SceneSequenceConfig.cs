@@ -13,12 +13,12 @@ public class SceneSequenceConfig : ScriptableObject
     [Serializable]
     public class SceneEntry
     {
-        [LabelText("³¡¾°Ãû")] public string sceneName; // ±ØĞëÓë Build Settings ÖĞµÄ³¡¾°ÃûÒ»ÖÂ
-        [LabelText("¼ÓÔØÄ£Ê½")] public LoadSceneMode loadMode = LoadSceneMode.Single;
-        [LabelText("±êÇ©")] public string tag; // ¿ÉÑ¡£º½×¶Î±êÇ©£¨Èç Start/Day/Night µÈ£©
+        [LabelText("åœºæ™¯å")] public string sceneName; // å¿…é¡»ä¸ Build Settings ä¸­çš„åœºæ™¯åä¸€è‡´
+        [LabelText("åŠ è½½æ¨¡å¼")] public LoadSceneMode loadMode = LoadSceneMode.Single;
+        [LabelText("æ ‡ç­¾")] public string tag; // å¯é€‰ï¼šé˜¶æ®µæ ‡ç­¾ï¼ˆå¦‚ Start/Day/Night ç­‰ï¼‰
 
 #if UNITY_EDITOR
-        [LabelText("³¡¾°ÒıÓÃ"), AssetsOnly]
+        [LabelText("åœºæ™¯å¼•ç”¨"), AssetsOnly]
         public SceneAsset sceneAsset;
 
         private void SyncFromSceneAsset()
@@ -26,16 +26,16 @@ public class SceneSequenceConfig : ScriptableObject
             sceneName = sceneAsset != null ? sceneAsset.name : sceneName;
         }
 
-        [OnValueChanged("SyncFromSceneAsset"), ShowInInspector, LabelText("Í¬²½³¡¾°Ãû"), ReadOnly]
+        [OnValueChanged("SyncFromSceneAsset"), ShowInInspector, LabelText("åŒæ­¥åœºæ™¯å"), ReadOnly]
         private string _editorSceneName => sceneAsset != null ? sceneAsset.name : sceneName;
 #endif
     }
 
-    [BoxGroup("»ù´¡ÉèÖÃ")]
-    [LabelText("Loading ³¡¾°Ãû")] public string loadingScreenSceneName = "LoadingScreen";
+    [BoxGroup("åŸºç¡€è®¾ç½®")]
+    [LabelText("Loading åœºæ™¯å")] public string loadingScreenSceneName = "LoadingScreen";
 
 #if UNITY_EDITOR
-    [BoxGroup("»ù´¡ÉèÖÃ"), LabelText("Loading ³¡¾°ÒıÓÃ"), AssetsOnly]
+    [BoxGroup("åŸºç¡€è®¾ç½®"), LabelText("Loading åœºæ™¯å¼•ç”¨"), AssetsOnly]
     public SceneAsset loadingScreenScene;
 
     private void SyncLoadingNameFromAsset()
@@ -43,45 +43,45 @@ public class SceneSequenceConfig : ScriptableObject
         loadingScreenSceneName = loadingScreenScene != null ? loadingScreenScene.name : loadingScreenSceneName;
     }
 
-    [OnValueChanged("SyncLoadingNameFromAsset"), ShowInInspector, LabelText("Í¬²½ Loading Ãû"), ReadOnly]
+    [OnValueChanged("SyncLoadingNameFromAsset"), ShowInInspector, LabelText("åŒæ­¥ Loading å"), ReadOnly]
     private string _editorLoadingName => loadingScreenScene != null ? loadingScreenScene.name : loadingScreenSceneName;
 #endif
 
-    [BoxGroup("Ë³ĞòÅäÖÃ")]
-    [LabelText("Ë³Ğò³¡¾°ÁĞ±í")]
+    [BoxGroup("é¡ºåºé…ç½®")]
+    [LabelText("é¡ºåºåœºæ™¯åˆ—è¡¨")]
     [ListDrawerSettings(ShowIndexLabels = true, DraggableItems = true, ShowFoldout = true, DefaultExpandedState = true)]
     public List<SceneEntry> orderedScenes = new List<SceneEntry>();
 
-    [BoxGroup("¹¤¾ß")]
-    [Button("ÑéÖ¤ÅäÖÃ"), PropertySpace(8)]
+    [BoxGroup("å·¥å…·")]
+    [Button("éªŒè¯é…ç½®"), PropertySpace(8)]
     private void Validate()
     {
         if (string.IsNullOrEmpty(loadingScreenSceneName))
         {
-            Debug.LogWarning("[SceneSequenceConfig] Î´ÉèÖÃ Loading ³¡¾°Ãû¡£");
+            Debug.LogWarning("[SceneSequenceConfig] æœªè®¾ç½® Loading åœºæ™¯åã€‚");
         }
         for (int i = 0; i < orderedScenes.Count; i++)
         {
             var e = orderedScenes[i];
             if (e == null || string.IsNullOrEmpty(e.sceneName))
             {
-                Debug.LogWarning($"[SceneSequenceConfig] µÚ {i} Ïî³¡¾°ÃûÎª¿Õ¡£");
+                Debug.LogWarning($"[SceneSequenceConfig] ç¬¬ {i} é¡¹åœºæ™¯åä¸ºç©ºã€‚");
                 continue;
             }
 #if UNITY_EDITOR
             if (!IsSceneInBuild(e.sceneName))
             {
-                Debug.LogWarning($"[SceneSequenceConfig] ³¡¾° '{e.sceneName}' ²»ÔÚ Build Settings ÖĞ¡£");
+                Debug.LogWarning($"[SceneSequenceConfig] åœºæ™¯ '{e.sceneName}' ä¸åœ¨ Build Settings ä¸­ã€‚");
             }
 #endif
         }
-        Debug.Log("[SceneSequenceConfig] ÑéÖ¤Íê³É¡£");
+        Debug.Log("[SceneSequenceConfig] éªŒè¯å®Œæˆã€‚");
     }
 
 #if UNITY_EDITOR
     private static bool IsEditorSafe()
     {
-        // ÔÚÓò±¸·İ»ò±àÒëÖĞ±ÜÃâ·ÃÎÊ Unity ¶ÔÏó/×Ê²ú
+        // åœ¨åŸŸå¤‡ä»½æˆ–ç¼–è¯‘ä¸­é¿å…è®¿é—® Unity å¯¹è±¡/èµ„äº§
         return !EditorApplication.isUpdating && !EditorApplication.isCompiling && !EditorApplication.isPlayingOrWillChangePlaymode;
     }
 
@@ -97,7 +97,7 @@ public class SceneSequenceConfig : ScriptableObject
     }
 #endif
 
-    // ½ö¹©ÔçÇ°¼æÈİ£º²»ÔÙÔÚÏÂÀ­ÖĞÊ¹ÓÃ£¬±£ÁôÒÔ±ãÆäËü¹¤¾ßµ÷ÓÃ
+    // ä»…ä¾›æ—©å‰å…¼å®¹ï¼šä¸å†åœ¨ä¸‹æ‹‰ä¸­ä½¿ç”¨ï¼Œä¿ç•™ä»¥ä¾¿å…¶å®ƒå·¥å…·è°ƒç”¨
     private static IEnumerable<string> GetAllScenesInBuild()
     {
 #if UNITY_EDITOR
@@ -109,9 +109,9 @@ public class SceneSequenceConfig : ScriptableObject
             }
             yield break;
         }
-        yield return "(±à¼­Æ÷Ã¦Âµ)";
+        yield return "(ç¼–è¾‘å™¨å¿™ç¢Œ)";
 #else
-        // ÔËĞĞÊ±»·¾³ÎŞ·¨¶ÁÈ¡ EditorBuildSettings£¬ÕâÀï·µ»ØÒ»¸öÕ¼Î»ÁĞ±í
+        // è¿è¡Œæ—¶ç¯å¢ƒæ— æ³•è¯»å– EditorBuildSettingsï¼Œè¿™é‡Œè¿”å›ä¸€ä¸ªå ä½åˆ—è¡¨
         yield return "StartScreen";
         yield return "LoadingScreen";
         yield return "SaveFilesScreen";

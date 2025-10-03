@@ -3,13 +3,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System;
 
-// È«¾Ö³¡¾°¹ÜÀíÆ÷£º³£×¤£¨DontDestroyOnLoad£©£¬¸ºÔğ·¢Æğ³¡¾°ÇĞ»»£º
-// A -> LoadingScreen -> B£ºÏÈ¼ÓÔØ LoadingScreen£¬LoadingScreen ÊÕµ½ LoadingRequest ºóÒì²½¼ÓÔØ B
+// å…¨å±€åœºæ™¯ç®¡ç†å™¨ï¼šå¸¸é©»ï¼ˆDontDestroyOnLoadï¼‰ï¼Œè´Ÿè´£å‘èµ·åœºæ™¯åˆ‡æ¢ï¼š
+// A -> LoadingScreen -> Bï¼šå…ˆåŠ è½½ LoadingScreenï¼ŒLoadingScreen æ”¶åˆ° LoadingRequest åå¼‚æ­¥åŠ è½½ B
 public class GlobalSceneManager : MonoBehaviour
 {
     [Header("Config")]
-    [SerializeField] private SceneSequenceConfig sequenceConfig; // Í¨¹ıÒıÓÃÅäÖÃË³Ğò
-    [SerializeField] private string defaultTargetScene = string.Empty; // ¿ÉÑ¡£º°´Å¥ÎŞ²Îµ÷ÓÃÊ±Ê¹ÓÃ
+    [SerializeField] private SceneSequenceConfig sequenceConfig; // é€šè¿‡å¼•ç”¨é…ç½®é¡ºåº
+    [SerializeField] private string defaultTargetScene = string.Empty; // å¯é€‰ï¼šæŒ‰é’®æ— å‚è°ƒç”¨æ—¶ä½¿ç”¨
 
     private static GlobalSceneManager s_Instance;
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -56,11 +56,11 @@ public class GlobalSceneManager : MonoBehaviour
         MessageManager.Register(_onGoToIndex);
         MessageManager.Register(_onGoToName);
 
-		// ³õÊ¼Ê±½«µ±Ç°¼¤»î³¡¾°Í¬²½µ½Ë³ĞòË÷Òı£¬±ÜÃâ _currentIndex Îª -1 Ê± Next() ÈÔÍ£ÁôÔÚµ±Ç°³¡¾°
+		// åˆå§‹æ—¶å°†å½“å‰æ¿€æ´»åœºæ™¯åŒæ­¥åˆ°é¡ºåºç´¢å¼•ï¼Œé¿å… _currentIndex ä¸º -1 æ—¶ Next() ä»åœç•™åœ¨å½“å‰åœºæ™¯
 		SyncIndexWithActiveScene();
 	}
 
-	// ¶ÔÍâ£ºÇëÇóÇĞ»»µ½ÏÂÒ»¸ö³¡¾°£¨¾­ÓÉ LoadingScreen£©
+	// å¯¹å¤–ï¼šè¯·æ±‚åˆ‡æ¢åˆ°ä¸‹ä¸€ä¸ªåœºæ™¯ï¼ˆç»ç”± LoadingScreenï¼‰
     public static void LoadWithLoadingScreen(string targetScene, LoadSceneMode mode = LoadSceneMode.Single)
 	{
 		if (s_Instance == null)
@@ -72,7 +72,7 @@ public class GlobalSceneManager : MonoBehaviour
 		s_Instance.InternalLoadWithLoadingScreen(targetScene, mode);
 	}
 
-	// ===== ¶ÔÍâ¾²Ì¬½Ó¿Ú£º¶àÖÖÇĞ»»·½Ê½ =====
+	// ===== å¯¹å¤–é™æ€æ¥å£ï¼šå¤šç§åˆ‡æ¢æ–¹å¼ =====
 	public static void Next()
 	{
         EnsureInstance();
@@ -108,29 +108,29 @@ public class GlobalSceneManager : MonoBehaviour
 	{
 		_currentTargetScene = targetScene;
 		_currentMode = mode;
-        // ÏÈÇĞµ½ LoadingScreen£¨´ÓÅäÖÃ¶ÁÈ¡£©
+        // å…ˆåˆ‡åˆ° LoadingScreenï¼ˆä»é…ç½®è¯»å–ï¼‰
         var loading = sequenceConfig != null && !string.IsNullOrEmpty(sequenceConfig.loadingScreenSceneName)
             ? sequenceConfig.loadingScreenSceneName : "LoadingScreen";
         SceneManager.LoadScene(loading, LoadSceneMode.Single);
-		// ·¢ËÍ LoadingRequest£¬ÈÃ LoadingScreen ×ÔÖ÷¿ªÊ¼Òì²½¼ÓÔØÄ¿±ê³¡¾°
+		// å‘é€ LoadingRequestï¼Œè®© LoadingScreen è‡ªä¸»å¼€å§‹å¼‚æ­¥åŠ è½½ç›®æ ‡åœºæ™¯
 		var req = new LoadingRequest { targetSceneName = targetScene, mode = mode };
 		MessageManager.Send(req);
 	}
 
-	// ÊµÀı·½·¨£º¹© Unity Button OnClick µ÷ÓÃ£¨´ø³¡¾°Ãû²ÎÊı£©
+	// å®ä¾‹æ–¹æ³•ï¼šä¾› Unity Button OnClick è°ƒç”¨ï¼ˆå¸¦åœºæ™¯åå‚æ•°ï¼‰
 	public void LoadTo(string targetScene)
 	{
 		if (string.IsNullOrEmpty(targetScene)) return;
 		LoadWithLoadingScreen(targetScene, LoadSceneMode.Single);
 	}
 
-	// ÊµÀı·½·¨£º¹© UI °´Å¥Ö±½Ó°ó¶¨£¨ÏÂÒ»³¡¾°/ÉÏÒ»³¡¾°/Ë÷Òı/ÖØÔØ£©
+	// å®ä¾‹æ–¹æ³•ï¼šä¾› UI æŒ‰é’®ç›´æ¥ç»‘å®šï¼ˆä¸‹ä¸€åœºæ™¯/ä¸Šä¸€åœºæ™¯/ç´¢å¼•/é‡è½½ï¼‰
 	public void LoadNext() { Next(); }
 	public void LoadPrev() { Prev(); }
 	public void LoadIndex(int index) { GoToIndex(index); }
 	public void ReloadActive() { ReloadCurrent(); }
 
-	// ÊµÀı·½·¨£º¹© Unity Button OnClick ÎŞ²Îµ÷ÓÃ£¨Ê¹ÓÃÄ¬ÈÏÄ¿±ê£©
+	// å®ä¾‹æ–¹æ³•ï¼šä¾› Unity Button OnClick æ— å‚è°ƒç”¨ï¼ˆä½¿ç”¨é»˜è®¤ç›®æ ‡ï¼‰
 	public void LoadToDefault()
 	{
 		if (string.IsNullOrEmpty(defaultTargetScene)) return;
@@ -150,17 +150,17 @@ public class GlobalSceneManager : MonoBehaviour
 		}
 	}
 
-	// Loading ÁĞ±íÍê³É ¡ú ÇëÇó¼¤»î
+	// Loading åˆ—è¡¨å®Œæˆ â†’ è¯·æ±‚æ¿€æ´»
 	private void OnLoadingSequenceCompleted(LoadingSequenceCompleted msg)
 	{
 		var target = string.IsNullOrEmpty(msg.targetSceneName) ? _currentTargetScene : msg.targetSceneName;
 		MessageManager.Send(new ActivateLoadedScene { targetSceneName = target });
 	}
 
-	// Íâ²¿ÇëÇó¼¤»î ¡ú ÓÉ LoadingScreen ÏìÓ¦£»Èç¹ûÃ»ÓĞ LoadingScreen ÏìÓ¦£¬ÔòÖ±½Ó¼ÓÔØ
+	// å¤–éƒ¨è¯·æ±‚æ¿€æ´» â†’ ç”± LoadingScreen å“åº”ï¼›å¦‚æœæ²¡æœ‰ LoadingScreen å“åº”ï¼Œåˆ™ç›´æ¥åŠ è½½
 	private void OnActivateLoaded(ActivateLoadedScene msg)
 	{
-		// ¶µµ×£ºÈôÃ»ÓĞÈË´¦Àí£¬ÔòÖ±½ÓÇĞ»»
+		// å…œåº•ï¼šè‹¥æ²¡æœ‰äººå¤„ç†ï¼Œåˆ™ç›´æ¥åˆ‡æ¢
 		var target = string.IsNullOrEmpty(msg.targetSceneName) ? _currentTargetScene : msg.targetSceneName;
 		if (!string.IsNullOrEmpty(target))
 		{
@@ -169,7 +169,7 @@ public class GlobalSceneManager : MonoBehaviour
 		}
 	}
 
-    // ============ Ë³Ğò¿ØÖÆ ============
+    // ============ é¡ºåºæ§åˆ¶ ============
     private void OnGoNext(GoNextScene _)
     {
         if (sequenceConfig == null || sequenceConfig.orderedScenes == null || sequenceConfig.orderedScenes.Count == 0) return;

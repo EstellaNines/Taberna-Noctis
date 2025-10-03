@@ -7,26 +7,26 @@ public struct LoadingRequest
 	public override string ToString() => $"{targetSceneName} ({mode})";
 }
 
-// Loading ¶¯Ğ§½×¶ÎĞÅºÅ£¨ÓÃÓÚÔÚ²»Í¬¶¯Ğ§¼äËÉñîºÏÍ¨Öª£©
+// Loading åŠ¨æ•ˆé˜¶æ®µä¿¡å·ï¼ˆç”¨äºåœ¨ä¸åŒåŠ¨æ•ˆé—´æ¾è€¦åˆé€šçŸ¥ï¼‰
 public struct LoadingAnimStage
 {
     public string stage; // e.g. "GlassFinished", "ProgressStarted", "ProgressFinished"
 }
 
-// ËùÓĞ Loading ¶¯Ğ§²½ÖèÍê³É£¨ÓÉ LoadingScreen ·¢ËÍ£©
+// æ‰€æœ‰ Loading åŠ¨æ•ˆæ­¥éª¤å®Œæˆï¼ˆç”± LoadingScreen å‘é€ï¼‰
 public struct LoadingSequenceCompleted
 {
     public string targetSceneName;
 }
 
-// ÇëÇó¼¤»îÒÑÒì²½¼ÓÔØµÄ³¡¾°£¨ÓÉÈ«¾Ö³¡¾°¹ÜÀíÆ÷·¢ËÍ£©
+// è¯·æ±‚æ¿€æ´»å·²å¼‚æ­¥åŠ è½½çš„åœºæ™¯ï¼ˆç”±å…¨å±€åœºæ™¯ç®¡ç†å™¨å‘é€ï¼‰
 public struct ActivateLoadedScene
 {
     public string targetSceneName;
 }
 
-// ============ Ë³Ğò³¡¾°ÇĞ»»¿ØÖÆÏûÏ¢ ============
-// Í¨¹ıÕâĞ©ÏûÏ¢ÓÉÍâ²¿´¥·¢È«¾Ö³¡¾°¹ÜÀíÆ÷½øĞĞË³Ğò»ò¶¨ÏòÇĞ»»
+// ============ é¡ºåºåœºæ™¯åˆ‡æ¢æ§åˆ¶æ¶ˆæ¯ ============
+// é€šè¿‡è¿™äº›æ¶ˆæ¯ç”±å¤–éƒ¨è§¦å‘å…¨å±€åœºæ™¯ç®¡ç†å™¨è¿›è¡Œé¡ºåºæˆ–å®šå‘åˆ‡æ¢
 public struct GoNextScene { }
 public struct GoPrevScene { }
 public struct GoToSceneIndex { public int index; }

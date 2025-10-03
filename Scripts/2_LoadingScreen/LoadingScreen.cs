@@ -4,18 +4,18 @@ using UnityEngine.Events;
 using System.Collections.Generic;
 using System;
 
-// LoadingScreen£ºÔÚ±»¼ÓÔØºó£¬µÈ´ı LoadingRequest ÏûÏ¢£¬ËæºóÒì²½¼ÓÔØÄ¿±ê³¡¾°
+// LoadingScreenï¼šåœ¨è¢«åŠ è½½åï¼Œç­‰å¾… LoadingRequest æ¶ˆæ¯ï¼Œéšåå¼‚æ­¥åŠ è½½ç›®æ ‡åœºæ™¯
 public class LoadingScreen : MonoBehaviour
 {
 	[Serializable]
 	public class LoadingAnimStep
 	{
 		public string stepName;
-		public MonoBehaviour component; // ÀıÈç GlassingClinking »ò UIProgressController
-		public string startMethod; // Áô¿ÕÔò°´ÀàĞÍÍÆ¶Ï£ºGlassingClinking=RestartMove, UIProgressController=Play
-		public GameObject rootToActivate; // ¿ÉÑ¡£º¿ªÊ¼¸Ã²½ÖèÊ± SetActive(true)£¬Î´ÌîÔòÊ¹ÓÃ component.gameObject
+		public MonoBehaviour component; // ä¾‹å¦‚ GlassingClinking æˆ– UIProgressController
+		public string startMethod; // ç•™ç©ºåˆ™æŒ‰ç±»å‹æ¨æ–­ï¼šGlassingClinking=RestartMove, UIProgressController=Play
+		public GameObject rootToActivate; // å¯é€‰ï¼šå¼€å§‹è¯¥æ­¥éª¤æ—¶ SetActive(true)ï¼Œæœªå¡«åˆ™ä½¿ç”¨ component.gameObject
 		public bool setActiveOnStart = true;
-		public bool hideOnFinish = true; // ¸Ã²½ÖèÍê³ÉºóÊÇ·ñÒş²ØÆä¸ù
+		public bool hideOnFinish = true; // è¯¥æ­¥éª¤å®Œæˆåæ˜¯å¦éšè—å…¶æ ¹
 	}
 
 	[SerializeField] private bool autoStartOnMessage = true;
@@ -33,7 +33,7 @@ public class LoadingScreen : MonoBehaviour
 		MessageManager.Register<LoadingRequest>(_listener);
 		MessageManager.Register<ActivateLoadedScene>(OnActivateLoadedScene);
 
-		// ³õÊ¼Òş²ØÁĞ±íÖĞÅäÖÃµÄ¸ù¶ÔÏó£¨Î´ÅäÖÃÔòÊ¹ÓÃ×é¼ş×ÔÉíGO£©
+		// åˆå§‹éšè—åˆ—è¡¨ä¸­é…ç½®çš„æ ¹å¯¹è±¡ï¼ˆæœªé…ç½®åˆ™ä½¿ç”¨ç»„ä»¶è‡ªèº«GOï¼‰
 		foreach (var s in steps)
 		{
 			if (s != null && s.setActiveOnStart)
@@ -52,12 +52,12 @@ public class LoadingScreen : MonoBehaviour
 
 	private void OnEnable()
 	{
-		// Èç¹ûÏûÏ¢ÏÈµ½¶øÎïÌåµ±Ê±ÊÇ½ûÓÃµÄ£¬µÈÆôÓÃºóÔÙ×Ô¶¯¿ªÊ¼
+		// å¦‚æœæ¶ˆæ¯å…ˆåˆ°è€Œç‰©ä½“å½“æ—¶æ˜¯ç¦ç”¨çš„ï¼Œç­‰å¯ç”¨åå†è‡ªåŠ¨å¼€å§‹
 		if (autoStartOnMessage && !string.IsNullOrEmpty(_pendingTarget))
 		{
 			StartCoroutine(BeginLoad());
 		}
-		// ½øÈëLoading¼´°´Ğò²¥·ÅµÚÒ»¶Î
+		// è¿›å…¥Loadingå³æŒ‰åºæ’­æ”¾ç¬¬ä¸€æ®µ
 		if (_currentStep < 0)
 		{
 			StartStep(0);
@@ -78,11 +78,11 @@ public class LoadingScreen : MonoBehaviour
 	{
 		if (string.IsNullOrEmpty(_pendingTarget)) yield break;
 		_loadOp = SceneManager.LoadSceneAsync(_pendingTarget, _pendingMode);
-		_loadOp.allowSceneActivation = false; // µÈ´ı½ø¶È¶¯Ğ§½áÊøºóÔÙÇĞ»»
+		_loadOp.allowSceneActivation = false; // ç­‰å¾…è¿›åº¦åŠ¨æ•ˆç»“æŸåå†åˆ‡æ¢
 		var progressCtrl = FindProgressController();
 		while (_loadOp != null && _loadOp.progress < 0.9f)
 		{
-			// ´«µİÒì²½½ø¶È¸ø½ø¶ÈUI£¨0..0.9£©
+			// ä¼ é€’å¼‚æ­¥è¿›åº¦ç»™è¿›åº¦UIï¼ˆ0..0.9ï¼‰
 			if (progressCtrl != null)
 			{
 				float normalized = Mathf.Clamp01(_loadOp.progress / 0.9f);
@@ -92,7 +92,7 @@ public class LoadingScreen : MonoBehaviour
 		}
 	}
 
-	// ¹©¶¯»­ÊÂ¼ş»ò°´Å¥ÔÚ¶¯Ğ§½áÊøÊ±ÊÖ¶¯´¥·¢¿ªÊ¼¼ÓÔØ
+	// ä¾›åŠ¨ç”»äº‹ä»¶æˆ–æŒ‰é’®åœ¨åŠ¨æ•ˆç»“æŸæ—¶æ‰‹åŠ¨è§¦å‘å¼€å§‹åŠ è½½
 	public void StartLoading()
 	{
 		if (!string.IsNullOrEmpty(_pendingTarget))
@@ -101,7 +101,7 @@ public class LoadingScreen : MonoBehaviour
 		}
 	}
 
-	// ²¥·ÅÖ¸¶¨ĞòºÅµÄ²½Öè
+	// æ’­æ”¾æŒ‡å®šåºå·çš„æ­¥éª¤
 	private void StartStep(int index)
 	{
 		if (index < 0 || index >= steps.Count)
@@ -131,7 +131,7 @@ public class LoadingScreen : MonoBehaviour
 	{
 		var s = index >=0 && index < steps.Count ? steps[index] : null;
 		MessageManager.Send(new LoadingAnimStage { stage = (s != null && !string.IsNullOrEmpty(s.stepName) ? s.stepName : $"Step{index}") + "_Finished" });
-		// Íê³Éºó°´ĞèÒş²Øµ±Ç°²½Öè¸ù
+		// å®ŒæˆåæŒ‰éœ€éšè—å½“å‰æ­¥éª¤æ ¹
 		if (s != null && s.hideOnFinish)
 		{
 			var root = s.rootToActivate != null ? s.rootToActivate : (s.component != null ? s.component.gameObject : null);
@@ -142,14 +142,14 @@ public class LoadingScreen : MonoBehaviour
 
 	private void SequenceFinished()
 	{
-		// Íê³Éºó·¢²¼¡°¶¯Ğ§ÁĞ±íÍê³É¡±ÏûÏ¢£¬ÓÉÍâ²¿£¨È«¾Ö¹ÜÀíÆ÷£©¾ö¶¨ºÎÊ±¼¤»î
+		// å®Œæˆåå‘å¸ƒâ€œåŠ¨æ•ˆåˆ—è¡¨å®Œæˆâ€æ¶ˆæ¯ï¼Œç”±å¤–éƒ¨ï¼ˆå…¨å±€ç®¡ç†å™¨ï¼‰å†³å®šä½•æ—¶æ¿€æ´»
 		var nameToSend = string.IsNullOrEmpty(_pendingTarget) ? null : _pendingTarget;
 		MessageManager.Send(new LoadingSequenceCompleted { targetSceneName = nameToSend });
 	}
 
 	private void HookStepCompletion(LoadingAnimStep s, int index)
 	{
-		// Õë¶ÔÒÑÖªÁ½ÖÖÀàĞÍ½øĞĞ°ó¶¨
+		// é’ˆå¯¹å·²çŸ¥ä¸¤ç§ç±»å‹è¿›è¡Œç»‘å®š
 		if (s.component is GlassingClinking g)
 		{
 			Action handler = null;
@@ -164,7 +164,7 @@ public class LoadingScreen : MonoBehaviour
 			p.OnCompleted.AddListener(handler);
 			return;
 		}
-		// Î´ÖªÀàĞÍ£º²»°ó¶¨£¬Á¢¼´ÍÆ½ø£¨±ÜÃâ¿¨ËÀ£©
+		// æœªçŸ¥ç±»å‹ï¼šä¸ç»‘å®šï¼Œç«‹å³æ¨è¿›ï¼ˆé¿å…å¡æ­»ï¼‰
 		StepDone(index);
 	}
 
@@ -176,7 +176,7 @@ public class LoadingScreen : MonoBehaviour
 		{
 			if (s.component is GlassingClinking) method = "RestartMove";
 			else if (s.component is UIProgressController) method = "Play";
-			else method = "Play"; // ³¢ÊÔÍ¨ÓÃÃû
+			else method = "Play"; // å°è¯•é€šç”¨å
 		}
 		var m = s.component.GetType().GetMethod(method, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic, null, Type.EmptyTypes, null);
 		if (m != null) m.Invoke(s.component, null);

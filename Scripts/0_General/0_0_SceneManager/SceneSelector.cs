@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// 可扩展的场景选择策略：实现者根据上下文返回目标场景名与模式
+// 鍙墿灞曠殑鍦烘櫙閫夋嫨绛栫暐锛氬疄鐜拌�呮牴鎹笂涓嬫枃杩斿洖鐩爣鍦烘櫙鍚嶄笌妯″紡
 public abstract class SceneSelector : ScriptableObject
 {
     public abstract string GetTargetSceneName();

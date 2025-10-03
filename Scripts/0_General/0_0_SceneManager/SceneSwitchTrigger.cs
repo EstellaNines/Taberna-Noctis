@@ -5,16 +5,16 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 
-// Í¨ÓÃ´¥·¢×é¼ş£º¿É¹ÒÔÚ°´Å¥»òÈÎÒâ¶ÔÏóÉÏ£¬Ñ¡Ôñ´¥·¢·½Ê½À´ÇĞ»»³¡¾°
+// é€šç”¨è§¦å‘ç»„ä»¶ï¼šå¯æŒ‚åœ¨æŒ‰é’®æˆ–ä»»æ„å¯¹è±¡ä¸Šï¼Œé€‰æ‹©è§¦å‘æ–¹å¼æ¥åˆ‡æ¢åœºæ™¯
 public class SceneSwitchTrigger : MonoBehaviour
 {
     public enum TriggerMode
     {
         None,
-        OnClick,         // ¹© UI Button µ÷ÓÃ£¨°ó¶¨ OnClick -> Trigger()£©
-        OnEnable,        // ¶ÔÏóÆôÓÃÊ±
-        OnKeyDown,       // Ö¸¶¨°´¼ü
-        ByMessage,       // Í¨¹ıÏûÏ¢ÏµÍ³£¨¿ÉÀ©Õ¹£©
+        OnClick,         // ä¾› UI Button è°ƒç”¨ï¼ˆç»‘å®š OnClick -> Trigger()ï¼‰
+        OnEnable,        // å¯¹è±¡å¯ç”¨æ—¶
+        OnKeyDown,       // æŒ‡å®šæŒ‰é”®
+        ByMessage,       // é€šè¿‡æ¶ˆæ¯ç³»ç»Ÿï¼ˆå¯æ‰©å±•ï¼‰
     }
 
     public enum TargetType
@@ -43,62 +43,62 @@ public class SceneSwitchTrigger : MonoBehaviour
         SequenceIndex
     }
 
-    [BoxGroup("´¥·¢ÉèÖÃ")]
-    [LabelText("´¥·¢·½Ê½")] public TriggerMode trigger = TriggerMode.OnClick;
+    [BoxGroup("è§¦å‘è®¾ç½®")]
+    [LabelText("è§¦å‘æ–¹å¼")] public TriggerMode trigger = TriggerMode.OnClick;
 
-    [BoxGroup("Ä¿±êÉèÖÃ")]
-    [EnumToggleButtons, LabelText("Ä¿±êÀàĞÍ")] public TargetType targetType = TargetType.Next;
+    [BoxGroup("ç›®æ ‡è®¾ç½®")]
+    [EnumToggleButtons, LabelText("ç›®æ ‡ç±»å‹")] public TargetType targetType = TargetType.Next;
 
-    [BoxGroup("Ä¿±êÉèÖÃ"), LabelText("Ä¿±ê³¡¾°Ãû"), ShowIf("@this.targetType == TargetType.SceneName")]
+    [BoxGroup("ç›®æ ‡è®¾ç½®"), LabelText("ç›®æ ‡åœºæ™¯å"), ShowIf("@this.targetType == TargetType.SceneName")]
     public string targetSceneName;
 
-    [BoxGroup("Ä¿±êÉèÖÃ"), LabelText("Ä¿±ê³¡¾°ÒıÓÃ"), ShowIf("@this.targetType == TargetType.SceneAsset"), AssetsOnly]
-    public Object targetSceneAsset; // SceneAsset£¨Editor£©
+    [BoxGroup("ç›®æ ‡è®¾ç½®"), LabelText("ç›®æ ‡åœºæ™¯å¼•ç”¨"), ShowIf("@this.targetType == TargetType.SceneAsset"), AssetsOnly]
+    public Object targetSceneAsset; // SceneAssetï¼ˆEditorï¼‰
 
     [HideInInspector]
-    public string cachedAssetSceneName; // ÔËĞĞÊ±Ê¹ÓÃµÄ»º´æÃû
+    public string cachedAssetSceneName; // è¿è¡Œæ—¶ä½¿ç”¨çš„ç¼“å­˜å
 
-    [BoxGroup("Ä¿±êÉèÖÃ"), LabelText("Ë÷Òı"), ShowIf("@this.targetType == TargetType.SequenceIndex")]
+    [BoxGroup("ç›®æ ‡è®¾ç½®"), LabelText("ç´¢å¼•"), ShowIf("@this.targetType == TargetType.SequenceIndex")]
     public int targetIndex;
 
-    [BoxGroup("Ä¿±êÉèÖÃ"), LabelText("²ßÂÔ¶ÔÏó"), ShowIf("@this.targetType == TargetType.Selector"), AssetsOnly]
+    [BoxGroup("ç›®æ ‡è®¾ç½®"), LabelText("ç­–ç•¥å¯¹è±¡"), ShowIf("@this.targetType == TargetType.Selector"), AssetsOnly]
     public SceneSelector selector;
 
-    [BoxGroup("¸ü¶à"), LabelText("¼ÓÔØÄ£Ê½")] public LoadSceneMode mode = LoadSceneMode.Single;
-    [BoxGroup("¸ü¶à"), LabelText("°´¼ü(¿ÉÑ¡)")] public KeyCode key = KeyCode.None;
+    [BoxGroup("æ›´å¤š"), LabelText("åŠ è½½æ¨¡å¼")] public LoadSceneMode mode = LoadSceneMode.Single;
+    [BoxGroup("æ›´å¤š"), LabelText("æŒ‰é”®(å¯é€‰)")] public KeyCode key = KeyCode.None;
 
-    // ========== Next/Prev ¶ÀÁ¢ÅäÖÃ£¨¿ÉÑ¡¸²¸Ç£© ==========
-    [BoxGroup("Next Ä¿±ê")]
-    [EnumToggleButtons, LabelText("Next ¹æÔò")] public NextTargetMode nextMode = NextTargetMode.SequenceNext;
+    // ========== Next/Prev ç‹¬ç«‹é…ç½®ï¼ˆå¯é€‰è¦†ç›–ï¼‰ ==========
+    [BoxGroup("Next ç›®æ ‡")]
+    [EnumToggleButtons, LabelText("Next è§„åˆ™")] public NextTargetMode nextMode = NextTargetMode.SequenceNext;
 
-    [BoxGroup("Next Ä¿±ê"), LabelText("Next ³¡¾°Ãû"), ShowIf("@this.nextMode == NextTargetMode.SceneName")]
+    [BoxGroup("Next ç›®æ ‡"), LabelText("Next åœºæ™¯å"), ShowIf("@this.nextMode == NextTargetMode.SceneName")]
     public string nextSceneName;
 
-    [BoxGroup("Next Ä¿±ê"), LabelText("Next ³¡¾°ÒıÓÃ"), ShowIf("@this.nextMode == NextTargetMode.SceneAsset"), AssetsOnly]
+    [BoxGroup("Next ç›®æ ‡"), LabelText("Next åœºæ™¯å¼•ç”¨"), ShowIf("@this.nextMode == NextTargetMode.SceneAsset"), AssetsOnly]
     public Object nextSceneAsset; // SceneAsset (Editor)
 
     [HideInInspector]
     public string nextCachedAssetSceneName;
 
-    [BoxGroup("Next Ä¿±ê"), LabelText("Next Ë÷Òı"), ShowIf("@this.nextMode == NextTargetMode.SequenceIndex")]
+    [BoxGroup("Next ç›®æ ‡"), LabelText("Next ç´¢å¼•"), ShowIf("@this.nextMode == NextTargetMode.SequenceIndex")]
     public int nextIndex;
 
-    [BoxGroup("Prev Ä¿±ê")]
-    [EnumToggleButtons, LabelText("Prev ¹æÔò")] public PrevTargetMode prevMode = PrevTargetMode.SequencePrev;
+    [BoxGroup("Prev ç›®æ ‡")]
+    [EnumToggleButtons, LabelText("Prev è§„åˆ™")] public PrevTargetMode prevMode = PrevTargetMode.SequencePrev;
 
-    [BoxGroup("Prev Ä¿±ê"), LabelText("Prev ³¡¾°Ãû"), ShowIf("@this.prevMode == PrevTargetMode.SceneName")]
+    [BoxGroup("Prev ç›®æ ‡"), LabelText("Prev åœºæ™¯å"), ShowIf("@this.prevMode == PrevTargetMode.SceneName")]
     public string prevSceneName;
 
-    [BoxGroup("Prev Ä¿±ê"), LabelText("Prev ³¡¾°ÒıÓÃ"), ShowIf("@this.prevMode == PrevTargetMode.SceneAsset"), AssetsOnly]
+    [BoxGroup("Prev ç›®æ ‡"), LabelText("Prev åœºæ™¯å¼•ç”¨"), ShowIf("@this.prevMode == PrevTargetMode.SceneAsset"), AssetsOnly]
     public Object prevSceneAsset; // SceneAsset (Editor)
 
     [HideInInspector]
     public string prevCachedAssetSceneName;
 
-    [BoxGroup("Prev Ä¿±ê"), LabelText("Prev Ë÷Òı"), ShowIf("@this.prevMode == PrevTargetMode.SequenceIndex")]
+    [BoxGroup("Prev ç›®æ ‡"), LabelText("Prev ç´¢å¼•"), ShowIf("@this.prevMode == PrevTargetMode.SequenceIndex")]
     public int prevIndex;
 
-    // ¼æÈİ¾ÉÅäÖÃµÄ¿ª¹ØÒÑÒÆ³ı£¬Í³Ò»ÓÉ TargetType/Next/Prev ÅäÖÃ¿ØÖÆÏÔÊ¾
+    // å…¼å®¹æ—§é…ç½®çš„å¼€å…³å·²ç§»é™¤ï¼Œç»Ÿä¸€ç”± TargetType/Next/Prev é…ç½®æ§åˆ¶æ˜¾ç¤º
 
     private void OnEnable()
     {
@@ -116,7 +116,7 @@ public class SceneSwitchTrigger : MonoBehaviour
         }
     }
 
-    // ¹©°´Å¥ OnClick »ò½Å±¾µ÷ÓÃ
+    // ä¾›æŒ‰é’® OnClick æˆ–è„šæœ¬è°ƒç”¨
     public void Trigger()
     {
         switch (targetType)
@@ -153,13 +153,13 @@ public class SceneSwitchTrigger : MonoBehaviour
         }
     }
 
-	// Ö±½Ó¸ø°´Å¥°ó¶¨£ºÏÂÒ»³¡¾°
+	// ç›´æ¥ç»™æŒ‰é’®ç»‘å®šï¼šä¸‹ä¸€åœºæ™¯
 	public void GoNext()
 	{
         ExecuteNext();
 	}
 
-	// Ö±½Ó¸ø°´Å¥°ó¶¨£ºÉÏÒ»³¡¾°
+	// ç›´æ¥ç»™æŒ‰é’®ç»‘å®šï¼šä¸Šä¸€åœºæ™¯
 	public void GoPrev()
 	{
         ExecutePrev();
@@ -168,7 +168,7 @@ public class SceneSwitchTrigger : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        // ÔÚ±à¼­Æ÷ÖĞ°Ñ SceneAsset Í¬²½µ½×Ö·û´®£¬ÒÔ±ãÔËĞĞÊ±Ê¹ÓÃ
+        // åœ¨ç¼–è¾‘å™¨ä¸­æŠŠ SceneAsset åŒæ­¥åˆ°å­—ç¬¦ä¸²ï¼Œä»¥ä¾¿è¿è¡Œæ—¶ä½¿ç”¨
         if (targetType == TargetType.SceneAsset && targetSceneAsset != null)
         {
             if (targetSceneAsset is SceneAsset sa)
@@ -177,7 +177,7 @@ public class SceneSwitchTrigger : MonoBehaviour
             }
             else
             {
-                // ÔÊĞí´Ó Object ÍÏÈë£¬µ«Èô²»ÊÇ SceneAsset ÔòÇå¿Õ
+                // å…è®¸ä» Object æ‹–å…¥ï¼Œä½†è‹¥ä¸æ˜¯ SceneAsset åˆ™æ¸…ç©º
                 cachedAssetSceneName = string.Empty;
             }
         }
