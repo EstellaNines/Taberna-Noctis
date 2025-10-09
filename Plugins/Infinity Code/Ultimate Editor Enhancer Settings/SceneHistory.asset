@@ -13,18 +13,30 @@ MonoBehaviour:
   m_Name: SceneHistory
   m_EditorClassIdentifier: 
   _items:
-  - name: StartScreen
-    path: Assets/Scenes/StartScreen.unity
-  - name: DayScreen
-    path: Assets/Scenes/DayScreen.unity
-  - name: NightScreen
-    path: Assets/Scenes/NightScreen.unity
-  - name: LoadingScreen
-    path: Assets/Scenes/LoadingScreen.unity
-  - name: SaveFilesScreen
-    path: Assets/Scenes/SaveFilesScreen.unity
   - name: TEST
     path: Assets/Scenes/Test/TEST.unity
+  - name: 0_StartScreen
+    path: Assets/Scenes/0_StartScreen.unity
+  - name: 2_DayScreen
+    path: Assets/Scenes/2_DayScreen.unity
+  - name: 3_NightScreen
+    path: Assets/Scenes/3_NightScreen.unity
+  - name: 4_SettlementScreen
+    path: Assets/Scenes/4_SettlementScreen.unity
+  - name: S_LoadingScreen
+    path: Assets/Scenes/S_LoadingScreen.unity
+  - name: 1_SaveFilesScreen
+    path: Assets/Scenes/1_SaveFilesScreen.unity
+  - name: StartScreen
+    path: Assets/Scenes/StartScreen.unity
+  - name: NightScreen
+    path: Assets/Scenes/NightScreen.unity
+  - name: SaveFilesScreen
+    path: Assets/Scenes/SaveFilesScreen.unity
+  - name: DayScreen
+    path: Assets/Scenes/DayScreen.unity
+  - name: LoadingScreen
+    path: Assets/Scenes/LoadingScreen.unity
   - name: UGUIBlurredBackgroundUIOverUI-Demo
     path: Assets/Plugins/Kamgam/UGUIBlurredBackground/Examples/UGUIBlurredBackgroundUIOverUI-Demo.unity
   - name: UGUIBlurredBackgroundUIOverUI-Layers-Demo (Built-In RP & HDRP only)

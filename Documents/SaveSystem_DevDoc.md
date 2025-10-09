@@ -59,6 +59,50 @@ graph TD
     style H fill:#ff9,stroke:#f66,stroke-width:3px
 ```
 
+### 附加图表
+
+#### 1）保存调用时序（夜晚结束 → 结算）
+
+```mermaid
+sequenceDiagram
+  participant T as TimeSystemManager
+  participant S as SaveManager
+  participant C as SceneTimeCoordinator
+  T->>S: SaveAfterNight()
+  S->>S: 生成快照+校验
+  S-->>S: ES3.Save()
+  T-->>C: DAY_COMPLETED(day)
+  C->>C: 加载 4_SettlementScreen
+```
+
+#### 2）数据写入与备份流程
+
+```mermaid
+flowchart TD
+  A[准备 SaveData] --> B{Key 已存在?}
+  B -- 是 --> C[保存旧数据到 backupKey]
+  B -- 否 --> D[跳过备份]
+  C --> E[ES3.Save(key, data)]
+  D --> E
+  E --> F{异常?}
+  F -- 否 --> G[完成]
+  F -- 是 --> H[恢复 backup]
+```
+
+#### 3）槽位/键结构图
+
+```mermaid
+classDiagram
+  class ES3File {
+    +save_slot_1 : SaveData
+    +save_slot_1_backup : SaveData
+    +save_slot_2 : SaveData
+    +save_slot_2_backup : SaveData
+    +save_slot_3 : SaveData
+    +save_slot_3_backup : SaveData
+  }
+```
+
 ### 保存时机详细说明
 
 | 保存点                     | 触发时机                                          | 场景状态                                       | 保存内容                                                                                 | 覆盖数据                                                                      |

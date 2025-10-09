@@ -12,18 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67318c902a8b214b9a8e985e6693c84, type: 3}
   m_Name: SceneSequenceConfig
   m_EditorClassIdentifier: 
-  loadingScreenSceneName: LoadingScreen
+  loadingScreenSceneName: S_LoadingScreen
   loadingScreenScene: {fileID: 102900000, guid: c3abb6b693ab76b4493865c72b076c56, type: 3}
   orderedScenes:
-  - sceneName: StartScreen
-    loadMode: 0
-    tag: Start
+  - sceneName: 0_StartScreen
     sceneAsset: {fileID: 102900000, guid: d3a2db0098a7cdf4b9bf3862c2a07331, type: 3}
-  - sceneName: SaveFilesScreen
     loadMode: 0
-    tag: Save
+  - sceneName: 1_SaveFilesScreen
     sceneAsset: {fileID: 102900000, guid: 5b1b3eeb9b8879242bdc936d85a6c796, type: 3}
-  - sceneName: DayScreen
     loadMode: 0
-    tag: Day
+  - sceneName: 2_DayMessageScreen
+    sceneAsset: {fileID: 102900000, guid: 61ba0cf55accfec4b981168b91e539e0, type: 3}
+    loadMode: 0
+  - sceneName: 3_DayScreen
     sceneAsset: {fileID: 102900000, guid: e46f05634d750e347b326da7b88fdd8f, type: 3}
+    loadMode: 0
+  - sceneName: 4_NightScreen
+    sceneAsset: {fileID: 102900000, guid: 45cb79fddfeba2349bd9ff937b0fb498, type: 3}
+    loadMode: 0
+  - sceneName: 5_SettlementScreen
+    sceneAsset: {fileID: 102900000, guid: 19fd6b80944ff514f9173495c093b620, type: 3}
+    loadMode: 0

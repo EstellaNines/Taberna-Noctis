@@ -2,55 +2,54 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-[CreateAssetMenu(fileName = "SceneSequenceConfig", menuName = "Config/Scene Sequence", order = 10)]
+[CreateAssetMenu(fileName = "SceneSequenceConfig", menuName = "Config/Scene Sequence Config")]
 public class SceneSequenceConfig : ScriptableObject
 {
-    [Serializable]
-    public class SceneEntry
-    {
-        [LabelText("场景名")] public string sceneName; // 必须与 Build Settings 中的场景名一致
-        [LabelText("加载模式")] public LoadSceneMode loadMode = LoadSceneMode.Single;
-        [LabelText("标签")] public string tag; // 可选：阶段标签（如 Start/Day/Night 等）
-
-#if UNITY_EDITOR
-        [LabelText("场景引用"), AssetsOnly]
-        public SceneAsset sceneAsset;
-
-        private void SyncFromSceneAsset()
-        {
-            sceneName = sceneAsset != null ? sceneAsset.name : sceneName;
-        }
-
-        [OnValueChanged("SyncFromSceneAsset"), ShowInInspector, LabelText("同步场景名"), ReadOnly]
-        private string _editorSceneName => sceneAsset != null ? sceneAsset.name : sceneName;
-#endif
-    }
-
+#if ODIN_INSPECTOR
     [BoxGroup("基础设置")]
-    [LabelText("Loading 场景名")] public string loadingScreenSceneName = "LoadingScreen";
-
-#if UNITY_EDITOR
-    [BoxGroup("基础设置"), LabelText("Loading 场景引用"), AssetsOnly]
-    public SceneAsset loadingScreenScene;
-
-    private void SyncLoadingNameFromAsset()
-    {
-        loadingScreenSceneName = loadingScreenScene != null ? loadingScreenScene.name : loadingScreenSceneName;
-    }
-
-    [OnValueChanged("SyncLoadingNameFromAsset"), ShowInInspector, LabelText("同步 Loading 名"), ReadOnly]
-    private string _editorLoadingName => loadingScreenScene != null ? loadingScreenScene.name : loadingScreenSceneName;
+    [LabelText("Loading 场景名")] public string loadingScreenSceneName = "S_LoadingScreen";
+    [BoxGroup("基础设置")]
+    [LabelText("Loading 场景引用")] public UnityEngine.Object loadingScreenScene;
+#else
+    public string loadingScreenSceneName = "S_LoadingScreen";
+    public UnityEngine.Object loadingScreenScene;
 #endif
 
-    [BoxGroup("顺序配置")]
-    [LabelText("顺序场景列表")]
-    [ListDrawerSettings(ShowIndexLabels = true, DraggableItems = true, ShowFoldout = true, DefaultExpandedState = true)]
-    public List<SceneEntry> orderedScenes = new List<SceneEntry>();
+    [System.Serializable]
+    public class OrderedScene
+    {
+        public string sceneName;
+        public UnityEngine.Object sceneAsset;
+        public LoadSceneMode loadMode = LoadSceneMode.Single;
+    }
+
+#if ODIN_INSPECTOR
+    [BoxGroup("顺序设置")]
+    [TableList(AlwaysExpanded = true)]
+#endif
+    public List<OrderedScene> orderedScenes = new List<OrderedScene>();
+
+    // 提供一个可枚举器用于调试/校验
+    public IEnumerable<string> EnumerateAllSceneNames()
+    {
+        if (orderedScenes != null)
+        {
+            foreach (var s in orderedScenes)
+            {
+                if (!string.IsNullOrEmpty(s.sceneName)) yield return s.sceneName;
+            }
+        }
+        yield return "0_StartScreen";
+        yield return "S_LoadingScreen";
+        yield return "1_SaveFilesScreen";
+    }
 
     [BoxGroup("工具")]
     [Button("验证配置"), PropertySpace(8)]

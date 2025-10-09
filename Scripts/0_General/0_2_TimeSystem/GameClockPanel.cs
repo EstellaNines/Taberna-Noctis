@@ -100,6 +100,58 @@ public class GameClockPanel : MonoBehaviour
         clock = mgr.GameClock != null ? mgr.GameClock.GetTimeString() : "--:--";
         remainingSeconds = mgr.PhaseRemainingTime;
     }
+
+#if ODIN_INSPECTOR
+    [FoldoutGroup("时间倍率"), LabelText("当前倍率"), ReadOnly]
+#endif
+    [SerializeField] private float currentTimeScale = 1f;
+
+#if ODIN_INSPECTOR
+    [FoldoutGroup("时间倍率"), Button("0.25x")]
+#endif
+    public void SetTimeScale025() => SetTimeScale(0.25f);
+
+#if ODIN_INSPECTOR
+    [FoldoutGroup("时间倍率"), Button("0.5x")]
+#endif
+    public void SetTimeScale05() => SetTimeScale(0.5f);
+
+#if ODIN_INSPECTOR
+    [FoldoutGroup("时间倍率"), Button("1x")]
+#endif
+    public void SetTimeScale1() => SetTimeScale(1f);
+
+#if ODIN_INSPECTOR
+    [FoldoutGroup("时间倍率"), Button("1.5x")]
+#endif
+    public void SetTimeScale15() => SetTimeScale(1.5f);
+
+#if ODIN_INSPECTOR
+    [FoldoutGroup("时间倍率"), Button("2x")]
+#endif
+    public void SetTimeScale2() => SetTimeScale(2f);
+
+#if ODIN_INSPECTOR
+    [FoldoutGroup("时间倍率"), Button("3x")]
+#endif
+    public void SetTimeScale3() => SetTimeScale(3f);
+
+#if ODIN_INSPECTOR
+    [FoldoutGroup("时间倍率"), Button("10x")]
+#endif
+    public void SetTimeScale10() => SetTimeScale(10f);
+
+#if ODIN_INSPECTOR
+    [FoldoutGroup("时间倍率"), Button("20x")]
+#endif
+    public void SetTimeScale20() => SetTimeScale(20f);
+
+    private void SetTimeScale(float scale)
+    {
+        if (TimeSystemManager.Instance == null) return;
+        TimeSystemManager.Instance.SetGlobalTimeScale(scale);
+        currentTimeScale = scale;
+    }
 }
 
 

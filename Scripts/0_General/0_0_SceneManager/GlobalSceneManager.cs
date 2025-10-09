@@ -15,7 +15,7 @@ public class GlobalSceneManager : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Bootstrap()
     {
-        EnsureInstance();
+        // 不在启动前强制创建，让场景中的实例优先（以便保留已配置的 sequenceConfig）
     }
 
     private static void EnsureInstance()
@@ -106,14 +106,14 @@ public class GlobalSceneManager : MonoBehaviour
 
     private void InternalLoadWithLoadingScreen(string targetScene, LoadSceneMode mode)
 	{
-		_currentTargetScene = targetScene;
+        _currentTargetScene = NormalizeSceneName(targetScene);
 		_currentMode = mode;
         // 先切到 LoadingScreen（从配置读取）
         var loading = sequenceConfig != null && !string.IsNullOrEmpty(sequenceConfig.loadingScreenSceneName)
-            ? sequenceConfig.loadingScreenSceneName : "LoadingScreen";
+            ? sequenceConfig.loadingScreenSceneName : "S_LoadingScreen";
         SceneManager.LoadScene(loading, LoadSceneMode.Single);
 		// 发送 LoadingRequest，让 LoadingScreen 自主开始异步加载目标场景
-		var req = new LoadingRequest { targetSceneName = targetScene, mode = mode };
+        var req = new LoadingRequest { targetSceneName = _currentTargetScene, mode = mode };
 		MessageManager.Send(req);
 	}
 
@@ -162,6 +162,7 @@ public class GlobalSceneManager : MonoBehaviour
 	{
 		// 兜底：若没有人处理，则直接切换
 		var target = string.IsNullOrEmpty(msg.targetSceneName) ? _currentTargetScene : msg.targetSceneName;
+        target = NormalizeSceneName(target);
 		if (!string.IsNullOrEmpty(target))
 		{
 			SceneManager.LoadScene(target, _currentMode);
@@ -198,7 +199,7 @@ public class GlobalSceneManager : MonoBehaviour
         if (string.IsNullOrEmpty(msg.sceneName)) return;
         int idx = IndexOfScene(msg.sceneName);
         if (idx >= 0) GoToIndexInternal(idx);
-        else LoadWithLoadingScreen(msg.sceneName, LoadSceneMode.Single);
+        else LoadWithLoadingScreen(NormalizeSceneName(msg.sceneName), LoadSceneMode.Single);
     }
 
     private void GoToIndexInternal(int index)
@@ -221,8 +222,22 @@ public class GlobalSceneManager : MonoBehaviour
 
     private void UpdateCurrentIndexByName(string name)
     {
-        int idx = IndexOfScene(name);
+        int idx = IndexOfScene(NormalizeSceneName(name));
         if (idx >= 0) _currentIndex = idx;
+    }
+
+    private string NormalizeSceneName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return name;
+        // 兼容旧名称到新编号前缀
+        if (string.Equals(name, "StartScreen", StringComparison.Ordinal)) return "0_StartScreen";
+        if (string.Equals(name, "SaveFilesScreen", StringComparison.Ordinal)) return "1_SaveFilesScreen";
+        if (string.Equals(name, "DayMessageScreen", StringComparison.Ordinal)) return "2_DayMessageScreen";
+        if (string.Equals(name, "DayScreen", StringComparison.Ordinal)) return "3_DayScreen";
+        if (string.Equals(name, "NightScreen", StringComparison.Ordinal)) return "4_NightScreen";
+        if (string.Equals(name, "SettlementScreen", StringComparison.Ordinal)) return "5_SettlementScreen";
+        if (string.Equals(name, "LoadingScreen", StringComparison.Ordinal)) return "S_LoadingScreen";
+        return name;
     }
 
 	private void SyncIndexWithActiveScene()

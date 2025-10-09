@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -36,9 +38,22 @@ public class TimeSystemManager : MonoBehaviour
     private float phaseTimer;              // 已过去的真实秒数
     private float phaseDuration;           // 当前阶段总时长
     private bool isTimerPaused = false;    // 计时器是否暂停
+    private bool inSettlementFlow = false; // 是否处于“夜晚结束→结算界面”流程
 
     // ========== 累计游玩时间 ==========
     private double totalPlayTime = 0;
+    private float globalTimeScale = 1f;     // 全局时间倍率（影响 deltaTime）
+
+    // ========== 自动保存设置 ==========
+#if ODIN_INSPECTOR
+    [LabelText("启用自动保存")]
+#endif
+    [SerializeField] private bool enableAutoSave = true;
+#if ODIN_INSPECTOR
+    [LabelText("自动保存提前秒数")]
+#endif
+    [SerializeField, Min(0.1f)] private float autoSaveLeadSeconds = 2f; // 距离阶段结束还剩多少真实秒时触发
+    private bool autoSaveFiredThisPhase = false; // 防重复
 
     // ========== 配置数据 ==========
     [Header("阶段配置")]
@@ -54,12 +69,18 @@ public class TimeSystemManager : MonoBehaviour
 #endif
     [SerializeField] private bool autoStartNightOnAfternoonEnd = true;
 
+	[Header("加载场景设置")]
+#if ODIN_INSPECTOR
+	[LabelText("Loading 场景名")]
+#endif
+	[SerializeField] private string loadingScreenName = "S_LoadingScreen";
+
     // ========== 公共属性 ==========
     public int CurrentDay => currentDay;
     public TimePhase CurrentPhase => currentPhase;
     public DaySubPhase CurrentDaySubPhase => daySubPhase;
     public GameClock GameClock => gameClock;
-    public float PhaseRemainingTime => phaseDuration - phaseTimer;
+    public float PhaseRemainingTime => Mathf.Max(0f, phaseDuration - phaseTimer);
     public float PhaseDuration => phaseDuration;
     public double TotalPlayTime => totalPlayTime;
     public bool IsTimerPaused => isTimerPaused;
@@ -94,11 +115,21 @@ public class TimeSystemManager : MonoBehaviour
         MessageManager.Send(MessageDefine.DAY_STARTED, currentDay);
     }
 
+    void OnEnable()
+    {
+        SceneManager.activeSceneChanged += OnActiveSceneChanged;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+    }
+
     void Update()
     {
         if (isTimerPaused) return;
 
-        float deltaTime = Time.deltaTime;
+        float deltaTime = Time.deltaTime * Mathf.Max(0f, globalTimeScale);
 #if UNITY_EDITOR
         // 调试时间倍率（仅编辑器）
         deltaTime *= debugTimeScale;
@@ -112,6 +143,17 @@ public class TimeSystemManager : MonoBehaviour
 
         // 更新阶段计时器
         phaseTimer += deltaTime;
+
+        // 自动保存：在阶段即将结束时
+        if (enableAutoSave && !autoSaveFiredThisPhase)
+        {
+            float remaining = PhaseRemainingTime;
+            if (remaining <= autoSaveLeadSeconds && remaining >= 0f)
+            {
+                TryAutoSaveForPhase();
+                autoSaveFiredThisPhase = true;
+            }
+        }
 
         // 检查阶段是否结束
         if (phaseTimer >= phaseDuration)
@@ -137,6 +179,7 @@ public class TimeSystemManager : MonoBehaviour
         // 重置计时器
         phaseTimer = 0f;
         phaseDuration = config.durationSeconds;
+        autoSaveFiredThisPhase = false; // 新阶段开始，重置自动保存标记
 
         // 初始化游戏时钟
         gameClock.Initialize(config.startHour, config.startMinute, config.timeScale);
@@ -181,9 +224,48 @@ public class TimeSystemManager : MonoBehaviour
             case TimePhase.Night:
                 // 夜晚 → 结算
                 isTimerPaused = true;
-                MessageManager.Send(MessageDefine.DAY_COMPLETED);
+                inSettlementFlow = true;
+                // 保底保存一次夜晚结束后的数据
+                try
+                {
+                    if (SaveManager.Instance != null)
+                    {
+                        SaveManager.Instance.SaveAfterNight();
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogWarning($"[AutoSave] 夜晚结束保存失败: {e.Message}");
+                }
+                // 发送天数完成（携带当日天数）
+                MessageManager.Send<int>(MessageDefine.DAY_COMPLETED, currentDay);
                 Debug.Log($"[TimeSystem] 夜晚结束，进入结算");
                 break;
+        }
+    }
+
+    private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
+    {
+        if (!string.IsNullOrEmpty(loadingScreenName) && string.Equals(newScene.name, loadingScreenName, System.StringComparison.Ordinal))
+        {
+            // 进入 Loading：标记为因加载而暂停
+            PauseForLoading();
+        }
+        else
+        {
+            // 离开 Loading：仅当此前是因 Loading 暂停时才恢复
+            if (pausedByLoading)
+            {
+                if (!inSettlementFlow)
+                {
+                    ResumeTimer();
+                }
+                else
+                {
+                    // 仍在结算流程：保持暂停，避免再次推进阶段
+                    pausedByLoading = false; // 清除加载标记
+                }
+            }
         }
     }
 
@@ -204,10 +286,17 @@ public class TimeSystemManager : MonoBehaviour
     /// </summary>
     public void StartNewDay()
     {
+        // 开始新一天前进行自动保存（保存点3）
+        if (enableAutoSave && SaveManager.Instance != null)
+        {
+            try { SaveManager.Instance.SaveNewDay(); } catch { }
+        }
+
         currentDay++;
         currentPhase = TimePhase.Morning;
         daySubPhase = DaySubPhase.MorningStocking;
         isTimerPaused = false;
+        inSettlementFlow = false; // 退出结算流程
         InitializePhase(TimePhase.Morning);
 
         MessageManager.Send(MessageDefine.DAY_STARTED, currentDay);
@@ -217,12 +306,61 @@ public class TimeSystemManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 根据当前阶段触发对应的自动保存
+    /// </summary>
+    private void TryAutoSaveForPhase()
+    {
+        if (SaveManager.Instance == null) return;
+        try
+        {
+            if (currentPhase == TimePhase.Morning)
+            {
+                // 早上结束前：检查点保存
+                SaveManager.Instance.SaveCheckpoint();
+                Debug.Log("[AutoSave] 早上即将结束，已自动保存（Checkpoint）");
+            }
+            else if (currentPhase == TimePhase.Afternoon)
+            {
+                // 白天结束 → 夜晚前
+                SaveManager.Instance.SaveBeforeNight();
+                Debug.Log("[AutoSave] 下午即将结束，已自动保存（SaveBeforeNight）");
+            }
+            else if (currentPhase == TimePhase.Night)
+            {
+                // 夜晚结束 → 结算前
+                SaveManager.Instance.SaveAfterNight();
+                Debug.Log("[AutoSave] 夜晚即将结束，已自动保存（SaveAfterNight）");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"[AutoSave] 自动保存失败: {e.Message}");
+        }
+    }
+
+    /// <summary>
     /// 暂停计时器
+    /// </summary>
+    private bool pausedByLoading = false; // 标记：是否因加载而暂停
+
+    /// <summary>
+    /// 一般性暂停（非加载原因）
     /// </summary>
     public void PauseTimer()
     {
         isTimerPaused = true;
+        pausedByLoading = false;
         Debug.Log($"[TimeSystem] 计时器已暂停");
+    }
+
+    /// <summary>
+    /// 因加载而暂停：用于 Loading 期间，离开 Loading 时会自动恢复
+    /// </summary>
+    public void PauseForLoading()
+    {
+        isTimerPaused = true;
+        pausedByLoading = true;
+        Debug.Log($"[TimeSystem] 因加载暂停计时");
     }
 
     /// <summary>
@@ -231,7 +369,17 @@ public class TimeSystemManager : MonoBehaviour
     public void ResumeTimer()
     {
         isTimerPaused = false;
+        pausedByLoading = false;
         Debug.Log($"[TimeSystem] 计时器已恢复");
+    }
+
+    /// <summary>
+    /// 设置全局时间倍率（仅影响时间系统的推进，不改 Unity 的 Time.timeScale）
+    /// </summary>
+    public void SetGlobalTimeScale(float scale)
+    {
+        globalTimeScale = Mathf.Max(0f, scale);
+        Debug.Log($"[TimeSystem] 全局时间倍率 = {globalTimeScale:F2}");
     }
 
     /// <summary>
@@ -257,33 +405,33 @@ public class TimeSystemManager : MonoBehaviour
         if (phaseConfigs != null && phaseConfigs.Length > 0) return;
 
         phaseConfigs = new TimePhaseConfig[3];
-        phaseConfigs[0] = new TimePhaseConfig
-        {
-            phase = TimePhase.Morning,
-            durationSeconds = 180f,
-            startHour = 8,
-            startMinute = 0,
-            timeScale = 80f,
-            sceneName = "DayScreen"
-        };
-        phaseConfigs[1] = new TimePhaseConfig
-        {
-            phase = TimePhase.Afternoon,
-            durationSeconds = 180f,
-            startHour = 14,
-            startMinute = 0,
-            timeScale = 80f,
-            sceneName = "DayScreen"
-        };
-        phaseConfigs[2] = new TimePhaseConfig
-        {
-            phase = TimePhase.Night,
-            durationSeconds = 300f,
-            startHour = 19,
-            startMinute = 0,
-            timeScale = 96f,
-            sceneName = "NightScreen"
-        };
+		phaseConfigs[0] = new TimePhaseConfig
+		{
+			phase = TimePhase.Morning,
+			durationSeconds = 180f,
+			startHour = 8,
+			startMinute = 0,
+			timeScale = 80f,
+			sceneName = "3_DayScreen"
+		};
+		phaseConfigs[1] = new TimePhaseConfig
+		{
+			phase = TimePhase.Afternoon,
+			durationSeconds = 180f,
+			startHour = 14,
+			startMinute = 0,
+			timeScale = 80f,
+			sceneName = "3_DayScreen"
+		};
+		phaseConfigs[2] = new TimePhaseConfig
+		{
+			phase = TimePhase.Night,
+			durationSeconds = 300f,
+			startHour = 19,
+			startMinute = 0,
+			timeScale = 96f,
+			sceneName = "4_NightScreen"
+		};
     }
 
     // ========== 提供给面板/工具的查询与跳转 ==========

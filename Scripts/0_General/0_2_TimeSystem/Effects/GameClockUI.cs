@@ -36,7 +36,17 @@ public class GameClockUI : MonoBehaviour
 
         var mgr = TimeSystemManager.Instance;
         string phaseText = GetPhaseText(mgr.CurrentPhase);
-        string time = mgr.GameClock != null ? mgr.GameClock.GetTimeString() : "--:--";
+
+        // 分针显示按 15 分钟刻度跳变（00/15/30/45），只影响显示，不改变真实计时
+        string time = "--:--";
+        if (mgr.GameClock != null)
+        {
+            int h = mgr.GameClock.Hour;
+            int m = mgr.GameClock.Minute;
+            // 仅在达到精确的 15/30/45/00 时变更显示：向下取整到上一个 15 分刻度
+            int snapped = (m / 15) * 15; // 0..45
+            time = $"{h:D2}:{snapped:D2}";
+        }
 
         if (labelText != null)
         {
