@@ -2,7 +2,7 @@
 
 **项目：Taberna Noctis（夜之小酒馆）**  
 **版本：v1.0**  
-**最后更新：2025-10-03**
+**最后更新：2025-10-09**
 
 ---
 
@@ -14,7 +14,7 @@
 4. [三个保存点详解](#三个保存点详解)
 5. [数据变化追踪](#数据变化追踪)
 6. [存档管理器设计](#存档管理器设计)
-7. [存档 UI 设计](#存档ui设计)
+7. [存档 UI 设计](#存档-ui-设计)
 8. [技术实现要点](#技术实现要点)
 9. [实现清单](#实现清单)
 
@@ -43,11 +43,11 @@
 ### 三个自动保存时机点
 
 ```mermaid
-graph TD
+flowchart TD
     A[DayScene 白天场景] -->|玩家完成白天操作| B[保存点1: 白天结束]
     B -->|自动保存| C{切换到 NightScene}
     C --> D[NightScene 夜晚场景]
-    D -->|5分钟倒计时归零| E[保存点2: 夜晚结束]
+    D -->|300 秒倒计时归零| E[保存点2: 夜晚结束]
     E -->|自动保存| F{显示结算界面}
     F --> G[玩家查看结算数据]
     G -->|点击"继续新的一天"| H[保存点3: 新一天开始]
@@ -82,7 +82,7 @@ flowchart TD
   A[准备 SaveData] --> B{Key 已存在?}
   B -- 是 --> C[保存旧数据到 backupKey]
   B -- 否 --> D[跳过备份]
-  C --> E[ES3.Save(key, data)]
+  C --> E[保存新数据: ES3.Save]
   D --> E
   E --> F{异常?}
   F -- 否 --> G[完成]
@@ -395,19 +395,19 @@ public void OnContinueButtonClicked()
 ```mermaid
 sequenceDiagram
     participant Player as 玩家
-    participant End as DayEndScreen
+    participant EndUI as DayEndScreen
     participant Save as SaveManager
     participant Time as TimeSystemManager
     participant Scene as SceneTimeCoordinator
 
-    Player->>End: 查看结算数据
-    Player->>End: 点击"继续新的一天"
-    End->>Save: SaveNewDay()
+    Player->>EndUI: 查看结算数据
+    Player->>EndUI: 点击"继续新的一天"
+    EndUI->>Save: SaveNewDay()
     Save->>Save: 快照并清空临时数据
     Note over Save: currentDay+1<br/>todayIncome=0<br/>todayExpense=0<br/>currentMenuRecipeIDs=[]<br/>totalDaysCompleted+1
     Save->>Save: ES3.Save(data)
-    Save-->>End: 保存完成
-    End->>Time: StartNewDay()
+    Save-->>EndUI: 保存完成
+    EndUI->>Time: StartNewDay()
     Time->>Time: currentDay++
     Time->>Scene: 发送 DAY_STARTED
     Scene->>Scene: LoadDayScene()
@@ -872,7 +872,7 @@ private SaveData UpgradeSaveData(SaveData oldData)
 
 ## 实现清单
 
-### Phase 1：SaveData 数据结构（第 1 周）
+### Phase 1：SaveData 数据结构
 
 - [ ] **创建 SaveData.cs**
 
@@ -887,8 +887,7 @@ private SaveData UpgradeSaveData(SaveData oldData)
 - [ ] **创建 DayEndData.cs**（结算数据）
   - [ ] 今日收入、服务人数、平均评分、星级奖励
 
-### Phase 2：SaveManager 核心（第 2 周）
-
+### Phase 2：SaveManager 核心
 - [ ] **实现 SaveManager.cs**
 
   - [ ] 单例模式
@@ -909,7 +908,7 @@ private SaveData UpgradeSaveData(SaveData oldData)
   - [ ] 存档版本号管理
   - [ ] UpgradeSaveData() 升级逻辑
 
-### Phase 3：存档 UI（第 3 周）
+### Phase 3：存档 UI
 
 - [ ] **创建 SaveSlotUI.cs**
 
@@ -928,7 +927,7 @@ private SaveData UpgradeSaveData(SaveData oldData)
   - [ ] 星级图标（★/☆）
   - [ ] 按钮样式
 
-### Phase 4：系统集成（第 4 周）
+### Phase 4：系统集成
 
 - [ ] **TimeSystemManager 集成**
 

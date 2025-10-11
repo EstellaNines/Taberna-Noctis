@@ -2,25 +2,24 @@
 
 **项目：Taberna Noctis（夜之小酒馆）**  
 **版本：v1.0**  
-**最后更新：2025-10-03**
+**最后更新：2025-10-09**
 
 ---
 
 ## 📋 目录
 
-1. [系统概述](#系统概述)
-2. [时间线设计](#时间线设计)
-3. [游戏时钟系统](#游戏时钟系统)
-4. [场景切换机制](#场景切换机制)
-5. [数据结构设计](#数据结构设计)
-6. [核心脚本架构](#核心脚本架构)
-7. [UI 显示组件](#ui显示组件)
-8. [消息系统集成](#消息系统集成)
-9. [实现清单](#实现清单)
- 
+1. [文档目的与范围](#1-文档目的与范围)
+2. [时间线与阶段总览](#2-时间线与阶段总览)
+3. [游戏时钟系统](#3-游戏时钟系统)
+4. [场景切换机制](#4-场景切换机制)
+5. [数据结构设计](#5-数据结构设计)
+6. [核心脚本架构](#6-核心脚本架构)
+7. [消息系统集成](#7-消息系统集成)
+8. [实现清单](#8-实现清单)
+
 ---
 
-## 系统概述
+## 1. 文档目的与范围
 
 ### 设计目标
 
@@ -87,7 +86,7 @@
 
 ---
 
-## 时间线设计
+## 2. 时间线与阶段总览
 
 ### 时间换算表
 
@@ -107,36 +106,11 @@
 ### 阶段状态机图
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Morning
-    Morning --> Afternoon : 180秒倒计时归零<br/>时钟跳转14:00
-    Afternoon --> Night : 玩家点击"开始营业"<br/>时钟跳转19:00<br/>切换场景
-    Night --> DayEnd : 300秒倒计时归零<br/>时钟显示03:00
-    DayEnd --> Morning : 点击"继续新的一天"<br/>Day+1<br/>时钟重置08:00<br/>切换场景
-
-    note right of Morning
-        DayScene
-        StockingPanel显示
-        进货备货操作
-    end note
-
-    note right of Afternoon
-        DayScene
-        RecipePanel显示
-        研发配方+上架
-    end note
-
-    note right of Night
-        NightScene
-        吧台场景
-        服务顾客
-    end note
-
-    note right of DayEnd
-        结算界面
-        显示收入/评分
-        星级判定
-    end note
+flowchart TD
+  Morning([Morning 08:00→12:00]) -->|180s 到时| Afternoon([Afternoon 14:00→18:00])
+  Afternoon -->|开始营业| Night([Night 19:00→03:00])
+  Night -->|300s 到时| DayEnd([DayEnd 结算])
+  DayEnd -->|继续新的一天| Morning
 ```
 
 ### 时间线枚举定义
@@ -161,7 +135,7 @@ public enum DaySubPhase
 
 ---
 
-## 游戏时钟系统
+## 3. 游戏时钟系统
 
 ### 时钟更新逻辑
 
@@ -195,13 +169,141 @@ public enum DaySubPhase
     └────────────────────────────────┘
 ```
 
-### 时钟显示示例
+---
 
-（略）
+## 6. 核心脚本架构
+
+```csharp
+public sealed class TimeSystemManager : UnityEngine.MonoBehaviour
+{
+    public static TimeSystemManager Instance { get; private set; }
+
+    public TimeSettings settings;                 // Scriptable 配置或 Inspector
+    public TimePhase CurrentPhase { get; private set; }
+    public float PhaseRemainingTime { get; private set; } // 真实秒
+    public int ClockHour { get; private set; }
+    public int ClockMinute { get; private set; }
+
+    // 事件
+    public System.Action<TimePhase> OnPhaseChanged;   // 广播 PHASE_CHANGED
+    public System.Action<int> OnDayCompleted;         // 广播 DAY_COMPLETED(day)
+
+    public void StartMorning() { SwitchToPhase(TimePhase.Morning); }
+    public void StartNightPhase() { SwitchToPhase(TimePhase.Night); }
+    public void StartNewDay() { SwitchToPhase(TimePhase.Morning); }
+
+    private void SwitchToPhase(TimePhase phase)
+    {
+        CurrentPhase = phase;
+        PhaseRemainingTime = GetConfig(phase).realSeconds;
+        SetClockToPhaseStart(phase);
+        OnPhaseChanged?.Invoke(phase);
+    }
+
+    private PhaseConfig GetConfig(TimePhase p)
+    {
+        return p == TimePhase.Morning ? settings.morning : (p == TimePhase.Afternoon ? settings.afternoon : settings.night);
+    }
+
+    private void SetClockToPhaseStart(TimePhase phase)
+    {
+        var cfg = GetConfig(phase);
+        ClockHour = cfg.startHour;
+        ClockMinute = 0;
+    }
+}
+```
 
 ---
 
-## 附加图表
+## 7. 消息系统集成
+
+| 消息名              | 发送方              | 触发时机      | 负载                 |
+| ------------------- | ------------------- | ------------- | -------------------- |
+| `PHASE_CHANGED`     | `TimeSystemManager` | 切换阶段      | `TimePhase newPhase` |
+| `DAY_COMPLETED`     | `TimeSystemManager` | 夜晚结束      | `int day`            |
+| `SAVE_BEFORE_NIGHT` | `TimeSystemManager` | 下午 → 夜晚前 | -                    |
+| `SAVE_AFTER_NIGHT`  | `TimeSystemManager` | 夜晚结束时    | -                    |
+
+```mermaid
+sequenceDiagram
+  participant T as TimeSystemManager
+  participant S as SaveManager
+  loop Update()
+    T->>T: 检查 PhaseRemainingTime
+    alt Afternoon → Night
+      T->>S: SaveBeforeNight()
+    else Night 结束
+      T->>S: SaveAfterNight()
+    end
+  end
+```
+
+---
+
+## 8. 实现清单
+
+- PhaseConfig/TimeSettings 脚本化配置
+- TimeSystemManager 基础切换与计时
+- 与 SceneTimeCoordinator/SaveManager 的消息联动
+- 单元测试：时间跳转/跨天/保存点
+
+### 加载触发总览（时序）
+
+```mermaid
+sequenceDiagram
+  participant T as TimeSystemManager
+  participant C as SceneTimeCoordinator
+  participant G as GlobalSceneManager
+  participant L as S_LoadingScreen
+
+  T->>C: PHASE_CHANGED(Morning/Afternoon/Night)
+  alt Morning/Afternoon
+    C->>G: LoadWithLoadingScreen("2_DayScreen")
+  else Night
+    C->>G: LoadWithLoadingScreen("3_NightScreen")
+  end
+  G->>L: 打开 Loading
+  Note over L: 显示进度/提示
+  L-->>G: 加载完成
+  G-->>L: 关闭 Loading
+```
+
+---
+
+## 5. 数据结构设计
+
+```csharp
+// 阶段配置（真实时长与时间倍率）
+[System.Serializable]
+public class PhaseConfig
+{
+    public TimePhase phase;               // Morning / Afternoon / Night
+    public int realSeconds;               // 180 / 180 / 300
+    public int startHour;                 // 8 / 14 / 19
+    public int endHour;                   // 12 / 18 / 3 (次日)
+    public float gameSecondsPerRealSec;   // 80 / 80 / 96
+}
+
+// 全局时间设置
+[System.Serializable]
+public class TimeSettings
+{
+    public PhaseConfig morning = new PhaseConfig{ phase = TimePhase.Morning, realSeconds = 180, startHour = 8, endHour = 12, gameSecondsPerRealSec = 80f };
+    public PhaseConfig afternoon = new PhaseConfig{ phase = TimePhase.Afternoon, realSeconds = 180, startHour = 14, endHour = 18, gameSecondsPerRealSec = 80f };
+    public PhaseConfig night = new PhaseConfig{ phase = TimePhase.Night, realSeconds = 300, startHour = 19, endHour = 3, gameSecondsPerRealSec = 96f };
+}
+
+// 运行时钟快照（用于存档/恢复）
+[System.Serializable]
+public struct ClockSnapshot
+{
+    public TimePhase currentPhase;        // 当前阶段
+    public int hour;                      // 游戏时:分
+    public int minute;
+    public float phaseRemainingTime;      // 本阶段剩余真实秒
+}
+```
 
 #### 1）阶段推进（简版）
 
@@ -236,13 +338,12 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-  A[真实秒 dt] --> B[* timeScale]
+  A[真实秒 dt] --> B[乘以 timeScale]
   B --> C[游戏秒 ds]
-  C --> D[分钟/小时累计]
-  D --> E[Clock(HH:MM)]
-  subgraph 比例
-    X1[Morning=80]
-    X2[Afternoon=80]
-    X3[Night=96]
-  end
+  C --> D[累计为分钟/小时]
+  D --> E[时钟 HH:MM]
+
+  A -. Morning:80 .-> C
+  A -. Afternoon:80 .-> C
+  A -. Night:96 .-> C
 ```
