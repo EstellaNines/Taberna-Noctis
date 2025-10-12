@@ -3,6 +3,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+#if UNITY_EDITOR
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
+#endif
 #if ODIN_INSPECTOR || SIRENIX_ODIN_INSPECTOR
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
@@ -12,6 +16,32 @@ using VInspector;
 // 消息系统监控与操作平台（Odin优先），菜单：自制工具/消息系统/消息系统
 public class MessageSystemWindow : EditorWindow
 {
+    // ==== UI Toolkit state ====
+    private bool _useUITK = true;
+    [SerializeField] private int _logSelectedIndex = -1; // 若未来需要选中行，可持久化
+    private TextField _searchKeyField;
+    private ListView _keyListView;
+    private List<(string key, System.Type payloadType, int subscribers)> _keyItems = new();
+
+    private ListView _typeListView;
+    private List<(System.Type payloadType, int subscribers)> _typeItems = new();
+
+    private TextField _keyField;
+    private TextField _stringField;
+    private IntegerField _intField;
+    private FloatField _floatField;
+
+    private Toggle _logToggle;
+    private IntegerField _maxLogField;
+    private TextField _filterChannelField;
+    private TextField _filterTypeField;
+    private ListView _logListView;
+    private List<MessageManager.MessageLogEntry> _logItems = new();
+
+    private Button _applyLogCfgBtn;
+    private Button _clearLogBtn;
+    private Button _exportLogBtn;
+
 	private Vector2 _scroll;
 	private string _sendKey = "TEST_MESSAGE";
 	private string _sendString = "Hello";
@@ -37,8 +67,246 @@ public class MessageSystemWindow : EditorWindow
 		w.minSize = new Vector2(560, 480);
 	}
 
-	private void OnGUI()
+#if UNITY_EDITOR
+    private void CreateGUI()
+    {
+        titleContent = new GUIContent("消息系统");
+        rootVisualElement.style.paddingLeft = 6;
+        rootVisualElement.style.paddingRight = 6;
+        rootVisualElement.style.paddingTop = 6;
+        rootVisualElement.style.paddingBottom = 6;
+        rootVisualElement.Clear();
+
+        // 载入彩色 USS
+        var ussPath = "Assets/Scripts/0_Editor/UITK/EditorColors.uss";
+        var sheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(ussPath);
+        if (sheet != null) rootVisualElement.styleSheets.Add(sheet);
+        rootVisualElement.AddToClassList("app-root");
+
+        // 使用垂直分割：上半部分 订阅与发送；下半部分 日志
+        var split = new TwoPaneSplitView(0, 320, TwoPaneSplitViewOrientation.Vertical);
+        rootVisualElement.Add(split);
+
+        var top = new ScrollView();
+        split.Add(top);
+        var bottom = new ScrollView();
+        split.Add(bottom);
+
+        // --- 上：订阅概览与发送区 ---
+        var titleA = new Label("字符串Key通道订阅概览");
+        titleA.AddToClassList("section-title");
+        top.Add(titleA);
+        var keyRow = new VisualElement { style = { flexDirection = FlexDirection.Row, marginBottom = 4 } };
+        _searchKeyField = new TextField("搜索Key") { value = string.Empty };
+        _searchKeyField.RegisterValueChangedCallback(_ => RefreshKeySnapshot());
+        keyRow.Add(_searchKeyField);
+        top.Add(keyRow);
+
+        _keyListView = new ListView
+        {
+            virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight,
+            selectionType = SelectionType.None,
+            showBorder = true
+        };
+        _keyListView.style.height = 140;
+        _keyListView.makeItem = () => new VisualElement { style = { flexDirection = FlexDirection.Row } };
+        _keyListView.bindItem = (ve, i) =>
+        {
+            ve.Clear();
+            if (i < 0 || i >= _keyItems.Count) return;
+            var item = _keyItems[i];
+            ve.AddToClassList((i % 2 == 0) ? "row-even" : "row-odd");
+            ve.Add(new Label($"Key: {item.key}") { style = { width = 240 } });
+            ve.Add(new Label($"Type: {(item.payloadType != null ? item.payloadType.Name : "null")}") { style = { width = 180 } });
+            ve.Add(new Label($"Subs: {item.subscribers}") { style = { flexGrow = 1 } });
+            var btn = new Button(() => { MessageManager.ClearKey(item.key); RefreshKeySnapshot(); }) { text = "清空此Key" };
+            btn.style.width = 100;
+            ve.Add(btn);
+        };
+        _keyListView.AddToClassList("list");
+        top.Add(_keyListView);
+
+        top.Add(new VisualElement { style = { height = 6 } });
+        var titleB = new Label("类型通道订阅概览");
+        titleB.AddToClassList("section-title");
+        top.Add(titleB);
+        _typeListView = new ListView
+        {
+            virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight,
+            selectionType = SelectionType.None,
+            showBorder = true
+        };
+        _typeListView.style.height = 120;
+        _typeListView.makeItem = () => new VisualElement { style = { flexDirection = FlexDirection.Row } };
+        _typeListView.bindItem = (ve, i) =>
+        {
+            ve.Clear();
+            if (i < 0 || i >= _typeItems.Count) return;
+            var item = _typeItems[i];
+            ve.AddToClassList((i % 2 == 0) ? "row-even" : "row-odd");
+            ve.Add(new Label($"Type: {(item.payloadType != null ? item.payloadType.Name : "null")}  Subs: {item.subscribers}"));
+        };
+        top.Add(_typeListView);
+
+        top.Add(new VisualElement { style = { height = 6 } });
+        var titleC = new Label("测试发送（字符串Key通道）");
+        titleC.AddToClassList("section-title");
+        top.Add(titleC);
+        _keyField = new TextField("Key") { value = _sendKey };
+        _stringField = new TextField("String") { value = _sendString };
+        _intField = new IntegerField("Int") { value = _sendInt };
+        _floatField = new FloatField("Float") { value = _sendFloat };
+        top.Add(_keyField); top.Add(_stringField); top.Add(_intField); top.Add(_floatField);
+
+        var sendRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+        var btnStr = new Button(() => MessageManager.Send<string>(_keyField.value, _stringField.value)) { text = "Send String" };
+        var btnInt = new Button(() => MessageManager.Send<int>(_keyField.value, _intField.value)) { text = "Send Int" };
+        var btnFlt = new Button(() => MessageManager.Send<float>(_keyField.value, _floatField.value)) { text = "Send Float" };
+        btnStr.AddToClassList("btn"); btnStr.AddToClassList("btn-primary");
+        btnInt.AddToClassList("btn"); btnInt.AddToClassList("btn-secondary");
+        btnFlt.AddToClassList("btn"); btnFlt.AddToClassList("btn-success");
+        sendRow.Add(btnStr);
+        sendRow.Add(btnInt);
+        sendRow.Add(btnFlt);
+        top.Add(sendRow);
+
+        top.Add(new VisualElement { style = { height = 6 } });
+        var titleD = new Label("测试发送（类型通道）");
+        titleD.AddToClassList("section-title");
+        top.Add(titleD);
+        var sendTypeRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+        var btnT1 = new Button(() => MessageManager.Send<string>(_stringField.value)) { text = "Send 类型: string" };
+        var btnT2 = new Button(() => MessageManager.Send<int>(_intField.value)) { text = "Send 类型: int" };
+        var btnT3 = new Button(() => MessageManager.Send<float>(_floatField.value)) { text = "Send 类型: float" };
+        btnT1.AddToClassList("btn"); btnT1.AddToClassList("btn-primary");
+        btnT2.AddToClassList("btn"); btnT2.AddToClassList("btn-secondary");
+        btnT3.AddToClassList("btn"); btnT3.AddToClassList("btn-success");
+        sendTypeRow.Add(btnT1); sendTypeRow.Add(btnT2); sendTypeRow.Add(btnT3);
+        top.Add(sendTypeRow);
+
+        top.Add(new VisualElement { style = { height = 6 } });
+        var clearAllBtn = new Button(() => { MessageManager.Clear(); RefreshKeySnapshot(); RefreshTypeSnapshot(); RefreshLogs(); }) { text = "清空全部" };
+        clearAllBtn.AddToClassList("btn"); clearAllBtn.AddToClassList("btn-danger");
+        top.Add(clearAllBtn);
+
+        // --- 下：日志区 ---
+        var titleE = new Label("实时消息日志(时间戳/帧号)");
+        titleE.AddToClassList("section-title");
+        bottom.Add(titleE);
+        var cfgRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+        _logToggle = new Toggle("启用日志") { value = _logOn };
+        _maxLogField = new IntegerField("最大条数") { value = _maxLog };
+        _applyLogCfgBtn = new Button(() => { _logOn = _logToggle.value; _maxLog = Mathf.Max(1, _maxLogField.value); MessageManager.SetLogEnabled(_logOn); MessageManager.SetMaxLog(_maxLog); RefreshLogs(); }) { text = "应用" };
+        _clearLogBtn = new Button(() => { MessageManager.ClearLog(); RefreshLogs(); }) { text = "清空日志" };
+        _applyLogCfgBtn.AddToClassList("btn"); _applyLogCfgBtn.AddToClassList("btn-success");
+        _clearLogBtn.AddToClassList("btn"); _clearLogBtn.AddToClassList("btn-warn");
+        cfgRow.Add(_logToggle);
+        cfgRow.Add(_maxLogField);
+        cfgRow.Add(_applyLogCfgBtn);
+        cfgRow.Add(_clearLogBtn);
+        bottom.Add(cfgRow);
+
+        var filterRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+        _filterChannelField = new TextField("按Channel过滤") { value = _filterChannel };
+        _filterTypeField = new TextField("按Type过滤") { value = _filterType };
+        _exportLogBtn = new Button(() => ExportJson(MessageManager.GetLogSnapshot())) { text = "导出JSON" };
+        _exportLogBtn.AddToClassList("btn"); _exportLogBtn.AddToClassList("btn-primary");
+        _filterChannelField.RegisterValueChangedCallback(_ => { _filterChannel = _filterChannelField.value; RefreshLogs(); });
+        _filterTypeField.RegisterValueChangedCallback(_ => { _filterType = _filterTypeField.value; RefreshLogs(); });
+        filterRow.Add(_filterChannelField);
+        filterRow.Add(_filterTypeField);
+        filterRow.Add(_exportLogBtn);
+        bottom.Add(filterRow);
+
+        _logListView = new ListView
+        {
+            virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight,
+            selectionType = SelectionType.Single,
+            showBorder = true
+        };
+        _logListView.style.height = 260;
+        _logListView.makeItem = () => new VisualElement { style = { flexDirection = FlexDirection.Row } };
+        _logListView.bindItem = (ve, i) =>
+        {
+            ve.Clear();
+            if (i < 0 || i >= _logItems.Count) return;
+            var e = _logItems[i];
+            ve.AddToClassList((i % 2 == 0) ? "row-even" : "row-odd");
+            ve.Add(new Label(e.frame.ToString()) { style = { width = _wFrame } });
+            ve.Add(new Label(e.time.ToString("F3")) { style = { width = _wTime } });
+            ve.Add(new Label(e.channel) { style = { width = _wChannel } });
+            ve.Add(new Label(e.typeName) { style = { width = _wType } });
+            var payload = new Label(e.payload) { style = { flexGrow = 1 } };
+            payload.style.whiteSpace = WhiteSpace.Normal;
+            ve.Add(payload);
+        };
+        _logListView.selectionChanged += _ => { _logSelectedIndex = _logListView.selectedIndex; };
+        bottom.Add(_logListView);
+
+        // 初始填充
+        RefreshKeySnapshot();
+        RefreshTypeSnapshot();
+        RefreshLogs();
+    }
+
+    private void RefreshKeySnapshot()
+    {
+        var sSnap = MessageManager.GetStringBusSnapshot();
+        _keyItems.Clear();
+        string q = _searchKeyField != null ? _searchKeyField.value.Trim().ToLower() : string.Empty;
+        for (int i = 0; i < sSnap.Count; i++)
+        {
+            if (!string.IsNullOrEmpty(q) && (sSnap[i].key == null || !sSnap[i].key.ToLower().Contains(q))) continue;
+            _keyItems.Add((sSnap[i].key, sSnap[i].payloadType, sSnap[i].subscribers));
+        }
+        if (_keyListView != null) { _keyListView.itemsSource = _keyItems; _keyListView.Rebuild(); }
+    }
+
+    private void RefreshTypeSnapshot()
+    {
+        var tSnap = MessageManager.GetTypeBusSnapshot();
+        _typeItems.Clear();
+        for (int i = 0; i < tSnap.Count; i++)
+        {
+            _typeItems.Add((tSnap[i].payloadType, tSnap[i].subscribers));
+        }
+        if (_typeListView != null) { _typeListView.itemsSource = _typeItems; _typeListView.Rebuild(); }
+    }
+
+    private void RefreshLogs()
+    {
+        var logs = MessageManager.GetLogSnapshot();
+        // filter
+        var filtered = new List<MessageManager.MessageLogEntry>(logs.Count);
+        for (int i = 0; i < logs.Count; i++)
+        {
+            var e = logs[i];
+            if (!string.IsNullOrEmpty(_filterChannel) && (e.channel == null || e.channel.IndexOf(_filterChannel, System.StringComparison.OrdinalIgnoreCase) < 0)) continue;
+            if (!string.IsNullOrEmpty(_filterType) && (e.typeName == null || e.typeName.IndexOf(_filterType, System.StringComparison.OrdinalIgnoreCase) < 0)) continue;
+            filtered.Add(e);
+        }
+        // sort
+        filtered.Sort((a, b) =>
+        {
+            int cmp = 0;
+            switch (_sortCol)
+            {
+                case SortCol.Frame: cmp = a.frame.CompareTo(b.frame); break;
+                case SortCol.Time: cmp = a.time.CompareTo(b.time); break;
+                case SortCol.Channel: cmp = string.Compare(a.channel, b.channel, System.StringComparison.Ordinal); break;
+                case SortCol.Type: cmp = string.Compare(a.typeName, b.typeName, System.StringComparison.Ordinal); break;
+                case SortCol.Payload: cmp = string.Compare(a.payload, b.payload, System.StringComparison.Ordinal); break;
+            }
+            return _asc ? cmp : -cmp;
+        });
+        _logItems = filtered;
+        if (_logListView != null) { _logListView.itemsSource = _logItems; _logListView.Rebuild(); }
+    }
+#endif
+
+    private void OnGUI()
 	{
+        if (_useUITK) return; // 使用 UITK 渲染，避免与 IMGUI 叠加
 		_scroll = EditorGUILayout.BeginScrollView(_scroll);
 
 #if ODIN_INSPECTOR || SIRENIX_ODIN_INSPECTOR

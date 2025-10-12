@@ -47,6 +47,8 @@ MonoBehaviour:
     - Febucci.TextAnimator.Demo.Runtime
     - Febucci.TextAnimator.Runtime
     - Febucci.TextAnimator.TMP.Runtime
+    - FlowCanvas
+    - ParadoxNotion
     - UltimateEditorEnhancer
     - VInspector
     - Wingman

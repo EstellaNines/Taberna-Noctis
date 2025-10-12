@@ -1,153 +1,153 @@
-# Ã¿ÈÕ×ÊÑ¶ÊÂ¼ş£¨ZH/EN£©Daily News Events
+# æ¯æ—¥èµ„è®¯äº‹ä»¶ï¼ˆZH/ENï¼‰Daily News Events
 
-## 1. ÓÃµç½µÔØÓë¼ìĞŞ / Power Load Curtailment & Maintenance
+## 1. ç”¨ç”µé™è½½ä¸æ£€ä¿® / Power Load Curtailment & Maintenance
 
-- ÕªÒª£¨ZH£©£º
-  - ÊĞ³Ç¹ÜÎ¯ÓëµçÁ¦¹«Ë¾Í¨±¨£ººËĞÄÉÌÎñÇø¼°ÖÜ±ßÔ°Çø½ñÒ¹ÊµÊ©·ÖÊ±µçÁ¦½µÔØ£¬²¢¶Ô²¿·ÖÂ¥Óî½øĞĞÏŞÊ±¼ìĞŞ£¬Éæ¼°¹«¹²ÕÕÃ÷Óë·Ç¸ÕĞÔÓÃµçÉè±¸¡£
-  - Çë¹Ø×¢Ô°ÇøÓëÂ¥ÓîÍ¨Öª£¬ºÏÀí°²ÅÅ³öÈëÓëÉè±¸¹ØÍ££¬±ÜÃâÁÙ½ü¹ØÂ¥Ê±¶Î¼¯ÖĞÀë³¡¡£
+- æ‘˜è¦ï¼ˆZHï¼‰ï¼š
+  - å¸‚åŸç®¡å§”ä¸ç”µåŠ›å…¬å¸é€šæŠ¥ï¼šæ ¸å¿ƒå•†åŠ¡åŒºåŠå‘¨è¾¹å›­åŒºä»Šå¤œå®æ–½åˆ†æ—¶ç”µåŠ›é™è½½ï¼Œå¹¶å¯¹éƒ¨åˆ†æ¥¼å®‡è¿›è¡Œé™æ—¶æ£€ä¿®ï¼Œæ¶‰åŠå…¬å…±ç…§æ˜ä¸éåˆšæ€§ç”¨ç”µè®¾å¤‡ã€‚
+  - è¯·å…³æ³¨å›­åŒºä¸æ¥¼å®‡é€šçŸ¥ï¼Œåˆç†å®‰æ’å‡ºå…¥ä¸è®¾å¤‡å…³åœï¼Œé¿å…ä¸´è¿‘å…³æ¥¼æ—¶æ®µé›†ä¸­ç¦»åœºã€‚
 - Abstract (EN):
   - The Municipal Urban Administration and the Power Company announce phased power load curtailment tonight in core business areas, with time-limited maintenance affecting public lighting and non-essential equipment.
   - Follow park/building notices, plan access and shutdowns accordingly, and avoid concentrated departures near closing times.
-- ÕıÎÄ£¨ZH£©£º
-  - ×Ô 18 Ê±Æğ£¬³ÇĞÄ½ğÈÚ´ø¡¢¶«»·¿Æ¼¼×ßÀÈ¼°ÏàÁÚ×ÛºÏÌå²½ĞĞÇø½«ÒÀĞòÊµÊ©ÕÕÃ÷½µÔØÓëÉè±¸¼ìĞŞ£¬Ô¤¼ÆÖÁ´ÎÈÕ 5 Ê±½áÊø£»Ò½ÁÆ¡¢½»Í¨ÓëÊĞÕş»ù´¡ÉèÊ©¹©ÄÜÓÅÏÈ±£ÕÏ£¬ÉÌÈ¦¹ã¸æÆÁÓë¾°¹ÛÕÕÃ÷½«½×¶ÎĞÔ¹Ø±Õ¡£
-  - ¹«½»Óë¹ìµÀÔËÓªÊ±¿ÌÎ´×÷µ÷Õû£¬²¿·ÖµØÃæµÀÂ·Íí¼ä¸ß·å»òÏÖ¶ÌÊ±Óµ¶Â£»ÈôÓöÔ°ÇøÁÙÊ±Í¨ĞĞ¹Ü¿Ø£¬ÇëÅäºÏÏÖ³¡Òıµ¼£¬²¢¹Ø×¢Îï¹ÜÓë¹Ù·½ÇşµÀµÄ¹ö¶¯ĞÅÏ¢¡£
+- æ­£æ–‡ï¼ˆZHï¼‰ï¼š
+  - è‡ª 18 æ—¶èµ·ï¼ŒåŸå¿ƒé‡‘èå¸¦ã€ä¸œç¯ç§‘æŠ€èµ°å»ŠåŠç›¸é‚»ç»¼åˆä½“æ­¥è¡ŒåŒºå°†ä¾åºå®æ–½ç…§æ˜é™è½½ä¸è®¾å¤‡æ£€ä¿®ï¼Œé¢„è®¡è‡³æ¬¡æ—¥ 5 æ—¶ç»“æŸï¼›åŒ»ç–—ã€äº¤é€šä¸å¸‚æ”¿åŸºç¡€è®¾æ–½ä¾›èƒ½ä¼˜å…ˆä¿éšœï¼Œå•†åœˆå¹¿å‘Šå±ä¸æ™¯è§‚ç…§æ˜å°†é˜¶æ®µæ€§å…³é—­ã€‚
+  - å…¬äº¤ä¸è½¨é“è¿è¥æ—¶åˆ»æœªä½œè°ƒæ•´ï¼Œéƒ¨åˆ†åœ°é¢é“è·¯æ™šé—´é«˜å³°æˆ–ç°çŸ­æ—¶æ‹¥å µï¼›è‹¥é‡å›­åŒºä¸´æ—¶é€šè¡Œç®¡æ§ï¼Œè¯·é…åˆç°åœºå¼•å¯¼ï¼Œå¹¶å…³æ³¨ç‰©ç®¡ä¸å®˜æ–¹æ¸ é“çš„æ»šåŠ¨ä¿¡æ¯ã€‚
 - Body (EN):
   - From 18:00 to 05:00 next day, lighting load reduction and equipment maintenance will proceed across the central financial belt, East Ring tech corridor, and adjacent complexes; power to medical, transport, and municipal infrastructure will be prioritized, with commercial displays and landscape lighting suspended.
   - Bus and metro timetables remain unchanged; brief evening-peak congestion may occur on some surface roads. If temporary access control is in place, follow on-site guidance and watch property/official channels for updates.
-- Ğ§¹û£¨³öÏÖ¸ÅÂÊµ÷Õû£©/ Effects (appearance probability):
-  - ZH£ºÃ¦ÂµµÄ¹«Ë¾Ö°Ô± +12%£¬¼±ÔêµÄĞ¡Áìµ¼ +8%£¬ÓÑºÃµÄ´óÑ§Éú -4%
-  - EN£ºBusy office workers +12%, Irritable team leads +8%, Friendly college students -4%
-- ³ÖĞø / Duration£º½öÒ»Ìì / One day only
+- æ•ˆæœï¼ˆå‡ºç°æ¦‚ç‡è°ƒæ•´ï¼‰/ Effects (appearance probability):
+  - ZHï¼šå¿™ç¢Œçš„å…¬å¸èŒå‘˜ +12%ï¼Œæ€¥èºçš„å°é¢†å¯¼ +8%ï¼Œå‹å¥½çš„å¤§å­¦ç”Ÿ -4%
+  - ENï¼šBusy office workers +12%, Irritable team leads +8%, Friendly college students -4%
+- æŒç»­ / Durationï¼šä»…ä¸€å¤© / One day only
 
-## 2. Ç¿½µÓêÓëµÀÂ·»ıË®ÌáÊ¾ / Heavy Rain and Road Ponding Advisory
+## 2. å¼ºé™é›¨ä¸é“è·¯ç§¯æ°´æç¤º / Heavy Rain and Road Ponding Advisory
 
-- ÕªÒª£¨ZH£©£º
-  - ÆøÏóÌ¨·¢²¼Ç¿½µÓêÔ¤¾¯£¬Íí¼ä½µË®ÔöÇ¿£¬²¿·ÖÂ·¶Î»òÏÖ»ıË®ÓëµÍÄÜ¼û¶È¡£
-  - ÊĞÕş²¿ÃÅÌáÊ¾¹Ø×¢½»Í¨ÓëÔ°ÇøÍ¨¸æ£¬ºÏÀí°²ÅÅ³öĞĞÓë·µ¸ÚÊ±¶Î¡£
+- æ‘˜è¦ï¼ˆZHï¼‰ï¼š
+  - æ°”è±¡å°å‘å¸ƒå¼ºé™é›¨é¢„è­¦ï¼Œæ™šé—´é™æ°´å¢å¼ºï¼Œéƒ¨åˆ†è·¯æ®µæˆ–ç°ç§¯æ°´ä¸ä½èƒ½è§åº¦ã€‚
+  - å¸‚æ”¿éƒ¨é—¨æç¤ºå…³æ³¨äº¤é€šä¸å›­åŒºé€šå‘Šï¼Œåˆç†å®‰æ’å‡ºè¡Œä¸è¿”å²—æ—¶æ®µã€‚
 - Abstract (EN):
   - Meteorological services issue a heavy-rain alert tonight; enhanced precipitation may cause water ponding and reduced visibility on some roads.
   - Citizens are advised to follow transport and park notices and plan travel or return-to-work times accordingly.
-- ÕıÎÄ£¨ZH£©£º
-  - 20 Ê±ÆğÖĞµ½´óÓêÓ°Ïì³ÇĞÄ¼°Íâ»·£¬µØÃæ½»Í¨³ĞÑ¹£»Ô°ÇøµØÏÂ³öÈë¿ÚÓëÁ¬ÀÈÔöÉè·À»¬Óëµ¼Òı±êÊ¶¡£
-  - ¹«½»¡¢µØÌúÕı³£ÔËÓª£¬¸ö±ğ¸ß¼ÜÔÑµÀ¿ÉÄÜÏŞËÙ£»Ó¦¼±ÈÈÏßÓëÂ·¿ö²¥±¨Ìá¹©¹ö¶¯ÌáÊ¾¡£
+- æ­£æ–‡ï¼ˆZHï¼‰ï¼š
+  - 20 æ—¶èµ·ä¸­åˆ°å¤§é›¨å½±å“åŸå¿ƒåŠå¤–ç¯ï¼Œåœ°é¢äº¤é€šæ‰¿å‹ï¼›å›­åŒºåœ°ä¸‹å‡ºå…¥å£ä¸è¿å»Šå¢è®¾é˜²æ»‘ä¸å¯¼å¼•æ ‡è¯†ã€‚
+  - å…¬äº¤ã€åœ°é“æ­£å¸¸è¿è¥ï¼Œä¸ªåˆ«é«˜æ¶åŒé“å¯èƒ½é™é€Ÿï¼›åº”æ€¥çƒ­çº¿ä¸è·¯å†µæ’­æŠ¥æä¾›æ»šåŠ¨æç¤ºã€‚
 - Body (EN):
   - From 20:00, moderate-to-heavy rain affects central and outer districts, pressuring surface traffic; parks add anti-slip and guidance signs at underground access points.
   - Bus/metro remain normal; some elevated ramps may impose speed limits. Hotlines and traffic feeds provide rolling updates.
-- Ğ§¹û / Effects£º
-  - ZH£º·³ÃÆµÄ¹«Ë¾Ö°Ô± +14%£¬Ã¦ÂµµÄ×ÔÓÉÖ°ÒµÕß +9%£¬ÓÑºÃµÄ´óÑ§Éú -5%
-  - EN£ºFrustrated office workers +14%, Busy freelancers +9%, Friendly college students -5%
-- ³ÖĞø / Duration£º½öÒ»Ìì / One day only
+- æ•ˆæœ / Effectsï¼š
+  - ZHï¼šçƒ¦é—·çš„å…¬å¸èŒå‘˜ +14%ï¼Œå¿™ç¢Œçš„è‡ªç”±èŒä¸šè€… +9%ï¼Œå‹å¥½çš„å¤§å­¦ç”Ÿ -5%
+  - ENï¼šFrustrated office workers +14%, Busy freelancers +9%, Friendly college students -5%
+- æŒç»­ / Durationï¼šä»…ä¸€å¤© / One day only
 
-## 3. ¸ßĞ£Íí¼ä»î¶¯ÌáÊ¾ / University Evening Activities Advisory
+## 3. é«˜æ ¡æ™šé—´æ´»åŠ¨æç¤º / University Evening Activities Advisory
 
-- ÕªÒª£¨ZH£©£º
-  - ½ÌÓı²¿ÃÅÍ¨±¨£º¶àËù¸ßĞ£½ñÒ¹¾ÙĞĞÉçÍÅÓëÑ§Êõ»î¶¯£¬Ğ£Ô°ÖÜ±ßÈËÁ÷Ôö¼Ó¡£
-  - ½¨Òé¹Ø×¢Ğ£·½ÓëÊôµØÍ¨¸æ£¬±Ü¿ª¼¯ÖĞ³öÈëÊ±¶Î¡£
+- æ‘˜è¦ï¼ˆZHï¼‰ï¼š
+  - æ•™è‚²éƒ¨é—¨é€šæŠ¥ï¼šå¤šæ‰€é«˜æ ¡ä»Šå¤œä¸¾è¡Œç¤¾å›¢ä¸å­¦æœ¯æ´»åŠ¨ï¼Œæ ¡å›­å‘¨è¾¹äººæµå¢åŠ ã€‚
+  - å»ºè®®å…³æ³¨æ ¡æ–¹ä¸å±åœ°é€šå‘Šï¼Œé¿å¼€é›†ä¸­å‡ºå…¥æ—¶æ®µã€‚
 - Abstract (EN):
   - Education authorities report campus events tonight across several universities, with increased foot traffic nearby.
   - Follow university/local notices and avoid peak entry/exit times.
-- ÕıÎÄ£¨ZH£©£º
-  - 19 Ê±ÖÁ 22 Ê±Îª»î¶¯¸ß·å£¬Ğ£Ô°¶«ÃÅÓëÉÌÒµ½ÖÈËÁ÷½Ï´ó£»ÖÜ±ßµÀÂ·½«Ôö¼ÓÑ²²éÓëÁÙÍ£¹Ü¿Ø¡£
-  - ¹«½»Í¨ÇÚ¼Ó¿ª¶¨µã°à´Î£»Ğ£ÃÅ¿ÚÉèÖÃÁÙÊ±Ö¸ÒıÓë°²È«ÌáÊ¾¡£
+- æ­£æ–‡ï¼ˆZHï¼‰ï¼š
+  - 19 æ—¶è‡³ 22 æ—¶ä¸ºæ´»åŠ¨é«˜å³°ï¼Œæ ¡å›­ä¸œé—¨ä¸å•†ä¸šè¡—äººæµè¾ƒå¤§ï¼›å‘¨è¾¹é“è·¯å°†å¢åŠ å·¡æŸ¥ä¸ä¸´åœç®¡æ§ã€‚
+  - å…¬äº¤é€šå‹¤åŠ å¼€å®šç‚¹ç­æ¬¡ï¼›æ ¡é—¨å£è®¾ç½®ä¸´æ—¶æŒ‡å¼•ä¸å®‰å…¨æç¤ºã€‚
 - Body (EN):
-  - Peak period runs 19:00¨C22:00; higher flows at east gates and shopping streets, with added patrols and short-stay controls.
+  - Peak period runs 19:00â€“22:00; higher flows at east gates and shopping streets, with added patrols and short-stay controls.
   - Targeted bus trips are added; temporary wayfinding and safety notices are posted at gates.
-- Ğ§¹û / Effects£º
-  - ZH£ºÓÑºÃµÄ´óÑ§Éú +18%£¬¼±ÔêµÄ¹«Ë¾Ö°Ô± +6%£¬ÌôÌŞµÄ×ÔÓÉÖ°ÒµÕß -4%
-  - EN£ºFriendly college students +18%, Irritable office workers +6%, Picky freelancers -4%
-- ³ÖĞø / Duration£º½öÒ»Ìì / One day only
+- æ•ˆæœ / Effectsï¼š
+  - ZHï¼šå‹å¥½çš„å¤§å­¦ç”Ÿ +18%ï¼Œæ€¥èºçš„å…¬å¸èŒå‘˜ +6%ï¼ŒæŒ‘å‰”çš„è‡ªç”±èŒä¸šè€… -4%
+  - ENï¼šFriendly college students +18%, Irritable office workers +6%, Picky freelancers -4%
+- æŒç»­ / Durationï¼šä»…ä¸€å¤© / One day only
 
-## 4. ½ğÈÚÊĞ³¡²¨¶¯Í¨±¨ / Financial Market Volatility Notice
+## 4. é‡‘èå¸‚åœºæ³¢åŠ¨é€šæŠ¥ / Financial Market Volatility Notice
 
-- ÕªÒª£¨ZH£©£º
-  - ½»Ò×»ú¹¹ÌáÊ¾£ºÊÕÅÌºóÏà¹Ø°å¿é²¨¶¯¼Ó´ó£¬²¿·ÖÂ¥ÓîÑÓÊ±¸´ÅÌÓë¼ò»á¡£
-  - Íí¼äÉÌÎñÇø°ì¹«ÓëÍ¨ÇÚ»ò½×¶ÎĞÔÑÓ³¤¡£
+- æ‘˜è¦ï¼ˆZHï¼‰ï¼š
+  - äº¤æ˜“æœºæ„æç¤ºï¼šæ”¶ç›˜åç›¸å…³æ¿å—æ³¢åŠ¨åŠ å¤§ï¼Œéƒ¨åˆ†æ¥¼å®‡å»¶æ—¶å¤ç›˜ä¸ç®€ä¼šã€‚
+  - æ™šé—´å•†åŠ¡åŒºåŠå…¬ä¸é€šå‹¤æˆ–é˜¶æ®µæ€§å»¶é•¿ã€‚
 - Abstract (EN):
   - Trading venues note increased post-close volatility; some buildings may hold briefings and delayed wrap-ups.
   - Evening office hours and commutes in business districts may extend temporarily.
-- ÕıÎÄ£¨ZH£©£º
-  - ¶à¶°Ğ´×ÖÂ¥½¨ÒéÑÓºóÀë³¡ÓëÉè±¸¹ØÍ££»¹«¹²ÏÔÊ¾ÆÁ¼õÉÙ·Ç±ØÒªÄÚÈİ¡£
-  - ½»Í¨ÔËĞĞÎÈ¶¨£¬Ğ´×ÖÂ¥ÖÜ±ß³µÁ÷ÔÚ 21 Ê±ºó»òÏÖ¶ÌÊ±Óµ¶Â¡£
+- æ­£æ–‡ï¼ˆZHï¼‰ï¼š
+  - å¤šæ ‹å†™å­—æ¥¼å»ºè®®å»¶åç¦»åœºä¸è®¾å¤‡å…³åœï¼›å…¬å…±æ˜¾ç¤ºå±å‡å°‘éå¿…è¦å†…å®¹ã€‚
+  - äº¤é€šè¿è¡Œç¨³å®šï¼Œå†™å­—æ¥¼å‘¨è¾¹è½¦æµåœ¨ 21 æ—¶åæˆ–ç°çŸ­æ—¶æ‹¥å µã€‚
 - Body (EN):
   - Several office towers recommend later departures and orderly shutdowns; public displays limit non-essential content.
   - Traffic overall stable; short congestion possible near office zones after 21:00.
-- Ğ§¹û / Effects£º
-  - ZH£º¼±ÔêµÄĞ¡Áìµ¼ +10%£¬Ã¦ÂµµÄ¹«Ë¾Ö°Ô± +12%£¬ÌôÌŞµÄ±©·¢»§ +6%
-  - EN£ºIrritable team leads +10%, Busy office workers +12%, Picky tycoons +6%
-- ³ÖĞø / Duration£º½öÒ»Ìì / One day only
+- æ•ˆæœ / Effectsï¼š
+  - ZHï¼šæ€¥èºçš„å°é¢†å¯¼ +10%ï¼Œå¿™ç¢Œçš„å…¬å¸èŒå‘˜ +12%ï¼ŒæŒ‘å‰”çš„æš´å‘æˆ· +6%
+  - ENï¼šIrritable team leads +10%, Busy office workers +12%, Picky tycoons +6%
+- æŒç»­ / Durationï¼šä»…ä¸€å¤© / One day only
 
-## 5. ¹ìµÀÇø¶ÎÒ¹¼ä¼ìĞŞ / Nighttime Metro Section Maintenance
+## 5. è½¨é“åŒºæ®µå¤œé—´æ£€ä¿® / Nighttime Metro Section Maintenance
 
-- ÕªÒª£¨ZH£©£º
-  - ¹ìµÀ¹«Ë¾Í¨±¨£º²¿·ÖÇø¶ÎÒ¹¼ä¼Æ»®¼ìĞŞ£¬ÁĞ³µ¼ÓÃÜÓëÌøÍ£²¢ĞĞ¡£
-  - ½¨Òé¹Ø×¢Õ¾ÄÚ¹«¸æÓë»»³ËÖ¸Òı£¬ÊÊµ±Ô¤Áô³öĞĞÊ±¼ä¡£
+- æ‘˜è¦ï¼ˆZHï¼‰ï¼š
+  - è½¨é“å…¬å¸é€šæŠ¥ï¼šéƒ¨åˆ†åŒºæ®µå¤œé—´è®¡åˆ’æ£€ä¿®ï¼Œåˆ—è½¦åŠ å¯†ä¸è·³åœå¹¶è¡Œã€‚
+  - å»ºè®®å…³æ³¨ç«™å†…å…¬å‘Šä¸æ¢ä¹˜æŒ‡å¼•ï¼Œé€‚å½“é¢„ç•™å‡ºè¡Œæ—¶é—´ã€‚
 - Abstract (EN):
   - Metro operator announces planned nighttime maintenance on certain sections, with combined headway increases and selective skip-stops.
   - Passengers should follow in-station notices and allow extra travel time.
-- ÕıÎÄ£¨ZH£©£º
-  - 22 Ê±ºó¸ö±ğÕ¾µãÊµÊ©µ¥Ïò·ÅĞĞÓëÏŞÁ÷£»½Ó²µ¹«½»ÊÊ¶È¼ÓÃÜ²¢µ÷ÕûÊ×Ä©°àÊ±¿Ì¡£
-  - Â·Ãæ½»Í¨×ÜÌåÆ½ÎÈ£¬½»Í¨ÊàÅ¦ÖÜ±ß³µµÀÁÙÊ±µ¼¸Ä¡£
+- æ­£æ–‡ï¼ˆZHï¼‰ï¼š
+  - 22 æ—¶åä¸ªåˆ«ç«™ç‚¹å®æ–½å•å‘æ”¾è¡Œä¸é™æµï¼›æ¥é©³å…¬äº¤é€‚åº¦åŠ å¯†å¹¶è°ƒæ•´é¦–æœ«ç­æ—¶åˆ»ã€‚
+  - è·¯é¢äº¤é€šæ€»ä½“å¹³ç¨³ï¼Œäº¤é€šæ¢çº½å‘¨è¾¹è½¦é“ä¸´æ—¶å¯¼æ”¹ã€‚
 - Body (EN):
   - After 22:00, some stations implement one-way flow and limited entry; feeder buses increase frequency and adjust first/last runs.
   - Surface traffic remains steady; temporary lane changes near hubs.
-- Ğ§¹û / Effects£º
-  - ZH£º·³ÃÆµÄ¹«Ë¾Ö°Ô± +15%£¬¼±ÔêµÄ´óÑ§Éú +6%£¬ÓÑºÃµÄ×ÔÓÉÖ°ÒµÕß -5%
-  - EN£ºFrustrated office workers +15%, Irritable college students +6%, Friendly freelancers -5%
-- ³ÖĞø / Duration£º½öÒ»Ìì / One day only
+- æ•ˆæœ / Effectsï¼š
+  - ZHï¼šçƒ¦é—·çš„å…¬å¸èŒå‘˜ +15%ï¼Œæ€¥èºçš„å¤§å­¦ç”Ÿ +6%ï¼Œå‹å¥½çš„è‡ªç”±èŒä¸šè€… -5%
+  - ENï¼šFrustrated office workers +15%, Irritable college students +6%, Friendly freelancers -5%
+- æŒç»­ / Durationï¼šä»…ä¸€å¤© / One day only
 
-## 6. ÉÌÈ¦ÑÓÊ±ÓªÒµ¹«¸æ / Extended Hours in Shopping Districts
+## 6. å•†åœˆå»¶æ—¶è¥ä¸šå…¬å‘Š / Extended Hours in Shopping Districts
 
-- ÕªÒª£¨ZH£©£º
-  - ÉÌÎñÓëÁãÊÛĞ­»á·¢²¼£ººËĞÄÉÌÈ¦½ñÒ¹²¿·ÖÃÅµêÑÓÊ±ÓªÒµ²¢¿ªÕ¹Ö÷Ìâ´ÙÏú¡£
-  - »î¶¯¸²¸Ç²ÍÒû¡¢ÎÄ´´ÓëÉú»î·şÎñ£¬Ô¤¼ÆÈËÁ÷»ØÂäÑÓºó¡£
+- æ‘˜è¦ï¼ˆZHï¼‰ï¼š
+  - å•†åŠ¡ä¸é›¶å”®åä¼šå‘å¸ƒï¼šæ ¸å¿ƒå•†åœˆä»Šå¤œéƒ¨åˆ†é—¨åº—å»¶æ—¶è¥ä¸šå¹¶å¼€å±•ä¸»é¢˜ä¿ƒé”€ã€‚
+  - æ´»åŠ¨è¦†ç›–é¤é¥®ã€æ–‡åˆ›ä¸ç”Ÿæ´»æœåŠ¡ï¼Œé¢„è®¡äººæµå›è½å»¶åã€‚
 - Abstract (EN):
   - Business and retail associations announce extended hours and themed promotions in core shopping districts tonight.
   - Events cover F&B, culture, and services; crowd dispersal may be delayed.
-- ÕıÎÄ£¨ZH£©£º
-  - 20 Ê±ÖÁ 23 Ê±ÉèÖÃÁÙÊ±Òıµ¼ÓëÑ²²é£»¾°¹ÛÕÕÃ÷Óë¹ã¸æÆÁ°´½ÚÄÜ²ßÂÔ·ÖÊ±Æô±Õ¡£
-  - Í£³µ³¡Ìİ´Î¿ª·Å£¬µØÃæµÀÂ·ÔöÉèÁÙÍ£¹Ü¿Ø¡£
+- æ­£æ–‡ï¼ˆZHï¼‰ï¼š
+  - 20 æ—¶è‡³ 23 æ—¶è®¾ç½®ä¸´æ—¶å¼•å¯¼ä¸å·¡æŸ¥ï¼›æ™¯è§‚ç…§æ˜ä¸å¹¿å‘Šå±æŒ‰èŠ‚èƒ½ç­–ç•¥åˆ†æ—¶å¯é—­ã€‚
+  - åœè½¦åœºæ¢¯æ¬¡å¼€æ”¾ï¼Œåœ°é¢é“è·¯å¢è®¾ä¸´åœç®¡æ§ã€‚
 - Body (EN):
-  - Temporary guidance and patrols operate 20:00¨C23:00; landscape lighting and displays follow energy-saving schedules.
+  - Temporary guidance and patrols operate 20:00â€“23:00; landscape lighting and displays follow energy-saving schedules.
   - Parking opens in phases; short-stay controls added on surface roads.
-- Ğ§¹û / Effects£º
-  - ZH£ºÓÑºÃµÄ¹«Ë¾Ö°Ô± +8%£¬ÌôÌŞµÄ±©·¢»§ +12%£¬Ã¦ÂµµÄĞ¡Áìµ¼ -4%
-  - EN£ºFriendly office workers +8%, Picky tycoons +12%, Busy team leads -4%
-- ³ÖĞø / Duration£º½öÒ»Ìì / One day only
+- æ•ˆæœ / Effectsï¼š
+  - ZHï¼šå‹å¥½çš„å…¬å¸èŒå‘˜ +8%ï¼ŒæŒ‘å‰”çš„æš´å‘æˆ· +12%ï¼Œå¿™ç¢Œçš„å°é¢†å¯¼ -4%
+  - ENï¼šFriendly office workers +8%, Picky tycoons +12%, Busy team leads -4%
+- æŒç»­ / Durationï¼šä»…ä¸€å¤© / One day only
 
-## 7. »áÕ¹ÖĞĞÄÒ¹¼ä²¼Õ¹ / Convention Center Night Setup
+## 7. ä¼šå±•ä¸­å¿ƒå¤œé—´å¸ƒå±• / Convention Center Night Setup
 
-- ÕªÒª£¨ZH£©£º
-  - »áÕ¹ÖĞĞÄ½ñÍí¼¯ÖĞ²¼Õ¹Óë´î½¨£¬ÖÜ±ßÇøÓòÊµÊ©ÏŞÊ±×÷Òµ¹Ü¿Ø¡£
-  - Ö÷°ì·½ÌáÊ¾´í·åÍ¨ĞĞÓë¶¨ÏßÂ·¾¶¡£
+- æ‘˜è¦ï¼ˆZHï¼‰ï¼š
+  - ä¼šå±•ä¸­å¿ƒä»Šæ™šé›†ä¸­å¸ƒå±•ä¸æ­å»ºï¼Œå‘¨è¾¹åŒºåŸŸå®æ–½é™æ—¶ä½œä¸šç®¡æ§ã€‚
+  - ä¸»åŠæ–¹æç¤ºé”™å³°é€šè¡Œä¸å®šçº¿è·¯å¾„ã€‚
 - Abstract (EN):
   - The convention center conducts concentrated night setup with time-limited operational controls in surrounding areas.
   - Organizers advise off-peak access via designated routes.
-- ÕıÎÄ£¨ZH£©£º
-  - 18 Ê±ÆğÎïÁ÷Óë²¼Õ¹³µÁ¾·ÖÅú½ø³ö£»²½ĞĞÇøÉèÖÃÁÙÊ±¸ôÀëÓëÌáÊ¾ÅÆ¡£
-  - ¹«¹²½»Í¨¼ÓÃÜ»áÕ¹×¨Ïß£¬³£¹æÏßÂ·Ê±¿Ì²»±ä¡£
+- æ­£æ–‡ï¼ˆZHï¼‰ï¼š
+  - 18 æ—¶èµ·ç‰©æµä¸å¸ƒå±•è½¦è¾†åˆ†æ‰¹è¿›å‡ºï¼›æ­¥è¡ŒåŒºè®¾ç½®ä¸´æ—¶éš”ç¦»ä¸æç¤ºç‰Œã€‚
+  - å…¬å…±äº¤é€šåŠ å¯†ä¼šå±•ä¸“çº¿ï¼Œå¸¸è§„çº¿è·¯æ—¶åˆ»ä¸å˜ã€‚
 - Body (EN):
   - From 18:00, logistics and setup vehicles enter in batches; pedestrian zones receive temporary barriers and signages.
   - Public transport adds convention shuttles; regular lines unchanged.
-- Ğ§¹û / Effects£º
-  - ZH£ºÃ¦ÂµµÄ×ÔÓÉÖ°ÒµÕß +10%£¬ÓÑºÃµÄ´óÑ§Éú +9%£¬ÌôÌŞµÄ¹«Ë¾Ö°Ô± +5%
-  - EN£ºBusy freelancers +10%, Friendly college students +9%, Picky office workers +5%
-- ³ÖĞø / Duration£º½öÒ»Ìì / One day only
+- æ•ˆæœ / Effectsï¼š
+  - ZHï¼šå¿™ç¢Œçš„è‡ªç”±èŒä¸šè€… +10%ï¼Œå‹å¥½çš„å¤§å­¦ç”Ÿ +9%ï¼ŒæŒ‘å‰”çš„å…¬å¸èŒå‘˜ +5%
+  - ENï¼šBusy freelancers +10%, Friendly college students +9%, Picky office workers +5%
+- æŒç»­ / Durationï¼šä»…ä¸€å¤© / One day only
 
-## 8. Àä¿ÕÆøÈë³ÇÌáÊ¾ / Cold Front Advisory
+## 8. å†·ç©ºæ°”å…¥åŸæç¤º / Cold Front Advisory
 
-- ÕªÒª£¨ZH£©£º
-  - ÆøÏóÌ¨Í¨±¨£ºÈõÀä¿ÕÆøÈë³Ç£¬Íí¼äÆøÎÂ×ßµÍ£¬Ìå¸ĞÆ«Á¹¡£
-  - ½¨Òé¹Ø×¢ÒÂ×ÅÓë³öĞĞ°²ÅÅ£¬±ÜÃâ³¤Ê±¼äÊÒÍâÖÍÁô¡£
+- æ‘˜è¦ï¼ˆZHï¼‰ï¼š
+  - æ°”è±¡å°é€šæŠ¥ï¼šå¼±å†·ç©ºæ°”å…¥åŸï¼Œæ™šé—´æ°”æ¸©èµ°ä½ï¼Œä½“æ„Ÿåå‡‰ã€‚
+  - å»ºè®®å…³æ³¨è¡£ç€ä¸å‡ºè¡Œå®‰æ’ï¼Œé¿å…é•¿æ—¶é—´å®¤å¤–æ»ç•™ã€‚
 - Abstract (EN):
   - Weather services report a weak cold front lowering evening temperatures.
   - Citizens should dress appropriately and avoid extended outdoor stays.
-- ÕıÎÄ£¨ZH£©£º
-  - ¹«Ô°Óë±õË®²½µÀÈËÁ÷»òÌáÇ°»ØÂä£»²¿·Ö»§Íâ»î¶¯´Ó¼ò»òË³ÑÓ¡£
-  - ½»Í¨ÔËĞĞÕı³££¬¹«¹²ÉèÊ©Î¬³Ö³£Ì¬¿ª·Å¡£
+- æ­£æ–‡ï¼ˆZHï¼‰ï¼š
+  - å…¬å›­ä¸æ»¨æ°´æ­¥é“äººæµæˆ–æå‰å›è½ï¼›éƒ¨åˆ†æˆ·å¤–æ´»åŠ¨ä»ç®€æˆ–é¡ºå»¶ã€‚
+  - äº¤é€šè¿è¡Œæ­£å¸¸ï¼Œå…¬å…±è®¾æ–½ç»´æŒå¸¸æ€å¼€æ”¾ã€‚
 - Body (EN):
   - Park and riverside foot traffic may taper earlier; some outdoor events may be simplified or delayed.
   - Transport operates normally; public facilities remain open.
-- Ğ§¹û / Effects£º
-  - ZH£º·³ÃÆµÄ´óÑ§Éú +8%£¬ÓÑºÃµÄ×ÔÓÉÖ°ÒµÕß +6%£¬¼±ÔêµÄ¹«Ë¾Ö°Ô± -4%
-  - EN£ºFrustrated college students +8%, Friendly freelancers +6%, Irritable office workers -4%
-- ³ÖĞø / Duration£º½öÒ»Ìì / One day only
+- æ•ˆæœ / Effectsï¼š
+  - ZHï¼šçƒ¦é—·çš„å¤§å­¦ç”Ÿ +8%ï¼Œå‹å¥½çš„è‡ªç”±èŒä¸šè€… +6%ï¼Œæ€¥èºçš„å…¬å¸èŒå‘˜ -4%
+  - ENï¼šFrustrated college students +8%, Friendly freelancers +6%, Irritable office workers -4%
+- æŒç»­ / Durationï¼šä»…ä¸€å¤© / One day only
