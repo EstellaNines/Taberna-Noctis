@@ -235,14 +235,14 @@ public class GlassingClinking : MonoBehaviour
 		}
 		if (Application.isPlaying)
 		{
+			// 运行时统一走 AudioManager + 全局常量路径
 			if (audioTarget != null)
 			{
-				audioTarget.PlayOneShot(tiltSfx, tiltSfxVolume);
+				AudioManager.instance?.PlaySE(audioTarget, GlobalAudio.GlassClinking, tiltSfxVolume);
 			}
 			else
 			{
-				var pos = Camera.main != null ? Camera.main.transform.position : Vector3.zero;
-				AudioSource.PlayClipAtPoint(tiltSfx, pos, tiltSfxVolume);
+				AudioManager.instance?.PlaySE(GlobalAudio.GlassClinking, tiltSfxVolume);
 			}
 		}
 		#if UNITY_EDITOR

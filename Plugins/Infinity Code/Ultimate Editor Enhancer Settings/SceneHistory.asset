@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: SceneHistory
   m_EditorClassIdentifier: 
   _items:
+  - name: S_LoadingScreen
+    path: Assets/Scenes/S_LoadingScreen.unity
+  - name: 0_StartScreen
+    path: Assets/Scenes/0_StartScreen.unity
+  - name: 1_SaveFilesScreen
+    path: Assets/Scenes/1_SaveFilesScreen.unity
   - name: 3_DayScreen
     path: Assets/Scenes/3_DayScreen.unity
   - name: 2_DayMessageScreen
     path: Assets/Scenes/2_DayMessageScreen.unity
-  - name: 0_StartScreen
-    path: Assets/Scenes/0_StartScreen.unity
   - name: TEST
     path: Assets/Scenes/Test/TEST.unity
   - name: 2_DayScreen
@@ -27,10 +31,6 @@ MonoBehaviour:
     path: Assets/Scenes/3_NightScreen.unity
   - name: 4_SettlementScreen
     path: Assets/Scenes/4_SettlementScreen.unity
-  - name: S_LoadingScreen
-    path: Assets/Scenes/S_LoadingScreen.unity
-  - name: 1_SaveFilesScreen
-    path: Assets/Scenes/1_SaveFilesScreen.unity
   - name: StartScreen
     path: Assets/Scenes/StartScreen.unity
   - name: NightScreen

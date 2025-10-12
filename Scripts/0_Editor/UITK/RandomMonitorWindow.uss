@@ -23,9 +23,9 @@
     font-size: 12px;
 }
 
-/* Ê¹ÓÃ EditorColors ÖÐµÄ tag Àà£¬²»ÔÙÔÚ´Ë¶¨ÒåÑÕÉ« */
+/* ä½¿ç”¨ EditorColors ä¸­çš„ tag ç±»ï¼Œä¸å†åœ¨æ­¤å®šä¹‰é¢œè‰² */
 
-/* °´Å¥ÑÕÉ«ÓÉ EditorColors µÄ .btn-xxx Ìá¹© */
+/* æŒ‰é’®é¢œè‰²ç”± EditorColors çš„ .btn-xxx æä¾› */
 
 .samples {
     flex-direction: column;
@@ -75,7 +75,7 @@
     font-size: 10px;
 }
 
-/* gap ¼æÈÝ£ºÊ¹ÓÃ×ÓÔªËØ margin Ä£Äâ */
+/* gap å…¼å®¹ï¼šä½¿ç”¨å­å…ƒç´  margin æ¨¡æ‹Ÿ */
 .row > * { margin-right: 12px; }
 .chips > * { margin-right: 4px; margin-bottom: 4px; }
 .hist-row > * { margin-right: 6px; }

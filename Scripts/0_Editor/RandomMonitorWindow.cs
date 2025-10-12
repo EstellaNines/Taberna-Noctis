@@ -15,7 +15,7 @@ namespace TabernaNoctis.EditorTools
             Persistent
         }
 
-        [MenuItem("×ÔÖÆ¹¤¾ß/Ëæ»úÏµÍ³/Ëæ»úÊı¼à¿ØÆ÷")]
+        [MenuItem("è‡ªåˆ¶å·¥å…·/éšæœºç³»ç»Ÿ/éšæœºæ•°ç›‘æ§å™¨")]
         public static void ShowWindow()
         {
             var wnd = GetWindow<RandomMonitorWindow>();
@@ -45,7 +45,7 @@ namespace TabernaNoctis.EditorTools
         public void CreateGUI()
         {
             var root = rootVisualElement;
-            // ÒıÈëÈ«¾ÖÑÕÉ«Óë×é¼şÑùÊ½
+            // å¼•å…¥å…¨å±€é¢œè‰²ä¸ç»„ä»¶æ ·å¼
             root.styleSheets.Add(LoadStyle("Assets/Scripts/0_Editor/UITK/EditorColors.uss"));
             root.styleSheets.Add(LoadStyle("Assets/Scripts/0_Editor/UITK/RandomMonitorWindow.uss"));
 
@@ -77,11 +77,11 @@ namespace TabernaNoctis.EditorTools
             var header = new VisualElement();
             header.AddToClassList("section");
 
-            var title = new Label("Ëæ»úÊı¹ÜÀí¼à¿ØÆ÷ (UITK)");
+            var title = new Label("éšæœºæ•°ç®¡ç†ç›‘æ§å™¨ (UITK)");
             title.AddToClassList("section-title");
             header.Add(title);
 
-            _statusLabel = new Label("¾ÍĞ÷");
+            _statusLabel = new Label("å°±ç»ª");
             _statusLabel.AddToClassList("tag");
             _statusLabel.AddToClassList("tag-ok");
             header.Add(_statusLabel);
@@ -95,15 +95,15 @@ namespace TabernaNoctis.EditorTools
 
             var row1 = new VisualElement();
             row1.AddToClassList("row");
-            _playerIdField = new TextField("Íæ¼ÒID");
+            _playerIdField = new TextField("ç©å®¶ID");
             _playerIdField.RegisterValueChangedCallback(_ => UpdateInteractable());
             row1.Add(_playerIdField);
 
-            _streamKeyField = new TextField("Á÷Key");
+            _streamKeyField = new TextField("æµKey");
             _streamKeyField.RegisterValueChangedCallback(_ => UpdateInteractable());
             row1.Add(_streamKeyField);
 
-            _streamTypeField = new EnumField("ÀàĞÍ", StreamType.Daily);
+            _streamTypeField = new EnumField("ç±»å‹", StreamType.Daily);
             _streamTypeField.Init(StreamType.Daily);
             _streamTypeField.RegisterValueChangedCallback(_ => UpdateInteractable());
             row1.Add(_streamTypeField);
@@ -111,22 +111,22 @@ namespace TabernaNoctis.EditorTools
 
             var row2 = new VisualElement();
             row2.AddToClassList("row");
-            _useUtcToggle = new Toggle("Ê¹ÓÃUTCÈÕÆÚ");
+            _useUtcToggle = new Toggle("ä½¿ç”¨UTCæ—¥æœŸ");
             _useUtcToggle.RegisterValueChangedCallback(_ => { _dateYmdField.value = NowDateString(_useUtcToggle.value); UpdateInteractable(); });
             row2.Add(_useUtcToggle);
 
-            _dateYmdField = new TextField("ÈÕÆÚ(yyyyMMdd)");
+            _dateYmdField = new TextField("æ—¥æœŸ(yyyyMMdd)");
             _dateYmdField.RegisterValueChangedCallback(_ => UpdateInteractable());
             row2.Add(_dateYmdField);
 
-            _consumeToggle = new Toggle("²ÉÑùÏûºÄ×´Ì¬");
-            _consumeToggle.tooltip = "¿ªÆôºó£¬Ô¤ÀÀ»áÍÆ½øËæ»úÁ÷²¢±£´æ£¨·À´ô£ºÈç½ö²é¿´Çë¹Ø±Õ£©";
+            _consumeToggle = new Toggle("é‡‡æ ·æ¶ˆè€—çŠ¶æ€");
+            _consumeToggle.tooltip = "å¼€å¯åï¼Œé¢„è§ˆä¼šæ¨è¿›éšæœºæµå¹¶ä¿å­˜ï¼ˆé˜²å‘†ï¼šå¦‚ä»…æŸ¥çœ‹è¯·å…³é—­ï¼‰";
             row2.Add(_consumeToggle);
             inputs.Add(row2);
 
             var row3 = new VisualElement();
             row3.AddToClassList("row");
-            _sampleCountSlider = new SliderInt("²ÉÑùÊıÁ¿", 10, 200) { value = 50 };
+            _sampleCountSlider = new SliderInt("é‡‡æ ·æ•°é‡", 10, 200) { value = 50 };
             _sampleCountSlider.showInputField = true;
             row3.Add(_sampleCountSlider);
             inputs.Add(row3);
@@ -142,20 +142,20 @@ namespace TabernaNoctis.EditorTools
             var row = new VisualElement();
             row.AddToClassList("row");
 
-            _btnLoadInit = new Button(OnLoadInit) { text = "¼ÓÔØ/³õÊ¼»¯Á÷" };
+            _btnLoadInit = new Button(OnLoadInit) { text = "åŠ è½½/åˆå§‹åŒ–æµ" };
             _btnLoadInit.AddToClassList("btn");
             _btnLoadInit.AddToClassList("btn-success");
             row.Add(_btnLoadInit);
 
-            _btnPreview = new Button(OnPreview) { text = "Ô¤ÀÀÑù±¾" };
+            _btnPreview = new Button(OnPreview) { text = "é¢„è§ˆæ ·æœ¬" };
             _btnPreview.AddToClassList("btn");
             row.Add(_btnPreview);
 
-            _btnHistogram = new Button(OnHistogram) { text = "Ö±·½Í¼" };
+            _btnHistogram = new Button(OnHistogram) { text = "ç›´æ–¹å›¾" };
             _btnHistogram.AddToClassList("btn");
             row.Add(_btnHistogram);
 
-            _btnClear = new Button(OnClear) { text = "Çå³ıES3×´Ì¬" };
+            _btnClear = new Button(OnClear) { text = "æ¸…é™¤ES3çŠ¶æ€" };
             _btnClear.AddToClassList("btn");
             _btnClear.AddToClassList("btn-danger");
             row.Add(_btnClear);
@@ -171,7 +171,7 @@ namespace TabernaNoctis.EditorTools
 
             var row1 = new VisualElement();
             row1.AddToClassList("row");
-            var label1 = new Label("²ÉÑù¿ÉÊÓ»¯");
+            var label1 = new Label("é‡‡æ ·å¯è§†åŒ–");
             label1.AddToClassList("subtitle");
             row1.Add(label1);
             vis.Add(row1);
@@ -182,7 +182,7 @@ namespace TabernaNoctis.EditorTools
 
             var row2 = new VisualElement();
             row2.AddToClassList("row");
-            var label2 = new Label("Ö±·½Í¼ (10 bins)");
+            var label2 = new Label("ç›´æ–¹å›¾ (10 bins)");
             label2.AddToClassList("subtitle");
             row2.Add(label2);
             vis.Add(row2);
@@ -209,7 +209,7 @@ namespace TabernaNoctis.EditorTools
             _btnHistogram?.SetEnabled(ok);
             _btnClear?.SetEnabled(ok);
 
-            _statusLabel.text = ok ? (isDaily ? "Ã¿ÈÕÁ÷£ºÊäÈëÓĞĞ§" : "³Ö¾ÃÁ÷£ºÊäÈëÓĞĞ§") : "ÇëÌîĞ´±ØÌîÏî»òĞŞÕıÈÕÆÚ";
+            _statusLabel.text = ok ? (isDaily ? "æ¯æ—¥æµï¼šè¾“å…¥æœ‰æ•ˆ" : "æŒä¹…æµï¼šè¾“å…¥æœ‰æ•ˆ") : "è¯·å¡«å†™å¿…å¡«é¡¹æˆ–ä¿®æ­£æ—¥æœŸ";
             _statusLabel.RemoveFromClassList("tag-ok");
             _statusLabel.RemoveFromClassList("tag-warn");
             _statusLabel.AddToClassList(ok ? "tag-ok" : "tag-warn");
@@ -226,11 +226,11 @@ namespace TabernaNoctis.EditorTools
                 else
                     _ = RandomService.Instance.GetPersistentStream(streamKey, playerId, autoSave: true);
 
-                ShowOk("ÒÑ¼ÓÔØ/³õÊ¼»¯Ëæ»úÁ÷²¢±£´æ×´Ì¬");
+                ShowOk("å·²åŠ è½½/åˆå§‹åŒ–éšæœºæµå¹¶ä¿å­˜çŠ¶æ€");
             }
             catch (Exception e)
             {
-                ShowErr("¼ÓÔØÊ§°Ü: " + e.Message);
+                ShowErr("åŠ è½½å¤±è´¥: " + e.Message);
             }
         }
 
@@ -259,11 +259,11 @@ namespace TabernaNoctis.EditorTools
                 }
 
                 DrawSamples(samples);
-                ShowOk(consume ? "Ô¤ÀÀÍê³É£¨ÒÑÏûºÄ×´Ì¬£©" : "Ô¤ÀÀÍê³É£¨Î´ÏûºÄ×´Ì¬£©");
+                ShowOk(consume ? "é¢„è§ˆå®Œæˆï¼ˆå·²æ¶ˆè€—çŠ¶æ€ï¼‰" : "é¢„è§ˆå®Œæˆï¼ˆæœªæ¶ˆè€—çŠ¶æ€ï¼‰");
             }
             catch (Exception e)
             {
-                ShowErr("Ô¤ÀÀÊ§°Ü: " + e.Message);
+                ShowErr("é¢„è§ˆå¤±è´¥: " + e.Message);
             }
         }
 
@@ -291,11 +291,11 @@ namespace TabernaNoctis.EditorTools
                 }
 
                 DrawHistogram(samples, 10);
-                ShowOk(consume ? "Ö±·½Í¼Íê³É£¨ÒÑÏûºÄ×´Ì¬£©" : "Ö±·½Í¼Íê³É£¨Î´ÏûºÄ×´Ì¬£©");
+                ShowOk(consume ? "ç›´æ–¹å›¾å®Œæˆï¼ˆå·²æ¶ˆè€—çŠ¶æ€ï¼‰" : "ç›´æ–¹å›¾å®Œæˆï¼ˆæœªæ¶ˆè€—çŠ¶æ€ï¼‰");
             }
             catch (Exception e)
             {
-                ShowErr("Ö±·½Í¼Ê§°Ü: " + e.Message);
+                ShowErr("ç›´æ–¹å›¾å¤±è´¥: " + e.Message);
             }
         }
 
@@ -305,21 +305,21 @@ namespace TabernaNoctis.EditorTools
             string key = isDaily ? Es3KeyDaily(playerId, date, streamKey) : Es3KeyPersist(playerId, streamKey);
             if (!_store.Exists(key))
             {
-                ShowWarn("ÎŞ¿ÉÇå³ıµÄ×´Ì¬");
+                ShowWarn("æ— å¯æ¸…é™¤çš„çŠ¶æ€");
                 return;
             }
 
-            if (!EditorUtility.DisplayDialog("Çå³ıÈ·ÈÏ", "¸Ã²Ù×÷½«É¾³ı¸ÃÁ÷µÄÒÑ±£´æËæ»ú×´Ì¬£¬È·¶¨¼ÌĞø£¿", "È·¶¨", "È¡Ïû"))
+            if (!EditorUtility.DisplayDialog("æ¸…é™¤ç¡®è®¤", "è¯¥æ“ä½œå°†åˆ é™¤è¯¥æµçš„å·²ä¿å­˜éšæœºçŠ¶æ€ï¼Œç¡®å®šç»§ç»­ï¼Ÿ", "ç¡®å®š", "å–æ¶ˆ"))
                 return;
 
             try
             {
                 ES3.DeleteKey(key);
-                ShowOk("ÒÑÇå³ı ES3 ×´Ì¬");
+                ShowOk("å·²æ¸…é™¤ ES3 çŠ¶æ€");
             }
             catch (Exception e)
             {
-                ShowErr("Çå³ıÊ§°Ü: " + e.Message);
+                ShowErr("æ¸…é™¤å¤±è´¥: " + e.Message);
             }
         }
 
@@ -389,7 +389,7 @@ namespace TabernaNoctis.EditorTools
             {
                 if (!TryParseYmd(_dateYmdField.value, out date))
                 {
-                    ShowWarn("ÈÕÆÚ¸ñÊ½Ó¦Îª yyyyMMdd");
+                    ShowWarn("æ—¥æœŸæ ¼å¼åº”ä¸º yyyyMMdd");
                     return false;
                 }
                 if (_useUtcToggle.value)
@@ -401,7 +401,7 @@ namespace TabernaNoctis.EditorTools
 
             if (string.IsNullOrWhiteSpace(playerId) || string.IsNullOrWhiteSpace(streamKey))
             {
-                ShowWarn("ÇëÌîĞ´ Íæ¼ÒID Óë Á÷Key");
+                ShowWarn("è¯·å¡«å†™ ç©å®¶ID ä¸ æµKey");
                 return false;
             }
             return true;
