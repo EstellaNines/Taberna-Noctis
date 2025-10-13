@@ -193,17 +193,12 @@ public class DayEndScreen : MonoBehaviour
 
 	public void OnContinueClicked()
 	{
-		// 1. 自动保存（新一天）
-		if (SaveManager.Instance != null)
-		{
-			try { SaveManager.Instance.SaveNewDay(); } catch { }
-		}
-		// 2. 时间系统推进到新一天
+		// 1. 时间系统推进到新一天（内部已包含自动保存流程）
 		if (TimeSystemManager.Instance != null)
 		{
 			TimeSystemManager.Instance.StartNewDay();
 		}
-		// 3. 关闭结算界面（或通过场景切换回 DayScene）
+		// 2. 关闭结算界面（或通过场景切换回 DayScene）
 		gameObject.SetActive(false);
 		// 可选：通过 GlobalSceneManager 切换到 DayScene
 		// GlobalSceneManager.LoadWithLoadingScreen("DayScene", UnityEngine.SceneManagement.LoadSceneMode.Single);

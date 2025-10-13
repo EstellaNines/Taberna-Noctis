@@ -57,7 +57,16 @@ public class SaveManager : MonoBehaviour
 	public void DeleteSaveSlot(string slotID)
 	{
 		string key = SAVE_KEY_PREFIX + slotID;
-		if (ES3.KeyExists(key)) ES3.DeleteKey(key);
+		string backupKey = key + "_backup";
+		bool deleted = false;
+		if (ES3.KeyExists(key)) { ES3.DeleteKey(key); deleted = true; }
+		if (ES3.KeyExists(backupKey)) { ES3.DeleteKey(backupKey); deleted = true; }
+		// 若删除的是当前已加载槽位，清空内存状态，避免后续写回
+		if (_currentSlotID == slotID)
+		{
+			_current = null;
+			_currentSlotID = null;
+		}
 	}
 
 	public List<SaveSlotInfo> GetAllSaveSlots()
@@ -118,16 +127,8 @@ public class SaveManager : MonoBehaviour
 	public void SaveNewDay()
 	{
 		EnsureCurrentLoaded();
-        var snap = GenerateSaveData();
-		// 新一天初始化
-		snap.currentDay = Math.Max(1, snap.currentDay + 1);
-		snap.totalDaysCompleted = Math.Max(0, snap.currentDay - 1);
-		snap.currentPhase = TimePhase.Morning;
-		snap.daySubPhase = DaySubPhase.MorningStocking;
-		snap.clockHour = 8; snap.clockMinute = 0; snap.phaseRemainingTime = 180f;
-		snap.todayIncome = 0; snap.todayExpense = 0; snap.todayCustomersServed = 0; snap.todayAverageScore = 0f;
-		snap.todayPurchasedItems.Clear(); snap.todayRecipesCreated = 0;
-		snap.todayStockingCompleted = false; snap.todayMenuSelected = false; snap.currentMenuRecipeIDs.Clear();
+		var snap = GenerateSaveData();
+		// 不在存档层做“加一天”，避免与 TimeSystemManager.StartNewDay 的 currentDay++ 重复
 		if (!SaveDataValidator.Validate(snap, out var errors))
 		{
 			Debug.LogError("[SaveManager] SaveNewDay Validate failed:\n" + string.Join("\n", errors));

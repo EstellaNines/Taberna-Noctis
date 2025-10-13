@@ -286,6 +286,12 @@ public class TimeSystemManager : MonoBehaviour
     /// </summary>
     public void StartNewDay()
     {
+        // 仅允许在结算流程中调用，防止重复调用导致天数被加两次
+        if (!inSettlementFlow)
+        {
+            Debug.LogWarning("[TimeSystem] StartNewDay 被忽略：当前不在结算流程，避免重复加天");
+            return;
+        }
         // 开始新一天前进行自动保存（保存点3）
         if (enableAutoSave && SaveManager.Instance != null)
         {
