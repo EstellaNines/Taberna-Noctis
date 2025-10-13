@@ -111,6 +111,7 @@ public class GlobalSceneManager : MonoBehaviour
         // 先切到 LoadingScreen（从配置读取）
         var loading = sequenceConfig != null && !string.IsNullOrEmpty(sequenceConfig.loadingScreenSceneName)
             ? sequenceConfig.loadingScreenSceneName : "S_LoadingScreen";
+		Debug.Log($"[GlobalSceneManager] Request -> Loading:'{loading}' then Target:'{_currentTargetScene}' Mode:{_currentMode}");
         SceneManager.LoadScene(loading, LoadSceneMode.Single);
 		// 发送 LoadingRequest，让 LoadingScreen 自主开始异步加载目标场景
         var req = new LoadingRequest { targetSceneName = _currentTargetScene, mode = mode };
@@ -165,6 +166,7 @@ public class GlobalSceneManager : MonoBehaviour
         target = NormalizeSceneName(target);
 		if (!string.IsNullOrEmpty(target))
 		{
+			Debug.Log($"[GlobalSceneManager] Activate -> '{target}' Mode:{_currentMode}");
 			SceneManager.LoadScene(target, _currentMode);
             UpdateCurrentIndexByName(target);
 		}
@@ -207,15 +209,19 @@ public class GlobalSceneManager : MonoBehaviour
         if (sequenceConfig == null || index < 0 || index >= sequenceConfig.orderedScenes.Count) return;
         var entry = sequenceConfig.orderedScenes[index];
         _currentIndex = index;
+		Debug.Log($"[GlobalSceneManager] GoToIndex -> {index} '{entry.sceneName}' Mode:{entry.loadMode}");
         LoadWithLoadingScreen(entry.sceneName, entry.loadMode);
     }
 
     private int IndexOfScene(string name)
     {
         if (sequenceConfig == null || sequenceConfig.orderedScenes == null) return -1;
+        var target = NormalizeSceneName(name);
         for (int i = 0; i < sequenceConfig.orderedScenes.Count; i++)
         {
-            if (string.Equals(sequenceConfig.orderedScenes[i].sceneName, name, StringComparison.Ordinal)) return i;
+            var entry = sequenceConfig.orderedScenes[i];
+            var entryName = NormalizeSceneName(entry.sceneName);
+            if (string.Equals(entryName, target, StringComparison.OrdinalIgnoreCase)) return i;
         }
         return -1;
     }
@@ -229,6 +235,9 @@ public class GlobalSceneManager : MonoBehaviour
     private string NormalizeSceneName(string name)
     {
         if (string.IsNullOrEmpty(name)) return name;
+        // 统一空格与下划线
+        name = name.Trim();
+        if (name.IndexOf(' ') >= 0) name = name.Replace(' ', '_');
         // 兼容旧名称到新编号前缀
         if (string.Equals(name, "StartScreen", StringComparison.Ordinal)) return "0_StartScreen";
         if (string.Equals(name, "SaveFilesScreen", StringComparison.Ordinal)) return "1_SaveFilesScreen";

@@ -58,9 +58,8 @@ public class SaveManager : MonoBehaviour
 	{
 		string key = SAVE_KEY_PREFIX + slotID;
 		string backupKey = key + "_backup";
-		bool deleted = false;
-		if (ES3.KeyExists(key)) { ES3.DeleteKey(key); deleted = true; }
-		if (ES3.KeyExists(backupKey)) { ES3.DeleteKey(backupKey); deleted = true; }
+		if (ES3.KeyExists(key)) { ES3.DeleteKey(key); }
+		if (ES3.KeyExists(backupKey)) { ES3.DeleteKey(backupKey); }
 		// 若删除的是当前已加载槽位，清空内存状态，避免后续写回
 		if (_currentSlotID == slotID)
 		{

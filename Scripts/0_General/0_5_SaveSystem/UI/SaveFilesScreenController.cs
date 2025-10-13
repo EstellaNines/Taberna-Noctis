@@ -13,10 +13,7 @@ public class SaveFilesScreenController : MonoBehaviour
 	[BoxGroup("槽位引用")]
 	[LabelText("槽位3")] public SaveSlotUI slot3;
 
-#if ODIN_INSPECTOR
-	[LabelText("??")]
-#endif
-	public string sceneAfterLoad = "3_DayScreen";
+    // 取消“直接指定场景”的入口，统一按顺序推进，避免跳过 DayMessage
 
 	private void OnEnable()
 	{
@@ -61,14 +58,11 @@ public class SaveFilesScreenController : MonoBehaviour
 		ui.Refresh(info);
 	}
 
-	private void OnLoad(int slotIndex)
-	{
-		SaveManager.Instance.LoadSaveSlot(slotIndex.ToString());
-		if (!string.IsNullOrEmpty(sceneAfterLoad))
-		{
-			GlobalSceneManager.LoadWithLoadingScreen(sceneAfterLoad, UnityEngine.SceneManagement.LoadSceneMode.Single);
-		}
-	}
+    private void OnLoad(int slotIndex)
+    {
+        SaveManager.Instance.LoadSaveSlot(slotIndex.ToString());
+        GlobalSceneManager.Next();
+    }
 
 	private void OnDelete(int slotIndex)
 	{

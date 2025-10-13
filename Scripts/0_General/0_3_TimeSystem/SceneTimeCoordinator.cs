@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 场景时间协调器：监听阶段切换，并通过全局场景管理器(GlobalSceneManager)切换场景。
@@ -7,10 +8,6 @@ using UnityEngine;
 /// </summary>
 public class SceneTimeCoordinator : MonoBehaviour
 {
-    [Header("场景名映射")]
-    [SerializeField] private string daySceneName = "3_DayScreen";
-    [SerializeField] private string nightSceneName = "4_NightScreen";
-    [SerializeField] private string settlementSceneName = "5_SettlementScreen";
 
     private void Awake()
     {
@@ -19,50 +16,39 @@ public class SceneTimeCoordinator : MonoBehaviour
 
     private void OnEnable()
     {
-        MessageManager.Register<TimePhase>(MessageDefine.PHASE_CHANGED, OnPhaseChanged);
-        // 夜晚完成后，直接跳转到结算场景
+        // 改为严格依据 SceneSequenceConfig 的顺序前进，不再用阶段名硬编码场景
+        MessageManager.Register<int>(MessageDefine.DAY_STARTED, OnDayStarted);
         MessageManager.Register<int>(MessageDefine.DAY_COMPLETED, OnDayCompleted);
     }
 
     private void OnDisable()
     {
-        MessageManager.Remove<TimePhase>(MessageDefine.PHASE_CHANGED, OnPhaseChanged);
+        MessageManager.Remove<int>(MessageDefine.DAY_STARTED, OnDayStarted);
         MessageManager.Remove<int>(MessageDefine.DAY_COMPLETED, OnDayCompleted);
     }
 
-    private void OnPhaseChanged(TimePhase phase)
+    // 开始新的一天：顺序推进到下一个
+    private void OnDayStarted(int day)
     {
-        switch (phase)
+        // 若当前是启动场景，则不自动推进；由玩家在Start界面选择
+        var active = SceneManager.GetActiveScene().name;
+        if (string.Equals(active, "0_StartScreen", System.StringComparison.Ordinal)) return;
+        // 若当前在结算场景，开始新一天应回到“日循环起点”（一般为 2_DayMessageScreen）
+        if (string.Equals(active, "5_SettlementScreen", System.StringComparison.Ordinal))
         {
-            case TimePhase.Morning:
-            case TimePhase.Afternoon:
-                RequestLoad(daySceneName);
-                break;
-            case TimePhase.Night:
-                RequestLoad(nightSceneName);
-                break;
+            GlobalSceneManager.GoToName("2_DayMessageScreen");
+            return;
         }
+        GlobalSceneManager.Next();
     }
 
+    // 当天完成：顺序推进，继续由顺序配置决定
     private void OnDayCompleted(int day)
     {
-        if (!string.IsNullOrEmpty(settlementSceneName))
-        {
-            RequestLoad(settlementSceneName);
-        }
+        GlobalSceneManager.Next();
     }
 
-    private void RequestLoad(string sceneName)
-    {
-        if (string.IsNullOrEmpty(sceneName)) return;
-        // 在进入 Loading 前先冻结计时
-        if (TimeSystemManager.Instance != null)
-        {
-            TimeSystemManager.Instance.PauseTimer();
-        }
-        // 交由全局场景管理器处理：带 LoadingScreen 的异步切换
-        GlobalSceneManager.LoadWithLoadingScreen(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
-    }
+    // 兼容旧引用：不再使用
 }
 
 
