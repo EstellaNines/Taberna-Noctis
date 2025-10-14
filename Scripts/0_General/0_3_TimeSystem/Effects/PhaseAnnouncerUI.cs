@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -93,12 +94,8 @@ public class PhaseAnnouncerUI : MonoBehaviour
     private void OnEnable()
     {
         MessageManager.Register<TimePhase>(MessageDefine.PHASE_CHANGED, OnPhaseChanged);
-        // 场景进入时也播一次
-        var mgr = TimeSystemManager.Instance;
-        if (mgr != null)
-        {
-            PlayForPhase(mgr.CurrentPhase);
-        }
+        // 场景进入时也播一次（基于当前场景与时间系统状态进行判断，避免直接运行场景时初始阶段错误）
+        PlayForPhase(GuessPhaseByActiveSceneOrManager());
     }
 
     private void OnDisable()
@@ -151,6 +148,38 @@ public class PhaseAnnouncerUI : MonoBehaviour
         _seq.Append(bannerImage.DOFade(0f, fadeOut));
         _seq.Join(phaseText.DOFade(0f, fadeOut));
         _seq.Join(phaseText.transform.DOScale(1f, fadeOut));
+    }
+
+    private TimePhase GuessPhaseByActiveSceneOrManager()
+    {
+        var active = SceneManager.GetActiveScene().name;
+        var mgr = TimeSystemManager.Instance;
+
+        // 若时间系统已初始化，优先采用其当前阶段；
+        // 但若与场景明显不匹配（如 NightScreen 却是 Morning），按场景纠偏。
+        if (mgr != null)
+        {
+            var phase = mgr.CurrentPhase;
+            if (!string.IsNullOrEmpty(active))
+            {
+                if (active.EndsWith("NightScreen")) return TimePhase.Night;
+                if (active.EndsWith("DayScreen"))
+                {
+                    // Day 场景默认从早上开始（后续时间系统会自动推进到下午）
+                    return TimePhase.Morning;
+                }
+            }
+            return phase;
+        }
+
+        // 无时间系统实例时的回退：按场景名判断
+        if (!string.IsNullOrEmpty(active))
+        {
+            if (active.EndsWith("NightScreen")) return TimePhase.Night;
+            if (active.EndsWith("DayScreen")) return TimePhase.Morning;
+        }
+        // 默认返回早上
+        return TimePhase.Morning;
     }
 }
 

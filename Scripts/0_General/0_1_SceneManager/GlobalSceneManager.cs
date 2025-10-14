@@ -246,6 +246,10 @@ public class GlobalSceneManager : MonoBehaviour
         if (string.Equals(name, "NightScreen", StringComparison.Ordinal)) return "4_NightScreen";
         if (string.Equals(name, "SettlementScreen", StringComparison.Ordinal)) return "5_SettlementScreen";
         if (string.Equals(name, "LoadingScreen", StringComparison.Ordinal)) return "S_LoadingScreen";
+
+        // 向后兼容：老编号映射到新编号
+        if (string.Equals(name, "2_DayScreen", StringComparison.Ordinal)) return "3_DayScreen";
+        if (string.Equals(name, "3_NightScreen", StringComparison.Ordinal)) return "4_NightScreen";
         return name;
     }
 

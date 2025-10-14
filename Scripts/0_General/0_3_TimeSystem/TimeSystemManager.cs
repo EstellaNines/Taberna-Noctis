@@ -107,6 +107,9 @@ public class TimeSystemManager : MonoBehaviour
 
     void Start()
     {
+        // 可选：根据当前激活场景设置起始阶段（用于直接运行某个场景时的纠偏）
+        TrySetPhaseByActiveSceneOnStart();
+
         // 初始化第一个阶段
         InitializePhase(currentPhase);
 
@@ -186,6 +189,48 @@ public class TimeSystemManager : MonoBehaviour
 
         Debug.Log($"[TimeSystem] 初始化阶段: {phase}, 时长={phaseDuration}秒, " +
                   $"起始时间={config.startHour:D2}:{config.startMinute:D2}, 流速={config.timeScale}");
+    }
+
+    [Header("启动阶段检测")]
+#if ODIN_INSPECTOR
+    [LabelText("按当前场景设置起始阶段")]
+#endif
+    [SerializeField] private bool setPhaseByActiveSceneOnStart = true;
+
+    private void TrySetPhaseByActiveSceneOnStart()
+    {
+        if (!setPhaseByActiveSceneOnStart) return;
+        var active = SceneManager.GetActiveScene().name;
+
+        string morningScene = GetPhaseSceneNameSafe(TimePhase.Morning);
+        string afternoonScene = GetPhaseSceneNameSafe(TimePhase.Afternoon);
+        string nightScene = GetPhaseSceneNameSafe(TimePhase.Night);
+
+        // Day 场景：早上起步（随后自动推进到下午）
+        if (!string.IsNullOrEmpty(morningScene) && string.Equals(active, morningScene, StringComparison.Ordinal) ||
+            !string.IsNullOrEmpty(afternoonScene) && string.Equals(active, afternoonScene, StringComparison.Ordinal))
+        {
+            currentPhase = TimePhase.Morning;
+            daySubPhase = DaySubPhase.MorningStocking;
+            isTimerPaused = false;
+            Debug.Log("[TimeSystem] 依据当前场景设置起始阶段 -> Morning");
+            return;
+        }
+
+        // Night 场景：直接夜晚
+        if (!string.IsNullOrEmpty(nightScene) && string.Equals(active, nightScene, StringComparison.Ordinal))
+        {
+            currentPhase = TimePhase.Night;
+            isTimerPaused = false;
+            Debug.Log("[TimeSystem] 依据当前场景设置起始阶段 -> Night");
+            return;
+        }
+    }
+
+    private string GetPhaseSceneNameSafe(TimePhase phase)
+    {
+        var cfg = GetPhaseConfig(phase);
+        return cfg != null ? cfg.sceneName : string.Empty;
     }
 
     /// <summary>
