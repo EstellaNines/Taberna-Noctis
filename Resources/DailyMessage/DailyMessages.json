@@ -1,0 +1,231 @@
+{
+	"version": 1,
+	"messages": [
+		{
+			"id": "DM01",
+			"title": "Daily Message 01",
+			"imagePath": "DailyMessage/Newspaper_01",
+			"adjustments": [
+				{
+					"identity": "CompanyEmployee",
+					"state": "Busy",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 12
+				},
+				{
+					"identity": "SmallLeader",
+					"state": "Irritable",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 8
+				},
+				{
+					"identity":"Student",
+					"state": "Friendly",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": -4
+				}
+			]
+		},
+		{
+			"id": "DM02",
+			"title": "Daily Message 02",
+			"imagePath": "DailyMessage/Newspaper_02",
+			"adjustments": [
+				{
+					"identity": "CompanyEmployee",
+					"state": "Melancholy",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 14
+				},
+				{
+					"identity": "Freelancer",
+					"state": "Busy",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 9
+				},
+				{
+					"identity": "Student",
+					"state": "Friendly",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": -5
+				}
+			]
+		},
+		{
+			"id": "DM03",
+			"title": "Daily Message 03",
+			"imagePath": "DailyMessage/Newspaper_03",
+			"adjustments": [
+				{
+					"identity": "Student",
+					"state": "Friendly",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 18
+				},
+				{
+					"identity": "CompanyEmployee",
+					"state": "Irritable",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 6
+				},
+				{
+					"identity": "Freelancer",
+					"state": "Picky",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": -4
+				}
+			]
+		},
+		{
+			"id": "DM04",
+			"title": "Daily Message 04",
+			"imagePath": "DailyMessage/Newspaper_04",
+			"adjustments": [
+				{
+					"identity": "SmallLeader",
+					"state": "Irritable",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 10
+				},
+				{
+					"identity": "CompanyEmployee",
+					"state": "Busy",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 12
+				},
+				{
+					"identity": "Boss",
+					"state": "Picky",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 6
+				}
+			]
+		},
+		{
+			"id": "DM05",
+			"title": "Daily Message 05",
+			"imagePath": "DailyMessage/Newspaper_05",
+			"adjustments": [
+				{
+					"identity": "CompanyEmployee",
+					"state": "Melancholy",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 15
+				},
+				{
+					"identity": "Student",
+					"state": "Irritable",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 6
+				},
+				{
+					"identity": "Freelancer",
+					"state": "Friendly",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": -5
+				}
+			]
+		},
+		{
+			"id": "DM06",
+			"title": "Daily Message 06",
+			"imagePath": "DailyMessage/Newspaper_06",
+			"adjustments": [
+				{
+					"identity": "CompanyEmployee",
+					"state": "Friendly",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 8
+				},
+				{
+					"identity": "Boss",
+					"state": "Picky",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 12
+				},
+				{
+					"identity": "SmallLeader",
+					"state": "Busy",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": -4
+				}
+			]
+		},
+		{
+			"id": "DM07",
+			"title": "Daily Message 07",
+			"imagePath": "DailyMessage/Newspaper_07",
+			"adjustments": [
+				{
+					"identity": "Freelancer",
+					"state": "Busy",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 10
+				},
+				{
+					"identity": "Student",
+					"state": "Friendly",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 9
+				},
+				{
+					"identity": "CompanyEmployee",
+					"state": "Picky",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 5
+				}
+			]
+		},
+		{
+			"id": "DM08",
+			"title": "Daily Message 08",
+			"imagePath": "DailyMessage/Newspaper_08",
+			"adjustments": [
+				{
+					"identity": "Student",
+					"state": "Melancholy",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 8
+				},
+				{
+					"identity": "Freelancer",
+					"state": "Friendly",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": 6
+				},
+				{
+					"identity": "CompanyEmployee",
+					"state": "Irritable",
+					"gender": "any",
+					"npcId": "",
+					"deltaPercent": -4
+				}
+			]
+		}
+	]
+}
+
+

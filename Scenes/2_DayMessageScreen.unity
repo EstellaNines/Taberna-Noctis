@@ -985,6 +985,9 @@ MonoBehaviour:
   morningMaterial: {fileID: 2100000, guid: 0c92cc36c0db6154dbd61249fae3ff52, type: 2}
   afternoonMaterial: {fileID: 2100000, guid: f1341b6ddeb5c5e4aaa50bc59cb3053b, type: 2}
   nightMaterial: {fileID: 2100000, guid: a22a3a14c2b8cb642a3543825a2b0f77, type: 2}
+  dayMessageSceneName: 2_DayMessageScreen
+  dayScreenSceneName: 3_DayScreen
+  nightScreenSceneName: 4_NightScreen
   colorInfluence1Name: _ColorInfluence_1
   colorInfluence2Name: _ColorInfluence_2
   startInfluence1: 0.25
@@ -1058,12 +1061,12 @@ MonoBehaviour:
   fadeInDuration: 0.5
   playOnStart: 1
   fadeEase: 6
+  dailyMessagePrefab: {fileID: 1450961101925469438, guid: f8ccf96e44560614b8e6db12b012c430, type: 3}
+  dailyMessageParent: {fileID: 2132102567}
+  dailyMessagesData: {fileID: 11400000, guid: 3c6e489fb03d71b42932c5092171e605, type: 2}
   enableDailyMessage: 1
-  dailyMessageSet: {fileID: 11400000, guid: 7431c77e135a67f48952ee7bc8102a07, type: 2}
-  dailyMessageTemplate: {fileID: 8762881344776546227, guid: f8ccf96e44560614b8e6db12b012c430, type: 3}
-  onDailyPicked:
-    m_PersistentCalls:
-      m_Calls: []
+  useSeed: 1
+  seed: 0
 --- !u!224 &2132102567
 RectTransform:
   m_ObjectHideFlags: 0

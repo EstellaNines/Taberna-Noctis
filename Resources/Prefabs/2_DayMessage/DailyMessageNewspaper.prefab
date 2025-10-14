@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 5383009236213026401}
   - component: {fileID: 6077816666917680438}
   - component: {fileID: 8762881344776546227}
-  - component: {fileID: 6193815058959760503}
+  - component: {fileID: 1450961101925469438}
   m_Layer: 5
   m_Name: DailyMessageNewspaper
   m_TagString: Untagged
@@ -480,7 +480,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6193815058959760503
+--- !u!114 &1450961101925469438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -489,9 +489,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4293488061925818156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61caf0e18da979445a2bff11b3619001, type: 3}
+  m_Script: {fileID: 11500000, guid: 765ef29a1c7bd90429969db2082b1f8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 3c6e489fb03d71b42932c5092171e605, type: 2}
   targetImage: {fileID: 8762881344776546227}
 --- !u!1 &6415800652677192471
 GameObject:
