@@ -1,5 +1,7 @@
 {
 	"CompanyEmployee": {
+		"roleId": "CompanyEmployee",
+		"tag": "CompanyEmployee",
 		"Busy": {
 			"Male": [
 				"Third round of revisions still didn't pass and the server's throwing alerts... Might crash on the office cot tonight. Hit me with something that keeps me going.",
@@ -62,6 +64,8 @@
 		}
 	},
 	"SmallLeader": {
+		"roleId": "SmallLeader",
+		"tag": "SmallLeader",
 		"Busy": {
 			"Male": [
 				"Reports, cross‑team herding, performance reviews—my to‑do list ate three pages. Mix me something that blurs reality for a minute.",
@@ -124,6 +128,8 @@
 		}
 	},
 	"Freelancer": {
+		"roleId": "Freelancer",
+		"tag": "Freelancer",
 		"Busy": {
 			"Male": [
 				"Three clients spamming, four apps open, mouse hand’s on fire. I need a life‑support cocktail or I'm face‑planting tonight.",
@@ -186,6 +192,8 @@
 		}
 	},
 	"Boss": {
+		"roleId": "Boss",
+		"tag": "Boss",
 		"Busy": {
 			"Male": [
 				"Third dinner, seven signatures, my gut's a booze grenade. I need a pressure‑drop pour—and don't cheap out on me.",
@@ -248,6 +256,8 @@
 		}
 	},
 	"Student": {
+		"roleId": "Student",
+		"tag": "Student",
 		"Busy": {
 			"Male": [
 				"Four papers due, two finished—on my eighth coffee. Any anti‑sleep potion on the menu? Not too strong, I still gotta grind.",

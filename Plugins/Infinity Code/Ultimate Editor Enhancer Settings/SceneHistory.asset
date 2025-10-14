@@ -15,6 +15,8 @@ MonoBehaviour:
   _items:
   - name: 2_DayMessageScreen
     path: Assets/Scenes/2_DayMessageScreen.unity
+  - name: 1_SaveFilesScreen
+    path: Assets/Scenes/1_SaveFilesScreen.unity
   - name: 3_DayScreen
     path: Assets/Scenes/3_DayScreen.unity
   - name: 4_NightScreen
@@ -25,8 +27,6 @@ MonoBehaviour:
     path: Assets/Scenes/S_LoadingScreen.unity
   - name: TEST
     path: Assets/Scenes/Test/TEST.unity
-  - name: 1_SaveFilesScreen
-    path: Assets/Scenes/1_SaveFilesScreen.unity
   - name: 2_DayScreen
     path: Assets/Scenes/2_DayScreen.unity
   - name: 3_NightScreen

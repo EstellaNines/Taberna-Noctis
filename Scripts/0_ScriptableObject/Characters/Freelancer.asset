@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e00ee9916f1af4cb5a036049c3d838, type: 3}
+  m_Name: Freelancer
+  m_EditorClassIdentifier: 
+  identityId: Freelancer
+  identityMultiplier: 1.1
+  dialoguesRefCN: Character/Dialogues/NPCDialogues
+  dialoguesRefEN: Character/Dialogues/NPCDialogues_en
+  dialogueTag: Freelancer
+  npcEntries:
+  - id: Freelancer_001_M
+    gender: male
+    name: Busy male Freelancer
+    initialMood: 5
+    visitPercent: 20
+    state: Busy
+  - id: Freelancer_001_F
+    gender: female
+    name: Busy female Freelancer
+    initialMood: 5
+    visitPercent: 20
+    state: Busy
+  - id: Freelancer_002_M
+    gender: male
+    name: Irritable male Freelancer
+    initialMood: 4
+    visitPercent: 20
+    state: Irritable
+  - id: Freelancer_002_F
+    gender: female
+    name: Irritable female Freelancer
+    initialMood: 4
+    visitPercent: 20
+    state: Irritable
+  - id: Freelancer_003_M
+    gender: male
+    name: Melancholy male Freelancer
+    initialMood: 3
+    visitPercent: 20
+    state: Melancholy
+  - id: Freelancer_003_F
+    gender: female
+    name: Melancholy female Freelancer
+    initialMood: 3
+    visitPercent: 20
+    state: Melancholy
+  - id: Freelancer_004_M
+    gender: male
+    name: Picky male Freelancer
+    initialMood: 4
+    visitPercent: 20
+    state: Picky
+  - id: Freelancer_004_F
+    gender: female
+    name: Picky female Freelancer
+    initialMood: 4
+    visitPercent: 20
+    state: Picky
+  - id: Freelancer_005_M
+    gender: male
+    name: Friendly male Freelancer
+    initialMood: 8
+    visitPercent: 20
+    state: Friendly
+  - id: Freelancer_005_F
+    gender: female
+    name: Friendly female Freelancer
+    initialMood: 8
+    visitPercent: 20
+    state: Friendly

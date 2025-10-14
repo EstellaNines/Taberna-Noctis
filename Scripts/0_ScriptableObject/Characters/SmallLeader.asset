@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e00ee9916f1af4cb5a036049c3d838, type: 3}
+  m_Name: SmallLeader
+  m_EditorClassIdentifier: 
+  identityId: SmallLeader
+  identityMultiplier: 1.2
+  dialoguesRefCN: Character/Dialogues/NPCDialogues
+  dialoguesRefEN: Character/Dialogues/NPCDialogues_en
+  dialogueTag: SmallLeader
+  npcEntries:
+  - id: SmallLeader_001_M
+    gender: male
+    name: Busy male SmallLeader
+    initialMood: 4
+    visitPercent: 20
+    state: Busy
+  - id: SmallLeader_001_F
+    gender: female
+    name: Busy female SmallLeader
+    initialMood: 4
+    visitPercent: 20
+    state: Busy
+  - id: SmallLeader_002_M
+    gender: male
+    name: Irritable male SmallLeader
+    initialMood: 3
+    visitPercent: 20
+    state: Irritable
+  - id: SmallLeader_002_F
+    gender: female
+    name: Irritable female SmallLeader
+    initialMood: 3
+    visitPercent: 20
+    state: Irritable
+  - id: SmallLeader_003_M
+    gender: male
+    name: Melancholy male SmallLeader
+    initialMood: 3
+    visitPercent: 20
+    state: Melancholy
+  - id: SmallLeader_003_F
+    gender: female
+    name: Melancholy female SmallLeader
+    initialMood: 3
+    visitPercent: 20
+    state: Melancholy
+  - id: SmallLeader_004_M
+    gender: male
+    name: Picky male SmallLeader
+    initialMood: 5
+    visitPercent: 20
+    state: Picky
+  - id: SmallLeader_004_F
+    gender: female
+    name: Picky female SmallLeader
+    initialMood: 5
+    visitPercent: 20
+    state: Picky
+  - id: SmallLeader_005_M
+    gender: male
+    name: Friendly male SmallLeader
+    initialMood: 8
+    visitPercent: 20
+    state: Friendly
+  - id: SmallLeader_005_F
+    gender: female
+    name: Friendly female SmallLeader
+    initialMood: 8
+    visitPercent: 20
+    state: Friendly

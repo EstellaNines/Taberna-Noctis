@@ -1,5 +1,7 @@
 {
 	"CompanyEmployee": {
+		"roleId": "CompanyEmployee",
+		"tag": "CompanyEmployee",
 		"Busy": {
 			"Male": [
 				"报表改到第三版了还没通过，服务器日志又开始报警……今晚怕是要在公司躺折叠床了，先来杯能续力的吧",
@@ -62,6 +64,8 @@
 		}
 	},
 	"SmallLeader": {
+		"roleId": "SmallLeader",
+		"tag": "SmallLeader",
 		"Busy": {
 			"Male": [
 				"部门报表、跨组协调会、下属绩效面谈……光记待办事项就写满了三页纸，调酒师，来杯能让人暂时忘事的",
@@ -124,6 +128,8 @@
 		}
 	},
 	"Freelancer": {
+		"roleId": "Freelancer",
+		"tag": "Freelancer",
 		"Busy": {
 			"Male": [
 				"三个甲方同时催稿，电脑开着四个设计软件，鼠标都快磨出火星了。急需一杯能续命的，不然今晚真要熬不住了",
@@ -186,6 +192,8 @@
 		}
 	},
 	"Boss": {
+		"roleId": "Boss",
+		"tag": "Boss",
 		"Busy": {
 			"Male": [
 				"刚结束第三场酒局，合同签了七个，胃里像装了个酒精炸弹。来杯能压一压的，别拿那些将就的糊弄",
@@ -248,6 +256,8 @@
 		}
 	},
 	"Student": {
+		"roleId": "Student",
+		"tag": "Student",
 		"Busy": {
 			"Male": [
 				"明天要交四篇论文，现在才写完两篇，咖啡已经续到第八杯了。调酒师，有能让人不困的酒吗？别太烈，我还得赶工",
