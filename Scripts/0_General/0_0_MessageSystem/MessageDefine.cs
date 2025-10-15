@@ -21,4 +21,12 @@ public static class MessageDefine
     public static readonly string SAVE_REQUESTED = "SAVE_REQUESTED";
     public static readonly string SAVE_COMPLETED = "SAVE_COMPLETED";
     public static readonly string SAVE_LOADED = "SAVE_LOADED";
+
+    // ========== 每日消息系统 ==========
+    public static readonly string DAILY_MESSAGE_APPLIED = "DAILY_MESSAGE_APPLIED";
+    public static readonly string DAILY_PROBABILITY_TO_NIGHT = "DAILY_PROBABILITY_TO_NIGHT";
+    
+    // ========== 每日消息查看器 ==========
+    // 可选：用于编辑器查看器主动请求刷新
+    public static readonly string DAILY_MESSAGE_LOG_REFRESH = "DAILY_MESSAGE_LOG_REFRESH";
 }

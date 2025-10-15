@@ -6,7 +6,7 @@ using UnityEngine;
 public class DailyMessagesData : ScriptableObject
 {
     [Header("Source JSON (Resources)")]
-    [Tooltip("Resources path to DailyMessages.json, e.g. DailyMessage/DailyMessages")] 
+    [Tooltip("Resources path to DailyMessages.json, e.g. DailyMessage/DailyMessages")]
     public string jsonResourcePath = "DailyMessage/DailyMessages"; // without .json
 
     [Serializable]
@@ -48,6 +48,11 @@ public class DailyMessagesData : ScriptableObject
     [Header("Data (filled from JSON)")]
     [Tooltip("Optional: populated via importer; used when not loading from Resources.")]
     public List<Entry> messagesInSO = new List<Entry>();
+
+    [Header("Runtime State")]
+    [Tooltip("最近一次随机选中的条目索引（-1 表示未知/未选过）；仅用于调试/查看器")]
+    [SerializeField] private int lastSelectedIndex = -1;
+    public int LastSelectedIndex => lastSelectedIndex;
 
     public Root Load()
     {
@@ -108,12 +113,14 @@ public class DailyMessagesData : ScriptableObject
         {
             var rng = new System.Random(seed.Value);
             int idx = rng.Next(0, source.Count);
-            return source[Mathf.Clamp(idx, 0, source.Count - 1)];
+            lastSelectedIndex = Mathf.Clamp(idx, 0, source.Count - 1);
+            return source[lastSelectedIndex];
         }
         else
         {
             int idx = UnityEngine.Random.Range(0, source.Count);
-            return source[Mathf.Clamp(idx, 0, source.Count - 1)];
+            lastSelectedIndex = Mathf.Clamp(idx, 0, source.Count - 1);
+            return source[lastSelectedIndex];
         }
     }
 }

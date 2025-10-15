@@ -6,33 +6,33 @@ using Sirenix.OdinInspector;
 using UnityEngine.Events;
 
 /// <summary>
-/// ±¨Ö½¶¯»­¿ØÖÆÆ÷£º°´ image ÁĞ±íË³ĞòÖğ²½ÏÔÊ¾Í¼Æ¬
+/// æŠ¥çº¸åŠ¨ç”»æ§åˆ¶å™¨ï¼šæŒ‰ image åˆ—è¡¨é¡ºåºé€æ­¥æ˜¾ç¤ºå›¾ç‰‡
 /// </summary>
 public class NewspaperAnimationController : MonoBehaviour
 {
-    [Title("±¨Ö½Í¼Æ¬ÉèÖÃ")]
-    [LabelText("±¨Ö½Í¼Æ¬")]
+    [Title("æŠ¥çº¸å›¾ç‰‡è®¾ç½®")]
+    [LabelText("æŠ¥çº¸å›¾ç‰‡")]
     [SerializeField] private List<Image> newspaperImages = new List<Image>();
 
-    [Title("ÏÔÊ¾²ÎÊı")]
-    [LabelText("Ã¿Ò³Ö®¼äµÄÑÓ³Ù")] [SerializeField] private float delayBetweenPages = 0.3f;
-    [LabelText("µ­Èë¶¯»­Ê±³¤")] [SerializeField] private float fadeInDuration = 0.5f;
-    [LabelText("ÊÇ·ñÔÚStartÊ±×Ô¶¯²¥·Å")] [SerializeField] private bool playOnStart = true;
-    [LabelText("µ­Èë»º¶¯ÇúÏß")] [SerializeField] private Ease fadeEase = Ease.OutQuad;
+    [Title("æ˜¾ç¤ºå‚æ•°")]
+    [LabelText("æ¯é¡µä¹‹é—´çš„å»¶è¿Ÿ")][SerializeField] private float delayBetweenPages = 0.3f;
+    [LabelText("æ·¡å…¥åŠ¨ç”»æ—¶é•¿")][SerializeField] private float fadeInDuration = 0.5f;
+    [LabelText("æ˜¯å¦åœ¨Startæ—¶è‡ªåŠ¨æ’­æ”¾")][SerializeField] private bool playOnStart = true;
+    [LabelText("æ·¡å…¥ç¼“åŠ¨æ›²çº¿")][SerializeField] private Ease fadeEase = Ease.OutQuad;
 
-    [Title("Ã¿ÈÕÏûÏ¢Ô¤ÖÆÌå")]
-    [LabelText("Ô¤ÖÆÌå(¹ÒÓĞ DailyMessageView)")] [SerializeField] private DailyMessageView dailyMessagePrefab;
-    [LabelText("Éú³Éµ½´Ë(¸¸¼¶)")] [SerializeField] private Transform dailyMessageParent;
-    [LabelText("Êı¾İ¶ÔÏó(SO)")] [SerializeField] private DailyMessagesData dailyMessagesData;
-    [LabelText("ÆôÓÃÃ¿ÈÕÏûÏ¢")] [SerializeField] private bool enableDailyMessage = false;
-    [LabelText("Ê¹ÓÃËæ»úÖÖ×Ó")] [SerializeField] private bool useSeed = false;
-    [LabelText("Ëæ»úÖÖ×Ó")] [SerializeField] private int seed = 0;
-    
-    
+    [Title("æ¯æ—¥æ¶ˆæ¯é¢„åˆ¶ä½“")]
+    [LabelText("é¢„åˆ¶ä½“(æŒ‚æœ‰ DailyMessageView)")][SerializeField] private DailyMessageView dailyMessagePrefab;
+    [LabelText("ç”Ÿæˆåˆ°æ­¤(çˆ¶çº§)")][SerializeField] private Transform dailyMessageParent;
+    [LabelText("æ•°æ®å¯¹è±¡(SO)")][SerializeField] private DailyMessagesData dailyMessagesData;
+    [LabelText("å¯ç”¨æ¯æ—¥æ¶ˆæ¯")][SerializeField] private bool enableDailyMessage = false;
+    [LabelText("ä½¿ç”¨å›ºå®šç§å­(è°ƒè¯•ç”¨)")][Tooltip("å¯ç”¨åä¼šåŸºäºå¤©æ•°æ··åˆç§å­ï¼Œç¡®ä¿æ¯å¤©ä¸åŒã€‚ç”Ÿäº§ç¯å¢ƒå»ºè®®å…³é—­ä½¿ç”¨çœŸéšæœºã€‚")][SerializeField] private bool useSeed = false;
+    [LabelText("ç§å­åŸºæ•°")][Tooltip("ä¼šä¸å½“å‰å¤©æ•°æ··åˆï¼šfinalSeed = seed + currentDay * 1000")][SerializeField] private int seed = 0;
+
+
 
     private Sequence _animationSequence;
-    
-    
+
+
 
     private void Start()
     {
@@ -43,21 +43,21 @@ public class NewspaperAnimationController : MonoBehaviour
     }
 
     /// <summary>
-    /// °´Ë³ĞòÖğ²½ÏÔÊ¾ËùÓĞ±¨Ö½£¬²¢×·¼ÓÃ¿ÈÕÏûÏ¢Ò³
+    /// æŒ‰é¡ºåºé€æ­¥æ˜¾ç¤ºæ‰€æœ‰æŠ¥çº¸ï¼Œå¹¶è¿½åŠ æ¯æ—¥æ¶ˆæ¯é¡µ
     /// </summary>
     public void PlayAnimation()
     {
-        // Í£Ö¹Ö®Ç°µÄ¶¯»­
+        // åœæ­¢ä¹‹å‰çš„åŠ¨ç”»
         StopAnimation();
 
-        // ³õÊ¼»¯ËùÓĞ±¨Ö½Îª²»¿É¼û
+        // åˆå§‹åŒ–æ‰€æœ‰æŠ¥çº¸ä¸ºä¸å¯è§
         InitializeNewspapers();
 
-        // Ã¿ÈÕĞÂÎÅÔ¤ÖÆÌåÍÆ³Ùµ½µÚ4ÕÅ±¨Ö½ÏÔÊ¾ºóÔÙÉú³É
+        // æ¯æ—¥æ–°é—»é¢„åˆ¶ä½“æ¨è¿Ÿåˆ°ç¬¬4å¼ æŠ¥çº¸æ˜¾ç¤ºåå†ç”Ÿæˆ
         bool spawnDailyAfterFour = enableDailyMessage && dailyMessagePrefab != null;
 
 
-        // ´´½¨¶¯»­ĞòÁĞ
+        // åˆ›å»ºåŠ¨ç”»åºåˆ—
         _animationSequence = DOTween.Sequence();
 
         for (int i = 0; i < newspaperImages.Count; i++)
@@ -67,11 +67,11 @@ public class NewspaperAnimationController : MonoBehaviour
 
             float delay = i * delayBetweenPages;
 
-            // »ñÈ¡»òÌí¼ÓCanvasGroup×é¼ş
+            // è·å–æˆ–æ·»åŠ CanvasGroupç»„ä»¶
             CanvasGroup canvasGroup = GetOrAddCanvasGroup(newspaper);
             canvasGroup.alpha = 0;
 
-            // ÏÈ¼¤»îGameObject£¬È»ºó²¥·Åµ­Èë¶¯»­
+            // å…ˆæ¿€æ´»GameObjectï¼Œç„¶åæ’­æ”¾æ·¡å…¥åŠ¨ç”»
             Image capturedNewspaper = newspaper;
             CanvasGroup capturedGroup = canvasGroup;
 
@@ -83,7 +83,7 @@ public class NewspaperAnimationController : MonoBehaviour
                 }
             });
 
-            // Ìí¼Óµ­Èë¶¯»­
+            // æ·»åŠ æ·¡å…¥åŠ¨ç”»
             _animationSequence.Insert(delay, capturedGroup.DOFade(1f, fadeInDuration).SetEase(fadeEase));
         }
 
@@ -102,30 +102,48 @@ public class NewspaperAnimationController : MonoBehaviour
                     Debug.LogWarning("[Newspaper] DailyMessagesData SO is null. Skipping daily message generation.");
                     return;
                 }
-                var entry = dailyMessagesData.GetRandomEntry(useSeed ? (int?)seed : null);
+                
+                // åŸºäºå½“å‰å¤©æ•°æ··åˆç§å­ï¼Œç¡®ä¿æ¯å¤©ä¸åŒ
+                int currentDay = TimeSystemManager.Instance != null ? TimeSystemManager.Instance.CurrentDay : 1;
+                int finalSeed = useSeed ? (seed + currentDay * 1000) : 0;
+                
+                var entry = dailyMessagesData.GetRandomEntry(useSeed ? (int?)finalSeed : null);
+                
+                if (useSeed)
+                {
+                    Debug.Log($"[Newspaper] ä½¿ç”¨ç§å­éšæœº: åŸºæ•°={seed}, å¤©æ•°={currentDay}, æœ€ç»ˆç§å­={finalSeed}");
+                }
+                
                 if (entry == null)
                 {
                     Debug.LogWarning("[Newspaper] No entries in DailyMessagesData.");
                     return;
                 }
-                // ¼ÓÔØÍ¼Æ¬²¢ÉèÖÃµ½Ô¤ÖÆÌå±©Â¶µÄ Image£¨Ö§³Ö 06/6 Ë«¸ñÊ½Èİ´í£©
+                // åŠ è½½å›¾ç‰‡å¹¶è®¾ç½®åˆ°é¢„åˆ¶ä½“æš´éœ²çš„ Imageï¼ˆæ”¯æŒ 06/6 åŒæ ¼å¼å®¹é”™ï¼‰
                 Sprite sprite = !string.IsNullOrEmpty(entry.imagePath) ? LoadSpriteWithFallback(entry.imagePath) : null;
                 view.SetSprite(sprite);
 
-                // ´òÓ¡µ÷Õû¸ÅÂÊ£¨ÖĞÎÄ£¬¸½Ç°ºó±ä»¯£©
-                if (entry.adjustments != null)
+                // ä½¿ç”¨æ–°ç‰ˆ25ç»„åˆæ¦‚ç‡è®¡ç®—å™¨
+                var probabilityResult = VisitProbabilityCalculator.CalculateProbabilities(entry.adjustments);
+                
+                // æ‰“å°æ–°ç‰ˆ25ç»„åˆæ¦‚ç‡è°ƒæ•´ï¼ˆè¯¦ç»†ä¿¡æ¯ï¼‰
+                Debug.Log($"[æ¯æ—¥æ¶ˆæ¯] {entry.id}ã€Š{entry.title}ã€‹ - æ–°ç‰ˆ25ç»„åˆæ¦‚ç‡è®¡ç®—å®Œæˆ");
+                Debug.Log(probabilityResult.calculationSummary);
+                
+                // æ‰“å°å—å½±å“çš„ç»„åˆè¯¦æƒ…
+                if (entry.adjustments != null && entry.adjustments.Count > 0)
                 {
-                    for (int i = 0; i < entry.adjustments.Count; i++)
+                    Debug.Log($"[æ¯æ—¥æ¶ˆæ¯] å—å½±å“çš„ç»„åˆè¯¦æƒ…:");
+                    foreach (var combo in probabilityResult.combinations)
                     {
-                        var a = entry.adjustments[i];
-                        // »ùÓÚ 5 ¸ö×´Ì¬Æ½¾ù·ÖÅä£ºÃ¿×´Ì¬»ùÏß 20%
-                        float before = 20f;
-                        float after = Mathf.Max(0f, before + a.deltaPercent);
-                        Debug.Log($"[Ã¿ÈÕÏûÏ¢] {entry.id}¡¶{entry.title}¡· ¡ú Éí·İ:{a.identity} ×´Ì¬:{a.state} ĞÔ±ğ:{a.gender} NPC:{a.npcId} | µ½·Ã¸ÅÂÊ: {before:F1}% ¡ú {after:F1}% (±ä»¯ {a.deltaPercent:+0.0;-0.0;0.0}%)");
+                        if (Mathf.Abs(combo.adjustment) > 0.01f) // åªæ˜¾ç¤ºæœ‰è°ƒæ•´çš„ç»„åˆ
+                        {
+                            Debug.Log($"  {combo}");
+                        }
                     }
                 }
 
-                // ¹ã²¥ÏûÏ¢
+                // å¹¿æ’­åŸæœ‰æ¶ˆæ¯ï¼ˆä¿æŒå…¼å®¹æ€§ï¼‰
                 var payload = new DailyMessagesData.DailyMessageApplied
                 {
                     id = entry.id,
@@ -134,6 +152,23 @@ public class NewspaperAnimationController : MonoBehaviour
                     adjustments = entry.adjustments
                 };
                 MessageManager.Send(payload);
+                
+                // å‘é€æ–°ç‰ˆæ¦‚ç‡æ•°æ®åˆ°NightScreen
+                var probabilityPayload = new DailyProbabilityToNight
+                {
+                    messageId = entry.id,
+                    messageTitle = entry.title,
+                    currentDay = currentDay,
+                    probabilityResult = probabilityResult,
+                    originalAdjustments = entry.adjustments
+                };
+                
+                Debug.Log($"[Newspaper] å‘é€æ¦‚ç‡æ•°æ®åˆ°NightScreen: {probabilityPayload}");
+                MessageManager.Send(MessageDefine.DAILY_PROBABILITY_TO_NIGHT, probabilityPayload);
+                Debug.Log($"[Newspaper] æ¦‚ç‡æ•°æ®å·²å‘é€ï¼Œæ¶ˆæ¯é”®: {MessageDefine.DAILY_PROBABILITY_TO_NIGHT}");
+                
+                // åŒæ—¶ä¿å­˜åˆ°æŒä¹…åŒ–å­˜å‚¨ï¼Œç¡®ä¿NightScreenèƒ½å¤Ÿè·å–åˆ°æ•°æ®
+                SaveProbabilityDataToPersistent(probabilityPayload);
             });
         }
 
@@ -141,7 +176,7 @@ public class NewspaperAnimationController : MonoBehaviour
     }
 
     /// <summary>
-    /// Í£Ö¹¶¯»­
+    /// åœæ­¢åŠ¨ç”»
     /// </summary>
     public void StopAnimation()
     {
@@ -152,7 +187,7 @@ public class NewspaperAnimationController : MonoBehaviour
     }
 
     /// <summary>
-    /// ÖØÖÃËùÓĞ±¨Ö½µ½³õÊ¼×´Ì¬£¨Òş²Ø£©
+    /// é‡ç½®æ‰€æœ‰æŠ¥çº¸åˆ°åˆå§‹çŠ¶æ€ï¼ˆéšè—ï¼‰
     /// </summary>
     public void ResetNewspapers()
     {
@@ -166,7 +201,7 @@ public class NewspaperAnimationController : MonoBehaviour
         {
             if (newspaper == null) continue;
 
-            // È·±£ÓĞCanvasGroup×é¼ş²¢ÉèÖÃalphaÎª0
+            // ç¡®ä¿æœ‰CanvasGroupç»„ä»¶å¹¶è®¾ç½®alphaä¸º0
             CanvasGroup canvasGroup = GetOrAddCanvasGroup(newspaper);
             canvasGroup.alpha = 0;
 
@@ -186,11 +221,11 @@ public class NewspaperAnimationController : MonoBehaviour
 
     private Sprite LoadSpriteWithFallback(string path)
     {
-        // 1) ³¢ÊÔÔ­Â·¾¶
+        // 1) å°è¯•åŸè·¯å¾„
         var sp = Resources.Load<Sprite>(path);
         if (sp != null) return sp;
 
-        // 2) ÈôÄ©Î²Îª _0d ¡ú ³¢ÊÔÈ¥µôÇ°µ¼ 0
+        // 2) è‹¥æœ«å°¾ä¸º _0d â†’ å°è¯•å»æ‰å‰å¯¼ 0
         int us = path.LastIndexOf('_');
         if (us >= 0 && us < path.Length - 1)
         {
@@ -215,7 +250,26 @@ public class NewspaperAnimationController : MonoBehaviour
         return null;
     }
 
-    
+
+
+    /// <summary>
+    /// ä¿å­˜æ¦‚ç‡æ•°æ®åˆ°æŒä¹…åŒ–å­˜å‚¨
+    /// </summary>
+    private void SaveProbabilityDataToPersistent(DailyProbabilityToNight data)
+    {
+        try
+        {
+            string json = JsonUtility.ToJson(data);
+            PlayerPrefs.SetString("DailyProbabilityData", json);
+            PlayerPrefs.SetInt("DailyProbabilityDay", data.currentDay);
+            PlayerPrefs.Save();
+            Debug.Log($"[Newspaper] æ¦‚ç‡æ•°æ®å·²ä¿å­˜åˆ°æŒä¹…åŒ–å­˜å‚¨ï¼Œå¤©æ•°: {data.currentDay}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[Newspaper] ä¿å­˜æ¦‚ç‡æ•°æ®å¤±è´¥: {e.Message}");
+        }
+    }
 
     private void OnDestroy()
     {

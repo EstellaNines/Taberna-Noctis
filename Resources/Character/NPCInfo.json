@@ -1,8 +1,12 @@
 {
-	"version": 1,
+	"version": 2,
 	"basePaymentDefault": 40,
 	"tipMultiplier": 1.2,
 	"totalNpcCount": 50,
+	"probabilityModel": "25-combination",
+	"baseProbabilityPercent": 4.0,
+	"minClampPercent": 0.5,
+	"maxClampPercent": 30.0,
 	"identities": {
 		"CompanyEmployee": {
 			"identityMultiplier": 1.0,
@@ -12,14 +16,14 @@
 					"gender": "male",
 					"name": "Busy male CompanyEmployee",
 					"initialMood": 3,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "CompanyEmployee_001_F",
 					"gender": "female",
 					"name": "Busy female CompanyEmployee",
 					"initialMood": 3,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Irritable": [
@@ -28,14 +32,14 @@
 					"gender": "male",
 					"name": "Irritable male CompanyEmployee",
 					"initialMood": 2,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "CompanyEmployee_002_F",
 					"gender": "female",
 					"name": "Irritable female CompanyEmployee",
 					"initialMood": 2,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Melancholy": [
@@ -44,14 +48,14 @@
 					"gender": "male",
 					"name": "Melancholy male CompanyEmployee",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "CompanyEmployee_003_F",
 					"gender": "female",
 					"name": "Melancholy female CompanyEmployee",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Picky": [
@@ -60,14 +64,14 @@
 					"gender": "male",
 					"name": "Picky male CompanyEmployee",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "CompanyEmployee_004_F",
 					"gender": "female",
 					"name": "Picky female CompanyEmployee",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Friendly": [
@@ -76,14 +80,14 @@
 					"gender": "male",
 					"name": "Friendly male CompanyEmployee",
 					"initialMood": 7,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "CompanyEmployee_005_F",
 					"gender": "female",
 					"name": "Friendly female CompanyEmployee",
 					"initialMood": 7,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			]
 		},
@@ -95,14 +99,14 @@
 					"gender": "male",
 					"name": "Busy male SmallLeader",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "SmallLeader_001_F",
 					"gender": "female",
 					"name": "Busy female SmallLeader",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Irritable": [
@@ -111,14 +115,14 @@
 					"gender": "male",
 					"name": "Irritable male SmallLeader",
 					"initialMood": 3,
-						"visitPercent": 20
+						"visitPercent": 4
 				},
 				{
 					"id": "SmallLeader_002_F",
 					"gender": "female",
 					"name": "Irritable female SmallLeader",
 					"initialMood": 3,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Melancholy": [
@@ -127,14 +131,14 @@
 					"gender": "male",
 					"name": "Melancholy male SmallLeader",
 					"initialMood": 3,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "SmallLeader_003_F",
 					"gender": "female",
 					"name": "Melancholy female SmallLeader",
 					"initialMood": 3,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Picky": [
@@ -143,14 +147,14 @@
 					"gender": "male",
 					"name": "Picky male SmallLeader",
 					"initialMood": 5,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "SmallLeader_004_F",
 					"gender": "female",
 					"name": "Picky female SmallLeader",
 					"initialMood": 5,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Friendly": [
@@ -159,14 +163,14 @@
 					"gender": "male",
 					"name": "Friendly male SmallLeader",
 					"initialMood": 8,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "SmallLeader_005_F",
 					"gender": "female",
 					"name": "Friendly female SmallLeader",
 					"initialMood": 8,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			]
 		},
@@ -178,14 +182,14 @@
 					"gender": "male",
 					"name": "Busy male Freelancer",
 					"initialMood": 5,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Freelancer_001_F",
 					"gender": "female",
 					"name": "Busy female Freelancer",
 					"initialMood": 5,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Irritable": [
@@ -194,14 +198,14 @@
 					"gender": "male",
 					"name": "Irritable male Freelancer",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Freelancer_002_F",
 					"gender": "female",
 					"name": "Irritable female Freelancer",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Melancholy": [
@@ -210,14 +214,14 @@
 					"gender": "male",
 					"name": "Melancholy male Freelancer",
 					"initialMood": 3,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Freelancer_003_F",
 					"gender": "female",
 					"name": "Melancholy female Freelancer",
 					"initialMood": 3,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Picky": [
@@ -226,14 +230,14 @@
 					"gender": "male",
 					"name": "Picky male Freelancer",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Freelancer_004_F",
 					"gender": "female",
 					"name": "Picky female Freelancer",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Friendly": [
@@ -242,14 +246,14 @@
 					"gender": "male",
 					"name": "Friendly male Freelancer",
 					"initialMood": 8,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Freelancer_005_F",
 					"gender": "female",
 					"name": "Friendly female Freelancer",
 					"initialMood": 8,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			]
 		},
@@ -261,14 +265,14 @@
 					"gender": "male",
 					"name": "Busy male Boss",
 					"initialMood": 6,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Boss_001_F",
 					"gender": "female",
 					"name": "Busy female Boss",
 					"initialMood": 6,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Irritable": [
@@ -277,14 +281,14 @@
 					"gender": "male",
 					"name": "Irritable male Boss",
 					"initialMood": 5,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Boss_002_F",
 					"gender": "female",
 					"name": "Irritable female Boss",
 					"initialMood": 5,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Melancholy": [
@@ -293,14 +297,14 @@
 					"gender": "male",
 					"name": "Melancholy male Boss",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Boss_003_F",
 					"gender": "female",
 					"name": "Melancholy female Boss",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Picky": [
@@ -309,14 +313,14 @@
 					"gender": "male",
 					"name": "Picky male Boss",
 					"initialMood": 6,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Boss_004_F",
 					"gender": "female",
 					"name": "Picky female Boss",
 					"initialMood": 6,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Friendly": [
@@ -325,14 +329,14 @@
 					"gender": "male",
 					"name": "Friendly male Boss",
 					"initialMood": 8,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Boss_005_F",
 					"gender": "female",
 					"name": "Friendly female Boss",
 					"initialMood": 8,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			]
 		},
@@ -344,14 +348,14 @@
 					"gender": "male",
 					"name": "Busy male Student",
 					"initialMood": 6,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Student_001_F",
 					"gender": "female",
 					"name": "Busy female Student",
 					"initialMood": 6,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Irritable": [
@@ -360,14 +364,14 @@
 					"gender": "male",
 					"name": "Irritable male Student",
 					"initialMood": 5,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Student_002_F",
 					"gender": "female",
 					"name": "Irritable female Student",
 					"initialMood": 5,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Melancholy": [
@@ -376,14 +380,14 @@
 					"gender": "male",
 					"name": "Melancholy male Student",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Student_003_F",
 					"gender": "female",
 					"name": "Melancholy female Student",
 					"initialMood": 4,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Picky": [
@@ -392,14 +396,14 @@
 					"gender": "male",
 					"name": "Picky male Student",
 					"initialMood": 3,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Student_004_F",
 					"gender": "female",
 					"name": "Picky female Student",
 					"initialMood": 3,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			],
 			"Friendly": [
@@ -408,14 +412,14 @@
 					"gender": "male",
 					"name": "Friendly male Student",
 					"initialMood": 9,
-					"visitPercent": 20
+					"visitPercent": 4
 				},
 				{
 					"id": "Student_005_F",
 					"gender": "female",
 					"name": "Friendly female Student",
 					"initialMood": 9,
-					"visitPercent": 20
+					"visitPercent": 4
 				}
 			]
 		}
