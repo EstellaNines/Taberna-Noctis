@@ -25,6 +25,8 @@ public static class MessageDefine
     // ========== 每日消息系统 ==========
     public static readonly string DAILY_MESSAGE_APPLIED = "DAILY_MESSAGE_APPLIED";
     public static readonly string DAILY_PROBABILITY_TO_NIGHT = "DAILY_PROBABILITY_TO_NIGHT";
+    // Night 场景内广播：概率数据就绪
+    public static readonly string NIGHT_PROBABILITY_READY = "NIGHT_PROBABILITY_READY";
     
     // ========== 每日消息查看器 ==========
     // 可选：用于编辑器查看器主动请求刷新

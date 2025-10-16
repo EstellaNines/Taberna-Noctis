@@ -103,16 +103,22 @@ public class NewspaperAnimationController : MonoBehaviour
                     return;
                 }
                 
-                // 基于当前天数混合种子，确保每天不同
+                // 基于当前天数+存档ID混合种子，确保每天不同且不同存档不同
                 int currentDay = TimeSystemManager.Instance != null ? TimeSystemManager.Instance.CurrentDay : 1;
-                int finalSeed = useSeed ? (seed + currentDay * 1000) : 0;
-                
-                var entry = dailyMessagesData.GetRandomEntry(useSeed ? (int?)finalSeed : null);
+                string slotId = SaveManager.Instance != null ? SaveManager.Instance.CurrentSlotID : "1";
+                int slotHash = string.IsNullOrEmpty(slotId) ? 0 : slotId.GetHashCode();
+                int finalSeed = useSeed ? (seed + slotHash + currentDay * 1000) : 0;
                 
                 if (useSeed)
                 {
-                    Debug.Log($"[Newspaper] 使用种子随机: 基数={seed}, 天数={currentDay}, 最终种子={finalSeed}");
+                    Debug.Log($"[Newspaper] 使用种子随机: 基数={seed}, 存档Hash={slotHash}, 天数={currentDay}, 最终种子={finalSeed}");
                 }
+                else
+                {
+                    Debug.Log($"[Newspaper] 使用真随机模式（基于时间戳+Guid+Unity.Random）");
+                }
+                
+                var entry = dailyMessagesData.GetRandomEntry(useSeed ? (int?)finalSeed : null);
                 
                 if (entry == null)
                 {

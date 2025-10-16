@@ -1065,7 +1065,7 @@ MonoBehaviour:
   dailyMessageParent: {fileID: 2132102567}
   dailyMessagesData: {fileID: 11400000, guid: 3c6e489fb03d71b42932c5092171e605, type: 2}
   enableDailyMessage: 1
-  useSeed: 1
+  useSeed: 0
   seed: 0
 --- !u!224 &2132102567
 RectTransform:

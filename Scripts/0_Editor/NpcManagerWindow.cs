@@ -99,7 +99,7 @@ public sealed class NpcManagerWindow : EditorWindow
         _listView.makeItem = MakeListItem;
         _listView.bindItem = BindListItem;
         _listView.fixedItemHeight = 24;
-        _listView.onSelectionChange += OnListSelectionChanged;
+        _listView.selectionChanged += OnListSelectionChanged;
         _listView.AddToClassList("list");
         left.Add(_listView);
 

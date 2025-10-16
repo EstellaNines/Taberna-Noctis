@@ -118,8 +118,18 @@ public class DailyMessagesData : ScriptableObject
         }
         else
         {
-            int idx = UnityEngine.Random.Range(0, source.Count);
+            // 使用System.Random基于多重熵源，确保每次调用都是真正动态随机
+            // 熵源：时间戳 + Guid + Unity随机值，避免Editor中状态重置问题
+            int timeSeed = (int)(System.DateTime.Now.Ticks & 0x7FFFFFFF);
+            int guidSeed = System.Guid.NewGuid().GetHashCode();
+            int unitySeed = (int)(UnityEngine.Random.value * int.MaxValue);
+            int combinedSeed = timeSeed ^ guidSeed ^ unitySeed;
+            
+            var rng = new System.Random(combinedSeed);
+            int idx = rng.Next(0, source.Count);
             lastSelectedIndex = Mathf.Clamp(idx, 0, source.Count - 1);
+            
+            Debug.Log($"[DailyMessagesData] 真随机选择: 索引={lastSelectedIndex}, 熵源组合={combinedSeed}");
             return source[lastSelectedIndex];
         }
     }

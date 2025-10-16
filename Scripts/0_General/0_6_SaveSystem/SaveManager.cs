@@ -13,6 +13,9 @@ public class SaveManager : MonoBehaviour
 
 	private SaveData _current;
 	private string _currentSlotID;
+	
+	// ====== 公开属性 ======
+	public string CurrentSlotID => _currentSlotID;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Bootstrap()

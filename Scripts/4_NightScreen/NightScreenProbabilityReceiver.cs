@@ -39,8 +39,12 @@ public class NightScreenProbabilityReceiver : MonoBehaviour
         }
         else
         {
-            // 尝试从持久化存储中读取数据
+            // 尝试从持久化存储中读取数据；若仍不可用，构造基础4%兜底
             LoadProbabilityDataFromPersistent();
+            if (!hasReceivedData)
+            {
+                BuildAndBroadcastBaseline();
+            }
         }
     }
     
@@ -57,6 +61,9 @@ public class NightScreenProbabilityReceiver : MonoBehaviour
         
         // 立即输出详细信息到控制台
         OutputProbabilityDetails(data);
+
+        // 在夜晚场景内广播：概率数据就绪
+        MessageManager.Send(MessageDefine.NIGHT_PROBABILITY_READY, data);
     }
     
     /// <summary>
@@ -207,6 +214,9 @@ public class NightScreenProbabilityReceiver : MonoBehaviour
                     
                     // 立即输出详细信息
                     OutputProbabilityDetails(data);
+
+                    // 在夜晚场景内广播：概率数据就绪
+                    MessageManager.Send(MessageDefine.NIGHT_PROBABILITY_READY, data);
                 }
                 else
                 {
@@ -222,6 +232,31 @@ public class NightScreenProbabilityReceiver : MonoBehaviour
         {
             Debug.LogError($"[NightScreen] 从持久化存储读取概率数据失败: {e.Message}");
         }
+    }
+
+    /// <summary>
+    /// 构造并广播基础模型（25 组合各 4% 基线）作为兜底。
+    /// </summary>
+    private void BuildAndBroadcastBaseline()
+    {
+        var baseline = new DailyProbabilityToNight
+        {
+            messageId = "baseline",
+            messageTitle = "Baseline 4%",
+            currentDay = TimeSystemManager.Instance != null ? TimeSystemManager.Instance.CurrentDay : 0,
+            probabilityResult = VisitProbabilityCalculator.CalculateProbabilities(null),
+            originalAdjustments = null
+        };
+
+        currentProbabilityData = baseline;
+        hasReceivedData = true;
+        receiveTime = "兜底: 基线4%";
+
+        Debug.Log("[NightScreen] 未获取每日调整，使用基线4%兜底概率。");
+        OutputProbabilityDetails(baseline);
+
+        // 夜晚场景内广播：概率数据就绪（兜底）
+        MessageManager.Send(MessageDefine.NIGHT_PROBABILITY_READY, baseline);
     }
     
     /// <summary>
