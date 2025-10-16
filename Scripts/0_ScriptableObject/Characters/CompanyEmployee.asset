@@ -17,64 +17,14 @@ MonoBehaviour:
   dialoguesRefCN: Character/Dialogues/NPCDialogues
   dialoguesRefEN: Character/Dialogues/NPCDialogues_en
   dialogueTag: CompanyEmployee
-  npcEntries:
-  - id: CompanyEmployee_001_M
-    gender: male
-    name: Busy male CompanyEmployee
-    initialMood: 3
-    visitPercent: 20
-    state: Busy
-  - id: CompanyEmployee_001_F
-    gender: female
-    name: Busy female CompanyEmployee
-    initialMood: 3
-    visitPercent: 20
-    state: Busy
-  - id: CompanyEmployee_002_M
-    gender: male
-    name: Irritable male CompanyEmployee
-    initialMood: 2
-    visitPercent: 20
-    state: Irritable
-  - id: CompanyEmployee_002_F
-    gender: female
-    name: Irritable female CompanyEmployee
-    initialMood: 2
-    visitPercent: 20
-    state: Irritable
-  - id: CompanyEmployee_003_M
-    gender: male
-    name: Melancholy male CompanyEmployee
-    initialMood: 4
-    visitPercent: 20
-    state: Melancholy
-  - id: CompanyEmployee_003_F
-    gender: female
-    name: Melancholy female CompanyEmployee
-    initialMood: 4
-    visitPercent: 20
-    state: Melancholy
-  - id: CompanyEmployee_004_M
-    gender: male
-    name: Picky male CompanyEmployee
-    initialMood: 4
-    visitPercent: 20
-    state: Picky
-  - id: CompanyEmployee_004_F
-    gender: female
-    name: Picky female CompanyEmployee
-    initialMood: 4
-    visitPercent: 20
-    state: Picky
-  - id: CompanyEmployee_005_M
-    gender: male
-    name: Friendly male CompanyEmployee
-    initialMood: 7
-    visitPercent: 20
-    state: Friendly
-  - id: CompanyEmployee_005_F
-    gender: female
-    name: Friendly female CompanyEmployee
-    initialMood: 7
-    visitPercent: 20
-    state: Friendly
+  npcAssets:
+  - {fileID: 11400000, guid: 0bfe8bb7394b84e44b1953ebdb970bbc, type: 2}
+  - {fileID: 11400000, guid: 166f0412708393741896be7c82cdf94f, type: 2}
+  - {fileID: 11400000, guid: f1d80623e4d72ff4280eac2be192381b, type: 2}
+  - {fileID: 11400000, guid: 9668252b0c0550944bc97e3a899208c1, type: 2}
+  - {fileID: 11400000, guid: fd5b1040cf1ed6d4489e87463e349dae, type: 2}
+  - {fileID: 11400000, guid: e524daf10bdc7cd4f8d6fe9946d0f382, type: 2}
+  - {fileID: 11400000, guid: 44b4d554d316d9f49b0755bd0938c0d3, type: 2}
+  - {fileID: 11400000, guid: 740b152b31bc82746ad813076cadb428, type: 2}
+  - {fileID: 11400000, guid: ad595332970ae7249b12be3d557094c6, type: 2}
+  - {fileID: 11400000, guid: fd532286910117f4bb2b9ed3c911ae70, type: 2}

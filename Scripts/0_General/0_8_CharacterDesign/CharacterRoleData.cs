@@ -3,75 +3,75 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ½ÇÉ«£¨Éí·İ£©Êı¾İ ScriptableObject£ºÃ¿¸öÉí·İÒ»·İ SO¡£
-/// ×¢Òâ£º²»ÔÚ SO ÄÚ¸´ÖÆÌ¨´ÊÎÄ±¾£¬½ö±£´æÌ¨´Ê JSON µÄ Resources Â·¾¶Óë¶¨Î»ÓÃµÄ tag¡£
-/// - identityId£ºÉí·İÎ¨Ò»¼ü£¨Èç CompanyEmployee£©
-/// - identityMultiplier£º¸¶·Ñ/½áËãµÈÓÃµ½µÄÉí·İ±¶ÂÊ
-/// - dialoguesRefCN/EN£ºÌ¨´Ê JSON µÄ Resources Â·¾¶£¨ÖĞ/Ó¢£©
-/// - dialogueTag£ºÓë identityId ÏàÍ¬£¬ÓÃÓÚ´ÓÌ¨´Ê JSON ¸ù½Úµã¾«×¼¶¨Î»¸ÃÉí·İ¶ÎÂä
-/// - npcEntries£º´Ó NPCInfo.json ¾ÛºÏ³öµÄÍ¬Éí·İÏÂÈ«²¿ NPC ÌõÄ¿£¨º¬×´Ì¬/ĞÔ±ğ/ĞÄÇé/µ½·ÃÕ¼±È£©
+/// è§’è‰²ï¼ˆèº«ä»½ï¼‰æ•°æ® ScriptableObjectï¼šæ¯ä¸ªèº«ä»½ä¸€ä»½ SOã€‚
+/// æ³¨æ„ï¼šä¸åœ¨ SO å†…å¤åˆ¶å°è¯æ–‡æœ¬ï¼Œä»…ä¿å­˜å°è¯ JSON çš„ Resources è·¯å¾„ä¸å®šä½ç”¨çš„ tagã€‚
+/// - identityIdï¼šèº«ä»½å”¯ä¸€é”®ï¼ˆå¦‚ CompanyEmployeeï¼‰
+/// - identityMultiplierï¼šä»˜è´¹/ç»“ç®—ç­‰ç”¨åˆ°çš„èº«ä»½å€ç‡
+/// - dialoguesRefCN/ENï¼šå°è¯ JSON çš„ Resources è·¯å¾„ï¼ˆä¸­/è‹±ï¼‰
+/// - dialogueTagï¼šä¸ identityId ç›¸åŒï¼Œç”¨äºä»å°è¯ JSON æ ¹èŠ‚ç‚¹ç²¾å‡†å®šä½è¯¥èº«ä»½æ®µè½
+/// - npcEntriesï¼šä» NPCInfo.json èšåˆå‡ºçš„åŒèº«ä»½ä¸‹å…¨éƒ¨ NPC æ¡ç›®ï¼ˆå«çŠ¶æ€/æ€§åˆ«/å¿ƒæƒ…/åˆ°è®¿å æ¯”ï¼‰
 /// </summary>
-[CreateAssetMenu(menuName = "TabernaNoctis/Characters/CharacterRoleData", fileName = "CharacterRoleData")]
+[CreateAssetMenu(menuName = "TN/Characters/CharacterRoleData", fileName = "CharacterRoleData")]
 public sealed class CharacterRoleData : ScriptableObject
 {
     [Serializable]
     public sealed class NpcEntry
     {
         /// <summary>
-        /// NPC È«¾ÖÎ¨Ò» id£¨Èç CompanyEmployee_001_M£©
+        /// NPC å…¨å±€å”¯ä¸€ idï¼ˆå¦‚ CompanyEmployee_001_Mï¼‰
         /// </summary>
         public string id;
         /// <summary>
-        /// ĞÔ±ğ£º"male" »ò "female"
+        /// æ€§åˆ«ï¼š"male" æˆ– "female"
         /// </summary>
         public string gender; // "male" | "female"
         /// <summary>
-        /// NPC Õ¹Ê¾Ãû£¨ÓÃÓÚµ÷ÊÔ»ò±¾µØ»¯Ç°µÄÕ¼Î»£©
+        /// NPC å±•ç¤ºåï¼ˆç”¨äºè°ƒè¯•æˆ–æœ¬åœ°åŒ–å‰çš„å ä½ï¼‰
         /// </summary>
         public string name;
         /// <summary>
-        /// ³õÊ¼ĞÄÇéÖµ£¬ÓÃÓÚ½øÈë³¡¾°Ê±µÄ»ù´¡ĞÄÇé
+        /// åˆå§‹å¿ƒæƒ…å€¼ï¼Œç”¨äºè¿›å…¥åœºæ™¯æ—¶çš„åŸºç¡€å¿ƒæƒ…
         /// </summary>
         public int initialMood;
         /// <summary>
-        /// µ½·ÃÕ¼±È£¨Í¬×´Ì¬ 20% »ùÏßÄÚµÄ¸öÌå·ÖÅäÖµ£©£»ÉÏ²ã»á½áºÏÃ¿ÈÕÏûÏ¢ delta ×ö¶ş´Î¹éÒ»
+        /// åˆ°è®¿å æ¯”ï¼ˆåŒçŠ¶æ€ 20% åŸºçº¿å†…çš„ä¸ªä½“åˆ†é…å€¼ï¼‰ï¼›ä¸Šå±‚ä¼šç»“åˆæ¯æ—¥æ¶ˆæ¯ delta åšäºŒæ¬¡å½’ä¸€
         /// </summary>
         public float visitPercent;
         /// <summary>
-        /// ËùÊô×´Ì¬£ºBusy / Irritable / Melancholy / Picky / Friendly
+        /// æ‰€å±çŠ¶æ€ï¼šBusy / Irritable / Melancholy / Picky / Friendly
         /// </summary>
         public string state; // Busy / Irritable / Melancholy / Picky / Friendly
     }
 
     [Header("Identity")]
     /// <summary>
-    /// Éí·İÎ¨Ò»¼ü£¨Èç CompanyEmployee£©
+    /// èº«ä»½å”¯ä¸€é”®ï¼ˆå¦‚ CompanyEmployeeï¼‰
     /// </summary>
     public string identityId; // e.g., CompanyEmployee
     /// <summary>
-    /// Éí·İ±¶ÂÊ£¨ÓÃÓÚ¸¶·Ñ/½áËãµÈ¼ÆËã£©
+    /// èº«ä»½å€ç‡ï¼ˆç”¨äºä»˜è´¹/ç»“ç®—ç­‰è®¡ç®—ï¼‰
     /// </summary>
     public float identityMultiplier = 1f;
 
     [Header("Dialogues Reference (Resources)")]
     /// <summary>
-    /// ÖĞÎÄÌ¨´Ê JSON µÄ Resources Â·¾¶£¨²»º¬À©Õ¹Ãû£©
+    /// ä¸­æ–‡å°è¯ JSON çš„ Resources è·¯å¾„ï¼ˆä¸å«æ‰©å±•åï¼‰
     /// </summary>
     public string dialoguesRefCN = "Character/Dialogues/NPCDialogues";
     /// <summary>
-    /// Ó¢ÎÄÌ¨´Ê JSON µÄ Resources Â·¾¶£¨²»º¬À©Õ¹Ãû£©
+    /// è‹±æ–‡å°è¯ JSON çš„ Resources è·¯å¾„ï¼ˆä¸å«æ‰©å±•åï¼‰
     /// </summary>
     public string dialoguesRefEN = "Character/Dialogues/NPCDialogues_en";
     /// <summary>
-    /// Ì¨´Ê¶¨Î»ÓÃ±êÇ©£¨µÈÓÚ identityId£©£¬ÓÃÓÚ JSON ¸ù½Úµã¿ìËÙ¶¨Î»µ½¸ÃÉí·İ
+    /// å°è¯å®šä½ç”¨æ ‡ç­¾ï¼ˆç­‰äº identityIdï¼‰ï¼Œç”¨äº JSON æ ¹èŠ‚ç‚¹å¿«é€Ÿå®šä½åˆ°è¯¥èº«ä»½
     /// </summary>
     public string dialogueTag; // equals identityId
 
-    [Header("NPC Entries (Aggregated from NPCInfo.json)")]
+    [Header("NPC Assets (References)")]
     /// <summary>
-    /// ¸ÃÉí·İÏÂµÄÈ«²¿ NPC ÌõÄ¿¼¯ºÏ£¨ÓÉÉú³ÉÆ÷´Ó NPCInfo.json ¾ÛºÏÌî³ä£©
+    /// ç›´æ¥å¼•ç”¨è¯¥èº«ä»½ä¸‹çš„ NPC å•ä½“ SOï¼ˆNpcCharacterDataï¼‰ï¼Œä¸åœ¨æ­¤å¤åˆ¶æ•°æ®
     /// </summary>
-    public List<NpcEntry> npcEntries = new List<NpcEntry>();
+    public List<NpcCharacterData> npcAssets = new List<NpcCharacterData>();
 }
 
 

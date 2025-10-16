@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ½ÇÉ«Êı¾İÖ»¶Á¼ÓÔØÆ÷£º
-/// - ¸ºÔğ¶ÁÈ¡ `CharacterRolesIndex`£¨±à¼­Æ÷ÏÂ´Ó Assets Â·¾¶ÔØÈë£¬ÔËĞĞÊ±¿É¸ÄÎª Addressables/Ô¤ÒıÓÃ£©
-/// - Ìá¹©°´Éí·İ»ñÈ¡ SO¡¢±éÀú NPC ÌõÄ¿¡¢»ñÈ¡Ì¨´ÊÒıÓÃĞÅÏ¢¡¢¼ÆËãµ½·ÃÕ¼±ÈµÈÖ»¶Á½Ó¿Ú
-/// ËµÃ÷£º
-/// - Ì¨´ÊÊı¾İÈÔ´æ·ÅÔÚ JSON ÎÄ¼şÖĞ£¬±¾Àà²»¸´ÖÆÎÄ±¾£¬½ö·µ»ØÒıÓÃĞÅÏ¢Óë¶¨Î»ÓÃµÄ tag
-/// - ¸ÅÂÊÏà¹Ø£ºÃ¿ÈÕ¡°×´Ì¬»ùÏß20% + deltaPercent¡±£¬±¾Àà½ö×ö¼òµ¥¼ÆËãÓë²Ã¼ô£¬ÉÏ²ã×ö¹éÒ»»¯Óë±£´æ
+/// è§’è‰²æ•°æ®åªè¯»åŠ è½½å™¨ï¼š
+/// - è´Ÿè´£è¯»å– `CharacterRolesIndex`ï¼ˆç¼–è¾‘å™¨ä¸‹ä» Assets è·¯å¾„è½½å…¥ï¼Œè¿è¡Œæ—¶å¯æ”¹ä¸º Addressables/é¢„å¼•ç”¨ï¼‰
+/// - æä¾›æŒ‰èº«ä»½è·å– SOã€éå† NPC æ¡ç›®ã€è·å–å°è¯å¼•ç”¨ä¿¡æ¯ã€è®¡ç®—åˆ°è®¿å æ¯”ç­‰åªè¯»æ¥å£
+/// è¯´æ˜ï¼š
+/// - å°è¯æ•°æ®ä»å­˜æ”¾åœ¨ JSON æ–‡ä»¶ä¸­ï¼Œæœ¬ç±»ä¸å¤åˆ¶æ–‡æœ¬ï¼Œä»…è¿”å›å¼•ç”¨ä¿¡æ¯ä¸å®šä½ç”¨çš„ tag
+/// - æ¦‚ç‡ç›¸å…³ï¼šæ¯æ—¥â€œçŠ¶æ€åŸºçº¿20% + deltaPercentâ€ï¼Œæœ¬ç±»ä»…åšç®€å•è®¡ç®—ä¸è£å‰ªï¼Œä¸Šå±‚åšå½’ä¸€åŒ–ä¸ä¿å­˜
 /// </summary>
 public static class CharacterRoleLoader
 {
@@ -16,7 +16,7 @@ public static class CharacterRoleLoader
     private static readonly Dictionary<string, CharacterRoleData> _idToRole = new Dictionary<string, CharacterRoleData>(StringComparer.Ordinal);
 
     /// <summary>
-    /// ÑÓ³ÙÔØÈëË÷Òı SO¡£±à¼­Æ÷ÄÚ´Ó Assets Â·¾¶Ö±½Ó¼ÓÔØ£»ÔËĞĞÊ±¿É°´ĞèÇĞ»»Îª Resources/Addressables¡£
+    /// å»¶è¿Ÿè½½å…¥ç´¢å¼• SOã€‚ç¼–è¾‘å™¨å†…ä» Assets è·¯å¾„ç›´æ¥åŠ è½½ï¼›è¿è¡Œæ—¶å¯æŒ‰éœ€åˆ‡æ¢ä¸º Resources/Addressablesã€‚
     /// </summary>
     public static void LoadIndexIfNeeded(string indexAssetPath = "Assets/Scripts/0_ScriptableObject/CharacterRolesIndex.asset")
     {
@@ -38,7 +38,7 @@ public static class CharacterRoleLoader
     }
 
     /// <summary>
-    /// »ñÈ¡Ö¸¶¨Éí·İµÄ½ÇÉ« SO£¨Ö»¶ÁÒıÓÃ£©
+    /// è·å–æŒ‡å®šèº«ä»½çš„è§’è‰² SOï¼ˆåªè¯»å¼•ç”¨ï¼‰
     /// </summary>
     public static CharacterRoleData GetRole(string identityId)
     {
@@ -49,11 +49,11 @@ public static class CharacterRoleLoader
     }
 
     /// <summary>
-    /// ±éÀú NPC ÌõÄ¿¡£
-    /// - µ± identityId Îª¿ÕÊ±£º±éÀúËùÓĞÉí·İ
-    /// - µ± state ²»Îª¿ÕÊ±£º½ö·µ»Ø¸Ã×´Ì¬ÏÂµÄÌõÄ¿
+    /// éå† NPC å•ä½“ SOï¼ˆNpcCharacterDataï¼‰ã€‚
+    /// - å½“ identityId ä¸ºç©ºæ—¶ï¼šéå†æ‰€æœ‰èº«ä»½ä¸‹çš„å¼•ç”¨
+    /// - å½“ state ä¸ä¸ºç©ºæ—¶ï¼šä»…è¿”å›è¯¥çŠ¶æ€ä¸‹çš„æ¡ç›®
     /// </summary>
-    public static IEnumerable<CharacterRoleData.NpcEntry> EnumerateNPCs(string identityId = null, string state = null)
+    public static IEnumerable<NpcCharacterData> EnumerateNPCs(string identityId = null, string state = null)
     {
         LoadIndexIfNeeded();
         if (_index == null) yield break;
@@ -61,9 +61,10 @@ public static class CharacterRoleLoader
         {
             var r = GetRole(identityId);
             if (r == null) yield break;
-            for (int i = 0; i < r.npcEntries.Count; i++)
+            for (int i = 0; i < r.npcAssets.Count; i++)
             {
-                var e = r.npcEntries[i];
+                var e = r.npcAssets[i];
+                if (e == null) continue;
                 if (string.IsNullOrEmpty(state) || string.Equals(e.state, state, StringComparison.Ordinal)) yield return e;
             }
             yield break;
@@ -72,9 +73,10 @@ public static class CharacterRoleLoader
         {
             var r = _index.roles[i];
             if (r == null) continue;
-            for (int j = 0; j < r.npcEntries.Count; j++)
+            for (int j = 0; j < r.npcAssets.Count; j++)
             {
-                var e = r.npcEntries[j];
+                var e = r.npcAssets[j];
+                if (e == null) continue;
                 if (string.IsNullOrEmpty(state) || string.Equals(e.state, state, StringComparison.Ordinal)) yield return e;
             }
         }
@@ -96,8 +98,8 @@ public static class CharacterRoleLoader
     }
 
     /// <summary>
-    /// ·µ»ØÌ¨´ÊÒıÓÃĞÅÏ¢£º¸ù¾İÏµÍ³ÓïÑÔÑ¡Ôñ CN/EN Â·¾¶£¬²¢Ğ£Ñé¸ÃÉí·İÔÚÌ¨´Ê JSON ÖĞÊÇ·ñ´æÔÚ¡£
-    /// ×¢Òâ£º´Ë´¦²»½âÎö/·µ»Ø¾ßÌåÌ¨´ÊÊı×é£¬±£³Ö¡°Ì¨´ÊÁôÔÚ JSON ÖĞ¡±µÄÉè¼Æ¡£
+    /// è¿”å›å°è¯å¼•ç”¨ä¿¡æ¯ï¼šæ ¹æ®ç³»ç»Ÿè¯­è¨€é€‰æ‹© CN/EN è·¯å¾„ï¼Œå¹¶æ ¡éªŒè¯¥èº«ä»½åœ¨å°è¯ JSON ä¸­æ˜¯å¦å­˜åœ¨ã€‚
+    /// æ³¨æ„ï¼šæ­¤å¤„ä¸è§£æ/è¿”å›å…·ä½“å°è¯æ•°ç»„ï¼Œä¿æŒâ€œå°è¯ç•™åœ¨ JSON ä¸­â€çš„è®¾è®¡ã€‚
     /// </summary>
     public static DialoguesBlock GetDialogues(string identityId, SystemLanguage locale)
     {
@@ -121,13 +123,13 @@ public static class CharacterRoleLoader
         }
         catch { }
 
-        // ÉÏ²ãÏµÍ³Í¨³£Ö»ĞèÒıÓÃĞÅÏ¢£»¾ßÌåÌ¨´Ê³éÈ¡¿ÉÔÚ¸ü¿¿½ü¶Ô»°²¥·Å²ãÊµÏÖ¡£
+        // ä¸Šå±‚ç³»ç»Ÿé€šå¸¸åªéœ€å¼•ç”¨ä¿¡æ¯ï¼›å…·ä½“å°è¯æŠ½å–å¯åœ¨æ›´é è¿‘å¯¹è¯æ’­æ”¾å±‚å®ç°ã€‚
         return new DialoguesBlock { roleId = identityId, tag = role.dialogueTag, states = null };
     }
 
     /// <summary>
-    /// ¼ÆËã¡°×´Ì¬¡±²ã¼¶µÄÈÕµ½·ÃÕ¼±È£º»ùÏß 20% + delta£¬²Ã¼ôµ½ [0,100]¡£
-    /// ¹éÒ»»¯Óë¶àÉí·İµş¼ÓÓÉÉÏ²ã¸ºÔğ¡£
+    /// è®¡ç®—â€œçŠ¶æ€â€å±‚çº§çš„æ—¥åˆ°è®¿å æ¯”ï¼šåŸºçº¿ 20% + deltaï¼Œè£å‰ªåˆ° [0,100]ã€‚
+    /// å½’ä¸€åŒ–ä¸å¤šèº«ä»½å åŠ ç”±ä¸Šå±‚è´Ÿè´£ã€‚
     /// </summary>
     public static float ComputeDailyVisitPercent(string roleId, string state, float deltaPercent)
     {

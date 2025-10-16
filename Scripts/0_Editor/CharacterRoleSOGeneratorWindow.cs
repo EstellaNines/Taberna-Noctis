@@ -168,25 +168,28 @@ public sealed class CharacterRoleSOGeneratorWindow : EditorWindow
     }
 
     /// <summary>
-    /// 将某状态下的 NPCInfo 条目追加到角色 SO 的 npcEntries 中
+    /// 依据 NPCInfo（精简项）在项目中查找/绑定对应的 NpcCharacterData 资产到角色 SO 的 npcAssets。
+    /// 规则：按 identityId + 数字 + 性别 与状态拼出我们既定命名（例如 Busy_CompanyEmployee_001_M）。
+    /// 若找不到则跳过。
     /// </summary>
-    private static void AppendEntries(CharacterRoleData role, string state, List<NpcEntryLite> list)
+    private static void AppendAssets(CharacterRoleData role, string identityId, string state, List<NpcEntryLite> list)
     {
         if (list == null) return;
+#if UNITY_EDITOR
         for (int i = 0; i < list.Count; i++)
         {
             var src = list[i];
-            var dst = new CharacterRoleData.NpcEntry
+            // 资产命名：<State>_<IdentityId>_<NNN>_<M/F>
+            string assetName = $"{state}_{identityId}_{src.id.Split('_')[1]}_{(src.gender.StartsWith("m", StringComparison.OrdinalIgnoreCase) ? "M" : "F")}";
+            string[] guids = AssetDatabase.FindAssets(assetName + " t:NpcCharacterData");
+            if (guids != null && guids.Length > 0)
             {
-                id = src.id,
-                gender = src.gender,
-                name = src.name,
-                initialMood = src.initialMood,
-                visitPercent = src.visitPercent,
-                state = state
-            };
-            role.npcEntries.Add(dst);
+                string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+                var npc = AssetDatabase.LoadAssetAtPath<NpcCharacterData>(path);
+                if (npc != null && !role.npcAssets.Contains(npc)) role.npcAssets.Add(npc);
+            }
         }
+#endif
     }
 
     private int ProcessIdentity(CharacterRolesIndex index, string identityId, IdentityBlock block, ref int updated, ref int warned)
@@ -208,12 +211,12 @@ public sealed class CharacterRoleSOGeneratorWindow : EditorWindow
         role.dialoguesRefEN = _dialoguesENResPath;
         role.dialogueTag = identityId;
 
-        role.npcEntries.Clear();
-        AppendEntries(role, "Busy", block.Busy);
-        AppendEntries(role, "Irritable", block.Irritable);
-        AppendEntries(role, "Melancholy", block.Melancholy);
-        AppendEntries(role, "Picky", block.Picky);
-        AppendEntries(role, "Friendly", block.Friendly);
+        role.npcAssets.Clear();
+        AppendAssets(role, identityId, "Busy", block.Busy);
+        AppendAssets(role, identityId, "Irritable", block.Irritable);
+        AppendAssets(role, identityId, "Melancholy", block.Melancholy);
+        AppendAssets(role, identityId, "Picky", block.Picky);
+        AppendAssets(role, identityId, "Friendly", block.Friendly);
 
         EditorUtility.SetDirty(role);
         if (!index.roles.Contains(role)) index.roles.Add(role);

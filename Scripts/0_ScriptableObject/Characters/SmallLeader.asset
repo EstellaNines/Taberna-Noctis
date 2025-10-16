@@ -17,64 +17,14 @@ MonoBehaviour:
   dialoguesRefCN: Character/Dialogues/NPCDialogues
   dialoguesRefEN: Character/Dialogues/NPCDialogues_en
   dialogueTag: SmallLeader
-  npcEntries:
-  - id: SmallLeader_001_M
-    gender: male
-    name: Busy male SmallLeader
-    initialMood: 4
-    visitPercent: 20
-    state: Busy
-  - id: SmallLeader_001_F
-    gender: female
-    name: Busy female SmallLeader
-    initialMood: 4
-    visitPercent: 20
-    state: Busy
-  - id: SmallLeader_002_M
-    gender: male
-    name: Irritable male SmallLeader
-    initialMood: 3
-    visitPercent: 20
-    state: Irritable
-  - id: SmallLeader_002_F
-    gender: female
-    name: Irritable female SmallLeader
-    initialMood: 3
-    visitPercent: 20
-    state: Irritable
-  - id: SmallLeader_003_M
-    gender: male
-    name: Melancholy male SmallLeader
-    initialMood: 3
-    visitPercent: 20
-    state: Melancholy
-  - id: SmallLeader_003_F
-    gender: female
-    name: Melancholy female SmallLeader
-    initialMood: 3
-    visitPercent: 20
-    state: Melancholy
-  - id: SmallLeader_004_M
-    gender: male
-    name: Picky male SmallLeader
-    initialMood: 5
-    visitPercent: 20
-    state: Picky
-  - id: SmallLeader_004_F
-    gender: female
-    name: Picky female SmallLeader
-    initialMood: 5
-    visitPercent: 20
-    state: Picky
-  - id: SmallLeader_005_M
-    gender: male
-    name: Friendly male SmallLeader
-    initialMood: 8
-    visitPercent: 20
-    state: Friendly
-  - id: SmallLeader_005_F
-    gender: female
-    name: Friendly female SmallLeader
-    initialMood: 8
-    visitPercent: 20
-    state: Friendly
+  npcAssets:
+  - {fileID: 11400000, guid: 105cb0c0ecb1d97459226eae871b8a3e, type: 2}
+  - {fileID: 11400000, guid: ef87b543beaa3a443b79ff62f4e44a5f, type: 2}
+  - {fileID: 11400000, guid: c35a2a4ae6ca3e14a86985ecae428c18, type: 2}
+  - {fileID: 11400000, guid: 05a870425e636984ea7f5831f5172703, type: 2}
+  - {fileID: 11400000, guid: 8e3b4f11d62ebeb4694ed9baa6a0524d, type: 2}
+  - {fileID: 11400000, guid: e2800f13d0baaa44cb52132873e3b05d, type: 2}
+  - {fileID: 11400000, guid: 3cc400339c2fada4c9465c39992bf825, type: 2}
+  - {fileID: 11400000, guid: d631bc35c8668094c9a4f64b5a7f79b1, type: 2}
+  - {fileID: 11400000, guid: 7f028f7875e4b1a4c887e4e78b5fd088, type: 2}
+  - {fileID: 11400000, guid: 9fb07d3b82c86b94f8f166b0b71450fe, type: 2}
