@@ -28,6 +28,12 @@ public static class MessageDefine
     // Night 场景内广播：概率数据就绪
     public static readonly string NIGHT_PROBABILITY_READY = "NIGHT_PROBABILITY_READY";
     
+    // ====== 顾客到访系统 ======
+    public static readonly string CUSTOMER_STATE_LOADED = "CUSTOMER_STATE_LOADED";
+    public static readonly string CUSTOMER_VISITED = "CUSTOMER_VISITED";
+    public static readonly string CUSTOMER_SPAWNED = "CUSTOMER_SPAWNED";
+    public static readonly string CUSTOMER_DEQUEUED = "CUSTOMER_DEQUEUED";
+    
     // ========== 每日消息查看器 ==========
     // 可选：用于编辑器查看器主动请求刷新
     public static readonly string DAILY_MESSAGE_LOG_REFRESH = "DAILY_MESSAGE_LOG_REFRESH";

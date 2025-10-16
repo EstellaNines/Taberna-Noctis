@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TabernaNoctis.CharacterDesign;
 
 [Serializable]
 public class SaveData
@@ -56,6 +57,9 @@ public class SaveData
 	public Dictionary<string, int> customerTypeCount = new Dictionary<string, int>();
 	public int consecutivePerfectDays;         // 连续满分天数（≥0）
 	public int maxConsecutivePerfectDays;      // 历史最长连胜（≥0）
+	
+	// ===== 顾客到访系统 =====
+	public NightCustomerState nightCustomerState;
 }
 
 

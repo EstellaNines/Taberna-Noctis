@@ -84,6 +84,7 @@ public class TimeSystemManager : MonoBehaviour
     public float PhaseDuration => phaseDuration;
     public double TotalPlayTime => totalPlayTime;
     public bool IsTimerPaused => isTimerPaused;
+    public float GlobalTimeScale => globalTimeScale;
 
     // ========== Unity生命周期 ==========
 

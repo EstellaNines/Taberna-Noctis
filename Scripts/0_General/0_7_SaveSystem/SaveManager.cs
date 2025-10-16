@@ -54,6 +54,13 @@ public class SaveManager : MonoBehaviour
             SaveToFile(data);
 		}
 		_current = data;
+		
+		// 广播顾客状态（如果存在）
+		if (data.nightCustomerState != null)
+		{
+			MessageManager.Send(MessageDefine.CUSTOMER_STATE_LOADED, data.nightCustomerState);
+		}
+		
 		MessageManager.Send(MessageDefine.SAVE_LOADED, slotID);
 	}
 
@@ -160,6 +167,17 @@ public class SaveManager : MonoBehaviour
             data.phaseRemainingTime = tsm.PhaseRemainingTime;
             data.totalPlayTimeSeconds = tsm.TotalPlayTime; // 使用绝对累计时长
             data.totalDaysCompleted = Math.Max(0, data.currentDay - 1);
+        }
+
+        // 收集 NightScreen 顾客状态
+        if (CustomerSpawnManager.Instance != null)
+        {
+            data.nightCustomerState = CustomerSpawnManager.Instance.ExportState();
+        }
+        else if (data.nightCustomerState == null)
+        {
+            // 如果没有管理器实例且数据为空，创建默认状态
+            data.nightCustomerState = TabernaNoctis.CharacterDesign.NightCustomerState.CreateDefault();
         }
 
         return data;

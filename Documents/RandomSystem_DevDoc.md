@@ -260,6 +260,68 @@ var hand = rng.Deal(deck, 5, removeFromSource:true);
 - 重启进程后，ES3 正确恢复并延续流状态。
 - 洗牌均匀性、权重抽取正确性（可统计直方图）。
 
+### 近期更新（2025-10）
+
+- **新增真随机模式（默认）**：当业务未显式要求“每日稳定”时，使用多重熵源生成一次性种子，避免 Editor 每次 Play 时 `UnityEngine.Random` 状态重复导致的固定序列问题。
+  - 熵源组合：时间戳 `DateTime.Now.Ticks` + `Guid.NewGuid()` + `UnityEngine.Random.value`，三者异或为 `combinedSeed`，再以 `System.Random(combinedSeed)` 采样。
+  - 优点：每次运行、同一存档同一日也会产生不同结果；不污染全局 `UnityEngine.Random.state`。
+- **保留每日稳定（可选，用于可复现/QA）**：当 `useSeed=true` 时，按 `finalSeed = seed + slotHash + currentDay * 1000` 生成稳定结果；其中 `slotHash` 来源于 `SaveManager.CurrentSlotID`，确保不同存档不同序列。
+- **可观测性**：在报纸控制器中增加了日志，区分“使用种子随机”与“使用真随机模式”。
+
+#### 关键实现片段（代码引用）
+
+- 真随机熵源与抽取（`DailyMessagesData.GetRandomEntry(seed:null)`）：
+
+```121:133:Scripts/2_DayMessageScreen/DailyMessagesData.cs
+// 使用System.Random基于多重熵源，确保每次调用都是真正动态随机
+// 熵源：时间戳 + Guid + Unity随机值，避免Editor中状态重置问题
+int timeSeed = (int)(System.DateTime.Now.Ticks & 0x7FFFFFFF);
+int guidSeed = System.Guid.NewGuid().GetHashCode();
+int unitySeed = (int)(UnityEngine.Random.value * int.MaxValue);
+int combinedSeed = timeSeed ^ guidSeed ^ unitySeed;
+
+var rng = new System.Random(combinedSeed);
+int idx = rng.Next(0, source.Count);
+lastSelectedIndex = Mathf.Clamp(idx, 0, source.Count - 1);
+
+Debug.Log($"[DailyMessagesData] 真随机选择: 索引={lastSelectedIndex}, 熵源组合={combinedSeed}");
+return source[lastSelectedIndex];
+```
+
+- 每日稳定/真随机模式切换与日志（`NewspaperAnimationController`）：
+
+```106:121:Scripts/2_DayMessageScreen/NewspaperAnimationController.cs
+// 基于当前天数+存档ID混合种子，确保每天不同且不同存档不同
+int currentDay = TimeSystemManager.Instance != null ? TimeSystemManager.Instance.CurrentDay : 1;
+string slotId = SaveManager.Instance != null ? SaveManager.Instance.CurrentSlotID : "1";
+int slotHash = string.IsNullOrEmpty(slotId) ? 0 : slotId.GetHashCode();
+int finalSeed = useSeed ? (seed + slotHash + currentDay * 1000) : 0;
+
+if (useSeed)
+{
+    Debug.Log($"[Newspaper] 使用种子随机: 基数={seed}, 存档Hash={slotHash}, 天数={currentDay}, 最终种子={finalSeed}");
+}
+else
+{
+    Debug.Log($"[Newspaper] 使用真随机模式（基于时间戳+Guid+Unity.Random）");
+}
+
+var entry = dailyMessagesData.GetRandomEntry(useSeed ? (int?)finalSeed : null);
+```
+
+- 暴露当前存档 ID（`SaveManager`）：
+
+```17:19:Scripts/0_General/0_6_SaveSystem/SaveManager.cs
+// ====== 公开属性 ======
+public string CurrentSlotID => _currentSlotID;
+```
+
+#### 使用建议
+
+- **生产**：保持 `useSeed=false`（默认），获得最大“不可预测性”。
+- **QA/复现**：将 `useSeed=true`，指定 `seed` 并固定 `slotId`、`day`，即可稳定复现。
+- **监控**：通过控制台日志确认当前模式与关键参数（slotHash、day、finalSeed/combinedSeed）。
+
 ### 参考资料
 
 - Unity 2022.3 Random API：`https://docs.unity3d.com/2022.3/Documentation/ScriptReference/Random.html`
