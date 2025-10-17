@@ -4,24 +4,24 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// Ò»¼ü´Ó Resources/Character/NPCInfo.json Éú³É 50 Î»¹Ë¿ÍµÄ¶ÀÁ¢ SO£¨NpcCharacterData£©£¬²¢Î¬»¤ NpcDatabase¡£
-/// ²Ëµ¥£º×ÔÖÆ¹¤¾ß/½ÇÉ«ÏµÍ³/Éú³É50Î»¹Ë¿ÍSO
+/// ä¸€é”®ä» Resources/Character/NPCInfo.json ç”Ÿæˆ 50 ä½é¡¾å®¢çš„ç‹¬ç«‹ SOï¼ˆNpcCharacterDataï¼‰ï¼Œå¹¶ç»´æŠ¤ NpcDatabaseã€‚
+/// èœå•ï¼šè‡ªåˆ¶å·¥å…·/è§’è‰²ç³»ç»Ÿ/ç”Ÿæˆ50ä½é¡¾å®¢SO
 /// </summary>
 public static class NpcCharacterSoGenerator
 {
-    private const string JsonAssetPath = "Assets/Resources/Character/NPCInfo.json"; // Ö±½Ó¶ÁÎÄ±¾£¬±ÜÃâResourcesµ¼ÈëÒÀÀµ
+    private const string JsonAssetPath = "Assets/Resources/Character/NPCInfo.json"; // ç›´æ¥è¯»æ–‡æœ¬ï¼Œé¿å…Resourceså¯¼å…¥ä¾èµ–
     private const string OutputFolder = "Assets/Scripts/0_ScriptableObject/NPCs";
     private const string DatabasePath = "Assets/Scripts/0_ScriptableObject/NpcDatabase.asset";
 
-    [MenuItem("×ÔÖÆ¹¤¾ß/ÈËÎïÉè¼Æ/½ÇÉ«ÏµÍ³/Éú³É50Î»¹Ë¿ÍSO")] 
+    [MenuItem("è‡ªåˆ¶å·¥å…·/äººç‰©è®¾è®¡/è§’è‰²ç³»ç»Ÿ/ç”Ÿæˆ50ä½é¡¾å®¢SO")] 
     public static void GenerateAll()
     {
         try
         {
-            // 1) ¶ÁÈ¡ JSON
+            // 1) è¯»å– JSON
             if (!File.Exists(JsonAssetPath))
             {
-                EditorUtility.DisplayDialog("Éú³ÉÊ§°Ü", "Î´ÕÒµ½ NPCInfo.json: " + JsonAssetPath, "OK");
+                EditorUtility.DisplayDialog("ç”Ÿæˆå¤±è´¥", "æœªæ‰¾åˆ° NPCInfo.json: " + JsonAssetPath, "OK");
                 return;
             }
 
@@ -29,14 +29,14 @@ public static class NpcCharacterSoGenerator
             var root = JsonUtility.FromJson<NPCInfoRoot>(json);
             if (root == null || root.identities == null)
             {
-                EditorUtility.DisplayDialog("Éú³ÉÊ§°Ü", "½âÎö NPCInfo.json Ê§°Ü£¬Çë¼ì²éÎÄ¼ş¸ñÊ½¡£", "OK");
+                EditorUtility.DisplayDialog("ç”Ÿæˆå¤±è´¥", "è§£æ NPCInfo.json å¤±è´¥ï¼Œè¯·æ£€æŸ¥æ–‡ä»¶æ ¼å¼ã€‚", "OK");
                 return;
             }
 
-            // 2) ×¼±¸Êä³öÄ¿Â¼
+            // 2) å‡†å¤‡è¾“å‡ºç›®å½•
             EnsureFolder(OutputFolder);
 
-            // 3) ±éÀúÉí·İÓë×´Ì¬£¬Éú³É/¸üĞÂ SO
+            // 3) éå†èº«ä»½ä¸çŠ¶æ€ï¼Œç”Ÿæˆ/æ›´æ–° SO
             var createdOrUpdated = new List<NpcCharacterData>();
 
             CreateOrUpdateForIdentity(root.identities.CompanyEmployee, "CompanyEmployee", createdOrUpdated);
@@ -45,7 +45,17 @@ public static class NpcCharacterSoGenerator
             CreateOrUpdateForIdentity(root.identities.Boss, "Boss", createdOrUpdated);
             CreateOrUpdateForIdentity(root.identities.Student, "Student", createdOrUpdated);
 
-            // 4) Î¬»¤ NpcDatabase
+            // 3.1) å°†ç”Ÿæˆçš„ NPC ç»‘å®šåˆ°å¯¹åº”èº«ä»½ SO çš„ npcAssets åˆ—è¡¨
+            BindNpcAssetsToRoles(createdOrUpdated, new Dictionary<string, float>
+            {
+                {"CompanyEmployee", root.identities?.CompanyEmployee?.identityMultiplier ?? 1f},
+                {"SmallLeader",    root.identities?.SmallLeader?.identityMultiplier    ?? 1f},
+                {"Freelancer",     root.identities?.Freelancer?.identityMultiplier     ?? 1f},
+                {"Boss",           root.identities?.Boss?.identityMultiplier           ?? 1f},
+                {"Student",        root.identities?.Student?.identityMultiplier        ?? 1f},
+            });
+
+            // 4) ç»´æŠ¤ NpcDatabase
             var db = AssetDatabase.LoadAssetAtPath<NpcDatabase>(DatabasePath);
             if (db == null)
             {
@@ -61,12 +71,12 @@ public static class NpcCharacterSoGenerator
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            EditorUtility.DisplayDialog("Éú³ÉÍê³É", $"ÒÑÉú³É/¸üĞÂ {createdOrUpdated.Count} Î»¹Ë¿ÍSO£¬²¢¸üĞÂ NpcDatabase¡£", "OK");
+            EditorUtility.DisplayDialog("ç”Ÿæˆå®Œæˆ", $"å·²ç”Ÿæˆ/æ›´æ–° {createdOrUpdated.Count} ä½é¡¾å®¢SOï¼Œå¹¶æ›´æ–° NpcDatabaseã€‚", "OK");
         }
         catch (System.SystemException e)
         {
-            Debug.LogError("[NpcCharacterSoGenerator] Éú³ÉÊ§°Ü: " + e.Message);
-            EditorUtility.DisplayDialog("Éú³ÉÊ§°Ü", e.Message, "OK");
+            Debug.LogError("[NpcCharacterSoGenerator] ç”Ÿæˆå¤±è´¥: " + e.Message);
+            EditorUtility.DisplayDialog("ç”Ÿæˆå¤±è´¥", e.Message, "OK");
         }
     }
 
@@ -86,17 +96,17 @@ public static class NpcCharacterSoGenerator
         if (list == null) return;
         foreach (var n in list)
         {
-            // ĞÂÃüÃû¹æÔò£ºÒÔ×´Ì¬ÎªÇ°×º£¬ĞÎÈç Busy_CompanyEmployee_001_M.asset
+            // æ–°å‘½åè§„åˆ™ï¼šä»¥çŠ¶æ€ä¸ºå‰ç¼€ï¼Œå½¢å¦‚ Busy_CompanyEmployee_001_M.asset
             var newAssetPath = $"{OutputFolder}/{state}_{n.id}.asset";
-            var oldAssetPath = $"{OutputFolder}/Npc_{n.id}.asset"; // ¼æÈİ¾ÉÃüÃû£¬±ãÓÚÇ¨ÒÆ
+            var oldAssetPath = $"{OutputFolder}/Npc_{n.id}.asset"; // å…¼å®¹æ—§å‘½åï¼Œä¾¿äºè¿ç§»
 
-            // Èô´æÔÚ¾ÉÎÄ¼şÇÒĞÂÎÄ¼ş²»´æÔÚ£¬ÔòÇ¨ÒÆÖØÃüÃû
+            // è‹¥å­˜åœ¨æ—§æ–‡ä»¶ä¸”æ–°æ–‡ä»¶ä¸å­˜åœ¨ï¼Œåˆ™è¿ç§»é‡å‘½å
             if (!File.Exists(newAssetPath) && File.Exists(oldAssetPath))
             {
                 var moveResult = AssetDatabase.MoveAsset(oldAssetPath, newAssetPath);
                 if (!string.IsNullOrEmpty(moveResult))
                 {
-                    Debug.LogWarning($"[NpcCharacterSoGenerator] ÖØÃüÃûÊ§°Ü: {oldAssetPath} -> {newAssetPath}, {moveResult}");
+                    Debug.LogWarning($"[NpcCharacterSoGenerator] é‡å‘½åå¤±è´¥: {oldAssetPath} -> {newAssetPath}, {moveResult}");
                 }
             }
 
@@ -113,13 +123,14 @@ public static class NpcCharacterSoGenerator
             npc.identityMultiplier = identityMultiplier;
             npc.gender = n.gender;
             npc.state = state;
-            npc.displayName = n.name;
+            npc.displayName = string.IsNullOrEmpty(n.displayName) ? GetDefaultDisplayName(identityId) : n.displayName;
+            npc.stateColor = ParseColor(n.stateColor, state);
             npc.initialMood = n.initialMood;
             npc.visitPercent = n.visitPercent;
-            npc.portraitPath = n.portraitPath;
-            // dialoguesRefCN/EN Ê¹ÓÃ NpcCharacterData Ä¬ÈÏÖµ£¬ÎŞĞè¶îÍâÉèÖÃ
+            npc.portraitPath = NormalizePortraitPath(n.portraitPath, identityId, n.id);
+            // dialoguesRefCN/EN ä½¿ç”¨ NpcCharacterData é»˜è®¤å€¼ï¼Œæ— éœ€é¢å¤–è®¾ç½®
 
-            // È·±£SOÏÔÊ¾Ãû³ÆÓëÎÄ¼şÃûÒ»ÖÂ£¨×´Ì¬_±àºÅ£©
+            // ç¡®ä¿SOæ˜¾ç¤ºåç§°ä¸æ–‡ä»¶åä¸€è‡´ï¼ˆçŠ¶æ€_ç¼–å·ï¼‰
             npc.name = $"{state}_{n.id}";
 
             if (created)
@@ -132,6 +143,117 @@ public static class NpcCharacterSoGenerator
             }
             sink.Add(npc);
         }
+    }
+
+    /// <summary>
+    /// å°è¯•å°†ç”Ÿæˆçš„ NPC SO ç»‘å®šåˆ°å„èº«ä»½çš„ CharacterRoleDataï¼ˆ*.assetï¼‰
+    /// </summary>
+    private static void BindNpcAssetsToRoles(List<NpcCharacterData> allNpcs, Dictionary<string, float> identityMultiplierMap)
+    {
+        if (allNpcs == null || allNpcs.Count == 0) return;
+
+        // æ”¶é›†å…¨éƒ¨è§’è‰²SO
+        var roleGuids = AssetDatabase.FindAssets("t:CharacterRoleData");
+        var identityToRole = new Dictionary<string, CharacterRoleData>();
+        foreach (var guid in roleGuids)
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            var role = AssetDatabase.LoadAssetAtPath<CharacterRoleData>(path);
+            if (role == null || string.IsNullOrEmpty(role.identityId)) continue;
+            identityToRole[role.identityId] = role;
+        }
+
+        // é€èº«ä»½å†™å…¥
+        var grouped = new Dictionary<string, List<NpcCharacterData>>();
+        foreach (var npc in allNpcs)
+        {
+            if (!grouped.TryGetValue(npc.identityId, out var list))
+            {
+                list = new List<NpcCharacterData>();
+                grouped[npc.identityId] = list;
+            }
+            list.Add(npc);
+        }
+
+        foreach (var kv in grouped)
+        {
+            var identity = kv.Key;
+            if (!identityToRole.TryGetValue(identity, out var role))
+            {
+                Debug.LogWarning($"[NpcCharacterSoGenerator] æœªæ‰¾åˆ°èº«ä»½SO: {identity}ï¼Œè¯·ç¡®è®¤*.assetæ˜¯å¦å­˜åœ¨ã€‚");
+                continue;
+            }
+
+            // æŒ‰åç§°æ’åºï¼Œä¾¿äºæµè§ˆ
+            kv.Value.Sort((a,b) => string.Compare(a.name, b.name, System.StringComparison.Ordinal));
+            role.npcAssets.Clear();
+            role.npcAssets.AddRange(kv.Value);
+
+            if (identityMultiplierMap != null && identityMultiplierMap.TryGetValue(identity, out float mul))
+            {
+                role.identityMultiplier = mul;
+            }
+
+            EditorUtility.SetDirty(role);
+            Debug.Log($"[NpcCharacterSoGenerator] ç»‘å®š {identity} â†’ {kv.Value.Count} ä¸ªNPC");
+        }
+    }
+
+    /// <summary>
+    /// è§„èŒƒåŒ–å¹¶éªŒè¯ç«‹ç»˜è·¯å¾„ï¼š
+    /// - è‹¥JSONè·¯å¾„å¯ç›´æ¥åŠ è½½ï¼ŒåŸæ ·è¿”å›
+    /// - å¦åˆ™åœ¨ Assets/Resources ä¸‹æœç´¢ä¸ id åŒ¹é…çš„Spriteå¹¶ç”Ÿæˆ Resources ç›¸å¯¹è·¯å¾„
+    /// - å¦åˆ™è¿”å›ç©ºå¹¶å‘Šè­¦
+    /// </summary>
+    private static string NormalizePortraitPath(string jsonPath, string identityId, string id)
+    {
+        bool IsValid(string p) => !string.IsNullOrEmpty(p) && Resources.Load<Sprite>(p) != null;
+
+        if (IsValid(jsonPath)) return jsonPath;
+
+        // ä¼˜å…ˆç²¾ç¡®æ–‡ä»¶åæœç´¢ï¼ˆä¸å«æ‰©å±•åï¼‰
+        string[] exactGuids = AssetDatabase.FindAssets($"{id} t:Sprite");
+        foreach (var g in exactGuids)
+        {
+            var ap = AssetDatabase.GUIDToAssetPath(g);
+            var rp = ToResourcesPath(ap);
+            if (IsValid(rp)) return rp;
+        }
+
+        // æ¨¡ç³Šæœç´¢ï¼šä»…æŒ‰æ–‡ä»¶ååŒ…å« id ç‰‡æ®µ
+        string[] fuzzyGuids = AssetDatabase.FindAssets($"t:Sprite {id}");
+        foreach (var g in fuzzyGuids)
+        {
+            var ap = AssetDatabase.GUIDToAssetPath(g);
+            var rp = ToResourcesPath(ap);
+            if (IsValid(rp)) return rp;
+        }
+
+        // åŸºäº identity + ç¼–å· é€€åŒ–åŒ¹é…
+        string indexPart = id;
+        int underscore = id.IndexOf('_');
+        if (underscore >= 0) indexPart = id.Substring(underscore + 1); // 001_M
+        string shortKey = identityId + "_" + indexPart;               // CompanyEmployee_001_M
+        string[] shortGuids = AssetDatabase.FindAssets($"{shortKey} t:Sprite");
+        foreach (var g in shortGuids)
+        {
+            var ap = AssetDatabase.GUIDToAssetPath(g);
+            var rp = ToResourcesPath(ap);
+            if (IsValid(rp)) return rp;
+        }
+
+        Debug.LogWarning($"[NpcCharacterSoGenerator] ç«‹ç»˜æœªæ‰¾åˆ°ï¼Œä¿æŒç©º: id={id}, JSONè·¯å¾„='{jsonPath}'");
+        return string.IsNullOrEmpty(jsonPath) ? string.Empty : jsonPath; // è¿”å›åŸå€¼ä»¥ä¾¿åç»­äººå·¥ä¿®å¤
+    }
+
+    private static string ToResourcesPath(string assetPath)
+    {
+        if (string.IsNullOrEmpty(assetPath)) return null;
+        const string prefix = "Assets/Resources/";
+        if (!assetPath.StartsWith(prefix)) return null;
+        string withoutPrefix = assetPath.Substring(prefix.Length);
+        string withoutExt = System.IO.Path.ChangeExtension(withoutPrefix, null);
+        return withoutExt.Replace('\\','/');
     }
 
     private static void EnsureFolder(string folderPath)
@@ -149,7 +271,46 @@ public static class NpcCharacterSoGenerator
         }
     }
 
-    // ===== JSON Êı¾İ½á¹¹£¨Óë NPCInfo.json ¶ÔÓ¦£¬Ê¹ÓÃÇ¿ÀàĞÍ±ÜÃâ×Öµä·´ĞòÁĞ»¯ÎÊÌâ£© =====
+    /// <summary>
+    /// æ ¹æ®èº«ä»½IDè¿”å›é»˜è®¤çš„æ˜¾ç¤ºåç§°ï¼ˆç”¨äºå‘åå…¼å®¹ï¼‰
+    /// </summary>
+    private static string GetDefaultDisplayName(string identityId)
+    {
+        switch (identityId)
+        {
+            case "CompanyEmployee": return "Company Employee";
+            case "SmallLeader": return "Small Leader";
+            case "Freelancer": return "Freelancer";
+            case "Boss": return "Boss";
+            case "Student": return "College Student";
+            default: return identityId;
+        }
+    }
+
+    /// <summary>
+    /// è§£æé¢œè‰²å­—ç¬¦ä¸²ï¼ˆåå…­è¿›åˆ¶æˆ–çŠ¶æ€é»˜è®¤å€¼ï¼‰
+    /// </summary>
+    private static Color ParseColor(string colorHex, string state)
+    {
+        // å¦‚æœæä¾›äº†é¢œè‰²å­—ç¬¦ä¸²ï¼Œå°è¯•è§£æ
+        if (!string.IsNullOrEmpty(colorHex) && ColorUtility.TryParseHtmlString(colorHex, out Color color))
+        {
+            return color;
+        }
+
+        // å¦åˆ™æ ¹æ®çŠ¶æ€è¿”å›é»˜è®¤é¢œè‰²
+        switch (state)
+        {
+            case "Busy": return new Color(0f, 1f, 0f);          // ç»¿è‰² #00FF00
+            case "Friendly": return new Color(0.54f, 0.17f, 0.89f); // è“ç´«è‰² #8A2BE2
+            case "Irritable": return new Color(1f, 0f, 0f);     // çº¢è‰² #FF0000
+            case "Melancholy": return new Color(0f, 1f, 1f);    // é’è‰² #00FFFF
+            case "Picky": return new Color(1f, 1f, 0f);         // é»„è‰² #FFFF00
+            default: return Color.white;
+        }
+    }
+
+    // ===== JSON æ•°æ®ç»“æ„ï¼ˆä¸ NPCInfo.json å¯¹åº”ï¼Œä½¿ç”¨å¼ºç±»å‹é¿å…å­—å…¸ååºåˆ—åŒ–é—®é¢˜ï¼‰ =====
     [System.Serializable]
     private sealed class NPCInfoRoot
     {
@@ -191,9 +352,11 @@ public static class NpcCharacterSoGenerator
         public string id;
         public string gender;
         public string name;
+        public string displayName;      // ç®€çŸ­æ˜¾ç¤ºåç§°ï¼ˆå¦‚"Company Employee"ï¼‰
+        public string stateColor;       // çŠ¶æ€é¢œè‰²ï¼ˆåå…­è¿›åˆ¶å¦‚"#00FF00"ï¼‰
         public int initialMood;
         public float visitPercent;
-        public string portraitPath; // ¿ÉÄÜÎª¿Õ
+        public string portraitPath; // å¯èƒ½ä¸ºç©º
     }
 }
 

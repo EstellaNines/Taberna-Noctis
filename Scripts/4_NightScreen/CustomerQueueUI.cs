@@ -5,23 +5,23 @@ using TMPro;
 using Sirenix.OdinInspector;
 
 /// <summary>
-/// ¹Ë¿Í¶ÓÁĞUIÏÔÊ¾×é¼ş£¨¿ÉÑ¡£©
-/// - ÏÔÊ¾µ±Ç°¶ÓÁĞÖĞµÄ¹Ë¿ÍĞÅÏ¢
-/// - ÊµÊ±¸üĞÂ¶ÓÁĞ×´Ì¬
-/// - Ìá¹©¼òµ¥µÄ¶ÓÁĞ¿ÉÊÓ»¯
+/// é¡¾å®¢é˜Ÿåˆ—UIæ˜¾ç¤ºç»„ä»¶ï¼ˆå¯é€‰ï¼‰
+/// - æ˜¾ç¤ºå½“å‰é˜Ÿåˆ—ä¸­çš„é¡¾å®¢ä¿¡æ¯
+/// - å®æ—¶æ›´æ–°é˜Ÿåˆ—çŠ¶æ€
+/// - æä¾›ç®€å•çš„é˜Ÿåˆ—å¯è§†åŒ–
 /// </summary>
 public class CustomerQueueUI : MonoBehaviour
 {
-    [Title("UI×é¼ş")]
-    [LabelText("¶ÓÁĞĞÅÏ¢ÎÄ±¾")][SerializeField] private TextMeshProUGUI queueInfoText;
-    [LabelText("¹Ë¿ÍÁĞ±í¸¸ÎïÌå")][SerializeField] private Transform customerListParent;
-    [LabelText("¹Ë¿ÍÏîÔ¤ÖÆÌå")][SerializeField] private GameObject customerItemPrefab;
+    [Title("UIç»„ä»¶")]
+    [LabelText("é˜Ÿåˆ—ä¿¡æ¯æ–‡æœ¬")][SerializeField] private TextMeshProUGUI queueInfoText;
+    [LabelText("é¡¾å®¢åˆ—è¡¨çˆ¶ç‰©ä½“")][SerializeField] private Transform customerListParent;
+    [LabelText("é¡¾å®¢é¡¹é¢„åˆ¶ä½“")][SerializeField] private GameObject customerItemPrefab;
     
-    [Title("ÏÔÊ¾ÉèÖÃ")]
-    [LabelText("×î´óÏÔÊ¾ÊıÁ¿")][SerializeField] private int maxDisplayCount = 10;
-    [LabelText("×Ô¶¯Ë¢ĞÂ¼ä¸ô")][SerializeField] private float refreshInterval = 1f;
+    [Title("æ˜¾ç¤ºè®¾ç½®")]
+    [LabelText("æœ€å¤§æ˜¾ç¤ºæ•°é‡")][SerializeField] private int maxDisplayCount = 10;
+    [LabelText("è‡ªåŠ¨åˆ·æ–°é—´éš”")][SerializeField] private float refreshInterval = 1f;
 
-    [Title("ÔËĞĞÊ±×´Ì¬")]
+    [Title("è¿è¡Œæ—¶çŠ¶æ€")]
     [ShowInInspector][ReadOnly] private int currentQueueCount = 0;
     [ShowInInspector][ReadOnly] private int availablePoolCount = 0;
     [ShowInInspector][ReadOnly] private int cooldownPoolCount = 0;
@@ -31,7 +31,7 @@ public class CustomerQueueUI : MonoBehaviour
 
     private void Start()
     {
-        // ¶©ÔÄ¹Ë¿ÍÏà¹ØÏûÏ¢
+        // è®¢é˜…é¡¾å®¢ç›¸å…³æ¶ˆæ¯
         MessageManager.Register<NpcCharacterData>(MessageDefine.CUSTOMER_SPAWNED, OnCustomerSpawned);
         MessageManager.Register<NpcCharacterData>(MessageDefine.CUSTOMER_DEQUEUED, OnCustomerDequeued);
         MessageManager.Register<NpcCharacterData>(MessageDefine.CUSTOMER_VISITED, OnCustomerVisited);
@@ -41,7 +41,7 @@ public class CustomerQueueUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        // È¡Ïû¶©ÔÄ
+        // å–æ¶ˆè®¢é˜…
         MessageManager.Remove<NpcCharacterData>(MessageDefine.CUSTOMER_SPAWNED, OnCustomerSpawned);
         MessageManager.Remove<NpcCharacterData>(MessageDefine.CUSTOMER_DEQUEUED, OnCustomerDequeued);
         MessageManager.Remove<NpcCharacterData>(MessageDefine.CUSTOMER_VISITED, OnCustomerVisited);
@@ -57,7 +57,7 @@ public class CustomerQueueUI : MonoBehaviour
         }
     }
 
-    #region ÏûÏ¢´¦Àí
+    #region æ¶ˆæ¯å¤„ç†
 
     private void OnCustomerSpawned(NpcCharacterData npc)
     {
@@ -76,26 +76,26 @@ public class CustomerQueueUI : MonoBehaviour
 
     #endregion
 
-    #region UI¸üĞÂ
+    #region UIæ›´æ–°
 
     private void RefreshDisplay()
     {
         if (CustomerSpawnManager.Instance == null)
         {
-            UpdateQueueInfo("¹Ë¿ÍÏµÍ³Î´³õÊ¼»¯", 0, 0, 0);
+            UpdateQueueInfo("é¡¾å®¢ç³»ç»Ÿæœªåˆå§‹åŒ–", 0, 0, 0);
             return;
         }
 
-        // »ñÈ¡µ±Ç°×´Ì¬
+        // è·å–å½“å‰çŠ¶æ€
         var stats = CustomerSpawnManager.Instance.GetStats();
         currentQueueCount = stats.queueCount;
         availablePoolCount = stats.availableCount;
         cooldownPoolCount = stats.cooldownCount;
         
-        // ¸üĞÂĞÅÏ¢ÎÄ±¾
-        UpdateQueueInfo("¶ÓÁĞ×´Ì¬", currentQueueCount, availablePoolCount, cooldownPoolCount);
+        // æ›´æ–°ä¿¡æ¯æ–‡æœ¬
+        UpdateQueueInfo("é˜Ÿåˆ—çŠ¶æ€", currentQueueCount, availablePoolCount, cooldownPoolCount);
         
-        // ¸üĞÂ¹Ë¿ÍÁĞ±í£¨Èç¹ûÓĞÔ¤ÖÆÌåºÍ¸¸ÎïÌå£©
+        // æ›´æ–°é¡¾å®¢åˆ—è¡¨ï¼ˆå¦‚æœæœ‰é¢„åˆ¶ä½“å’Œçˆ¶ç‰©ä½“ï¼‰
         if (customerItemPrefab != null && customerListParent != null)
         {
             UpdateCustomerList();
@@ -107,16 +107,16 @@ public class CustomerQueueUI : MonoBehaviour
         if (queueInfoText == null) return;
 
         string info = $"{status}\n";
-        info += $"¶ÓÁĞ: {queueCount}/18\n";
-        info += $"¿ÉÓÃ: {availableCount}\n";
-        info += $"ÀäÈ´: {cooldownCount}";
+        info += $"é˜Ÿåˆ—: {queueCount}/18\n";
+        info += $"å¯ç”¨: {availableCount}\n";
+        info += $"å†·å´: {cooldownCount}";
 
         queueInfoText.text = info;
     }
 
     private void UpdateCustomerList()
     {
-        // ÇåÀíÏÖÓĞÏîÄ¿
+        // æ¸…ç†ç°æœ‰é¡¹ç›®
         foreach (var item in customerItems)
         {
             if (item != null)
@@ -126,7 +126,7 @@ public class CustomerQueueUI : MonoBehaviour
         }
         customerItems.Clear();
 
-        // »ñÈ¡¶ÓÁĞÖĞµÄ¹Ë¿Í
+        // è·å–é˜Ÿåˆ—ä¸­çš„é¡¾å®¢
         var queuedCustomers = CustomerSpawnManager.Instance.GetQueuedCustomers();
         int displayCount = Mathf.Min(queuedCustomers.Count, maxDisplayCount);
         
@@ -142,14 +142,14 @@ public class CustomerQueueUI : MonoBehaviour
             customerItems.Add(item);
         }
         
-        // Èç¹û¶ÓÁĞÖĞ»¹ÓĞ¸ü¶à¹Ë¿Í£¬ÏÔÊ¾Ê¡ÂÔºÅ
+        // å¦‚æœé˜Ÿåˆ—ä¸­è¿˜æœ‰æ›´å¤šé¡¾å®¢ï¼Œæ˜¾ç¤ºçœç•¥å·
         if (queuedCustomers.Count > maxDisplayCount)
         {
             var item = Instantiate(customerItemPrefab, customerListParent);
             var text = item.GetComponentInChildren<TextMeshProUGUI>();
             if (text != null)
             {
-                text.text = $"... »¹ÓĞ {queuedCustomers.Count - maxDisplayCount} Î»";
+                text.text = $"... è¿˜æœ‰ {queuedCustomers.Count - maxDisplayCount} ä½";
             }
             customerItems.Add(item);
         }
@@ -157,10 +157,10 @@ public class CustomerQueueUI : MonoBehaviour
 
     #endregion
 
-    #region µ÷ÊÔ
+    #region è°ƒè¯•
 
-    [Title("µ÷ÊÔ²Ù×÷")]
-    [Button("ÊÖ¶¯Ë¢ĞÂÏÔÊ¾")]
+    [Title("è°ƒè¯•æ“ä½œ")]
+    [Button("æ‰‹åŠ¨åˆ·æ–°æ˜¾ç¤º")]
     private void DebugRefreshDisplay()
     {
         if (Application.isPlaying)

@@ -34,6 +34,10 @@ public static class MessageDefine
     public static readonly string CUSTOMER_SPAWNED = "CUSTOMER_SPAWNED";
     public static readonly string CUSTOMER_DEQUEUED = "CUSTOMER_DEQUEUED";
     
+    // ====== 鸡尾酒卡牌系统 ======
+    public static readonly string COCKTAIL_DELIVERED = "COCKTAIL_DELIVERED";
+    public static readonly string SERVICE_PAYMENT_COMPLETE = "SERVICE_PAYMENT_COMPLETE";
+    
     // ========== 每日消息查看器 ==========
     // 可选：用于编辑器查看器主动请求刷新
     public static readonly string DAILY_MESSAGE_LOG_REFRESH = "DAILY_MESSAGE_LOG_REFRESH";

@@ -7,51 +7,53 @@ using TabernaNoctis.CharacterDesign;
 using Sirenix.OdinInspector;
 
 /// <summary>
-/// ¹Ë¿ÍÉú³É¹ÜÀíÆ÷£ºNightScreen³¡¾°ÖĞµÄ¹Ë¿Íµ½·ÃÏµÍ³ºËĞÄ
-/// - »ùÓÚÃ¿ÈÕ¸ÅÂÊ½øĞĞ¼ÓÈ¨Ëæ»ú³éÈ¡
-/// - ¹ÜÀí¶ÓÁĞ£¨PooledQueue£¬ÈİÁ¿18£©
-/// - ÊµÏÖÀäÈ´»úÖÆ£¨10Î»¹Ë¿Íµ½·Ãºó½â¶³£©
-/// - ±£µ×»úÖÆ£¨¶ÓÁĞ´ïµ½15Î»Ê±´¥·¢£©
-/// - ¿çÌì³Ö¾Ã»¯×´Ì¬
+/// é¡¾å®¢ç”Ÿæˆç®¡ç†å™¨ï¼šNightScreenåœºæ™¯ä¸­çš„é¡¾å®¢åˆ°è®¿ç³»ç»Ÿæ ¸å¿ƒ
+/// - åŸºäºæ¯æ—¥æ¦‚ç‡è¿›è¡ŒåŠ æƒéšæœºæŠ½å–
+/// - ç®¡ç†é˜Ÿåˆ—ï¼ˆPooledQueueï¼Œå®¹é‡18ï¼‰
+/// - å®ç°å†·å´æœºåˆ¶ï¼ˆ10ä½é¡¾å®¢åˆ°è®¿åè§£å†»ï¼‰
+/// - ä¿åº•æœºåˆ¶ï¼ˆé˜Ÿåˆ—è¾¾åˆ°15ä½æ—¶è§¦å‘ï¼‰
+/// - è·¨å¤©æŒä¹…åŒ–çŠ¶æ€
 /// </summary>
 public class CustomerSpawnManager : MonoBehaviour
 {
     public static CustomerSpawnManager Instance { get; private set; }
 
-    [Title("Éú³ÉÅäÖÃ")]
-    [LabelText("»ù´¡Éú³É¼ä¸ô£¨Ãë£©")][SerializeField] private float baseSpawnInterval = 20f;
-    [LabelText("¶ÓÁĞÈİÁ¿")][SerializeField] private int queueCapacity = 18;
-    [LabelText("±£µ×ãĞÖµ")][SerializeField] private int guaranteeThreshold = 15;
-    [LabelText("ÀäÈ´ÒªÇó£¨µ½·ÃÊı£©")][SerializeField] private int cooldownRequirement = 10;
+    [Title("ç”Ÿæˆé…ç½®")]
+    [LabelText("åŸºç¡€ç”Ÿæˆé—´éš”ï¼ˆç§’ï¼‰")][SerializeField] private float baseSpawnInterval = 20f;
+    [LabelText("é˜Ÿåˆ—å®¹é‡")][SerializeField] private int queueCapacity = 18;
+    [LabelText("ä¿åº•é˜ˆå€¼")][SerializeField] private int guaranteeThreshold = 15;
+    [LabelText("å†·å´è¦æ±‚ï¼ˆåˆ°è®¿æ•°ï¼‰")][SerializeField] private int cooldownRequirement = 10;
+    [LabelText("åˆå§‹å¿«é€Ÿç”Ÿæˆæ•°é‡")][SerializeField] private int initialFastSpawnCount = 5;
 
-    [Title("ÔËĞĞÊ±×´Ì¬")]
-    [LabelText("ÊÇ·ñÕıÔÚÉú³É")][ShowInInspector][ReadOnly] private bool isSpawning = false;
-    [LabelText("Éú³É¼ÆÊ±Æ÷")][ShowInInspector][ReadOnly] private float spawnTimer = 0f;
-    [LabelText("¶ÓÁĞÊıÁ¿")][ShowInInspector][ReadOnly] private int queueCount = 0;
-    [LabelText("¿ÉÓÃ³ØÊıÁ¿")][ShowInInspector][ReadOnly] private int availableCount = 0;
-    [LabelText("ÀäÈ´³ØÊıÁ¿")][ShowInInspector][ReadOnly] private int cooldownCount = 0;
-    [LabelText("È«¾Öµ½·Ã¼ÆÊı")][ShowInInspector][ReadOnly] private int globalVisitorCount = 0;
+    [Title("è¿è¡Œæ—¶çŠ¶æ€")]
+    [LabelText("æ˜¯å¦æ­£åœ¨ç”Ÿæˆ")][ShowInInspector][ReadOnly] private bool isSpawning = false;
+    [LabelText("ç”Ÿæˆè®¡æ—¶å™¨")][ShowInInspector][ReadOnly] private float spawnTimer = 0f;
+    [LabelText("é˜Ÿåˆ—æ•°é‡")][ShowInInspector][ReadOnly] private int queueCount = 0;
+    [LabelText("å¯ç”¨æ± æ•°é‡")][ShowInInspector][ReadOnly] private int availableCount = 0;
+    [LabelText("å†·å´æ± æ•°é‡")][ShowInInspector][ReadOnly] private int cooldownCount = 0;
+    [LabelText("å…¨å±€åˆ°è®¿è®¡æ•°")][ShowInInspector][ReadOnly] private int globalVisitorCount = 0;
+    [LabelText("æ€»ç”Ÿæˆè®¡æ•°")][ShowInInspector][ReadOnly] private int totalSpawnedCount = 0;
 
-    // ºËĞÄÊı¾İ
+    // æ ¸å¿ƒæ•°æ®
     private PooledQueue<NpcCharacterData> customerQueue;
     private List<NpcCharacterData> availablePool = new List<NpcCharacterData>();
     private Dictionary<string, int> cooldownPool = new Dictionary<string, int>();
     private List<string> guaranteeIds = new List<string>(3);
     private HashSet<string> visitedIds = new HashSet<string>();
 
-    [Title("Êı¾İÒıÓÃ")]
-    [LabelText("½ÇÉ«Ë÷ÒıSO")][SerializeField] private CharacterRolesIndex characterRolesIndex;
-    [LabelText("NPCÊı¾İ¿âSO£¨¿ÉÑ¡£©")][SerializeField] private NpcDatabase npcDatabase;
+    [Title("æ•°æ®å¼•ç”¨")]
+    [LabelText("è§’è‰²ç´¢å¼•SO")][SerializeField] private CharacterRolesIndex characterRolesIndex;
+    [LabelText("NPCæ•°æ®åº“SOï¼ˆå¯é€‰ï¼‰")][SerializeField] private NpcDatabase npcDatabase;
 
-    // ÒÀÀµÊı¾İ
+    // ä¾èµ–æ•°æ®
     private DailyProbabilityToNight? probabilityData;
     private Dictionary<string, NpcCharacterData> npcLookup = new Dictionary<string, NpcCharacterData>();
 
-    // ×´Ì¬±ê¼Ç
+    // çŠ¶æ€æ ‡è®°
     private bool hasInitialized = false;
     private bool hasReceivedProbability = false;
 
-    #region Unity ÉúÃüÖÜÆÚ
+    #region Unity ç”Ÿå‘½å‘¨æœŸ
 
     private void Awake()
     {
@@ -70,7 +72,7 @@ public class CustomerSpawnManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // ¶©ÔÄÏûÏ¢
+        // è®¢é˜…æ¶ˆæ¯
         MessageManager.Register<DailyProbabilityToNight>(MessageDefine.NIGHT_PROBABILITY_READY, OnProbabilityReady);
         MessageManager.Register<NightCustomerState>(MessageDefine.CUSTOMER_STATE_LOADED, OnCustomerStateLoaded);
         MessageManager.Register<NpcCharacterData>(MessageDefine.CUSTOMER_VISITED, OnCustomerVisited);
@@ -78,7 +80,7 @@ public class CustomerSpawnManager : MonoBehaviour
 
     private void OnDisable()
     {
-        // È¡Ïû¶©ÔÄ
+        // å–æ¶ˆè®¢é˜…
         MessageManager.Remove<DailyProbabilityToNight>(MessageDefine.NIGHT_PROBABILITY_READY, OnProbabilityReady);
         MessageManager.Remove<NightCustomerState>(MessageDefine.CUSTOMER_STATE_LOADED, OnCustomerStateLoaded);
         MessageManager.Remove<NpcCharacterData>(MessageDefine.CUSTOMER_VISITED, OnCustomerVisited);
@@ -88,7 +90,10 @@ public class CustomerSpawnManager : MonoBehaviour
     {
         if (!isSpawning || !hasReceivedProbability) return;
 
-        // Ê¹ÓÃÊ±¼ä±¶ÂÊ
+        // å‰Nä¸ªé¡¾å®¢å·²ç»åœ¨StartSpawningä¸­ç«‹å³ç”Ÿæˆï¼Œè¿™é‡Œåªå¤„ç†åç»­çš„å®šæ—¶ç”Ÿæˆ
+        if (totalSpawnedCount < initialFastSpawnCount) return;
+
+        // ä½¿ç”¨æ—¶é—´å€ç‡
         float effectiveDeltaTime = Time.deltaTime;
         if (TimeSystemManager.Instance != null)
         {
@@ -114,76 +119,76 @@ public class CustomerSpawnManager : MonoBehaviour
 
     #endregion
 
-    #region ³õÊ¼»¯
+    #region åˆå§‹åŒ–
 
     private void InitializeSystem()
     {
-        Debug.Log("[CustomerSpawnManager] ³õÊ¼»¯¹Ë¿ÍÉú³ÉÏµÍ³...");
+        Debug.Log("[CustomerSpawnManager] åˆå§‹åŒ–é¡¾å®¢ç”Ÿæˆç³»ç»Ÿ...");
 
-        // 1. ´´½¨¶ÓÁĞ
+        // 1. åˆ›å»ºé˜Ÿåˆ—
         customerQueue = new PooledQueue<NpcCharacterData>(queueCapacity + 5);
 
-        // 2. ¼ÓÔØ NPC Êı¾İ¿â
+        // 2. åŠ è½½ NPC æ•°æ®åº“
         LoadNpcDatabase();
 
-        // 3. ³¢ÊÔ´Ó±£´æÏµÍ³»Ö¸´×´Ì¬£¬·ñÔò´´½¨Ä¬ÈÏ×´Ì¬
+        // 3. å°è¯•ä»ä¿å­˜ç³»ç»Ÿæ¢å¤çŠ¶æ€ï¼Œå¦åˆ™åˆ›å»ºé»˜è®¤çŠ¶æ€
         if (!TryRestoreFromSave())
         {
             CreateDefaultState();
         }
 
         hasInitialized = true;
-        Debug.Log($"[CustomerSpawnManager] ³õÊ¼»¯Íê³É - ¿ÉÓÃ³Ø:{availablePool.Count}, ÀäÈ´³Ø:{cooldownPool.Count}");
+        Debug.Log($"[CustomerSpawnManager] åˆå§‹åŒ–å®Œæˆ - å¯ç”¨æ± :{availablePool.Count}, å†·å´æ± :{cooldownPool.Count}");
     }
 
     private void LoadNpcDatabase()
     {
-        Debug.Log("[CustomerSpawnManager] ¿ªÊ¼¼ÓÔØ NPC Êı¾İ...");
+        Debug.Log("[CustomerSpawnManager] å¼€å§‹åŠ è½½ NPC æ•°æ®...");
 
-        // ·½·¨1£ºÓÅÏÈÊ¹ÓÃÖ±½ÓÒıÓÃµÄ CharacterRolesIndex
+        // æ–¹æ³•1ï¼šä¼˜å…ˆä½¿ç”¨ç›´æ¥å¼•ç”¨çš„ CharacterRolesIndex
         if (characterRolesIndex != null)
         {
             LoadFromCharacterRolesIndex();
             return;
         }
 
-        // ·½·¨2£ºÊ¹ÓÃÖ±½ÓÒıÓÃµÄ NpcDatabase
+        // æ–¹æ³•2ï¼šä½¿ç”¨ç›´æ¥å¼•ç”¨çš„ NpcDatabase
         if (npcDatabase != null)
         {
             LoadFromNpcDatabase();
             return;
         }
 
-        // ·½·¨3£ºFallback - ³¢ÊÔ´Ó Resources ¼ÓÔØ NpcDatabase
+        // æ–¹æ³•3ï¼šFallback - å°è¯•ä» Resources åŠ è½½ NpcDatabase
         npcDatabase = Resources.Load<NpcDatabase>("NpcDatabase");
         if (npcDatabase != null)
         {
-            Debug.LogWarning("[CustomerSpawnManager] Ê¹ÓÃ Resources.Load ¼ÓÔØ NpcDatabase£¨½¨ÒéÊ¹ÓÃÖ±½ÓÒıÓÃ£©");
+            Debug.LogWarning("[CustomerSpawnManager] ä½¿ç”¨ Resources.Load åŠ è½½ NpcDatabaseï¼ˆå»ºè®®ä½¿ç”¨ç›´æ¥å¼•ç”¨ï¼‰");
             LoadFromNpcDatabase();
             return;
         }
 
-        // ËùÓĞ·½·¨¶¼Ê§°Ü
-        Debug.LogError("[CustomerSpawnManager] ÎŞ·¨¼ÓÔØ NPC Êı¾İ£¡");
-        Debug.LogError("[CustomerSpawnManager] ÇëÔÚ Inspector ÖĞÉèÖÃ CharacterRolesIndex »ò NpcDatabase ÒıÓÃ");
-        Debug.LogError("[CustomerSpawnManager] »òÈ·±£ NpcDatabase.asset ´æÔÚÓÚ Resources ÎÄ¼ş¼ĞÖĞ");
+        // æ‰€æœ‰æ–¹æ³•éƒ½å¤±è´¥
+        Debug.LogError("[CustomerSpawnManager] æ— æ³•åŠ è½½ NPC æ•°æ®ï¼");
+        Debug.LogError("[CustomerSpawnManager] è¯·åœ¨ Inspector ä¸­è®¾ç½® CharacterRolesIndex æˆ– NpcDatabase å¼•ç”¨");
+        Debug.LogError("[CustomerSpawnManager] æˆ–ç¡®ä¿ NpcDatabase.asset å­˜åœ¨äº Resources æ–‡ä»¶å¤¹ä¸­");
     }
 
     private void LoadFromCharacterRolesIndex()
     {
-        Debug.Log($"[CustomerSpawnManager] ´Ó CharacterRolesIndex ¼ÓÔØÊı¾İ: {characterRolesIndex.name}");
+        Debug.Log($"[CustomerSpawnManager] ä» CharacterRolesIndex åŠ è½½æ•°æ®: {characterRolesIndex.name}");
         
         npcLookup.Clear();
         int totalNpcs = 0;
 
-        // ±éÀúËùÓĞÉí·İ
+        // éå†æ‰€æœ‰èº«ä»½
         foreach (var roleData in characterRolesIndex.roles)
         {
             if (roleData == null) continue;
 
-            Debug.Log($"[CustomerSpawnManager] ¼ÓÔØÉí·İ: {roleData.identityId}, NPCÊıÁ¿: {roleData.npcAssets.Count}");
+            Debug.Log($"[CustomerSpawnManager] åŠ è½½èº«ä»½: {roleData.identityId}, NPCæ•°é‡: {roleData.npcAssets.Count}");
 
-            // ±éÀú¸ÃÉí·İÏÂµÄËùÓĞNPC
+            // éå†è¯¥èº«ä»½ä¸‹çš„æ‰€æœ‰NPC
             foreach (var npc in roleData.npcAssets)
             {
                 if (npc != null && !string.IsNullOrEmpty(npc.id))
@@ -194,12 +199,12 @@ public class CustomerSpawnManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[CustomerSpawnManager] ´Ó CharacterRolesIndex ¼ÓÔØÍê³É£¬¹² {totalNpcs} ¸ö¹Ë¿Í");
+        Debug.Log($"[CustomerSpawnManager] ä» CharacterRolesIndex åŠ è½½å®Œæˆï¼Œå…± {totalNpcs} ä¸ªé¡¾å®¢");
     }
 
     private void LoadFromNpcDatabase()
     {
-        Debug.Log($"[CustomerSpawnManager] ´Ó NpcDatabase ¼ÓÔØÊı¾İ: {npcDatabase.name}");
+        Debug.Log($"[CustomerSpawnManager] ä» NpcDatabase åŠ è½½æ•°æ®: {npcDatabase.name}");
         
         npcLookup.Clear();
         foreach (var npc in npcDatabase.allNpcs)
@@ -210,28 +215,29 @@ public class CustomerSpawnManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[CustomerSpawnManager] ´Ó NpcDatabase ¼ÓÔØÍê³É£¬¹² {npcLookup.Count} ¸ö¹Ë¿Í");
+        Debug.Log($"[CustomerSpawnManager] ä» NpcDatabase åŠ è½½å®Œæˆï¼Œå…± {npcLookup.Count} ä¸ªé¡¾å®¢");
     }
 
     private bool TryRestoreFromSave()
     {
-        // ÕâÀï»áÍ¨¹ıÏûÏ¢ÏµÍ³½ÓÊÕ±£´æµÄ×´Ì¬
-        // Êµ¼Ê»Ö¸´Âß¼­ÔÚ OnCustomerStateLoaded ÖĞ´¦Àí
-        return false; // ÔİÊ±·µ»Øfalse£¬ÈÃÏµÍ³´´½¨Ä¬ÈÏ×´Ì¬
+        // è¿™é‡Œä¼šé€šè¿‡æ¶ˆæ¯ç³»ç»Ÿæ¥æ”¶ä¿å­˜çš„çŠ¶æ€
+        // å®é™…æ¢å¤é€»è¾‘åœ¨ OnCustomerStateLoaded ä¸­å¤„ç†
+        return false; // æš‚æ—¶è¿”å›falseï¼Œè®©ç³»ç»Ÿåˆ›å»ºé»˜è®¤çŠ¶æ€
     }
 
     private void CreateDefaultState()
     {
-        Debug.Log("[CustomerSpawnManager] ´´½¨Ä¬ÈÏ¹Ë¿Í×´Ì¬...");
+        Debug.Log("[CustomerSpawnManager] åˆ›å»ºé»˜è®¤é¡¾å®¢çŠ¶æ€...");
 
         availablePool.Clear();
         cooldownPool.Clear();
         guaranteeIds.Clear();
         visitedIds.Clear();
         globalVisitorCount = 0;
+        totalSpawnedCount = 0;
         spawnTimer = 0f;
 
-        // ½«ËùÓĞ¹Ë¿Í¼ÓÈë¿ÉÓÃ³Ø
+        // å°†æ‰€æœ‰é¡¾å®¢åŠ å…¥å¯ç”¨æ± 
         foreach (var npc in npcLookup.Values)
         {
             if (npc != null)
@@ -240,21 +246,21 @@ public class CustomerSpawnManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[CustomerSpawnManager] Ä¬ÈÏ×´Ì¬´´½¨Íê³É£¬¿ÉÓÃ³Ø°üº¬ {availablePool.Count} ¸ö¹Ë¿Í");
+        Debug.Log($"[CustomerSpawnManager] é»˜è®¤çŠ¶æ€åˆ›å»ºå®Œæˆï¼Œå¯ç”¨æ± åŒ…å« {availablePool.Count} ä¸ªé¡¾å®¢");
         UpdateDebugInfo();
     }
 
     #endregion
 
-    #region ÏûÏ¢´¦Àí
+    #region æ¶ˆæ¯å¤„ç†
 
     private void OnProbabilityReady(DailyProbabilityToNight data)
     {
-        Debug.Log($"[CustomerSpawnManager] ½ÓÊÕµ½Ã¿ÈÕ¸ÅÂÊÊı¾İ: {data}");
+        Debug.Log($"[CustomerSpawnManager] æ¥æ”¶åˆ°æ¯æ—¥æ¦‚ç‡æ•°æ®: {data}");
         probabilityData = data;
         hasReceivedProbability = true;
 
-        // Èç¹ûÏµÍ³ÒÑ³õÊ¼»¯£¬¿ªÊ¼Éú³É
+        // å¦‚æœç³»ç»Ÿå·²åˆå§‹åŒ–ï¼Œå¼€å§‹ç”Ÿæˆ
         if (hasInitialized)
         {
             StartSpawning();
@@ -265,11 +271,11 @@ public class CustomerSpawnManager : MonoBehaviour
     {
         if (state == null)
         {
-            Debug.Log("[CustomerSpawnManager] ½ÓÊÕµ½¿ÕµÄ¹Ë¿Í×´Ì¬£¬Ê¹ÓÃÄ¬ÈÏ×´Ì¬");
+            Debug.Log("[CustomerSpawnManager] æ¥æ”¶åˆ°ç©ºçš„é¡¾å®¢çŠ¶æ€ï¼Œä½¿ç”¨é»˜è®¤çŠ¶æ€");
             return;
         }
 
-        Debug.Log($"[CustomerSpawnManager] »Ö¸´¹Ë¿Í×´Ì¬: {state}");
+        Debug.Log($"[CustomerSpawnManager] æ¢å¤é¡¾å®¢çŠ¶æ€: {state}");
         RestoreFromState(state);
     }
 
@@ -277,12 +283,12 @@ public class CustomerSpawnManager : MonoBehaviour
     {
         if (npc == null) return;
 
-        Debug.Log($"[CustomerSpawnManager] ¹Ë¿Íµ½·Ã: {npc.id}");
+        Debug.Log($"[CustomerSpawnManager] é¡¾å®¢åˆ°è®¿: {npc.id}");
         
         globalVisitorCount++;
         visitedIds.Add(npc.id);
 
-        // ¸üĞÂÀäÈ´³ØÖĞËùÓĞ¹Ë¿ÍµÄ¼ÆÊı
+        // æ›´æ–°å†·å´æ± ä¸­æ‰€æœ‰é¡¾å®¢çš„è®¡æ•°
         var toUnfreeze = new List<string>();
         var cooldownKeys = cooldownPool.Keys.ToList();
         
@@ -295,13 +301,13 @@ public class CustomerSpawnManager : MonoBehaviour
             }
         }
 
-        // ½â¶³¹Ë¿Í£¬ÖØĞÂ¼ÓÈë¿ÉÓÃ³Ø
+        // è§£å†»é¡¾å®¢ï¼Œé‡æ–°åŠ å…¥å¯ç”¨æ± 
         foreach (var id in toUnfreeze)
         {
             if (npcLookup.TryGetValue(id, out var unfrozenNpc))
             {
                 availablePool.Add(unfrozenNpc);
-                Debug.Log($"[CustomerSpawnManager] ¹Ë¿Í½â¶³: {id}");
+                Debug.Log($"[CustomerSpawnManager] é¡¾å®¢è§£å†»: {id}");
             }
             cooldownPool.Remove(id);
         }
@@ -311,65 +317,81 @@ public class CustomerSpawnManager : MonoBehaviour
 
     #endregion
 
-    #region Éú³ÉÂß¼­
+    #region ç”Ÿæˆé€»è¾‘
 
     private void StartSpawning()
     {
         if (isSpawning) return;
 
-        Debug.Log("[CustomerSpawnManager] ¿ªÊ¼Éú³É¹Ë¿Í...");
+        Debug.Log("[CustomerSpawnManager] å¼€å§‹ç”Ÿæˆé¡¾å®¢...");
         isSpawning = true;
         spawnTimer = 0f;
+
+        // ç«‹å³ç”Ÿæˆå‰Nä¸ªé¡¾å®¢
+        Debug.Log($"[CustomerSpawnManager] ç«‹å³ç”Ÿæˆå‰ {initialFastSpawnCount} ä¸ªé¡¾å®¢...");
+        for (int i = 0; i < initialFastSpawnCount; i++)
+        {
+            if (!TrySpawnCustomer())
+            {
+                Debug.LogWarning($"[CustomerSpawnManager] ç¬¬ {i + 1} ä¸ªé¡¾å®¢ç”Ÿæˆå¤±è´¥ï¼Œåœæ­¢å¿«é€Ÿç”Ÿæˆ");
+                break;
+            }
+        }
+        
+        Debug.Log($"[CustomerSpawnManager] å¿«é€Ÿç”Ÿæˆå®Œæˆï¼Œå·²ç”Ÿæˆ {totalSpawnedCount} ä¸ªé¡¾å®¢");
+        Debug.Log($"[CustomerSpawnManager] ä»ç¬¬ {totalSpawnedCount + 1} ä¸ªé¡¾å®¢å¼€å§‹ä½¿ç”¨ {baseSpawnInterval} ç§’é—´éš”");
     }
 
     public void StopSpawning()
     {
-        Debug.Log("[CustomerSpawnManager] Í£Ö¹Éú³É¹Ë¿Í");
+        Debug.Log("[CustomerSpawnManager] åœæ­¢ç”Ÿæˆé¡¾å®¢");
         isSpawning = false;
     }
 
-    private void TrySpawnCustomer()
+    private bool TrySpawnCustomer()
     {
-        // 1. ¼ì²é¶ÓÁĞÈİÁ¿
+        // 1. æ£€æŸ¥é˜Ÿåˆ—å®¹é‡
         if (customerQueue.Count >= queueCapacity)
         {
-            Debug.Log("[CustomerSpawnManager] ¶ÓÁĞÒÑÂú£¬Ìø¹ıÉú³É");
-            return;
+            Debug.Log("[CustomerSpawnManager] é˜Ÿåˆ—å·²æ»¡ï¼Œè·³è¿‡ç”Ÿæˆ");
+            return false;
         }
 
-        // 2. ¼ì²é¿ÉÓÃ³Ø
+        // 2. æ£€æŸ¥å¯ç”¨æ± 
         if (availablePool.Count == 0)
         {
-            Debug.Log("[CustomerSpawnManager] ¿ÉÓÃ³ØÎª¿Õ£¬Ìø¹ıÉú³É");
-            return;
+            Debug.Log("[CustomerSpawnManager] å¯ç”¨æ± ä¸ºç©ºï¼Œè·³è¿‡ç”Ÿæˆ");
+            return false;
         }
 
-        // 3. ¼ÓÈ¨Ëæ»ú³éÈ¡
+        // 3. åŠ æƒéšæœºæŠ½å–
         var selectedNpc = PickWeightedCustomer();
         if (selectedNpc == null)
         {
-            Debug.LogWarning("[CustomerSpawnManager] ¼ÓÈ¨³éÈ¡Ê§°Ü");
-            return;
+            Debug.LogWarning("[CustomerSpawnManager] åŠ æƒæŠ½å–å¤±è´¥");
+            return false;
         }
 
-        // 4. Èë¶Ó
+        // 4. å…¥é˜Ÿ
         customerQueue.Enqueue(selectedNpc);
-        Debug.Log($"[CustomerSpawnManager] ¹Ë¿ÍÈë¶Ó: {selectedNpc.id} (¶ÓÁĞ:{customerQueue.Count}/{queueCapacity})");
+        totalSpawnedCount++;
+        Debug.Log($"[CustomerSpawnManager] é¡¾å®¢å…¥é˜Ÿ: {selectedNpc.id} (é˜Ÿåˆ—:{customerQueue.Count}/{queueCapacity}, æ€»ç”Ÿæˆ:{totalSpawnedCount})");
 
-        // 5. ´Ó¿ÉÓÃ³ØÒÆ³ı£¬¼ÓÈëÀäÈ´³Ø
+        // 5. ä»å¯ç”¨æ± ç§»é™¤ï¼ŒåŠ å…¥å†·å´æ± 
         availablePool.Remove(selectedNpc);
         cooldownPool[selectedNpc.id] = cooldownRequirement;
 
-        // 6. ¼ì²é±£µ×´¥·¢
+        // 6. æ£€æŸ¥ä¿åº•è§¦å‘
         if (customerQueue.Count == guaranteeThreshold)
         {
             TriggerGuarantee();
         }
 
-        // 7. ¹ã²¥Éú³ÉÊÂ¼ş
+        // 7. å¹¿æ’­ç”Ÿæˆäº‹ä»¶
         MessageManager.Send(MessageDefine.CUSTOMER_SPAWNED, selectedNpc);
 
         UpdateDebugInfo();
+        return true;
     }
 
     private NpcCharacterData PickWeightedCustomer()
@@ -379,7 +401,7 @@ public class CustomerSpawnManager : MonoBehaviour
             return null;
         }
 
-        // ¹¹½¨È¨ÖØÁĞ±í
+        // æ„å»ºæƒé‡åˆ—è¡¨
         var weights = new List<float>();
         foreach (var npc in availablePool)
         {
@@ -392,7 +414,7 @@ public class CustomerSpawnManager : MonoBehaviour
             weights.Add(probability);
         }
 
-        // ¼ÓÈ¨Ëæ»úÑ¡Ôñ
+        // åŠ æƒéšæœºé€‰æ‹©
         int selectedIndex = WeightedRandom(weights);
         return availablePool[selectedIndex];
     }
@@ -409,7 +431,7 @@ public class CustomerSpawnManager : MonoBehaviour
 
         if (total <= 0f)
         {
-            // Èç¹ûËùÓĞÈ¨ÖØ¶¼ÊÇ0£¬Ëæ»úÑ¡Ôñ
+            // å¦‚æœæ‰€æœ‰æƒé‡éƒ½æ˜¯0ï¼Œéšæœºé€‰æ‹©
             return UnityEngine.Random.Range(0, weights.Count);
         }
 
@@ -430,7 +452,7 @@ public class CustomerSpawnManager : MonoBehaviour
 
     private void TriggerGuarantee()
     {
-        Debug.Log("[CustomerSpawnManager] ´¥·¢±£µ×»úÖÆ");
+        Debug.Log("[CustomerSpawnManager] è§¦å‘ä¿åº•æœºåˆ¶");
         
         guaranteeIds.Clear();
         var queueArray = customerQueue.ToArray();
@@ -441,21 +463,21 @@ public class CustomerSpawnManager : MonoBehaviour
             guaranteeIds.Add(queueArray[i].id);
         }
 
-        Debug.Log($"[CustomerSpawnManager] ±£µ×³Ø: [{string.Join(", ", guaranteeIds)}]");
+        Debug.Log($"[CustomerSpawnManager] ä¿åº•æ± : [{string.Join(", ", guaranteeIds)}]");
     }
 
     #endregion
 
-    #region ¶ÓÁĞ²Ù×÷
+    #region é˜Ÿåˆ—æ“ä½œ
 
     /// <summary>
-    /// ³ö¶Ó¹Ë¿Í£¨ÓÉ¹Ë¿Í½»»¥ÏµÍ³µ÷ÓÃ£©
+    /// å‡ºé˜Ÿé¡¾å®¢ï¼ˆç”±é¡¾å®¢äº¤äº’ç³»ç»Ÿè°ƒç”¨ï¼‰
     /// </summary>
     public NpcCharacterData DequeueCustomer()
     {
         if (customerQueue.TryDequeue(out var npc))
         {
-            Debug.Log($"[CustomerSpawnManager] ¹Ë¿Í³ö¶Ó: {npc.id}");
+            Debug.Log($"[CustomerSpawnManager] é¡¾å®¢å‡ºé˜Ÿ: {npc.id}");
             MessageManager.Send(MessageDefine.CUSTOMER_DEQUEUED, npc);
             UpdateDebugInfo();
             return npc;
@@ -464,7 +486,7 @@ public class CustomerSpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ²é¿´¶ÓÊ×¹Ë¿Í
+    /// æŸ¥çœ‹é˜Ÿé¦–é¡¾å®¢
     /// </summary>
     public NpcCharacterData PeekNextCustomer()
     {
@@ -473,7 +495,7 @@ public class CustomerSpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// »ñÈ¡µ±Ç°¶ÓÁĞÊıÁ¿
+    /// è·å–å½“å‰é˜Ÿåˆ—æ•°é‡
     /// </summary>
     public int GetQueueCount()
     {
@@ -481,7 +503,7 @@ public class CustomerSpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// »ñÈ¡¶ÓÁĞÖĞµÄ¹Ë¿ÍÁĞ±í£¨ÓÃÓÚUIÏÔÊ¾£©
+    /// è·å–é˜Ÿåˆ—ä¸­çš„é¡¾å®¢åˆ—è¡¨ï¼ˆç”¨äºUIæ˜¾ç¤ºï¼‰
     /// </summary>
     public List<NpcCharacterData> GetQueuedCustomers()
     {
@@ -490,7 +512,7 @@ public class CustomerSpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// »ñÈ¡ÏµÍ³Í³¼ÆĞÅÏ¢
+    /// è·å–ç³»ç»Ÿç»Ÿè®¡ä¿¡æ¯
     /// </summary>
     public (int queueCount, int availableCount, int cooldownCount, int visitedCount) GetStats()
     {
@@ -504,21 +526,21 @@ public class CustomerSpawnManager : MonoBehaviour
 
     #endregion
 
-    #region ÓªÒµ½áÊø´¦Àí
+    #region è¥ä¸šç»“æŸå¤„ç†
 
     /// <summary>
-    /// ÓªÒµ½áÊøÊ±µ÷ÓÃ£º´¦Àí±£µ×»úÖÆ
+    /// è¥ä¸šç»“æŸæ—¶è°ƒç”¨ï¼šå¤„ç†ä¿åº•æœºåˆ¶
     /// </summary>
     public void OnNightEnd()
     {
-        Debug.Log("[CustomerSpawnManager] ÓªÒµ½áÊø£¬´¦Àí±£µ×»úÖÆ...");
+        Debug.Log("[CustomerSpawnManager] è¥ä¸šç»“æŸï¼Œå¤„ç†ä¿åº•æœºåˆ¶...");
 
-        // ¼ì²é±£µ×³ØÖĞÎ´µ½·ÃµÄ¹Ë¿Í
+        // æ£€æŸ¥ä¿åº•æ± ä¸­æœªåˆ°è®¿çš„é¡¾å®¢
         foreach (var guaranteeId in guaranteeIds)
         {
             if (!visitedIds.Contains(guaranteeId))
             {
-                // Ö±½Ó¹é»¹¿ÉÓÃ³Ø£¬²»½øÀäÈ´
+                // ç›´æ¥å½’è¿˜å¯ç”¨æ± ï¼Œä¸è¿›å†·å´
                 if (cooldownPool.ContainsKey(guaranteeId))
                 {
                     cooldownPool.Remove(guaranteeId);
@@ -527,7 +549,7 @@ public class CustomerSpawnManager : MonoBehaviour
                 if (npcLookup.TryGetValue(guaranteeId, out var npc))
                 {
                     availablePool.Add(npc);
-                    Debug.Log($"[CustomerSpawnManager] ±£µ×¹Ë¿Í¹é»¹¿ÉÓÃ³Ø: {guaranteeId}");
+                    Debug.Log($"[CustomerSpawnManager] ä¿åº•é¡¾å®¢å½’è¿˜å¯ç”¨æ± : {guaranteeId}");
                 }
             }
         }
@@ -539,20 +561,21 @@ public class CustomerSpawnManager : MonoBehaviour
 
     #endregion
 
-    #region ×´Ì¬µ¼³ö/»Ö¸´
+    #region çŠ¶æ€å¯¼å‡º/æ¢å¤
 
     /// <summary>
-    /// µ¼³öµ±Ç°×´Ì¬£¨ÓÃÓÚ±£´æÏµÍ³£©
+    /// å¯¼å‡ºå½“å‰çŠ¶æ€ï¼ˆç”¨äºä¿å­˜ç³»ç»Ÿï¼‰
     /// </summary>
     public NightCustomerState ExportState()
     {
         var state = new NightCustomerState
         {
             globalVisitorCount = this.globalVisitorCount,
+            totalSpawnedCount = this.totalSpawnedCount,
             spawnTimer = this.spawnTimer
         };
 
-        // µ¼³ö¶ÓÁĞ
+        // å¯¼å‡ºé˜Ÿåˆ—
         if (customerQueue != null)
         {
             var queueArray = customerQueue.ToArray();
@@ -562,36 +585,37 @@ public class CustomerSpawnManager : MonoBehaviour
             }
         }
 
-        // µ¼³ö¿ÉÓÃ³Ø
+        // å¯¼å‡ºå¯ç”¨æ± 
         foreach (var npc in availablePool)
         {
             state.availablePool.Add(npc.id);
         }
 
-        // µ¼³öÀäÈ´³Ø
+        // å¯¼å‡ºå†·å´æ± 
         foreach (var kvp in cooldownPool)
         {
             state.cooldownPool.Add(new CustomerCooldownData(kvp.Key, kvp.Value));
         }
 
-        // µ¼³ö±£µ×ºÍÒÑ·ÃÎÊ
+        // å¯¼å‡ºä¿åº•å’Œå·²è®¿é—®
         state.guaranteeIds.AddRange(guaranteeIds);
         state.visitedIds.AddRange(visitedIds);
 
-        Debug.Log($"[CustomerSpawnManager] µ¼³ö×´Ì¬: {state}");
+        Debug.Log($"[CustomerSpawnManager] å¯¼å‡ºçŠ¶æ€: {state}");
         return state;
     }
 
     /// <summary>
-    /// ´Ó×´Ì¬»Ö¸´£¨ÓÃÓÚ±£´æÏµÍ³£©
+    /// ä»çŠ¶æ€æ¢å¤ï¼ˆç”¨äºä¿å­˜ç³»ç»Ÿï¼‰
     /// </summary>
     private void RestoreFromState(NightCustomerState state)
     {
-        // »Ö¸´»ù´¡Êı¾İ
+        // æ¢å¤åŸºç¡€æ•°æ®
         globalVisitorCount = state.globalVisitorCount;
+        totalSpawnedCount = state.totalSpawnedCount; // æ¢å¤æ€»ç”Ÿæˆè®¡æ•°
         spawnTimer = state.spawnTimer;
 
-        // »Ö¸´¶ÓÁĞ
+        // æ¢å¤é˜Ÿåˆ—
         customerQueue?.Clear();
         foreach (var npcId in state.queuedNpcIds)
         {
@@ -601,7 +625,7 @@ public class CustomerSpawnManager : MonoBehaviour
             }
         }
 
-        // »Ö¸´¿ÉÓÃ³Ø
+        // æ¢å¤å¯ç”¨æ± 
         availablePool.Clear();
         foreach (var npcId in state.availablePool)
         {
@@ -611,14 +635,14 @@ public class CustomerSpawnManager : MonoBehaviour
             }
         }
 
-        // »Ö¸´ÀäÈ´³Ø
+        // æ¢å¤å†·å´æ± 
         cooldownPool.Clear();
         foreach (var cooldownData in state.cooldownPool)
         {
             cooldownPool[cooldownData.npcId] = cooldownData.remainingCooldown;
         }
 
-        // »Ö¸´±£µ×ºÍÒÑ·ÃÎÊ
+        // æ¢å¤ä¿åº•å’Œå·²è®¿é—®
         guaranteeIds.Clear();
         guaranteeIds.AddRange(state.guaranteeIds);
         
@@ -629,12 +653,12 @@ public class CustomerSpawnManager : MonoBehaviour
         }
 
         UpdateDebugInfo();
-        Debug.Log($"[CustomerSpawnManager] ×´Ì¬»Ö¸´Íê³É");
+        Debug.Log($"[CustomerSpawnManager] çŠ¶æ€æ¢å¤å®Œæˆ");
     }
 
     #endregion
 
-    #region µ÷ÊÔºÍUI
+    #region è°ƒè¯•å’ŒUI
 
     private void UpdateDebugInfo()
     {
@@ -643,8 +667,8 @@ public class CustomerSpawnManager : MonoBehaviour
         cooldownCount = cooldownPool.Count;
     }
 
-    [Title("µ÷ÊÔ²Ù×÷")]
-    [Button("ÊÖ¶¯Éú³É¹Ë¿Í")]
+    [Title("è°ƒè¯•æ“ä½œ")]
+    [Button("æ‰‹åŠ¨ç”Ÿæˆé¡¾å®¢")]
     private void DebugSpawnCustomer()
     {
         if (Application.isPlaying)
@@ -653,7 +677,7 @@ public class CustomerSpawnManager : MonoBehaviour
         }
     }
 
-    [Button("Çå¿Õ¶ÓÁĞ")]
+    [Button("æ¸…ç©ºé˜Ÿåˆ—")]
     private void DebugClearQueue()
     {
         if (Application.isPlaying && customerQueue != null)
@@ -663,22 +687,22 @@ public class CustomerSpawnManager : MonoBehaviour
         }
     }
 
-    [Button("Êä³ö×´Ì¬ÏêÇé")]
+    [Button("è¾“å‡ºçŠ¶æ€è¯¦æƒ…")]
     private void DebugLogState()
     {
         if (!Application.isPlaying) return;
 
-        Debug.Log($"=== CustomerSpawnManager ×´Ì¬ ===");
-        Debug.Log($"¶ÓÁĞ: {queueCount}/{queueCapacity}");
-        Debug.Log($"¿ÉÓÃ³Ø: {availableCount}");
-        Debug.Log($"ÀäÈ´³Ø: {cooldownCount}");
-        Debug.Log($"È«¾Öµ½·Ã: {globalVisitorCount}");
-        Debug.Log($"±£µ×³Ø: [{string.Join(", ", guaranteeIds)}]");
-        Debug.Log($"ÒÑµ½·Ã: {visitedIds.Count}");
+        Debug.Log($"=== CustomerSpawnManager çŠ¶æ€ ===");
+        Debug.Log($"é˜Ÿåˆ—: {queueCount}/{queueCapacity}");
+        Debug.Log($"å¯ç”¨æ± : {availableCount}");
+        Debug.Log($"å†·å´æ± : {cooldownCount}");
+        Debug.Log($"å…¨å±€åˆ°è®¿: {globalVisitorCount}");
+        Debug.Log($"ä¿åº•æ± : [{string.Join(", ", guaranteeIds)}]");
+        Debug.Log($"å·²åˆ°è®¿: {visitedIds.Count}");
         
         if (cooldownPool.Count > 0)
         {
-            Debug.Log("ÀäÈ´ÏêÇé:");
+            Debug.Log("å†·å´è¯¦æƒ…:");
             foreach (var kvp in cooldownPool)
             {
                 Debug.Log($"  {kvp.Key}: {kvp.Value}");

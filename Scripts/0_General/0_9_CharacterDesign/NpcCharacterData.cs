@@ -1,26 +1,27 @@
 using UnityEngine;
 
 /// <summary>
-/// µ¥¸ö¹Ë¿ÍµÄ ScriptableObject£¨¶ÀÁ¢SO£©¡£
-/// Ä¿µÄ£ºÓÃ¶ÀÁ¢SO³ĞÔØÃ¿Î»¹Ë¿ÍµÄ¾²Ì¬ÊıÖµ/»­ÏñĞÅÏ¢£¬¶ø²»ÔÙÒÀÀµ¡°Àà±ğSOÊı×é¡±¡£
+/// å•ä¸ªé¡¾å®¢çš„ ScriptableObjectï¼ˆç‹¬ç«‹SOï¼‰ã€‚
+/// ç›®çš„ï¼šç”¨ç‹¬ç«‹SOæ‰¿è½½æ¯ä½é¡¾å®¢çš„é™æ€æ•°å€¼/ç”»åƒä¿¡æ¯ï¼Œè€Œä¸å†ä¾èµ–â€œç±»åˆ«SOæ•°ç»„â€ã€‚
 /// </summary>
 [CreateAssetMenu(menuName = "TN/Characters/NpcCharacterData", fileName = "Npc_XXXXXX")]
 public sealed class NpcCharacterData : ScriptableObject
 {
     [Header("Identity")]
-    public string id;                 // Èç CompanyEmployee_001_M
-    public string identityId;         // Èç CompanyEmployee / SmallLeader / Freelancer / Boss / Student
-    public float identityMultiplier;  // À´×ÔÉí·İSOµÄ±¶ÂÊ
+    public string id;                 // å¦‚ CompanyEmployee_001_M
+    public string identityId;         // å¦‚ CompanyEmployee / SmallLeader / Freelancer / Boss / Student
+    public float identityMultiplier;  // æ¥è‡ªèº«ä»½SOçš„å€ç‡
 
     [Header("Basic")]
     public string gender;             // "male" | "female"
     public string state;              // Busy / Irritable / Melancholy / Picky / Friendly
-    public string displayName;        // Õ¹Ê¾Ãû£¨±¾µØ»¯Ç°¿É×÷Õ¼Î»£©
-    public int initialMood;           // ³õÊ¼ĞÄÇé
-    public float visitPercent;        // »ùÏßÕ¼±È£¨À´×ÔÊı¾İ±í/JSON£©£¬ºóĞø»á±»Ã¿ÈÕÏûÏ¢½øĞĞ¶ş´Î¹éÒ»
+    public string displayName;        // å±•ç¤ºåï¼ˆæœ¬åœ°åŒ–å‰å¯ä½œå ä½ï¼‰
+    public Color stateColor;          // çŠ¶æ€å¯¹åº”çš„é¢œè‰²ï¼ˆBusy-ç»¿/Friendly-è“ç´«/Irritable-çº¢/Melancholy-é’/Picky-é»„ï¼‰
+    public int initialMood;           // åˆå§‹å¿ƒæƒ…
+    public float visitPercent;        // åŸºçº¿å æ¯”ï¼ˆæ¥è‡ªæ•°æ®è¡¨/JSONï¼‰ï¼Œåç»­ä¼šè¢«æ¯æ—¥æ¶ˆæ¯è¿›è¡ŒäºŒæ¬¡å½’ä¸€
 
     [Header("Portrait (Resources)")]
-    public string portraitPath;       // Èç Character/Portrait/YH2-ÄĞ´óÑ§Éú£¨ResourcesÂ·¾¶£¬ÎŞÀ©Õ¹Ãû£©
+    public string portraitPath;       // å¦‚ Character/Portrait/YH2-ç”·å¤§å­¦ç”Ÿï¼ˆResourcesè·¯å¾„ï¼Œæ— æ‰©å±•åï¼‰
 
     [Header("Dialogues Ref (Resources)")]
     public string dialoguesRefCN = "Character/Dialogues/NPCDialogues";

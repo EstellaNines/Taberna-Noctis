@@ -1,26 +1,52 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using TabernaNoctis.QueueSystem;
+using TabernaNoctis.CharacterDesign;
 
 #if UNITY_EDITOR
 /// <summary>
-/// PooledQueue ¼à¿Ø±à¼­Æ÷´°¿Ú
-/// - ÏÔÊ¾ËùÓĞÒÑ×¢²á¶ÓÁĞµÄÍ³¼ÆĞÅÏ¢
-/// - ÊµÊ±Ë¢ĞÂĞÔÄÜÊı¾İ
-/// - Ìá¹©Çå¿Õ/Ô¤ÈÈ²Ù×÷
+/// PooledQueue ç›‘æ§ç¼–è¾‘å™¨çª—å£
+/// - è‡ªåŠ¨å‘ç°å¹¶æ˜¾ç¤ºæ‰€æœ‰åœºæ™¯ä¸­çš„é˜Ÿåˆ—
+/// - å®æ—¶åˆ·æ–°é˜Ÿåˆ—ç»Ÿè®¡ä¿¡æ¯
+/// - æä¾›é˜Ÿåˆ—è¯¦æƒ…æŸ¥çœ‹çª—å£
+/// - æ”¯æŒé˜Ÿåˆ—æ“ä½œï¼ˆæ¸…ç©ºã€é¢„çƒ­ç­‰ï¼‰
 /// </summary>
 public class PooledQueueMonitor : EditorWindow
 {
     private Vector2 _scrollPosition;
     private bool _autoRefresh = true;
     private double _lastRefreshTime;
-    private const double REFRESH_INTERVAL = 0.5; // 0.5ÃëË¢ĞÂÒ»´Î
+    private const double REFRESH_INTERVAL = 0.5; // 0.5ç§’åˆ·æ–°ä¸€æ¬¡
+    
+    private List<QueueInfo> _discoveredQueues = new List<QueueInfo>();
+    
+    /// <summary>
+    /// é˜Ÿåˆ—ä¿¡æ¯ç»“æ„
+    /// </summary>
+    public class QueueInfo
+    {
+        public string name;
+        public string typeName;
+        public MonoBehaviour owner;
+        public object queueInstance;
+        public MethodInfo countMethod;
+        public MethodInfo toArrayMethod;
+        public MethodInfo clearMethod;
+        public MethodInfo getStatsMethod;
+        
+        public int Count => (int)(countMethod?.Invoke(queueInstance, null) ?? 0);
+        public object[] ToArray() => (object[])(toArrayMethod?.Invoke(queueInstance, null) ?? new object[0]);
+        public string GetStats() => (string)(getStatsMethod?.Invoke(queueInstance, null) ?? "æ— ç»Ÿè®¡ä¿¡æ¯");
+        public void Clear() => clearMethod?.Invoke(queueInstance, null);
+    }
 
-    [MenuItem("×ÔÖÆ¹¤¾ß/¶ÓÁĞÏµÍ³/¶ÓÁĞ¼à¿ØÆ÷ &Q")]
+    [MenuItem("è‡ªåˆ¶å·¥å…·/é˜Ÿåˆ—ç³»ç»Ÿ/é˜Ÿåˆ—ç›‘æ§å™¨ &Q")]
     public static void ShowWindow()
     {
-        var window = GetWindow<PooledQueueMonitor>("¶ÓÁĞ¼à¿ØÆ÷");
+        var window = GetWindow<PooledQueueMonitor>("é˜Ÿåˆ—ç›‘æ§å™¨");
         window.minSize = new Vector2(600, 400);
         window.Show();
     }
@@ -28,6 +54,7 @@ public class PooledQueueMonitor : EditorWindow
     private void OnEnable()
     {
         _lastRefreshTime = EditorApplication.timeSinceStartup;
+        DiscoverQueues();
     }
 
     private void OnGUI()
@@ -38,21 +65,120 @@ public class PooledQueueMonitor : EditorWindow
         if (_autoRefresh && EditorApplication.timeSinceStartup - _lastRefreshTime > REFRESH_INTERVAL)
         {
             _lastRefreshTime = EditorApplication.timeSinceStartup;
+            DiscoverQueues(); // å®šæœŸé‡æ–°å‘ç°é˜Ÿåˆ—
             Repaint();
         }
+    }
+    
+    /// <summary>
+    /// è‡ªåŠ¨å‘ç°åœºæ™¯ä¸­çš„æ‰€æœ‰PooledQueueå®ä¾‹
+    /// </summary>
+    private void DiscoverQueues()
+    {
+        _discoveredQueues.Clear();
+        
+        if (!Application.isPlaying) return;
+        
+        // æŸ¥æ‰¾æ‰€æœ‰MonoBehaviourç»„ä»¶
+        var allComponents = FindObjectsOfType<MonoBehaviour>();
+        
+        foreach (var component in allComponents)
+        {
+            if (component == null) continue;
+            
+            var type = component.GetType();
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            
+            foreach (var field in fields)
+            {
+                if (IsPooledQueueType(field.FieldType))
+                {
+                    var queueInstance = field.GetValue(component);
+                    if (queueInstance != null)
+                    {
+                        var queueInfo = CreateQueueInfo(field.Name, component, queueInstance, field.FieldType);
+                        if (queueInfo != null)
+                        {
+                            _discoveredQueues.Add(queueInfo);
+                        }
+                    }
+                }
+            }
+            
+            // ä¹Ÿæ£€æŸ¥å±æ€§
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            foreach (var property in properties)
+            {
+                if (IsPooledQueueType(property.PropertyType) && property.CanRead)
+                {
+                    try
+                    {
+                        var queueInstance = property.GetValue(component);
+                        if (queueInstance != null)
+                        {
+                            var queueInfo = CreateQueueInfo(property.Name, component, queueInstance, property.PropertyType);
+                            if (queueInfo != null)
+                            {
+                                _discoveredQueues.Add(queueInfo);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // å¿½ç•¥æ— æ³•è®¿é—®çš„å±æ€§
+                    }
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// æ£€æŸ¥ç±»å‹æ˜¯å¦ä¸ºPooledQueue
+    /// </summary>
+    private bool IsPooledQueueType(System.Type type)
+    {
+        if (type.IsGenericType)
+        {
+            var genericTypeDef = type.GetGenericTypeDefinition();
+            return genericTypeDef == typeof(PooledQueue<>);
+        }
+        return false;
+    }
+    
+    /// <summary>
+    /// åˆ›å»ºé˜Ÿåˆ—ä¿¡æ¯å¯¹è±¡
+    /// </summary>
+    private QueueInfo CreateQueueInfo(string fieldName, MonoBehaviour owner, object queueInstance, System.Type queueType)
+    {
+        var queueInfo = new QueueInfo
+        {
+            name = $"{owner.name}.{fieldName}",
+            typeName = queueType.Name,
+            owner = owner,
+            queueInstance = queueInstance
+        };
+        
+        // è·å–æ–¹æ³•å¼•ç”¨
+        queueInfo.countMethod = queueType.GetProperty("Count")?.GetGetMethod();
+        queueInfo.toArrayMethod = queueType.GetMethod("ToArray");
+        queueInfo.clearMethod = queueType.GetMethod("Clear");
+        queueInfo.getStatsMethod = queueType.GetMethod("GetPoolStats");
+        
+        return queueInfo;
     }
 
     private void DrawHeader()
     {
         EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
         
-        GUILayout.Label("PooledQueue ÔËĞĞÊ±¼à¿Ø", EditorStyles.boldLabel);
+        GUILayout.Label($"PooledQueue ç›‘æ§å™¨ ({_discoveredQueues.Count} ä¸ªé˜Ÿåˆ—)", EditorStyles.boldLabel);
         GUILayout.FlexibleSpace();
         
-        _autoRefresh = GUILayout.Toggle(_autoRefresh, "×Ô¶¯Ë¢ĞÂ", EditorStyles.toolbarButton, GUILayout.Width(80));
+        _autoRefresh = GUILayout.Toggle(_autoRefresh, "è‡ªåŠ¨åˆ·æ–°", EditorStyles.toolbarButton, GUILayout.Width(80));
         
-        if (GUILayout.Button("ÊÖ¶¯Ë¢ĞÂ", EditorStyles.toolbarButton, GUILayout.Width(80)))
+        if (GUILayout.Button("æ‰‹åŠ¨åˆ·æ–°", EditorStyles.toolbarButton, GUILayout.Width(80)))
         {
+            DiscoverQueues();
             Repaint();
         }
         
@@ -65,51 +191,275 @@ public class PooledQueueMonitor : EditorWindow
     {
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
-        EditorGUILayout.HelpBox(
-            "PooledQueue ¼à¿ØÆ÷\n\n" +
-            "´Ë¹¤¾ßÓÃÓÚ¼à¿Ø³¡¾°ÖĞµÄ PooledQueue ÊµÀı¡£\n" +
-            "Òª¼à¿Ø×Ô¶¨Òå¶ÓÁĞ£¬ÇëÔÚÄúµÄ½Å±¾ÖĞ£º\n" +
-            "1. ¹«¿ª PooledQueue ×Ö¶Î»òÊôĞÔ\n" +
-            "2. Ìí¼Ó [ContextMenu] ·½·¨µ÷ÓÃ GetPoolStats()\n" +
-            "3. »òÔÚ´Ë±à¼­Æ÷½Å±¾ÖĞÀ©Õ¹¼à¿ØÂß¼­",
-            MessageType.Info
-        );
+        if (!Application.isPlaying)
+        {
+            EditorGUILayout.HelpBox("è¯·åœ¨è¿è¡Œæ—¶ä½¿ç”¨æ­¤ç›‘æ§å™¨", MessageType.Warning);
+            EditorGUILayout.EndScrollView();
+            return;
+        }
 
-        EditorGUILayout.Space(10);
-        DrawUsageGuide();
+        if (_discoveredQueues.Count == 0)
+        {
+            EditorGUILayout.HelpBox("æœªå‘ç°ä»»ä½•PooledQueueå®ä¾‹\n\nç¡®ä¿åœºæ™¯ä¸­æœ‰ä½¿ç”¨PooledQueueçš„ç»„ä»¶", MessageType.Info);
+            EditorGUILayout.EndScrollView();
+            return;
+        }
+
+        // ç»˜åˆ¶é˜Ÿåˆ—åˆ—è¡¨
+        foreach (var queueInfo in _discoveredQueues)
+        {
+            DrawQueueItem(queueInfo);
+            EditorGUILayout.Space(5);
+        }
 
         EditorGUILayout.EndScrollView();
     }
-
-    private void DrawUsageGuide()
+    
+    /// <summary>
+    /// ç»˜åˆ¶å•ä¸ªé˜Ÿåˆ—é¡¹
+    /// </summary>
+    private void DrawQueueItem(QueueInfo queueInfo)
     {
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-        EditorGUILayout.LabelField("À©Õ¹¼à¿Ø¹¦ÄÜÖ¸ÄÏ", EditorStyles.boldLabel);
         
-        EditorGUILayout.HelpBox(
-            "Òª¼à¿Ø×Ô¶¨Òå¶ÓÁĞ£¬ÇëÔÚÄúµÄ½Å±¾ÖĞ£º\n" +
-            "1. ¹«¿ª PooledQueue ×Ö¶Î»òÊôĞÔ\n" +
-            "2. Ìí¼Ó [ContextMenu] ·½·¨µ÷ÓÃ GetPoolStats()\n" +
-            "3. »òÊµÏÖ IQueueMonitorable ½Ó¿Ú£¨×Ô¶¨Òå£©",
-            MessageType.Info
-        );
-
-        if (GUILayout.Button("²é¿´ÍêÕûÎÄµµ"))
+        // æ ‡é¢˜è¡Œ
+        EditorGUILayout.BeginHorizontal();
+        
+        // é˜Ÿåˆ—åç§°å’Œç±»å‹
+        EditorGUILayout.LabelField($"ğŸ“‹ {queueInfo.name}", EditorStyles.boldLabel, GUILayout.Width(200));
+        EditorGUILayout.LabelField($"ç±»å‹: {queueInfo.typeName}", GUILayout.Width(150));
+        EditorGUILayout.LabelField($"æ•°é‡: {queueInfo.Count}", GUILayout.Width(80));
+        
+        GUILayout.FlexibleSpace();
+        
+        // æ“ä½œæŒ‰é’®
+        if (GUILayout.Button("è¯¦æƒ…", GUILayout.Width(50)))
         {
-            var docPath = "Assets/Documents/QueueSystem_DevDoc.md";
-            var asset = AssetDatabase.LoadAssetAtPath<TextAsset>(docPath);
-            if (asset != null)
+            ShowQueueDetailWindow(queueInfo);
+        }
+        
+        if (GUILayout.Button("æ¸…ç©º", GUILayout.Width(50)))
+        {
+            if (EditorUtility.DisplayDialog("ç¡®è®¤æ¸…ç©º", $"ç¡®å®šè¦æ¸…ç©ºé˜Ÿåˆ— '{queueInfo.name}' å—ï¼Ÿ", "ç¡®å®š", "å–æ¶ˆ"))
             {
-                Selection.activeObject = asset;
-                EditorGUIUtility.PingObject(asset);
+                queueInfo.Clear();
             }
-            else
+        }
+        
+        EditorGUILayout.EndHorizontal();
+        
+        // ç»„ä»¶ä¿¡æ¯
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField($"ç»„ä»¶: {queueInfo.owner.GetType().Name}", GUILayout.Width(200));
+        EditorGUILayout.LabelField($"GameObject: {queueInfo.owner.name}", GUILayout.Width(150));
+        
+        if (GUILayout.Button("å®šä½", GUILayout.Width(50)))
+        {
+            Selection.activeGameObject = queueInfo.owner.gameObject;
+            EditorGUIUtility.PingObject(queueInfo.owner.gameObject);
+        }
+        
+        EditorGUILayout.EndHorizontal();
+        
+        // ç»Ÿè®¡ä¿¡æ¯
+        if (queueInfo.getStatsMethod != null)
+        {
+            var stats = queueInfo.GetStats();
+            if (!string.IsNullOrEmpty(stats))
             {
-                Debug.LogWarning($"Î´ÕÒµ½ÎÄµµ: {docPath}");
+                EditorGUILayout.LabelField("ç»Ÿè®¡:", EditorStyles.miniLabel);
+                EditorGUILayout.LabelField(stats, EditorStyles.wordWrappedMiniLabel);
             }
         }
         
         EditorGUILayout.EndVertical();
+    }
+    
+    /// <summary>
+    /// æ˜¾ç¤ºé˜Ÿåˆ—è¯¦æƒ…çª—å£
+    /// </summary>
+    private void ShowQueueDetailWindow(QueueInfo queueInfo)
+    {
+        QueueDetailWindow.ShowWindow(queueInfo);
+    }
+}
+
+/// <summary>
+/// é˜Ÿåˆ—è¯¦æƒ…çª—å£
+/// </summary>
+public class QueueDetailWindow : EditorWindow
+{
+    private PooledQueueMonitor.QueueInfo _queueInfo;
+    private Vector2 _scrollPosition;
+    private bool _autoRefresh = true;
+    private double _lastRefreshTime;
+    private const double REFRESH_INTERVAL = 1.0; // 1ç§’åˆ·æ–°ä¸€æ¬¡
+    
+    public static void ShowWindow(PooledQueueMonitor.QueueInfo queueInfo)
+    {
+        var window = GetWindow<QueueDetailWindow>($"é˜Ÿåˆ—è¯¦æƒ… - {queueInfo.name}");
+        window._queueInfo = queueInfo;
+        window.minSize = new Vector2(500, 300);
+        window.Show();
+    }
+    
+    private void OnGUI()
+    {
+        if (_queueInfo == null)
+        {
+            EditorGUILayout.HelpBox("é˜Ÿåˆ—ä¿¡æ¯æ— æ•ˆ", MessageType.Error);
+            return;
+        }
+        
+        DrawHeader();
+        DrawQueueContent();
+        
+        if (_autoRefresh && EditorApplication.timeSinceStartup - _lastRefreshTime > REFRESH_INTERVAL)
+        {
+            _lastRefreshTime = EditorApplication.timeSinceStartup;
+            Repaint();
+        }
+    }
+    
+    private void DrawHeader()
+    {
+        EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
+        
+        GUILayout.Label($"é˜Ÿåˆ—: {_queueInfo.name} (æ•°é‡: {_queueInfo.Count})", EditorStyles.boldLabel);
+        GUILayout.FlexibleSpace();
+        
+        _autoRefresh = GUILayout.Toggle(_autoRefresh, "è‡ªåŠ¨åˆ·æ–°", EditorStyles.toolbarButton, GUILayout.Width(80));
+        
+        if (GUILayout.Button("åˆ·æ–°", EditorStyles.toolbarButton, GUILayout.Width(50)))
+        {
+            Repaint();
+        }
+        
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Space(5);
+    }
+    
+    private void DrawQueueContent()
+    {
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+        
+        // é˜Ÿåˆ—åŸºæœ¬ä¿¡æ¯
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        EditorGUILayout.LabelField("é˜Ÿåˆ—ä¿¡æ¯", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField($"åç§°: {_queueInfo.name}");
+        EditorGUILayout.LabelField($"ç±»å‹: {_queueInfo.typeName}");
+        EditorGUILayout.LabelField($"æ‰€å±ç»„ä»¶: {_queueInfo.owner.GetType().Name}");
+        EditorGUILayout.LabelField($"GameObject: {_queueInfo.owner.name}");
+        EditorGUILayout.LabelField($"å½“å‰æ•°é‡: {_queueInfo.Count}");
+        EditorGUILayout.EndVertical();
+        
+        EditorGUILayout.Space(10);
+        
+        // ç»Ÿè®¡ä¿¡æ¯
+        if (_queueInfo.getStatsMethod != null)
+        {
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.LabelField("æ€§èƒ½ç»Ÿè®¡", EditorStyles.boldLabel);
+            var stats = _queueInfo.GetStats();
+            EditorGUILayout.LabelField(stats, EditorStyles.wordWrappedLabel);
+            EditorGUILayout.EndVertical();
+            
+            EditorGUILayout.Space(10);
+        }
+        
+        // é˜Ÿåˆ—å†…å®¹
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        EditorGUILayout.LabelField("é˜Ÿåˆ—å†…å®¹", EditorStyles.boldLabel);
+        
+        var items = _queueInfo.ToArray();
+        if (items.Length == 0)
+        {
+            EditorGUILayout.LabelField("é˜Ÿåˆ—ä¸ºç©º", EditorStyles.centeredGreyMiniLabel);
+        }
+        else
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                DrawQueueItem(i, items[i]);
+            }
+        }
+        
+        EditorGUILayout.EndVertical();
+        
+        EditorGUILayout.Space(10);
+        
+        // æ“ä½œæŒ‰é’®
+        EditorGUILayout.BeginHorizontal();
+        
+        if (GUILayout.Button("æ¸…ç©ºé˜Ÿåˆ—"))
+        {
+            if (EditorUtility.DisplayDialog("ç¡®è®¤æ¸…ç©º", $"ç¡®å®šè¦æ¸…ç©ºé˜Ÿåˆ— '{_queueInfo.name}' å—ï¼Ÿ", "ç¡®å®š", "å–æ¶ˆ"))
+            {
+                _queueInfo.Clear();
+            }
+        }
+        
+        if (GUILayout.Button("å®šä½ç»„ä»¶"))
+        {
+            Selection.activeGameObject = _queueInfo.owner.gameObject;
+            EditorGUIUtility.PingObject(_queueInfo.owner.gameObject);
+        }
+        
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.EndScrollView();
+    }
+    
+    private void DrawQueueItem(int index, object item)
+    {
+        EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
+        
+        // ç´¢å¼•
+        EditorGUILayout.LabelField($"[{index}]", GUILayout.Width(40));
+        
+        // å†…å®¹
+        if (item == null)
+        {
+            EditorGUILayout.LabelField("null", EditorStyles.centeredGreyMiniLabel);
+        }
+        else
+        {
+            // å°è¯•æ˜¾ç¤ºæœ‰æ„ä¹‰çš„ä¿¡æ¯
+            string displayText = GetItemDisplayText(item);
+            EditorGUILayout.LabelField(displayText, EditorStyles.wordWrappedLabel);
+            
+            // å¦‚æœæ˜¯Unityå¯¹è±¡ï¼Œæä¾›å®šä½åŠŸèƒ½
+            if (item is UnityEngine.Object unityObj)
+            {
+                if (GUILayout.Button("å®šä½", GUILayout.Width(50)))
+                {
+                    Selection.activeObject = unityObj;
+                    EditorGUIUtility.PingObject(unityObj);
+                }
+            }
+        }
+        
+        EditorGUILayout.EndHorizontal();
+    }
+    
+    private string GetItemDisplayText(object item)
+    {
+        if (item == null) return "null";
+        
+        // ç‰¹æ®Šå¤„ç†NpcCharacterData
+        if (item is NpcCharacterData npcData)
+        {
+            return $"NPC: {npcData.displayName} ({npcData.state}, {npcData.gender}) - ID: {npcData.id}";
+        }
+        
+        // å…¶ä»–Unityå¯¹è±¡
+        if (item is UnityEngine.Object unityObj)
+        {
+            return $"{item.GetType().Name}: {unityObj.name}";
+        }
+        
+        // æ™®é€šå¯¹è±¡
+        return $"{item.GetType().Name}: {item.ToString()}";
     }
 }
 #endif

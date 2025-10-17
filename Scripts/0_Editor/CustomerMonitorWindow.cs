@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using TabernaNoctis.CharacterDesign;
+using TabernaNoctis.NightScreen;
 
 /// <summary>
 /// 顾客NPC到来监控器：实时监控顾客系统运行状态
@@ -29,19 +30,19 @@ public class CustomerMonitorWindow : EditorWindow
     private Toggle _autoRefreshToggle;
     private TextField _searchField;
 
-    // 数据（记录顾客活动日志：入队→到访→服务完成）
-    private readonly List<CustomerMonitorData> _customerLog = new List<CustomerMonitorData>();
-    private DailyProbabilityToNight? _currentProbabilityData;
+    // 数据
+    private readonly List<NpcCharacterData> _queuedCustomers = new List<NpcCharacterData>();
+    private CustomerServiceManager _serviceManager;
+    private CustomerSpawnManager _spawnManager;
     private bool _isMonitoring = false;
     private double _lastUpdateTime = 0;
-    private const double UPDATE_INTERVAL = 1.0; // 1秒更新一次
-    private int _customerSeq = 0;
+    private const double UPDATE_INTERVAL = 0.5; // 0.5秒更新一次
 
-    // 统计数据
-    private int _totalVisits = 0;
-    private int _currentQueueCount = 0;
-    private int _availableCount = 0;
-    private int _cooldownCount = 0;
+    // 当前服务状态
+    private NpcCharacterData _currentServingCustomer;
+    private float _serviceCooldownTime = 0f;
+    private float _drinkingTime = 0f;
+    private bool _isServiceComplete = false;
 
     private void CreateGUI()
     {
@@ -77,14 +78,17 @@ public class CustomerMonitorWindow : EditorWindow
         // 系统状态
         CreateSystemStatus(mainContainer);
 
-        // 主内容区域（单列：仅列表）
+        // 主内容区域（两列：队列列表 + 当前服务）
         var contentContainer = new VisualElement();
         contentContainer.style.flexDirection = FlexDirection.Row;
         contentContainer.style.flexGrow = 1;
         mainContainer.Add(contentContainer);
 
-        // 顾客列表（仅到访）
-        CreateCustomerList(contentContainer);
+        // 左侧：队列列表
+        CreateQueueList(contentContainer);
+
+        // 右侧：当前服务状态
+        CreateCurrentServicePanel(contentContainer);
 
         // 底部：统计信息
         CreateStatsPanel(mainContainer);
@@ -127,13 +131,14 @@ public class CustomerMonitorWindow : EditorWindow
         parent.Add(_systemStatusLabel);
     }
 
-    private void CreateCustomerList(VisualElement parent)
+    private void CreateQueueList(VisualElement parent)
     {
         var listContainer = new VisualElement();
-        listContainer.style.width = Length.Percent(100);
+        listContainer.style.width = Length.Percent(60);
+        listContainer.style.marginRight = 10;
         parent.Add(listContainer);
 
-        var listTitle = new Label("顾客列表");
+        var listTitle = new Label("顾客队列");
         listTitle.style.fontSize = 16;
         listTitle.style.unityFontStyleAndWeight = FontStyle.Bold;
         listTitle.style.marginBottom = 5;
@@ -150,89 +155,107 @@ public class CustomerMonitorWindow : EditorWindow
         _customerListView.style.borderRightColor = Color.gray;
         _customerListView.style.borderTopColor = Color.gray;
         _customerListView.style.borderBottomColor = Color.gray;
-        _customerListView.itemsSource = _customerLog;
-        _customerListView.makeItem = MakeCustomerListItem;
-        _customerListView.bindItem = BindCustomerListItem;
-        // 使用动态高度虚拟化，避免固定高度要求为正的异常
+        _customerListView.itemsSource = _queuedCustomers;
+        _customerListView.makeItem = MakeQueueListItem;
+        _customerListView.bindItem = BindQueueListItem;
         _customerListView.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight;
         listContainer.Add(_customerListView);
     }
 
-    private VisualElement MakeCustomerListItem()
-    {
-        // 使用 Foldout 形成行内可展开详情
-        var fold = new Foldout();
-        fold.value = false;
+    private Label _currentServiceLabel;
+    private Label _serviceStatusLabel;
+    private Label _cooldownLabel;
+    private Label _drinkingLabel;
 
-        var header = new VisualElement();
-        header.style.flexDirection = FlexDirection.Row;
-        header.style.alignItems = Align.Center;
-        header.style.paddingLeft = 5;
-        header.style.paddingRight = 5;
-        header.style.paddingTop = 2;
-        header.style.paddingBottom = 2;
-        header.style.borderBottomWidth = 1;
-        header.style.borderBottomColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+    private void CreateCurrentServicePanel(VisualElement parent)
+    {
+        var serviceContainer = new VisualElement();
+        serviceContainer.style.width = Length.Percent(40);
+        serviceContainer.style.borderLeftWidth = 1;
+        serviceContainer.style.borderRightWidth = 1;
+        serviceContainer.style.borderTopWidth = 1;
+        serviceContainer.style.borderBottomWidth = 1;
+        serviceContainer.style.borderLeftColor = Color.gray;
+        serviceContainer.style.borderRightColor = Color.gray;
+        serviceContainer.style.borderTopColor = Color.gray;
+        serviceContainer.style.borderBottomColor = Color.gray;
+        serviceContainer.style.paddingLeft = 10;
+        serviceContainer.style.paddingRight = 10;
+        serviceContainer.style.paddingTop = 10;
+        serviceContainer.style.paddingBottom = 10;
+        parent.Add(serviceContainer);
+
+        var serviceTitle = new Label("当前服务");
+        serviceTitle.style.fontSize = 16;
+        serviceTitle.style.unityFontStyleAndWeight = FontStyle.Bold;
+        serviceTitle.style.marginBottom = 10;
+        serviceContainer.Add(serviceTitle);
+
+        _currentServiceLabel = new Label("无顾客服务中");
+        _currentServiceLabel.style.fontSize = 14;
+        _currentServiceLabel.style.marginBottom = 5;
+        serviceContainer.Add(_currentServiceLabel);
+
+        _serviceStatusLabel = new Label("状态: 等待顾客");
+        _serviceStatusLabel.style.fontSize = 12;
+        _serviceStatusLabel.style.marginBottom = 5;
+        serviceContainer.Add(_serviceStatusLabel);
+
+        _cooldownLabel = new Label("冷却时间: --");
+        _cooldownLabel.style.fontSize = 12;
+        _cooldownLabel.style.marginBottom = 5;
+        serviceContainer.Add(_cooldownLabel);
+
+        _drinkingLabel = new Label("品尝时间: --");
+        _drinkingLabel.style.fontSize = 12;
+        _drinkingLabel.style.marginBottom = 5;
+        serviceContainer.Add(_drinkingLabel);
+    }
+
+    private VisualElement MakeQueueListItem()
+    {
+        var container = new VisualElement();
+        container.style.flexDirection = FlexDirection.Row;
+        container.style.alignItems = Align.Center;
+        container.style.paddingLeft = 5;
+        container.style.paddingRight = 5;
+        container.style.paddingTop = 3;
+        container.style.paddingBottom = 3;
+        container.style.borderBottomWidth = 1;
+        container.style.borderBottomColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
 
         var sequenceLabel = new Label();
         sequenceLabel.name = "sequence";
         sequenceLabel.style.width = 40;
         sequenceLabel.style.fontSize = 12;
         sequenceLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-        header.Add(sequenceLabel);
-
-        var nameLabel = new Label();
-        nameLabel.name = "name";
-        nameLabel.style.width = 200;
-        nameLabel.style.fontSize = 12;
-        header.Add(nameLabel);
-
-        var probabilityLabel = new Label();
-        probabilityLabel.name = "probability";
-        probabilityLabel.style.width = 90;
-        probabilityLabel.style.fontSize = 12;
-        probabilityLabel.style.color = Color.cyan;
-        header.Add(probabilityLabel);
+        container.Add(sequenceLabel);
 
         var indexLabel = new Label();
         indexLabel.name = "index";
-        indexLabel.style.width = 160;
+        indexLabel.style.width = 120;
         indexLabel.style.fontSize = 10;
         indexLabel.style.color = Color.gray;
-        header.Add(indexLabel);
+        container.Add(indexLabel);
 
-        // 去掉 Foldout 自带的文本
-        fold.Q<Label>()?.RemoveFromHierarchy();
-        fold.Add(header);
+        var nameLabel = new Label();
+        nameLabel.name = "name";
+        nameLabel.style.flexGrow = 1;
+        nameLabel.style.fontSize = 12;
+        container.Add(nameLabel);
 
-        var details = new VisualElement();
-        details.name = "details";
-        details.style.marginTop = 6;
-        details.style.marginLeft = 8;
-        fold.Add(details);
-
-        return fold;
+        return container;
     }
 
-    private void BindCustomerListItem(VisualElement element, int index)
+    private void BindQueueListItem(VisualElement element, int index)
     {
-        if (index < 0 || index >= _customerLog.Count) return;
+        if (index < 0 || index >= _queuedCustomers.Count) return;
 
-        var data = _customerLog[index];
+        var data = _queuedCustomers[index];
 
-        element.Q<Label>("sequence").text = data.sequence.ToString("D2");
-        element.Q<Label>("name").text = data.customerName;
-        element.Q<Label>("probability").text = $"{data.currentProbability:F2}%";
-        element.Q<Label>("index").text = data.customerIndex;
-
-        var details = element.Q<VisualElement>("details");
-        details.Clear();
-        AddDetailRow(details, "身份", data.identityId);
-        AddDetailRow(details, "状态", data.state);
-        AddDetailRow(details, "性别", data.gender == "male" ? "男" : "女");
-        AddDetailRow(details, "初始心情", data.initialMood.ToString());
-        AddDetailRow(details, "保底池", data.isInGuaranteePool ? "是" : "否");
-        AddDetailRow(details, "最后到访", data.lastVisitTime != default ? data.lastVisitTime.ToString("HH:mm:ss") : "刚刚");
+        element.Q<Label>("sequence").text = (index + 1).ToString("D2");
+        element.Q<Label>("index").text = data.id;
+        element.Q<Label>("name").text = data.displayName;
     }
 
     private void AddDetailRow(VisualElement parent, string key, string value)
@@ -270,13 +293,22 @@ public class CustomerMonitorWindow : EditorWindow
     {
         _isMonitoring = true;
         
-        // 订阅消息
-        MessageManager.Register<DailyProbabilityToNight>(MessageDefine.NIGHT_PROBABILITY_READY, OnProbabilityDataReceived);
-        MessageManager.Register<NpcCharacterData>(MessageDefine.CUSTOMER_SPAWNED, OnCustomerSpawned);
-        MessageManager.Register<NpcCharacterData>(MessageDefine.CUSTOMER_DEQUEUED, OnCustomerDequeued);
-        MessageManager.Register<NpcCharacterData>(MessageDefine.CUSTOMER_VISITED, OnCustomerVisited);
-
-        UpdateSystemStatus("监控中...", Color.green);
+        // 查找管理器组件
+        _spawnManager = FindObjectOfType<CustomerSpawnManager>();
+        _serviceManager = FindObjectOfType<CustomerServiceManager>();
+        
+        if (_spawnManager == null)
+        {
+            UpdateSystemStatus("未找到CustomerSpawnManager", Color.red);
+        }
+        else if (_serviceManager == null)
+        {
+            UpdateSystemStatus("未找到CustomerServiceManager", Color.yellow);
+        }
+        else
+        {
+            UpdateSystemStatus("监控中...", Color.green);
+        }
         
         EditorApplication.update += OnEditorUpdate;
     }
@@ -284,15 +316,7 @@ public class CustomerMonitorWindow : EditorWindow
     private void StopMonitoring()
     {
         _isMonitoring = false;
-        
-        // 取消订阅
-        MessageManager.Remove<DailyProbabilityToNight>(MessageDefine.NIGHT_PROBABILITY_READY, OnProbabilityDataReceived);
-        MessageManager.Remove<NpcCharacterData>(MessageDefine.CUSTOMER_SPAWNED, OnCustomerSpawned);
-        MessageManager.Remove<NpcCharacterData>(MessageDefine.CUSTOMER_DEQUEUED, OnCustomerDequeued);
-        MessageManager.Remove<NpcCharacterData>(MessageDefine.CUSTOMER_VISITED, OnCustomerVisited);
-
         UpdateSystemStatus("已停止", Color.red);
-        
         EditorApplication.update -= OnEditorUpdate;
     }
 
@@ -310,52 +334,107 @@ public class CustomerMonitorWindow : EditorWindow
 
     private void LoadCustomerData()
     {
-        // 初始化为清空的顾客活动日志
-        _customerLog.Clear();
+        // 初始化队列数据
+        _queuedCustomers.Clear();
         _customerListView?.RefreshItems();
         UpdateStats();
     }
 
-    private void LoadFromAssets() {}
-
     private void UpdateCustomerData()
     {
-        var spawnManager = FindObjectOfType<CustomerSpawnManager>();
-        if (spawnManager != null)
+        if (!Application.isPlaying) return;
+
+        // 更新队列数据
+        if (_spawnManager != null)
         {
-            var stats = spawnManager.GetStats();
-            _currentQueueCount = stats.queueCount;
-            _availableCount = stats.availableCount;
-            _cooldownCount = stats.cooldownCount;
+            var queuedCustomers = _spawnManager.GetQueuedCustomers();
+            _queuedCustomers.Clear();
+            _queuedCustomers.AddRange(queuedCustomers);
         }
 
-        // 更新顾客日志中的概率（若有最新概率数据）
-        if (_currentProbabilityData.HasValue)
-        {
-            foreach (var customer in _customerLog)
-            {
-                float probability = VisitProbabilityCalculator.GetFinalProbability(
-                    _currentProbabilityData.Value.probabilityResult,
-                    customer.identityId,
-                    customer.state,
-                    customer.gender
-                );
-                customer.UpdateProbability(probability);
-            }
-        }
+        // 更新当前服务状态
+        UpdateCurrentServiceStatus();
 
         _customerListView?.RefreshItems();
         UpdateStats();
+    }
+
+    private void UpdateCurrentServiceStatus()
+    {
+        if (_serviceManager == null) return;
+
+        // 通过反射获取服务管理器的私有字段
+        var serviceManagerType = _serviceManager.GetType();
+        var isServicingField = serviceManagerType.GetField("isServicing", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        var isDrinkingField = serviceManagerType.GetField("isDrinking", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        var nextServeCountdownField = serviceManagerType.GetField("nextServeCountdown", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+        bool isServicing = isServicingField?.GetValue(_serviceManager) as bool? ?? false;
+        bool isDrinking = isDrinkingField?.GetValue(_serviceManager) as bool? ?? false;
+        float nextServeCountdown = nextServeCountdownField?.GetValue(_serviceManager) as float? ?? 0f;
+
+        // 获取当前服务的顾客（通过CustomerNpcBehavior）
+        var behaviorField = serviceManagerType.GetField("customerBehavior", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        var customerBehavior = behaviorField?.GetValue(_serviceManager) as CustomerNpcBehavior;
+        
+        if (isServicing && customerBehavior != null)
+        {
+            _currentServingCustomer = customerBehavior.CurrentData;
+            if (_currentServingCustomer != null)
+            {
+                _currentServiceLabel.text = $"序号: 01 | ID: {_currentServingCustomer.id} | 姓名: {_currentServingCustomer.displayName}";
+                
+                if (isDrinking)
+                {
+                    _serviceStatusLabel.text = "状态: 品尝中";
+                    _drinkingLabel.text = "品尝时间: 进行中...";
+                }
+                else
+                {
+                    _serviceStatusLabel.text = "状态: 等待鸡尾酒";
+                    _drinkingLabel.text = "品尝时间: --";
+                }
+            }
+        }
+        else
+        {
+            _currentServingCustomer = null;
+            _currentServiceLabel.text = "无顾客服务中";
+            _serviceStatusLabel.text = "状态: 等待顾客";
+            _drinkingLabel.text = "品尝时间: --";
+        }
+
+        // 更新冷却时间
+        if (nextServeCountdown > 0)
+        {
+            _cooldownLabel.text = $"冷却时间: {nextServeCountdown:F1}秒";
+        }
+        else
+        {
+            _cooldownLabel.text = "冷却时间: --";
+        }
     }
 
     private void UpdateStats()
     {
-        var totalCustomers = _customerLog.Count;
-        var queuedCount = _customerLog.Count(c => c.status == CustomerStatus.InQueue);
-        var visitingCount = _customerLog.Count(c => c.status == CustomerStatus.Spawned);
-        var completedCount = _customerLog.Count(c => c.status == CustomerStatus.Visited);
+        var queueCount = _queuedCustomers.Count;
+        var isServicing = _currentServingCustomer != null;
         
-        _statsLabel.text = $"统计信息：总记录 {totalCustomers} | 队列中 {queuedCount} | 服务中 {visitingCount} | 已完成 {completedCount}";
+        string serviceStatus = isServicing ? "有顾客服务中" : "无顾客服务";
+        
+        if (_spawnManager != null)
+        {
+            var stats = _spawnManager.GetStats();
+            _statsLabel.text = $"统计信息：队列中 {queueCount} 位 | {serviceStatus} | 总到访 {stats.visitedCount} 位 | 可用池 {stats.availableCount} | 冷却池 {stats.cooldownCount}";
+        }
+        else
+        {
+            _statsLabel.text = $"统计信息：队列中 {queueCount} 位 | {serviceStatus}";
+        }
     }
 
     private void UpdateSystemStatus(string status, Color color)
@@ -364,63 +443,6 @@ public class CustomerMonitorWindow : EditorWindow
         _systemStatusLabel.style.color = color;
     }
 
-    #region 消息处理
-
-    private void OnProbabilityDataReceived(DailyProbabilityToNight data)
-    {
-        _currentProbabilityData = data;
-        UpdateSystemStatus($"已连接 - 天数{data.currentDay}, 消息{data.messageId}", Color.green);
-        UpdateCustomerData();
-    }
-
-    private void OnCustomerSpawned(NpcCharacterData npc)
-    {
-        float prob = 0f;
-        if (_currentProbabilityData.HasValue)
-        {
-            prob = VisitProbabilityCalculator.GetFinalProbability(
-                _currentProbabilityData.Value.probabilityResult,
-                npc.identityId, npc.state, npc.gender
-            );
-        }
-
-        var item = new CustomerMonitorData(npc, ++_customerSeq);
-        item.UpdateProbability(prob);
-        item.UpdateStatus(CustomerStatus.InQueue); // 入队状态
-        _customerLog.Add(item);
-
-        _customerListView?.RefreshItems();
-        UpdateStats();
-    }
-
-    private void OnCustomerDequeued(NpcCharacterData npc)
-    {
-        // 找到对应的记录并更新状态为"服务中"
-        var customer = _customerLog.FirstOrDefault(c => c.customerIndex == npc.id && c.status == CustomerStatus.InQueue);
-        if (customer != null)
-        {
-            customer.UpdateStatus(CustomerStatus.Spawned); // 开始服务
-        }
-        
-        _customerListView?.RefreshItems();
-        UpdateStats();
-    }
-
-    private void OnCustomerVisited(NpcCharacterData npc)
-    {
-        // 找到对应的记录并更新状态为"已完成服务"
-        var customer = _customerLog.FirstOrDefault(c => c.customerIndex == npc.id && c.status == CustomerStatus.Spawned);
-        if (customer != null)
-        {
-            customer.UpdateStatus(CustomerStatus.Visited); // 服务完成
-            _totalVisits++;
-        }
-        
-        _customerListView?.RefreshItems();
-        UpdateStats();
-    }
-
-    #endregion
 
     #region 按钮事件
 
@@ -433,25 +455,33 @@ public class CustomerMonitorWindow : EditorWindow
 
     private void ClearData()
     {
-        _customerLog.Clear();
-        _totalVisits = 0;
+        _queuedCustomers.Clear();
         _customerListView?.RefreshItems();
         UpdateStats();
-        Debug.Log("[CustomerMonitor] 历史数据已清除");
+        Debug.Log("[CustomerMonitor] 队列数据已清除");
     }
 
     private void ExportData()
     {
-        var path = EditorUtility.SaveFilePanel("导出顾客监控数据", "", "customer_monitor_data", "csv");
+        var path = EditorUtility.SaveFilePanel("导出顾客队列数据", "", "customer_queue_data", "csv");
         if (string.IsNullOrEmpty(path)) return;
 
         try
         {
-            var csv = "序号,角色名称,当前概率,角色索引号,身份,状态,性别,初始心情,当前状态,队列位置,剩余冷却,总生成次数,总到访次数,最后生成时间,最后到访时间\n";
+            var csv = "序号,顾客ID,顾客名称,状态,性别,身份\n";
 
-            foreach (var customer in _customerLog)
+            for (int i = 0; i < _queuedCustomers.Count; i++)
             {
-                csv += $"{customer.sequence},{customer.customerName},{customer.currentProbability:F4},{customer.customerIndex},{customer.identityId},{customer.state},{customer.gender},{customer.initialMood},{customer.GetStatusText()},{customer.queuePosition},{customer.cooldownRemaining},{customer.totalSpawns},{customer.totalVisits},{customer.lastSpawnTime:yyyy-MM-dd HH:mm:ss},{customer.lastVisitTime:yyyy-MM-dd HH:mm:ss}\n";
+                var customer = _queuedCustomers[i];
+                csv += $"{i + 1},{customer.id},{customer.displayName},{customer.state},{customer.gender},{customer.identityId}\n";
+            }
+
+            // 添加当前服务顾客信息
+            if (_currentServingCustomer != null)
+            {
+                csv += $"\n当前服务顾客:\n";
+                csv += $"顾客ID,顾客名称,状态,性别,身份\n";
+                csv += $"{_currentServingCustomer.id},{_currentServingCustomer.displayName},{_currentServingCustomer.state},{_currentServingCustomer.gender},{_currentServingCustomer.identityId}\n";
             }
 
             System.IO.File.WriteAllText(path, csv, System.Text.Encoding.UTF8);
@@ -471,13 +501,13 @@ public class CustomerMonitorWindow : EditorWindow
         
         if (string.IsNullOrEmpty(searchText))
         {
-            _customerListView.itemsSource = _customerLog;
+            _customerListView.itemsSource = _queuedCustomers;
         }
         else
         {
-            var filteredData = _customerLog.Where(c =>
-                c.customerName.ToLower().Contains(searchText) ||
-                c.customerIndex.ToLower().Contains(searchText) ||
+            var filteredData = _queuedCustomers.Where(c =>
+                c.displayName.ToLower().Contains(searchText) ||
+                c.id.ToLower().Contains(searchText) ||
                 c.identityId.ToLower().Contains(searchText) ||
                 c.state.ToLower().Contains(searchText)
             ).ToList();

@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Freelancer_001_M
   identityId: Freelancer
-  identityMultiplier: 1.1
+  identityMultiplier: 0.9
   gender: male
   state: Busy
-  displayName: Busy male Freelancer
-  initialMood: 5
+  displayName: Freelancer
+  stateColor: {r: 0, g: 1, b: 0, a: 1}
+  initialMood: 68
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u81EA\u7531\u804C\u4E1A\u8005(\u7537)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

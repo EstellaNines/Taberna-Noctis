@@ -1,10 +1,577 @@
 {
-    "version": 2,
-    "basePaymentDefault": 40.0,
-    "tipMultiplier": 1.2000000476837159,
-    "totalNpcCount": 50,
-    "probabilityModel": "25-combination",
-    "baseProbabilityPercent": 4.0,
-    "minClampPercent": 0.5,
-    "maxClampPercent": 30.0
+  "version": 2,
+  "basePaymentDefault": 40.0,
+  "tipMultiplier": 1.2,
+  "totalNpcCount": 50,
+  "probabilityModel": "25-combination",
+  "baseProbabilityPercent": 4.0,
+  "minClampPercent": 0.5,
+  "maxClampPercent": 30.0,
+  "identities": {
+    "CompanyEmployee": {
+      "identityMultiplier": 1.0,
+      "Busy": [
+        {
+          "id": "CompanyEmployee_001_M",
+          "gender": "male",
+          "name": "Busy Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#00FF00",
+          "initialMood": 70,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Busy男员工"
+        },
+        {
+          "id": "CompanyEmployee_002_F",
+          "gender": "female",
+          "name": "Busy Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#00FF00",
+          "initialMood": 75,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Busy女员工"
+        }
+      ],
+      "Friendly": [
+        {
+          "id": "CompanyEmployee_003_M",
+          "gender": "male",
+          "name": "Friendly Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#8A2BE2",
+          "initialMood": 80,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Friendly男员工"
+        },
+        {
+          "id": "CompanyEmployee_004_F",
+          "gender": "female",
+          "name": "Friendly Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#8A2BE2",
+          "initialMood": 85,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Friendly女员工"
+        }
+      ],
+      "Irritable": [
+        {
+          "id": "CompanyEmployee_005_M",
+          "gender": "male",
+          "name": "Irritable Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#FF0000",
+          "initialMood": 60,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Impatient男员工"
+        },
+        {
+          "id": "CompanyEmployee_006_F",
+          "gender": "female",
+          "name": "Irritable Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#FF0000",
+          "initialMood": 55,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Impatient女员工"
+        }
+      ],
+      "Melancholy": [
+        {
+          "id": "CompanyEmployee_007_M",
+          "gender": "male",
+          "name": "Melancholy Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#00FFFF",
+          "initialMood": 65,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Boredom男员工"
+        },
+        {
+          "id": "CompanyEmployee_008_F",
+          "gender": "female",
+          "name": "Melancholy Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#00FFFF",
+          "initialMood": 62,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Boredom女员工"
+        }
+      ],
+      "Picky": [
+        {
+          "id": "CompanyEmployee_009_M",
+          "gender": "male",
+          "name": "Picky Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#FFFF00",
+          "initialMood": 58,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Picky男员工"
+        },
+        {
+          "id": "CompanyEmployee_010_F",
+          "gender": "female",
+          "name": "Picky Company Employee",
+          "displayName": "Company Employee",
+          "stateColor": "#FFFF00",
+          "initialMood": 60,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-Picky女员工"
+        }
+      ]
+    },
+    "SmallLeader": {
+      "identityMultiplier": 1.2,
+      "Busy": [
+        {
+          "id": "SmallLeader_001_M",
+          "gender": "male",
+          "name": "Busy Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#00FF00",
+          "initialMood": 72,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(男)"
+        },
+        {
+          "id": "SmallLeader_002_F",
+          "gender": "female",
+          "name": "Busy Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#00FF00",
+          "initialMood": 78,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(女)"
+        }
+      ],
+      "Friendly": [
+        {
+          "id": "SmallLeader_003_M",
+          "gender": "male",
+          "name": "Friendly Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#8A2BE2",
+          "initialMood": 82,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(男)"
+        },
+        {
+          "id": "SmallLeader_004_F",
+          "gender": "female",
+          "name": "Friendly Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#8A2BE2",
+          "initialMood": 88,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(女)"
+        }
+      ],
+      "Irritable": [
+        {
+          "id": "SmallLeader_005_M",
+          "gender": "male",
+          "name": "Irritable Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#FF0000",
+          "initialMood": 62,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(男)"
+        },
+        {
+          "id": "SmallLeader_006_F",
+          "gender": "female",
+          "name": "Irritable Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#FF0000",
+          "initialMood": 58,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(女)"
+        }
+      ],
+      "Melancholy": [
+        {
+          "id": "SmallLeader_007_M",
+          "gender": "male",
+          "name": "Melancholy Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#00FFFF",
+          "initialMood": 68,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(男)"
+        },
+        {
+          "id": "SmallLeader_008_F",
+          "gender": "female",
+          "name": "Melancholy Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#00FFFF",
+          "initialMood": 65,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(女)"
+        }
+      ],
+      "Picky": [
+        {
+          "id": "SmallLeader_009_M",
+          "gender": "male",
+          "name": "Picky Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#FFFF00",
+          "initialMood": 60,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(男)"
+        },
+        {
+          "id": "SmallLeader_010_F",
+          "gender": "female",
+          "name": "Picky Small Leader",
+          "displayName": "Small Leader",
+          "stateColor": "#FFFF00",
+          "initialMood": 63,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-小领导(女)"
+        }
+      ]
+    },
+    "Freelancer": {
+      "identityMultiplier": 0.9,
+      "Busy": [
+        {
+          "id": "Freelancer_001_M",
+          "gender": "male",
+          "name": "Busy Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#00FF00",
+          "initialMood": 68,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
+        },
+        {
+          "id": "Freelancer_002_F",
+          "gender": "female",
+          "name": "Busy Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#00FF00",
+          "initialMood": 73,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
+        }
+      ],
+      "Friendly": [
+        {
+          "id": "Freelancer_003_M",
+          "gender": "male",
+          "name": "Friendly Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#8A2BE2",
+          "initialMood": 78,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
+        },
+        {
+          "id": "Freelancer_004_F",
+          "gender": "female",
+          "name": "Friendly Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#8A2BE2",
+          "initialMood": 83,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
+        }
+      ],
+      "Irritable": [
+        {
+          "id": "Freelancer_005_M",
+          "gender": "male",
+          "name": "Irritable Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#FF0000",
+          "initialMood": 58,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
+        },
+        {
+          "id": "Freelancer_006_F",
+          "gender": "female",
+          "name": "Irritable Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#FF0000",
+          "initialMood": 53,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
+        }
+      ],
+      "Melancholy": [
+        {
+          "id": "Freelancer_007_M",
+          "gender": "male",
+          "name": "Melancholy Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#00FFFF",
+          "initialMood": 63,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
+        },
+        {
+          "id": "Freelancer_008_F",
+          "gender": "female",
+          "name": "Melancholy Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#00FFFF",
+          "initialMood": 60,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
+        }
+      ],
+      "Picky": [
+        {
+          "id": "Freelancer_009_M",
+          "gender": "male",
+          "name": "Picky Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#FFFF00",
+          "initialMood": 56,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
+        },
+        {
+          "id": "Freelancer_010_F",
+          "gender": "female",
+          "name": "Picky Freelancer",
+          "displayName": "Freelancer",
+          "stateColor": "#FFFF00",
+          "initialMood": 58,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
+        }
+      ]
+    },
+    "Boss": {
+      "identityMultiplier": 1.5,
+      "Busy": [
+        {
+          "id": "Boss_001_M",
+          "gender": "male",
+          "name": "Busy Boss",
+          "displayName": "Boss",
+          "stateColor": "#00FF00",
+          "initialMood": 75,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(男)"
+        },
+        {
+          "id": "Boss_002_F",
+          "gender": "female",
+          "name": "Busy Boss",
+          "displayName": "Boss",
+          "stateColor": "#00FF00",
+          "initialMood": 80,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(女)"
+        }
+      ],
+      "Friendly": [
+        {
+          "id": "Boss_003_M",
+          "gender": "male",
+          "name": "Friendly Boss",
+          "displayName": "Boss",
+          "stateColor": "#8A2BE2",
+          "initialMood": 85,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(男)"
+        },
+        {
+          "id": "Boss_004_F",
+          "gender": "female",
+          "name": "Friendly Boss",
+          "displayName": "Boss",
+          "stateColor": "#8A2BE2",
+          "initialMood": 90,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(女)"
+        }
+      ],
+      "Irritable": [
+        {
+          "id": "Boss_005_M",
+          "gender": "male",
+          "name": "Irritable Boss",
+          "displayName": "Boss",
+          "stateColor": "#FF0000",
+          "initialMood": 65,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(男)"
+        },
+        {
+          "id": "Boss_006_F",
+          "gender": "female",
+          "name": "Irritable Boss",
+          "displayName": "Boss",
+          "stateColor": "#FF0000",
+          "initialMood": 60,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(女)"
+        }
+      ],
+      "Melancholy": [
+        {
+          "id": "Boss_007_M",
+          "gender": "male",
+          "name": "Melancholy Boss",
+          "displayName": "Boss",
+          "stateColor": "#00FFFF",
+          "initialMood": 70,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(男)"
+        },
+        {
+          "id": "Boss_008_F",
+          "gender": "female",
+          "name": "Melancholy Boss",
+          "displayName": "Boss",
+          "stateColor": "#00FFFF",
+          "initialMood": 68,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(女)"
+        }
+      ],
+      "Picky": [
+        {
+          "id": "Boss_009_M",
+          "gender": "male",
+          "name": "Picky Boss",
+          "displayName": "Boss",
+          "stateColor": "#FFFF00",
+          "initialMood": 63,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(男)"
+        },
+        {
+          "id": "Boss_010_F",
+          "gender": "female",
+          "name": "Picky Boss",
+          "displayName": "Boss",
+          "stateColor": "#FFFF00",
+          "initialMood": 65,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-老板(女)"
+        }
+      ]
+    },
+    "Student": {
+      "identityMultiplier": 0.7,
+      "Busy": [
+        {
+          "id": "Student_001_M",
+          "gender": "male",
+          "name": "Busy College Student",
+          "displayName": "College Student",
+          "stateColor": "#00FF00",
+          "initialMood": 65,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-男大学生"
+        },
+        {
+          "id": "Student_002_F",
+          "gender": "female",
+          "name": "Busy College Student",
+          "displayName": "College Student",
+          "stateColor": "#00FF00",
+          "initialMood": 70,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-女大学生"
+        }
+      ],
+      "Friendly": [
+        {
+          "id": "Student_003_M",
+          "gender": "male",
+          "name": "Friendly College Student",
+          "displayName": "College Student",
+          "stateColor": "#8A2BE2",
+          "initialMood": 75,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-男大学生"
+        },
+        {
+          "id": "Student_004_F",
+          "gender": "female",
+          "name": "Friendly College Student",
+          "displayName": "College Student",
+          "stateColor": "#8A2BE2",
+          "initialMood": 80,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-女大学生"
+        }
+      ],
+      "Irritable": [
+        {
+          "id": "Student_005_M",
+          "gender": "male",
+          "name": "Irritable College Student",
+          "displayName": "College Student",
+          "stateColor": "#FF0000",
+          "initialMood": 55,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-男大学生"
+        },
+        {
+          "id": "Student_006_F",
+          "gender": "female",
+          "name": "Irritable College Student",
+          "displayName": "College Student",
+          "stateColor": "#FF0000",
+          "initialMood": 50,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-女大学生"
+        }
+      ],
+      "Melancholy": [
+        {
+          "id": "Student_007_M",
+          "gender": "male",
+          "name": "Melancholy College Student",
+          "displayName": "College Student",
+          "stateColor": "#00FFFF",
+          "initialMood": 60,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-男大学生"
+        },
+        {
+          "id": "Student_008_F",
+          "gender": "female",
+          "name": "Melancholy College Student",
+          "displayName": "College Student",
+          "stateColor": "#00FFFF",
+          "initialMood": 58,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-女大学生"
+        }
+      ],
+      "Picky": [
+        {
+          "id": "Student_009_M",
+          "gender": "male",
+          "name": "Picky College Student",
+          "displayName": "College Student",
+          "stateColor": "#FFFF00",
+          "initialMood": 53,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-男大学生"
+        },
+        {
+          "id": "Student_010_F",
+          "gender": "female",
+          "name": "Picky College Student",
+          "displayName": "College Student",
+          "stateColor": "#FFFF00",
+          "initialMood": 55,
+          "visitPercent": 4.0,
+          "portraitPath": "Character/Portrait/YH2-女大学生"
+        }
+      ]
+    }
+  }
 }

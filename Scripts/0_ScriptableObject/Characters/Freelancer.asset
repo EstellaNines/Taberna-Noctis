@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: Freelancer
   m_EditorClassIdentifier: 
   identityId: Freelancer
-  identityMultiplier: 1.1
+  identityMultiplier: 0.9
   dialoguesRefCN: Character/Dialogues/NPCDialogues
   dialoguesRefEN: Character/Dialogues/NPCDialogues_en
   dialogueTag: Freelancer
   npcAssets:
-  - {fileID: 11400000, guid: 61faf7e8c37a55341b3142a318c2e4fc, type: 2}
   - {fileID: 11400000, guid: 0dd62c9f4439e0d4280de3652c736998, type: 2}
-  - {fileID: 11400000, guid: 5035087aa9fd3084184394ef308f7359, type: 2}
-  - {fileID: 11400000, guid: 3f3b8d7e16f13b0499404d09c65acea0, type: 2}
-  - {fileID: 11400000, guid: 04287ec9f2330614ea34c3b7731eebf4, type: 2}
-  - {fileID: 11400000, guid: 6680c6a3970ef134ca06d0f0734bf910, type: 2}
-  - {fileID: 11400000, guid: e5975758a02c9984286b2a6b53f61020, type: 2}
-  - {fileID: 11400000, guid: c286d865bad223d4da85baad0e3fe993, type: 2}
-  - {fileID: 11400000, guid: 7194de7414dcc784993284c382e218c2, type: 2}
-  - {fileID: 11400000, guid: 491bd280d59b2d442865252b83aa1cc0, type: 2}
+  - {fileID: 11400000, guid: cb6f41072165b614f8b2b80d9e57ba02, type: 2}
+  - {fileID: 11400000, guid: dd01eefa920562d47a671523c183de47, type: 2}
+  - {fileID: 11400000, guid: 3b2f369806266b64f9a8c4623aa872f0, type: 2}
+  - {fileID: 11400000, guid: a35b50eb064f91c40bfd84d264cc4c81, type: 2}
+  - {fileID: 11400000, guid: 0879e1eb4ee4c8949ad79a2bb5794833, type: 2}
+  - {fileID: 11400000, guid: 9c247ba22d2d7df4cad5e55eb111bd75, type: 2}
+  - {fileID: 11400000, guid: 5bfeda0601b8da64a9aeba0548c0c775, type: 2}
+  - {fileID: 11400000, guid: c7c1568b1f6100f4e8698d411487c6f8, type: 2}
+  - {fileID: 11400000, guid: d7ecb625ea961824f8ca0421365559f7, type: 2}

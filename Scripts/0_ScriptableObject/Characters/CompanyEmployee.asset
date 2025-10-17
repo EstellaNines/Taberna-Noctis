@@ -18,13 +18,13 @@ MonoBehaviour:
   dialoguesRefEN: Character/Dialogues/NPCDialogues_en
   dialogueTag: CompanyEmployee
   npcAssets:
-  - {fileID: 11400000, guid: 0bfe8bb7394b84e44b1953ebdb970bbc, type: 2}
   - {fileID: 11400000, guid: 166f0412708393741896be7c82cdf94f, type: 2}
-  - {fileID: 11400000, guid: f1d80623e4d72ff4280eac2be192381b, type: 2}
-  - {fileID: 11400000, guid: 9668252b0c0550944bc97e3a899208c1, type: 2}
-  - {fileID: 11400000, guid: fd5b1040cf1ed6d4489e87463e349dae, type: 2}
-  - {fileID: 11400000, guid: e524daf10bdc7cd4f8d6fe9946d0f382, type: 2}
-  - {fileID: 11400000, guid: 44b4d554d316d9f49b0755bd0938c0d3, type: 2}
-  - {fileID: 11400000, guid: 740b152b31bc82746ad813076cadb428, type: 2}
-  - {fileID: 11400000, guid: ad595332970ae7249b12be3d557094c6, type: 2}
-  - {fileID: 11400000, guid: fd532286910117f4bb2b9ed3c911ae70, type: 2}
+  - {fileID: 11400000, guid: 3266deec9fa16424f9da967ebf9cefed, type: 2}
+  - {fileID: 11400000, guid: 12c28ab56abd7884ba91e4a5899a4758, type: 2}
+  - {fileID: 11400000, guid: ffabe803fd5e87b4995b638c7693a01f, type: 2}
+  - {fileID: 11400000, guid: 8c8907d8ec4a45c47b746ceab001aab0, type: 2}
+  - {fileID: 11400000, guid: a559fffd28596614bace567800232ffc, type: 2}
+  - {fileID: 11400000, guid: d90e4815fd019c742a575a13151b829c, type: 2}
+  - {fileID: 11400000, guid: 9b514bc0a2c5dd149bc70edb8c52a837, type: 2}
+  - {fileID: 11400000, guid: 111b29b69a7a507448674fcffd2cd556, type: 2}
+  - {fileID: 11400000, guid: 97f47ca6bae4af641a142c0aff17c27c, type: 2}

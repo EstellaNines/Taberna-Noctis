@@ -13,19 +13,18 @@ MonoBehaviour:
   m_Name: Student
   m_EditorClassIdentifier: 
   identityId: Student
-  identityMultiplier: 0.9
+  identityMultiplier: 0.7
   dialoguesRefCN: Character/Dialogues/NPCDialogues
   dialoguesRefEN: Character/Dialogues/NPCDialogues_en
   dialogueTag: Student
   npcAssets:
-  - {fileID: 11400000, guid: f6fecaeeedc844043aa12933b38a03b2, type: 2}
   - {fileID: 11400000, guid: 797a64f836da831419da2d7e39595316, type: 2}
-  - {fileID: 11400000, guid: daa9b66e3ee442741b7a93613846e49f, type: 2}
-  - {fileID: 11400000, guid: daa9b66e3ee442741b7a93613846e49f, type: 2}
-  - {fileID: 11400000, guid: 7ae3d27779e0e954aa0ea2977921b83e, type: 2}
-  - {fileID: 11400000, guid: cb9cb2c7afa59844ebf3764d2c79ba8b, type: 2}
-  - {fileID: 11400000, guid: b7f7d93c6c4fc0c48978c13e42541fe5, type: 2}
-  - {fileID: 11400000, guid: dec0fc8d9e551ff41977b04ef1fab679, type: 2}
-  - {fileID: 11400000, guid: 8a4b8e94fed8f6f4d9ca618407a53df5, type: 2}
-  - {fileID: 11400000, guid: 36f1d13978dae1e488144d74e15608ff, type: 2}
-  - {fileID: 11400000, guid: 5f487fee121f9664a97325e570c6ba83, type: 2}
+  - {fileID: 11400000, guid: c6757a86ec87ca5438b293a2e2d83ff9, type: 2}
+  - {fileID: 11400000, guid: 8fb3bf26040735f4e865da1ecb436b58, type: 2}
+  - {fileID: 11400000, guid: 6c6255e0e5c7a654f9ca03dbf2182946, type: 2}
+  - {fileID: 11400000, guid: 7d9c9842b685628409f0845a28c67593, type: 2}
+  - {fileID: 11400000, guid: 2aa20720878c9d042bf256f1a72e2eff, type: 2}
+  - {fileID: 11400000, guid: 293763bede72581409b3134d0f9eff83, type: 2}
+  - {fileID: 11400000, guid: 34b78def94ea3d5479dd4ce5ccb803a0, type: 2}
+  - {fileID: 11400000, guid: 3a38389516187d246bdb451f2717359e, type: 2}
+  - {fileID: 11400000, guid: 8348219ee6484cb44bf903f4c06df209, type: 2}

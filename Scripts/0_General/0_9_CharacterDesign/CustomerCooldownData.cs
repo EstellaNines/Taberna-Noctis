@@ -47,6 +47,9 @@ namespace TabernaNoctis.CharacterDesign
         /// <summary>全局到访计数（用于冷却机制）</summary>
         public int globalVisitorCount = 0;
         
+        /// <summary>总生成计数（用于快速生成逻辑）</summary>
+        public int totalSpawnedCount = 0;
+        
         /// <summary>生成计时器累积时间</summary>
         public float spawnTimer = 0f;
         
@@ -82,7 +85,7 @@ namespace TabernaNoctis.CharacterDesign
         public override string ToString()
         {
             return $"[NightCustomerState] 队列:{queuedNpcIds.Count}, 可用:{availablePool.Count}, " +
-                   $"冷却:{cooldownPool.Count}, 到访:{globalVisitorCount}, 保底:{guaranteeIds.Count}";
+                   $"冷却:{cooldownPool.Count}, 到访:{globalVisitorCount}, 生成:{totalSpawnedCount}, 保底:{guaranteeIds.Count}";
         }
     }
 }

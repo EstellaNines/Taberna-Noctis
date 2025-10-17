@@ -18,13 +18,13 @@ MonoBehaviour:
   dialoguesRefEN: Character/Dialogues/NPCDialogues_en
   dialogueTag: SmallLeader
   npcAssets:
-  - {fileID: 11400000, guid: 105cb0c0ecb1d97459226eae871b8a3e, type: 2}
   - {fileID: 11400000, guid: ef87b543beaa3a443b79ff62f4e44a5f, type: 2}
-  - {fileID: 11400000, guid: c35a2a4ae6ca3e14a86985ecae428c18, type: 2}
-  - {fileID: 11400000, guid: 05a870425e636984ea7f5831f5172703, type: 2}
-  - {fileID: 11400000, guid: 8e3b4f11d62ebeb4694ed9baa6a0524d, type: 2}
-  - {fileID: 11400000, guid: e2800f13d0baaa44cb52132873e3b05d, type: 2}
-  - {fileID: 11400000, guid: 3cc400339c2fada4c9465c39992bf825, type: 2}
-  - {fileID: 11400000, guid: d631bc35c8668094c9a4f64b5a7f79b1, type: 2}
-  - {fileID: 11400000, guid: 7f028f7875e4b1a4c887e4e78b5fd088, type: 2}
-  - {fileID: 11400000, guid: 9fb07d3b82c86b94f8f166b0b71450fe, type: 2}
+  - {fileID: 11400000, guid: 41fdd69791b88244e8322df436f48461, type: 2}
+  - {fileID: 11400000, guid: 4b98944b10cc23642a137f65fc57cd24, type: 2}
+  - {fileID: 11400000, guid: e22cfdff8f890c047b34ca1ea522c5d1, type: 2}
+  - {fileID: 11400000, guid: 9ff3d3932b24b4f458de7e6353bb6720, type: 2}
+  - {fileID: 11400000, guid: f335e88834af3f0418f8bac6be2e0d6f, type: 2}
+  - {fileID: 11400000, guid: e2b78da7c953ce147b0824d566db8ad0, type: 2}
+  - {fileID: 11400000, guid: f18ff99661aa94e40b3ed9220486e1c4, type: 2}
+  - {fileID: 11400000, guid: ac44c1e71605a5847a38bbdf1dbfd0e4, type: 2}
+  - {fileID: 11400000, guid: 73975cd1ac86ad545b42f4538a1437f9, type: 2}

@@ -18,13 +18,13 @@ MonoBehaviour:
   dialoguesRefEN: Character/Dialogues/NPCDialogues_en
   dialogueTag: Boss
   npcAssets:
-  - {fileID: 11400000, guid: 90a79d3db1e2ce14aa7e4b47b615657d, type: 2}
   - {fileID: 11400000, guid: 6ffa0f6ba5a51f84c9be0345fe7b196e, type: 2}
-  - {fileID: 11400000, guid: b766c385a64f1b54a88e76ade682f01f, type: 2}
-  - {fileID: 11400000, guid: fe35378d7fee7454b866ed44d19d5a8f, type: 2}
-  - {fileID: 11400000, guid: ed147f565ccbdf249ba9b951644e472c, type: 2}
-  - {fileID: 11400000, guid: 4aa87d3b0bfbe404d85f294de6d57670, type: 2}
-  - {fileID: 11400000, guid: 808904e38a88ae04b90cba0bc0b5dbde, type: 2}
-  - {fileID: 11400000, guid: 32bcfa468d80fb04196b5a58e18c01da, type: 2}
-  - {fileID: 11400000, guid: 1ce9e58a1798a12458d5c0e2cff6fe57, type: 2}
-  - {fileID: 11400000, guid: c06bc593d8d42a14f81e6b3511e859e3, type: 2}
+  - {fileID: 11400000, guid: 1032b96ea2fef6a4bb49b6ba803c8416, type: 2}
+  - {fileID: 11400000, guid: 957c3496ed1a0824682a634ae94920ad, type: 2}
+  - {fileID: 11400000, guid: ca758dd657e370048b8510133f243631, type: 2}
+  - {fileID: 11400000, guid: 8816409386a82534dbf1dcd423f9891d, type: 2}
+  - {fileID: 11400000, guid: 90f33e37ee762af40b317d54a58c2f53, type: 2}
+  - {fileID: 11400000, guid: cb0c78787c5c17740b6464a6425012a5, type: 2}
+  - {fileID: 11400000, guid: 7201e3b898d2a58499cd079c7d910197, type: 2}
+  - {fileID: 11400000, guid: e7eab7f22f4d8f047b1612c2a4b36ff7, type: 2}
+  - {fileID: 11400000, guid: c9f0c9670c8e2f741a80e94605458fd2, type: 2}

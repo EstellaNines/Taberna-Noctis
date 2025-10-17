@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0353ab9487b279946a0e6711b64a8e98, type: 3}
   m_Name: CharacterRolesIndex
   m_EditorClassIdentifier: 
-  version: 1
+  version: 2
   tipMultiplier: 1.2
   basePaymentDefault: 40
   roles:
