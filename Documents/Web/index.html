@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taberna Noctis - ¿ª·¢ÎÄµµ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <title>Taberna Noctis - å¼€å‘æ–‡æ¡£</title>
     
     <!-- Marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
-    <!-- Mermaid.js for diagrams -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <!-- Mermaid.js for diagrams (use v10 foræ›´å¥½çš„æ—§è¯­æ³•å…¼å®¹) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
     
     <!-- Highlight.js for code syntax highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
@@ -35,7 +37,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Source Han Sans SC', Arial, Helvetica, sans-serif;
             background: var(--background);
             color: var(--text-primary);
             line-height: 1.6;
@@ -404,19 +406,33 @@
         .welcome-feature h3 {
             margin-bottom: 0.5rem;
         }
+
+        /* Mobile helpers */
+        .mobile-toggle {
+            display: none;
+            padding: 0.5rem 0.75rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: inline-block; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Sidebar Navigation -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h1>”9»8 Taberna Noctis</h1>
-                <p>Ò¹Ö®Ğ¡¾Æ¹İ - ¿ª·¢ÎÄµµ</p>
+                <h1>ğŸ¸ Taberna Noctis</h1>
+                <p>å¤œä¹‹å°é…’é¦† - å¼€å‘æ–‡æ¡£</p>
             </div>
             
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="ËÑË÷ÎÄµµ..." />
+                <input type="text" id="searchInput" placeholder="æœç´¢æ–‡æ¡£..." />
             </div>
             
             <nav class="nav-list" id="navList">
@@ -427,32 +443,33 @@
         <!-- Main Content Area -->
         <main class="main-content">
             <div class="content-header">
-                <h2 id="contentTitle">Ñ¡ÔñÒ»¸öÎÄµµ¿ªÊ¼ä¯ÀÀ</h2>
+                <h2 id="contentTitle">é€‰æ‹©ä¸€ä¸ªæ–‡æ¡£å¼€å§‹æµè§ˆ</h2>
                 <div class="content-meta">
-                    <span id="docCount">9 ¸öÎÄµµ</span>
+                    <span id="docCount">9 ä¸ªæ–‡æ¡£</span>
+                    <button class="mobile-toggle" id="mobileToggle">ç›®å½•</button>
                 </div>
             </div>
             
             <div class="content-body" id="contentBody">
                 <div class="welcome-screen">
-                    <h1>”9ß2 »¶Ó­À´µ½ÏîÄ¿ÎÄµµÖĞĞÄ</h1>
-                    <p>Çë´Ó×ó²àÑ¡ÔñÒ»¸öÎÄµµ¿ªÊ¼ÔÄ¶Á</p>
+                    <h1>ğŸ“š æ¬¢è¿æ¥åˆ°é¡¹ç›®æ–‡æ¡£ä¸­å¿ƒ</h1>
+                    <p>è¯·ä»å·¦ä¾§é€‰æ‹©ä¸€ä¸ªæ–‡æ¡£å¼€å§‹é˜…è¯»</p>
                     
                     <div class="welcome-features">
                         <div class="welcome-feature">
-                            <div class="welcome-feature-icon">”9Á2</div>
-                            <h3>ÓÎÏ·Éè¼Æ</h3>
-                            <p>²é¿´ÓÎÏ·¸ÅÄî¡¢ÃÀÊõÉè¼ÆºÍÍæ·¨»úÖÆ</p>
+                            <div class="welcome-feature-icon">ğŸ®</div>
+                            <h3>æ¸¸æˆè®¾è®¡</h3>
+                            <p>æŸ¥çœ‹æ¸¸æˆæ¦‚å¿µã€ç¾æœ¯è®¾è®¡å’Œç©æ³•æœºåˆ¶</p>
                         </div>
                         <div class="welcome-feature">
-                            <div class="welcome-feature-icon">7±5„1‚5</div>
-                            <h3>ÏµÍ³ÎÄµµ</h3>
-                            <p>ÁË½â¸÷¸öÓÎÏ·ÏµÍ³µÄ¼¼ÊõÊµÏÖ</p>
+                            <div class="welcome-feature-icon">âš™ï¸</div>
+                            <h3>ç³»ç»Ÿæ–‡æ¡£</h3>
+                            <p>äº†è§£å„ä¸ªæ¸¸æˆç³»ç»Ÿçš„æŠ€æœ¯å®ç°</p>
                         </div>
                         <div class="welcome-feature">
-                            <div class="welcome-feature-icon">”8õ7</div>
-                            <h3>Êı¾İÉè¼Æ</h3>
-                            <p>²é¿´¿¨ÅÆ²ÎÊıºÍÆ½ºâĞÔÉè¼Æ</p>
+                            <div class="welcome-feature-icon">ğŸƒ</div>
+                            <h3>æ•°æ®è®¾è®¡</h3>
+                            <p>æŸ¥çœ‹å¡ç‰Œå‚æ•°å’Œå¹³è¡¡æ€§è®¾è®¡</p>
                         </div>
                     </div>
                 </div>
@@ -465,33 +482,85 @@
         const documents = {
             'overview': {
                 id: 'overview',
-                title: 'ÓÎÏ·¸ÅÊö',
-                icon: '”9Ş8',
-                description: 'ÏîÄ¿×ÜÀÀÓëÉè¼ÆÀíÄî',
-                content: `Çë´Ó×ó²à²Ëµ¥Ñ¡ÔñÎÄµµ²é¿´ÄÚÈİ¡£ÓÉÓÚÎÄµµÄÚÈİ½Ï´ó£¬½¨ÒéÔÚ±¾µØWeb·şÎñÆ÷»·¾³ÏÂÊ¹ÓÃ´ËÒ³Ãæ¡£
-
-ÈçĞèÍêÕû¹¦ÄÜ£¬Çë£º
-1. Ê¹ÓÃPythonÆô¶¯±¾µØ·şÎñÆ÷: \`python -m http.server 8000\`
-2. »òÊ¹ÓÃNode.js: \`npx http-server\`
-3. È»ºó·ÃÎÊ: \`http://localhost:8000/index.html\``
+                title: 'æ¸¸æˆæ¦‚è¿°',
+                icon: 'ğŸ“–',
+                description: 'é¡¹ç›®æ€»è§ˆä¸è®¾è®¡ç†å¿µ',
+                content: ''
+            },
+            'card-system': {
+                id: 'card-system',
+                title: 'å¡ç‰Œç³»ç»Ÿå‚æ•°',
+                icon: 'ğŸƒ',
+                description: 'ææ–™ä¸é¸¡å°¾é…’æ•°å€¼è®¾è®¡',
+                content: ''
+            },
+            'daily-events': {
+                id: 'daily-events',
+                title: 'æ¯æ—¥äº‹ä»¶',
+                icon: 'ğŸ“°',
+                description: 'æ¯æ—¥èµ„è®¯äº‹ä»¶è®¾è®¡ï¼ˆä¸­è‹±ï¼‰',
+                content: ''
+            },
+            'daily-message': {
+                id: 'daily-message',
+                title: 'æ¯æ—¥ä¿¡æ¯ç³»ç»Ÿ',
+                icon: 'ğŸ“¬',
+                description: 'æ¯æ—¥æ¶ˆæ¯ç³»ç»Ÿå¼€å‘æ–‡æ¡£',
+                content: ''
+            },
+            'queue-system': {
+                id: 'queue-system',
+                title: 'é˜Ÿåˆ—ç³»ç»Ÿ',
+                icon: 'ğŸ“¦',
+                description: 'å¯¹è±¡æ± é˜Ÿåˆ—ç³»ç»Ÿï¼ˆé›¶GCï¼‰',
+                content: ''
+            },
+            'random-system': {
+                id: 'random-system',
+                title: 'éšæœºç³»ç»Ÿ',
+                icon: 'ğŸ²',
+                description: 'æ¯æ—¥ç¨³å®šéšæœºä¸ES3æŒä¹…åŒ–',
+                content: ''
+            },
+            'save-system': {
+                id: 'save-system',
+                title: 'å­˜æ¡£ç³»ç»Ÿ',
+                icon: 'ğŸ’¾',
+                description: 'è‡ªåŠ¨ä¿å­˜æœºåˆ¶ä¸å­˜æ¡£ç®¡ç†',
+                content: ''
+            },
+            'scene-manager': {
+                id: 'scene-manager',
+                title: 'åœºæ™¯ç®¡ç†å™¨',
+                icon: 'ğŸ¬',
+                description: 'åœºæ™¯åŠ è½½ä¸åˆ‡æ¢ç®¡ç†',
+                content: ''
+            },
+            'time-system': {
+                id: 'time-system',
+                title: 'æ—¶é—´ç³»ç»Ÿ',
+                icon: 'â°',
+                description: 'æ˜¼å¤œå¾ªç¯ä¸æ—¶é—´ç®¡ç†',
+                content: ''
             }
         };
 
         const docList = [
-            { id: 'overview', title: 'ÓÎÏ·¸ÅÊö', icon: '”9Ş8', description: 'ÏîÄ¿×ÜÀÀÓëÉè¼ÆÀíÄî' },
-            { id: 'card-system', title: '¿¨ÅÆÏµÍ³²ÎÊı', icon: '”8õ7', description: '²ÄÁÏÓë¼¦Î²¾ÆÊıÖµÉè¼Æ' },
-            { id: 'daily-events', title: 'Ã¿ÈÕÊÂ¼ş', icon: '”9á4', description: 'Ã¿ÈÕ×ÊÑ¶ÊÂ¼şÉè¼Æ£¨ÖĞÓ¢£©' },
-            { id: 'daily-message', title: 'Ã¿ÈÕĞÅÏ¢ÏµÍ³', icon: '”9á0', description: 'Ã¿ÈÕÏûÏ¢ÏµÍ³¿ª·¢ÎÄµµ' },
-            { id: 'queue-system', title: '¶ÓÁĞÏµÍ³', icon: '”9à4', description: '¶ÔÏó³Ø¶ÓÁĞÏµÍ³£¨ÁãGC£©' },
-            { id: 'random-system', title: 'Ëæ»úÏµÍ³', icon: '”9Á6', description: 'Ã¿ÈÕÎÈ¶¨Ëæ»úÓëES3³Ö¾Ã»¯' },
-            { id: 'save-system', title: '´æµµÏµÍ³', icon: '”9Ü4', description: '×Ô¶¯±£´æ»úÖÆÓë´æµµ¹ÜÀí' },
-            { id: 'scene-manager', title: '³¡¾°¹ÜÀíÆ÷', icon: '”9Á0', description: '³¡¾°¼ÓÔØÓëÇĞ»»¹ÜÀí' },
-            { id: 'time-system', title: 'Ê±¼äÏµÍ³', icon: '74', description: 'ÖçÒ¹Ñ­»·ÓëÊ±¼ä¹ÜÀí' }
+            { id: 'overview', title: 'æ¸¸æˆæ¦‚è¿°', icon: 'ğŸ“–', description: 'é¡¹ç›®æ€»è§ˆä¸è®¾è®¡ç†å¿µ' },
+            { id: 'card-system', title: 'å¡ç‰Œç³»ç»Ÿå‚æ•°', icon: 'ğŸƒ', description: 'ææ–™ä¸é¸¡å°¾é…’æ•°å€¼è®¾è®¡' },
+            { id: 'daily-events', title: 'æ¯æ—¥äº‹ä»¶', icon: 'ğŸ“°', description: 'æ¯æ—¥èµ„è®¯äº‹ä»¶è®¾è®¡ï¼ˆä¸­è‹±ï¼‰' },
+            { id: 'daily-message', title: 'æ¯æ—¥ä¿¡æ¯ç³»ç»Ÿ', icon: 'ğŸ“¬', description: 'æ¯æ—¥æ¶ˆæ¯ç³»ç»Ÿå¼€å‘æ–‡æ¡£' },
+            { id: 'queue-system', title: 'é˜Ÿåˆ—ç³»ç»Ÿ', icon: 'ğŸ“¦', description: 'å¯¹è±¡æ± é˜Ÿåˆ—ç³»ç»Ÿï¼ˆé›¶GCï¼‰' },
+            { id: 'random-system', title: 'éšæœºç³»ç»Ÿ', icon: 'ğŸ²', description: 'æ¯æ—¥ç¨³å®šéšæœºä¸ES3æŒä¹…åŒ–' },
+            { id: 'save-system', title: 'å­˜æ¡£ç³»ç»Ÿ', icon: 'ğŸ’¾', description: 'è‡ªåŠ¨ä¿å­˜æœºåˆ¶ä¸å­˜æ¡£ç®¡ç†' },
+            { id: 'scene-manager', title: 'åœºæ™¯ç®¡ç†å™¨', icon: 'ğŸ¬', description: 'åœºæ™¯åŠ è½½ä¸åˆ‡æ¢ç®¡ç†' },
+            { id: 'time-system', title: 'æ—¶é—´ç³»ç»Ÿ', icon: 'â°', description: 'æ˜¼å¤œå¾ªç¯ä¸æ—¶é—´ç®¡ç†' }
         ];
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             initializeMermaid();
+            configureMarked();  // é…ç½® Marked.js ä»¥æ”¯æŒ Mermaid
             loadDocumentContents();
             renderNavigation();
             setupSearch();
@@ -499,7 +568,8 @@
 
         function initializeMermaid() {
             mermaid.initialize({
-                startOnLoad: true,
+                startOnLoad: false,
+                securityLevel: 'loose',
                 theme: 'dark',
                 themeVariables: {
                     primaryColor: '#3b82f6',
@@ -509,6 +579,71 @@
                     secondaryColor: '#8b5cf6',
                     tertiaryColor: '#06b6d4'
                 }
+            });
+        }
+
+        // ç»Ÿä¸€è§„èŒƒ Markdown ä¸­å›¾ç‰‡è·¯å¾„ï¼Œé€‚é… Web ç›®å½•ç»“æ„
+        function normalizeDocImageUrl(src) {
+            if (!src) return src;
+            const url = (typeof src === 'string') ? src.trim() : '';
+            // ç»å¯¹/æ•°æ® URL ç›´æ¥è¿”å›
+            if (/^(https?:|data:|blob:)/i.test(url)) return url;
+
+            // å»æ‰å¼€å¤´çš„ ./
+            let clean = url.startsWith('./') ? url.substring(2) : url;
+
+            // å¸¸è§æ–‡æ¡£å›¾ç‰‡ç›®å½•ï¼ˆå·²å¤åˆ¶åˆ° Web/assets ä¸‹ï¼‰
+            const needsUpOne = [
+                'media/',
+                'ææ–™è®¾è®¡/',
+                'é¸¡å°¾é…’è®¾è®¡/'
+            ];
+
+            for (const p of needsUpOne) {
+                if (clean.startsWith(p)) {
+                    return 'assets/' + clean;
+                }
+            }
+
+            // å…¼å®¹ DailyMessage/news_01 è¿™ç±» Resources è·¯å¾„ï¼ˆä¿æŒåŸæ ·ï¼Œè‹¥æ— åˆ™é™çº§å ä½å›¾ï¼‰
+            return clean;
+        }
+
+        // é…ç½® Marked.js ä»¥æ­£ç¡®å¤„ç† Mermaid ä»£ç å— & å›¾ç‰‡æ¸²æŸ“ï¼ˆå…¼å®¹ marked@^11ï¼‰
+        function configureMarked() {
+            const renderer = new marked.Renderer();
+
+            function escapeHtml(str) {
+                if (typeof str !== 'string') return '';
+                return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
+
+            // code(token) å½¢å¼ï¼štoken = {text, lang}
+            renderer.code = function(token) {
+                const lang = (token && token.lang ? String(token.lang) : '').toLowerCase();
+                const text = token && token.text != null ? String(token.text) : '';
+                if (lang === 'mermaid') {
+                    return `<div class="mermaid">${text}</div>`;
+                }
+                return `<pre><code class="language-${lang || 'plain'}">${escapeHtml(text)}</code></pre>`;
+            };
+
+            // image(token) å½¢å¼ï¼štoken = {href, title, text}
+            renderer.image = function(token) {
+                const href = token && token.href ? String(token.href) : '';
+                const title = token && token.title ? String(token.title) : '';
+                const text = token && token.text ? String(token.text) : '';
+                const fixed = normalizeDocImageUrl(href);
+                const t = title ? ` title="${escapeHtml(title)}"` : '';
+                const alt = escapeHtml(text);
+                const placeholder = 'https://dummyimage.com/800x400/1e293b/94a3b8&text=%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA';
+                return `<img src="${fixed}" alt="${alt}"${t} loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${placeholder}';" />`;
+            };
+
+            marked.setOptions({
+                renderer,
+                breaks: true,
+                gfm: true
             });
         }
 
@@ -576,28 +711,89 @@
 
             // Load content
             const contentBody = document.getElementById('contentBody');
-            contentBody.innerHTML = '<div class="loading">¼ÓÔØÖĞ...</div>';
+            contentBody.innerHTML = '<div class="loading">åŠ è½½ä¸­...</div>';
 
             try {
                 // Get markdown content
-                const markdown = doc.content || '# ÎÄµµ¼ÓÔØÖĞ...\n\nÇëÉÔºò...';
+                let markdown = doc.content;
                 
-                // Parse markdown
+                // If content is empty, show helpful message
+                if (!markdown || markdown.trim() === '') {
+                    markdown = `# ${doc.title}
+
+## ğŸ“‹ æ–‡æ¡£è¯´æ˜
+
+æ­¤æ–‡æ¡£éœ€è¦é€šè¿‡ Web æœåŠ¡å™¨è®¿é—®æ‰èƒ½æ­£å¸¸åŠ è½½ã€‚
+
+### ğŸš€ å¿«é€Ÿå¼€å§‹
+
+é€‰æ‹©ä»¥ä¸‹ä»»ä¸€æ–¹å¼å¯åŠ¨æœ¬åœ°æœåŠ¡å™¨ï¼š
+
+**æ–¹å¼ 1ï¼šä½¿ç”¨ Pythonï¼ˆæ¨èï¼‰**
+\`\`\`bash
+cd Web
+python -m http.server 8000
+\`\`\`
+
+**æ–¹å¼ 2ï¼šä½¿ç”¨ Node.js**
+\`\`\`bash
+cd Web
+npx http-server -p 8000
+\`\`\`
+
+**æ–¹å¼ 3ï¼šéƒ¨ç½²åˆ° Netlifyï¼ˆæœ€ç®€å•ï¼‰**
+1. è®¿é—® [netlify.com](https://netlify.com)
+2. å°† Web æ–‡ä»¶å¤¹æ‹–æ‹½ä¸Šä¼ 
+3. å®Œæˆï¼
+
+### ğŸ“– æŸ¥çœ‹å®Œæ•´éƒ¨ç½²æŒ‡å—
+
+è¯·å‚é˜… \`éƒ¨ç½²æŒ‡å—.md\` æ–‡ä»¶è·å–è¯¦ç»†è¯´æ˜ã€‚
+
+---
+
+**æ–‡æ¡£æ–‡ä»¶**: \`${doc.id}.md\``;
+                }
+                
+                // Parse markdown (Mermaid blocks will be rendered as <div class="mermaid">)
                 const html = marked.parse(markdown);
                 
                 contentBody.innerHTML = `<div class="markdown-content">${html}</div>`;
                 
-                // Highlight code blocks
+                // è§„èŒƒæ‰€æœ‰å›¾ç‰‡è·¯å¾„ï¼ˆå…œåº•å¤„ç†ï¼‰
+                contentBody.querySelectorAll('img').forEach(img => {
+                    const src = img.getAttribute('src');
+                    const fixed = normalizeDocImageUrl(src);
+                    if (fixed && fixed !== src) img.setAttribute('src', fixed);
+                    if (!img.getAttribute('loading')) img.setAttribute('loading', 'lazy');
+                    if (!img.getAttribute('referrerpolicy')) img.setAttribute('referrerpolicy', 'no-referrer');
+                    if (!img.onerror) {
+                        img.onerror = function() {
+                            this.onerror = null;
+                            this.src = 'https://dummyimage.com/800x400/1e293b/94a3b8&text=%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA';
+                        };
+                    }
+                });
+
+                // Highlight code blocks (ä½†è·³è¿‡ mermaid)
                 document.querySelectorAll('pre code').forEach((block) => {
                     hljs.highlightElement(block);
                 });
                 
                 // Render mermaid diagrams
-                setTimeout(() => {
-                    mermaid.run({
-                        querySelector: '.mermaid'
-                    });
-                }, 100);
+                setTimeout(async () => {
+                    const mermaidDivs = contentBody.querySelectorAll('.mermaid');
+                    if (mermaidDivs.length > 0) {
+                        try {
+                            // v10 éœ€è¦å…ˆæ¸…ç©º data-processed ä»¥ä¾¿é‡å¤æ¸²æŸ“
+                            mermaidDivs.forEach(d => d.removeAttribute('data-processed'));
+                            await mermaid.run({ nodes: mermaidDivs });
+                            console.log(`âœ… å·²æ¸²æŸ“ ${mermaidDivs.length} ä¸ª Mermaid å›¾è¡¨`);
+                        } catch (error) {
+                            console.error('Mermaid æ¸²æŸ“é”™è¯¯:', error);
+                        }
+                    }
+                }, 200);
                 
                 // Scroll to top
                 contentBody.scrollTop = 0;
@@ -605,10 +801,10 @@
                 console.error('Error rendering document:', error);
                 contentBody.innerHTML = `
                     <div class="markdown-content">
-                        <h2>7²2„1‚5 ÎŞ·¨äÖÈ¾ÎÄµµ</h2>
-                        <p>ÎÄµµäÖÈ¾Ê±³öÏÖ´íÎó¡£</p>
-                        <p><strong>ÎÄµµID:</strong> ${docId}</p>
-                        <p><strong>´íÎó:</strong> ${error.message}</p>
+                        <h2>âš ï¸ æ— æ³•æ¸²æŸ“æ–‡æ¡£</h2>
+                        <p>æ–‡æ¡£æ¸²æŸ“æ—¶å‡ºç°é”™è¯¯ã€‚</p>
+                        <p><strong>æ–‡æ¡£ID:</strong> ${docId}</p>
+                        <p><strong>é”™è¯¯:</strong> ${error.message}</p>
                     </div>
                 `;
             }
@@ -631,6 +827,15 @@
                     }
                 });
             });
+
+            // Mobile sidebar toggle
+            const toggle = document.getElementById('mobileToggle');
+            const sidebar = document.getElementById('sidebar');
+            if (toggle) {
+                toggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('open');
+                });
+            }
         }
     </script>
 </body>
