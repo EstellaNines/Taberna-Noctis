@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb9747b0b15b97489c015942bd801b3, type: 3}
+  m_Name: "Material_003_\u767D\u6717\u59C6"
+  m_EditorClassIdentifier: 
+  id: 3
+  nameCN: "\u767D\u6717\u59C6"
+  nameEN: White Rum
+  category: "\u57FA\u7840\u9152\u7C7B"
+  feature: "\u53CB\u597D\u4E13\u7CBE\u578B\uFF0C\u70ED\u5E26\u98CE\u5473"
+  effects:
+    busy: -1
+    impatient: 0
+    bored: 0
+    picky: -1
+    friendly: 2
+  uiPath: "Cards/Sprites/Materials/M_3_WHITERUM\u767D\u6717\u59C6"
+  uiSpritePreview: {fileID: 21300000, guid: bbe72f138025c8441a613eb9d7c78a58, type: 3}
+  price: 22

@@ -75,6 +75,13 @@ MonoBehaviour:
     - 4b011da099026b640b062e9752f8315a
     - f85a5e3ad82e93e438366e18f0e04435
     - e6929ebe0bc05b14da2775f936c6d6a5
+    - eef99b63a56529846bd26b0253376627
+    - 8868879ab60ba4c468cd2e3418df5402
+    - 619c30eebf179b14ab43a4aa0c20609b
+    - 42638bf5df4cdb74a89de6f86cee4271
+    - 73ea0dc015904274cbc347d10e567fd5
+    - b11397a3f6a5005409d564da37eb735d
+    - a4c28843d327fa246b91b91847a6b9b3
     values:
     - guid: 00000000000000001000000000000000
       iColor: 0
@@ -183,9 +190,9 @@ MonoBehaviour:
       autoIconDirty: 0
     - guid: 59c62dbae066b3244abf3a92f6bfde30
       iColor: 0
-      autoIcon: ScriptableObject Icon
+      autoIcon: 
       customIcon: 
-      autoIconDirty: 0
+      autoIconDirty: 1
     - guid: e7ecff78573e95349b34b5cbdb0099f2
       iColor: 0
       autoIcon: cs Script Icon
@@ -208,7 +215,7 @@ MonoBehaviour:
       autoIconDirty: 0
     - guid: 8e9dd4159bf3b4140817d476dfb96605
       iColor: 0
-      autoIcon: cs Script Icon
+      autoIcon: 
       customIcon: cs Script Icon
       autoIconDirty: 0
     - guid: 4e18545fb5d6c3d4f829da75a0d52035
@@ -380,4 +387,39 @@ MonoBehaviour:
       iColor: 0
       autoIcon: 
       customIcon: cs Script Icon
+      autoIconDirty: 0
+    - guid: eef99b63a56529846bd26b0253376627
+      iColor: 0
+      autoIcon: cs Script Icon
+      customIcon: 
+      autoIconDirty: 0
+    - guid: 8868879ab60ba4c468cd2e3418df5402
+      iColor: 0
+      autoIcon: cs Script Icon
+      customIcon: 
+      autoIconDirty: 0
+    - guid: 619c30eebf179b14ab43a4aa0c20609b
+      iColor: 0
+      autoIcon: 
+      customIcon: 
+      autoIconDirty: 0
+    - guid: 42638bf5df4cdb74a89de6f86cee4271
+      iColor: 0
+      autoIcon: 
+      customIcon: 
+      autoIconDirty: 0
+    - guid: 73ea0dc015904274cbc347d10e567fd5
+      iColor: 10
+      autoIcon: 
+      customIcon: 
+      autoIconDirty: 0
+    - guid: b11397a3f6a5005409d564da37eb735d
+      iColor: 0
+      autoIcon: 
+      customIcon: 
+      autoIconDirty: 0
+    - guid: a4c28843d327fa246b91b91847a6b9b3
+      iColor: 0
+      autoIcon: 
+      customIcon: 
       autoIconDirty: 0

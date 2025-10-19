@@ -2,102 +2,111 @@
   "cocktails": [
     {
       "name_en": "Martini",
-      "name_cn": "ÂíÌìÄá",
-      "category": "¾­µä¼¦Î²¾Æ",
+      "name_cn": "é©¬å¤©å°¼",
+      "category": "ç»å…¸é¸¡å°¾é…’",
       "effects": { "busy": 1, "impatient": -2, "bored": -2, "picky": 4, "friendly": 1 },
       "cost": 48,
       "price": 72,
       "profit": 24,
       "reputation_change": 5,
-      "feature": "ÌôÌŞ×¨¾«£¬¸ÉÁ·´¿´âµÄ¾­µäÖ®Íõ"
+      "feature": "æŒ‘å‰”ä¸“ç²¾ï¼Œå¹²ç»ƒçº¯ç²¹çš„ç»å…¸ä¹‹ç‹",
+      "ui_path": "Cards/Sprites/Cocktails/CT_1_é©¬å¤©å°¼"
     },
     {
       "name_en": "Manhattan",
-      "name_cn": "Âü¹ş¶Ù",
-      "category": "¾­µä¼¦Î²¾Æ",
+      "name_cn": "æ›¼å“ˆé¡¿",
+      "category": "ç»å…¸é¸¡å°¾é…’",
       "effects": { "busy": 3, "impatient": 0, "bored": -1, "picky": 4, "friendly": 1 },
       "cost": 55,
       "price": 82,
       "profit": 27,
       "reputation_change": 4,
-      "feature": "Ã¦ÂµÌôÌŞĞÍ£¬ºñÖØÍşÊ¿¼ÉµÄ¶¼»á·ç"
+      "feature": "å¿™ç¢ŒæŒ‘å‰”å‹ï¼Œåšé‡å¨å£«å¿Œçš„éƒ½ä¼šé£",
+      "ui_path": "Cards/Sprites/Cocktails/CT_2_æ›¼å“ˆé¡¿"
     },
     {
       "name_en": "Old Fashioned",
-      "name_cn": "¹Åµä",
-      "category": "¾­µä¼¦Î²¾Æ",
+      "name_cn": "å¤å…¸",
+      "category": "ç»å…¸é¸¡å°¾é…’",
       "effects": { "busy": 2, "impatient": 2, "bored": -1, "picky": 0, "friendly": 2 },
       "cost": 38,
       "price": 57,
       "profit": 19,
       "reputation_change": 3,
-      "feature": "Ã¦Âµ¼±ÔêÓÑºÃĞÍ£¬Æ½ºâÎÈ½¡µÄ³£Çà¿î"
+      "feature": "å¿™ç¢Œæ€¥èºå‹å¥½å‹ï¼Œå¹³è¡¡ç¨³å¥çš„å¸¸é’æ¬¾",
+      "ui_path": "Cards/Sprites/Cocktails/CT_3_å¤å…¸"
     },
     {
       "name_en": "Negroni",
-      "name_cn": "Äá¸ñÂŞÄá",
-      "category": "¾­µä¼¦Î²¾Æ",
+      "name_cn": "å°¼æ ¼ç½—å°¼",
+      "category": "ç»å…¸é¸¡å°¾é…’",
       "effects": { "busy": 1, "impatient": 3, "bored": -2, "picky": 5, "friendly": 0 },
       "cost": 63,
       "price": 94,
       "profit": 31,
       "reputation_change": 5,
-      "feature": "¼±ÔêÌôÌŞĞÍ£¬¿àÌğ²¢³ÂµÄ·çÎ¶±ê¸Ë"
+      "feature": "æ€¥èºæŒ‘å‰”å‹ï¼Œè‹¦ç”œå¹¶é™ˆçš„é£å‘³æ ‡æ†",
+      "ui_path": "Cards/Sprites/Cocktails/CT_4_å°¼æ ¼ç½—å°¼"
     },
     {
       "name_en": "Margarita",
-      "name_cn": "Âê¸ñÀöÌØ",
-      "category": "ÈÈ´ø·çÎ¶",
+      "name_cn": "ç›æ ¼ä¸½ç‰¹",
+      "category": "çƒ­å¸¦é£å‘³",
       "effects": { "busy": -4, "impatient": -4, "bored": 0, "picky": 3, "friendly": 2 },
       "cost": 46,
       "price": 69,
       "profit": 23,
       "reputation_change": 3,
-      "feature": "ÌôÌŞÓÑºÃĞÍ£¬ËáÏÌÏàÓµµÄÈÈ´øÇå·æ"
+      "feature": "æŒ‘å‰”å‹å¥½å‹ï¼Œé…¸å’¸ç›¸æ‹¥çš„çƒ­å¸¦æ¸…é”‹",
+      "ui_path": "Cards/Sprites/Cocktails/CT_5_ç›æ ¼ä¸½ç‰¹"
     },
     {
       "name_en": "Daiquiri",
-      "name_cn": "´÷»ùÀï",
-      "category": "ÈÈ´ø·çÎ¶",
+      "name_cn": "æˆ´åŸºé‡Œ",
+      "category": "çƒ­å¸¦é£å‘³",
       "effects": { "busy": -4, "impatient": -2, "bored": 1, "picky": 1, "friendly": 3 },
       "cost": 29,
       "price": 43,
       "profit": 14,
       "reputation_change": 2,
-      "feature": "ÓÑºÃĞÍ£¬ÇåË¬Ö±¸øµÄÀÊÄ·Ëá"
+      "feature": "å‹å¥½å‹ï¼Œæ¸…çˆ½ç›´ç»™çš„æœ—å§†é…¸",
+      "ui_path": "Cards/Sprites/Cocktails/CT_6_æˆ´åŸºé‡Œ"
     },
     {
       "name_en": "Moscow Mule",
-      "name_cn": "ÄªË¹¿ÆÂâ×Ó",
-      "category": "ÈÈ´ø·çÎ¶",
+      "name_cn": "è«æ–¯ç§‘éª¡å­",
+      "category": "çƒ­å¸¦é£å‘³",
       "effects": { "busy": -5, "impatient": -1, "bored": 3, "picky": 1, "friendly": 1 },
       "cost": 31,
       "price": 46,
       "profit": 15,
       "reputation_change": 2,
-      "feature": "·³ÃÆ»º½âĞÍ£¬½ªÎ¶ĞÁ¿ÚµÄÇåÁ¹ÆøÅİ"
+      "feature": "çƒ¦é—·ç¼“è§£å‹ï¼Œå§œå‘³è¾›å£çš„æ¸…å‡‰æ°”æ³¡",
+      "ui_path": "Cards/Sprites/Cocktails/CT_7_è«æ–¯ç§‘éª¡å­"
     },
     {
       "name_en": "Cuba Libre",
-      "name_cn": "×ÔÓÉ¹Å°Í",
-      "category": "ÈÈ´ø·çÎ¶",
+      "name_cn": "è‡ªç”±å¤å·´",
+      "category": "çƒ­å¸¦é£å‘³",
       "effects": { "busy": -4, "impatient": 1, "bored": 2, "picky": -2, "friendly": 4 },
       "cost": 32,
       "price": 48,
       "profit": 16,
       "reputation_change": 2,
-      "feature": "·³ÃÆÓÑºÃĞÍ£¬ÌğÆû¿ÉÀÖµÄ³©¿ìÅä·½"
+      "feature": "çƒ¦é—·å‹å¥½å‹ï¼Œç”œæ±½å¯ä¹çš„ç•…å¿«é…æ–¹",
+      "ui_path": "Cards/Sprites/Cocktails/CT_8_è‡ªç”±å¤å·´"
     },
     {
       "name_en": "Unspeakable",
-      "name_cn": "²»¿ÉÃèÊöÖ®Îï",
-      "category": "ÌØÖÆ¼¦Î²¾Æ",
+      "name_cn": "ä¸å¯æè¿°ä¹‹ç‰©",
+      "category": "ç‰¹åˆ¶é¸¡å°¾é…’",
       "effects": { "busy": -5, "impatient": -5, "bored": -5, "picky": -5, "friendly": -5 },
       "cost": 120,
       "price": 1,
       "profit": -119,
       "reputation_change": -10,
-      "feature": "¸ß³É±¾£¬½µÆÀµÄ½û¼ÉÖ®±­"
+      "feature": "é«˜æˆæœ¬ï¼Œé™è¯„çš„ç¦å¿Œä¹‹æ¯",
+      "ui_path": "Cards/Sprites/Cocktails/CT_9_ä¸å¯æè¿°ä¹‹ç‰©"
     }
   ]
 }

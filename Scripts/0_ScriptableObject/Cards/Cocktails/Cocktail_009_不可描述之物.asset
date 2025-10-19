@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74d451535db05c4449853578cf50d649, type: 3}
+  m_Name: "Cocktail_009_\u4E0D\u53EF\u63CF\u8FF0\u4E4B\u7269"
+  m_EditorClassIdentifier: 
+  id: 9
+  nameCN: "\u4E0D\u53EF\u63CF\u8FF0\u4E4B\u7269"
+  nameEN: Unspeakable
+  category: "\u7279\u5236\u9E21\u5C3E\u9152"
+  feature: "\u9AD8\u6210\u672C\uFF0C\u964D\u8BC4\u7684\u7981\u5FCC\u4E4B\u676F"
+  effects:
+    busy: -5
+    impatient: -5
+    bored: -5
+    picky: -5
+    friendly: -5
+  uiPath: "Cards/Sprites/Cocktails/CT_9_\u4E0D\u53EF\u63CF\u8FF0\u4E4B\u7269"
+  uiSpritePreview: {fileID: 21300000, guid: 99f3dcb47b8810d4f842316cb9dad3e6, type: 3}
+  cost: 120
+  price: 1
+  profit: -119
+  reputationChange: -10

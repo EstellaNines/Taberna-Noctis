@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74d451535db05c4449853578cf50d649, type: 3}
+  m_Name: "Cocktail_001_\u9A6C\u5929\u5C3C"
+  m_EditorClassIdentifier: 
+  id: 1
+  nameCN: "\u9A6C\u5929\u5C3C"
+  nameEN: Martini
+  category: "\u7ECF\u5178\u9E21\u5C3E\u9152"
+  feature: "\u6311\u5254\u4E13\u7CBE\uFF0C\u5E72\u7EC3\u7EAF\u7CB9\u7684\u7ECF\u5178\u4E4B\u738B"
+  effects:
+    busy: 1
+    impatient: -2
+    bored: -2
+    picky: 4
+    friendly: 1
+  uiPath: "Cards/Sprites/Cocktails/CT_1_\u9A6C\u5929\u5C3C"
+  uiSpritePreview: {fileID: 21300000, guid: 9d0db7a2bffb8624fa8c725d3205aba7, type: 3}
+  cost: 48
+  price: 72
+  profit: 24
+  reputationChange: 5

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb9747b0b15b97489c015942bd801b3, type: 3}
+  m_Name: "Material_002_\u4F0F\u7279\u52A0"
+  m_EditorClassIdentifier: 
+  id: 2
+  nameCN: "\u4F0F\u7279\u52A0"
+  nameEN: Vodka
+  category: "\u57FA\u7840\u9152\u7C7B"
+  feature: "\u70E6\u95F7\u7F13\u89E3\u578B\uFF0C\u6027\u4EF7\u6BD4\u9AD8"
+  effects:
+    busy: -1
+    impatient: -1
+    bored: 1
+    picky: 0
+    friendly: 0
+  uiPath: "Cards/Sprites/Materials/M_2_VODKA\u4F0F\u7279\u52A0"
+  uiSpritePreview: {fileID: 21300000, guid: 01a032aed4e1b03429d16034630d6e8c, type: 3}
+  price: 20

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb9747b0b15b97489c015942bd801b3, type: 3}
+  m_Name: "Material_009_\u6A59\u76AE\u5229\u53E3\u9152"
+  m_EditorClassIdentifier: 
+  id: 9
+  nameCN: "\u6A59\u76AE\u5229\u53E3\u9152"
+  nameEN: Orange Liqueur
+  category: "\u8C03\u5473\u9152\u7C7B"
+  feature: "\u53CB\u597D\u578B\uFF0C\u679C\u9999\u8C03\u5473"
+  effects:
+    busy: 0
+    impatient: -1
+    bored: 0
+    picky: 1
+    friendly: 2
+  uiPath: "Cards/Sprites/Materials/M_9_CITRUS\u6A59\u76AE\u5229\u53E3\u9152"
+  uiSpritePreview: {fileID: 21300000, guid: 487282fd4f8c0ba4a89b13d189deb284, type: 3}
+  price: 15
