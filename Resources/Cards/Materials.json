@@ -1,0 +1,148 @@
+{
+  "materials": [
+    {
+      "id": 1,
+      "name_cn": "金酒",
+      "name_en": "Gin",
+      "category": "基础酒类",
+      "effects": { "busy": 0, "impatient": -1, "bored": 0, "picky": 2, "friendly": 1 },
+      "price": 25,
+      "feature": "挑剔友好型，经典基酒"
+    },
+    {
+      "id": 2,
+      "name_cn": "伏特加",
+      "name_en": "Vodka",
+      "category": "基础酒类",
+      "effects": { "busy": -1, "impatient": -1, "bored": 1, "picky": 0, "friendly": 0 },
+      "price": 20,
+      "feature": "烦闷缓解型，性价比高"
+    },
+    {
+      "id": 3,
+      "name_cn": "白朗姆",
+      "name_en": "White Rum",
+      "category": "基础酒类",
+      "effects": { "busy": -1, "impatient": 0, "bored": 0, "picky": -1, "friendly": 2 },
+      "price": 22,
+      "feature": "友好专精型，热带风味"
+    },
+    {
+      "id": 4,
+      "name_cn": "龙舌兰",
+      "name_en": "Tequila",
+      "category": "基础酒类",
+      "effects": { "busy": -1, "impatient": -2, "bored": -1, "picky": 1, "friendly": 0 },
+      "price": 24,
+      "feature": "挑剔型，个性强烈"
+    },
+    {
+      "id": 5,
+      "name_cn": "波本威士忌",
+      "name_en": "Bourbon",
+      "category": "基础酒类",
+      "effects": { "busy": 2, "impatient": 0, "bored": -1, "picky": -1, "friendly": 1 },
+      "price": 30,
+      "feature": "忙碌友好型，美式经典"
+    },
+    {
+      "id": 6,
+      "name_cn": "黑麦威士忌",
+      "name_en": "Rye Whiskey",
+      "category": "基础酒类",
+      "effects": { "busy": 2, "impatient": -1, "bored": 0, "picky": 1, "friendly": 0 },
+      "price": 32,
+      "feature": "忙碌挑剔型，高端选择"
+    },
+    {
+      "id": 7,
+      "name_cn": "干味美思",
+      "name_en": "Dry Vermouth",
+      "category": "调味酒类",
+      "effects": { "busy": 0, "impatient": 0, "bored": -1, "picky": 2, "friendly": 0 },
+      "price": 18,
+      "feature": "挑剔专精，经典调味"
+    },
+    {
+      "id": 8,
+      "name_cn": "甜味美思",
+      "name_en": "Sweet Vermouth",
+      "category": "调味酒类",
+      "effects": { "busy": 0, "impatient": 1, "bored": 0, "picky": 2, "friendly": 1 },
+      "price": 18,
+      "feature": "多状态适用，甜味平衡"
+    },
+    {
+      "id": 9,
+      "name_cn": "橙皮利口酒",
+      "name_en": "Orange Liqueur",
+      "category": "调味酒类",
+      "effects": { "busy": 0, "impatient": -1, "bored": 0, "picky": 1, "friendly": 2 },
+      "price": 15,
+      "feature": "友好型，果香调味"
+    },
+    {
+      "id": 10,
+      "name_cn": "金巴利",
+      "name_en": "Campari",
+      "category": "调味酒类",
+      "effects": { "busy": 0, "impatient": 2, "bored": -1, "picky": 2, "friendly": -1 },
+      "price": 20,
+      "feature": "急躁挑剔型，苦味特色"
+    },
+    {
+      "id": 11,
+      "name_cn": "安高天娜苦精",
+      "name_en": "Angostura Bitters",
+      "category": "调味品",
+      "effects": { "busy": 1, "impatient": 1, "bored": -1, "picky": 1, "friendly": 0 },
+      "price": 5,
+      "feature": "多状态增强，经典苦精"
+    },
+    {
+      "id": 12,
+      "name_cn": "单糖浆",
+      "name_en": "Simple Syrup",
+      "category": "调味品",
+      "effects": { "busy": -1, "impatient": 1, "bored": 1, "picky": 0, "friendly": 1 },
+      "price": 3,
+      "feature": "甜味调节，价格低廉"
+    },
+    {
+      "id": 13,
+      "name_cn": "青柠",
+      "name_en": "Lime",
+      "category": "新鲜配料",
+      "effects": { "busy": -2, "impatient": -1, "bored": 1, "picky": 1, "friendly": 0 },
+      "price": 4,
+      "feature": "清新解压，酸味平衡"
+    },
+    {
+      "id": 14,
+      "name_cn": "柠檬",
+      "name_en": "Lemon",
+      "category": "新鲜配料",
+      "effects": { "busy": -2, "impatient": -1, "bored": 0, "picky": 0, "friendly": 1 },
+      "price": 4,
+      "feature": "温和清香，友好提升"
+    },
+    {
+      "id": 15,
+      "name_cn": "苏打水",
+      "name_en": "Soda Water",
+      "category": "新鲜配料",
+      "effects": { "busy": -2, "impatient": 1, "bored": 2, "picky": 0, "friendly": 1 },
+      "price": 2,
+      "feature": "烦闷克星，气泡清爽"
+    },
+    {
+      "id": 16,
+      "name_cn": "可乐",
+      "name_en": "Cola",
+      "category": "新鲜配料",
+      "effects": { "busy": -1, "impatient": 1, "bored": 2, "picky": -1, "friendly": 2 },
+      "price": 3,
+      "feature": "烦闷友好型，甜味汽水"
+    }
+  ]
+}

@@ -438,6 +438,8 @@ MonoBehaviour:
   fadeInDuration: 0.8
   fadeEase: 7
   exitFadeDuration: 1
+  footstepAudioSource: {fileID: 0}
+  footstepVolume: 0.5
   isAnimating: 0
   currentCustomerId: 
   showDebugInfo: 1
@@ -1156,6 +1158,52 @@ MonoBehaviour:
   fastServeCount: 5
   minDrinkingTime: 10
   maxDrinkingTime: 15
+--- !u!1 &1391028966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1391028967}
+  - component: {fileID: 1391028968}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1391028967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391028966}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1391028968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391028966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e73c92ab6bfd964dadf90b291be6533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourcesAudioFolder: Audio
+  dontDestroyOnLoad: 1
 --- !u!1 &1398291067
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,8 +1301,8 @@ RectTransform:
   - {fileID: 2038107551}
   - {fileID: 1117785463}
   - {fileID: 17745246}
-  - {fileID: 635158226}
   - {fileID: 1139695084}
+  - {fileID: 635158226}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1599,3 +1647,4 @@ SceneRoots:
   - {fileID: 1136930459}
   - {fileID: 1031982105}
   - {fileID: 369216221}
+  - {fileID: 1391028967}

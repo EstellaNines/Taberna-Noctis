@@ -1,0 +1,103 @@
+{
+  "cocktails": [
+    {
+      "name_en": "Martini",
+      "name_cn": "马天尼",
+      "category": "经典鸡尾酒",
+      "effects": { "busy": 1, "impatient": -2, "bored": -2, "picky": 4, "friendly": 1 },
+      "cost": 48,
+      "price": 72,
+      "profit": 24,
+      "reputation_change": 5,
+      "feature": "挑剔专精，干练纯粹的经典之王"
+    },
+    {
+      "name_en": "Manhattan",
+      "name_cn": "曼哈顿",
+      "category": "经典鸡尾酒",
+      "effects": { "busy": 3, "impatient": 0, "bored": -1, "picky": 4, "friendly": 1 },
+      "cost": 55,
+      "price": 82,
+      "profit": 27,
+      "reputation_change": 4,
+      "feature": "忙碌挑剔型，厚重威士忌的都会风"
+    },
+    {
+      "name_en": "Old Fashioned",
+      "name_cn": "古典",
+      "category": "经典鸡尾酒",
+      "effects": { "busy": 2, "impatient": 2, "bored": -1, "picky": 0, "friendly": 2 },
+      "cost": 38,
+      "price": 57,
+      "profit": 19,
+      "reputation_change": 3,
+      "feature": "忙碌急躁友好型，平衡稳健的常青款"
+    },
+    {
+      "name_en": "Negroni",
+      "name_cn": "尼格罗尼",
+      "category": "经典鸡尾酒",
+      "effects": { "busy": 1, "impatient": 3, "bored": -2, "picky": 5, "friendly": 0 },
+      "cost": 63,
+      "price": 94,
+      "profit": 31,
+      "reputation_change": 5,
+      "feature": "急躁挑剔型，苦甜并陈的风味标杆"
+    },
+    {
+      "name_en": "Margarita",
+      "name_cn": "玛格丽特",
+      "category": "热带风味",
+      "effects": { "busy": -4, "impatient": -4, "bored": 0, "picky": 3, "friendly": 2 },
+      "cost": 46,
+      "price": 69,
+      "profit": 23,
+      "reputation_change": 3,
+      "feature": "挑剔友好型，酸咸相拥的热带清锋"
+    },
+    {
+      "name_en": "Daiquiri",
+      "name_cn": "戴基里",
+      "category": "热带风味",
+      "effects": { "busy": -4, "impatient": -2, "bored": 1, "picky": 1, "friendly": 3 },
+      "cost": 29,
+      "price": 43,
+      "profit": 14,
+      "reputation_change": 2,
+      "feature": "友好型，清爽直给的朗姆酸"
+    },
+    {
+      "name_en": "Moscow Mule",
+      "name_cn": "莫斯科骡子",
+      "category": "热带风味",
+      "effects": { "busy": -5, "impatient": -1, "bored": 3, "picky": 1, "friendly": 1 },
+      "cost": 31,
+      "price": 46,
+      "profit": 15,
+      "reputation_change": 2,
+      "feature": "烦闷缓解型，姜味辛口的清凉气泡"
+    },
+    {
+      "name_en": "Cuba Libre",
+      "name_cn": "自由古巴",
+      "category": "热带风味",
+      "effects": { "busy": -4, "impatient": 1, "bored": 2, "picky": -2, "friendly": 4 },
+      "cost": 32,
+      "price": 48,
+      "profit": 16,
+      "reputation_change": 2,
+      "feature": "烦闷友好型，甜汽可乐的畅快配方"
+    },
+    {
+      "name_en": "Unspeakable",
+      "name_cn": "不可描述之物",
+      "category": "特制鸡尾酒",
+      "effects": { "busy": -5, "impatient": -5, "bored": -5, "picky": -5, "friendly": -5 },
+      "cost": 120,
+      "price": 1,
+      "profit": -119,
+      "reputation_change": -10,
+      "feature": "高成本，降评的禁忌之杯"
+    }
+  ]
+}

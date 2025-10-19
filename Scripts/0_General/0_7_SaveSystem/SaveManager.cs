@@ -86,7 +86,18 @@ public class SaveManager : MonoBehaviour
 		{
 			string slot = i.ToString();
 			var data = LoadFromFile(slot);
-			if (data == null) { list.Add(new SaveSlotInfo { slotId = slot, slotName = $"存档{slot}", day = 0, lastSaveTime = "--" }); continue; }
+			if (data == null) 
+			{ 
+				list.Add(new SaveSlotInfo 
+				{ 
+					slotId = slot, 
+					slotName = $"存档{slot}", 
+					day = 0, 
+					lastSaveTime = "--",
+					cumulativeScore = 0f
+				}); 
+				continue; 
+			}
 			list.Add(new SaveSlotInfo
 			{
 				slotId = slot,
@@ -95,6 +106,7 @@ public class SaveManager : MonoBehaviour
 				phase = data.currentPhase,
 				money = data.currentMoney,
 				star = data.starRating,
+				cumulativeScore = data.cumulativeScore,
 				lastSaveTime = data.lastSaveDateTime,
 				playSeconds = data.totalPlayTimeSeconds
 			});

@@ -73,11 +73,12 @@ public class SaveSlotUI : MonoBehaviour
 
 		// 有档：按需要填充各字段
 		var phaseEn = PhaseToEn(info.phase);
-		SetTextIfNotNull(detailText, $"Day {info.day} {phaseEn}  Money:{info.money}  Stars:{info.star}  Last:{info.lastSaveTime}");
+		float starRating = info.cumulativeScore / 100f; // 100分/星
+		SetTextIfNotNull(detailText, $"Day {info.day} {phaseEn}  Money:{info.money}  Score:{info.cumulativeScore:F0}  Last:{info.lastSaveTime}");
 		SetTextIfNotNull(durationValueText, FormatPlayTime(info.playSeconds));
 		SetTextIfNotNull(inGameTimesValueText, info.day.ToString());
 		SetTextIfNotNull(holdingMoneyValueText, info.money.ToString());
-		SetTextIfNotNull(starRatingValueText, info.star.ToString());
+		SetTextIfNotNull(starRatingValueText, $"{starRating:F1}");
 		SetLoadButtonLabel("Load");
 		SetDeleteInteractable(true);
 	}

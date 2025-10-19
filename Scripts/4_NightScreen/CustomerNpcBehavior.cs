@@ -9,57 +9,64 @@ using TabernaNoctis.CharacterDesign;
 namespace TabernaNoctis.NightScreen
 {
     /// <summary>
-    /// ¹Ë¿ÍNPCĞĞÎª×é¼ş
-    /// ¹ÜÀí¹Ë¿ÍÈë³¡¶¯»­£¨²àÉí×ßÂ· ¡ú µ­³ö ¡ú Á¢»æµ­Èë£©ºÍUIÏÔÊ¾
+    /// é¡¾å®¢NPCè¡Œä¸ºç»„ä»¶
+    /// ç®¡ç†é¡¾å®¢å…¥åœºåŠ¨ç”»ï¼ˆä¾§èº«èµ°è·¯ â†’ æ·¡å‡º â†’ ç«‹ç»˜æ·¡å…¥ï¼‰å’ŒUIæ˜¾ç¤º
     /// </summary>
     public class CustomerNpcBehavior : MonoBehaviour
     {
-        [Header("UIÒıÓÃ - ²àÉí×ßÂ·¶¯»­")]
-        [SerializeField] private GameObject walkingContainer;     // ²àÉí×ßÂ·¶¯»­ÈİÆ÷
-        [SerializeField] private Image walkingSilhouette;         // ²àÉí¼ôÓ°Image
-        [SerializeField] private Transform walkingStartPoint;     // ×ßÂ·ÆğÊ¼Î»ÖÃ
-        [SerializeField] private Transform walkingEndPoint;       // ×ßÂ·½áÊøÎ»ÖÃ£¨¹ñÌ¨Ç°£©
+        [Header("UIå¼•ç”¨ - ä¾§èº«èµ°è·¯åŠ¨ç”»")]
+        [SerializeField] private GameObject walkingContainer;     // ä¾§èº«èµ°è·¯åŠ¨ç”»å®¹å™¨
+        [SerializeField] private Image walkingSilhouette;         // ä¾§èº«å‰ªå½±Image
+        [SerializeField] private Transform walkingStartPoint;     // èµ°è·¯èµ·å§‹ä½ç½®
+        [SerializeField] private Transform walkingEndPoint;       // èµ°è·¯ç»“æŸä½ç½®ï¼ˆæŸœå°å‰ï¼‰
 
-        [Header("UIÒıÓÃ - ¹Ë¿ÍÁ¢»æÏÔÊ¾")]
-        [SerializeField] private GameObject customerContainer;    // ¹Ë¿ÍÁ¢»æÈİÆ÷
-        [SerializeField] private CanvasGroup customerCanvasGroup; // ¹Ë¿ÍÁ¢»æCanvasGroup
-        [SerializeField] private Image portraitImage;             // ¹Ë¿ÍÁ¢»æ
-        [SerializeField] private TextMeshProUGUI nameText;        // ¹Ë¿ÍÃû×Ö
-        [SerializeField] private TextMeshProUGUI stateText;       // ¹Ë¿Í×´Ì¬
-        [SerializeField] private Image stateIcon;                 // ×´Ì¬Í¼±ê£¨¿ÉÑ¡£©
-        [SerializeField] private Slider moodBar;                  // ĞÄÇéÌõ£¨¿ÉÑ¡£©
+        [Header("UIå¼•ç”¨ - é¡¾å®¢ç«‹ç»˜æ˜¾ç¤º")]
+        [SerializeField] private GameObject customerContainer;    // é¡¾å®¢ç«‹ç»˜å®¹å™¨
+        [SerializeField] private CanvasGroup customerCanvasGroup; // é¡¾å®¢ç«‹ç»˜CanvasGroup
+        [SerializeField] private Image portraitImage;             // é¡¾å®¢ç«‹ç»˜
+        [SerializeField] private TextMeshProUGUI nameText;        // é¡¾å®¢åå­—
+        [SerializeField] private TextMeshProUGUI stateText;       // é¡¾å®¢çŠ¶æ€
+        [SerializeField] private Image stateIcon;                 // çŠ¶æ€å›¾æ ‡ï¼ˆå¯é€‰ï¼‰
+        [SerializeField] private Slider moodBar;                  // å¿ƒæƒ…æ¡ï¼ˆå¯é€‰ï¼‰
 
-        [Header("¶¯»­ÅäÖÃ")]
-        [SerializeField] private float walkDuration = 3f;         // ×ßÂ·×ÜÊ±³¤
-        [SerializeField] private float walkBobHeight = 10f;       // ×ßÂ·ÉÏÏÂÆğ·ü¸ß¶È
-        [SerializeField] private float walkBobSpeed = 2f;         // ×ßÂ·Æğ·üÆµÂÊ
-        [SerializeField] private float fadeOutStartTime = 0.8f;   // µ­³ö¿ªÊ¼Ê±¼ä£¨×ßÂ·½áÊøÇ°£©
-        [SerializeField] private float fadeOutDuration = 0.8f;    // ²àÉíµ­³öÊ±³¤
-        [SerializeField] private float fadeInDuration = 0.8f;     // Á¢»æµ­ÈëÊ±³¤
-        [SerializeField] private Ease fadeEase = Ease.InOutQuad;  // µ­Èëµ­³ö»º¶¯
+        [Header("åŠ¨ç”»é…ç½®")]
+        [SerializeField] private float walkDuration = 3f;         // èµ°è·¯æ€»æ—¶é•¿
+        [SerializeField] private float walkBobHeight = 10f;       // èµ°è·¯ä¸Šä¸‹èµ·ä¼é«˜åº¦
+        [SerializeField] private float walkBobSpeed = 2f;         // èµ°è·¯èµ·ä¼é¢‘ç‡
+        [SerializeField] private float fadeOutStartTime = 0.8f;   // æ·¡å‡ºå¼€å§‹æ—¶é—´ï¼ˆèµ°è·¯ç»“æŸå‰ï¼‰
+        [SerializeField] private float fadeOutDuration = 0.8f;    // ä¾§èº«æ·¡å‡ºæ—¶é•¿
+        [SerializeField] private float fadeInDuration = 0.8f;     // ç«‹ç»˜æ·¡å…¥æ—¶é•¿
+        [SerializeField] private Ease fadeEase = Ease.InOutQuad;  // æ·¡å…¥æ·¡å‡ºç¼“åŠ¨
 
-        [Header("Àë³¡¶¯»­ÅäÖÃ")]
-        [SerializeField] private float exitFadeDuration = 1f;     // Àë³¡µ­³öÊ±³¤
+        [Header("ç¦»åœºåŠ¨ç”»é…ç½®")]
+        [SerializeField] private float exitFadeDuration = 1f;     // ç¦»åœºæ·¡å‡ºæ—¶é•¿
 
-        [Header("µ÷ÊÔĞÅÏ¢")]
+        [Header("éŸ³é¢‘é…ç½®")]
+        [SerializeField] private AudioSource footstepAudioSource; // è„šæ­¥å£°éŸ³æºï¼ˆå¯é€‰ï¼Œç”¨äº3DéŸ³æ•ˆï¼‰
+        [SerializeField] private float footstepVolume = 0.5f;     // è„šæ­¥å£°éŸ³é‡
+
+        [Header("è°ƒè¯•ä¿¡æ¯")]
         [SerializeField] private bool isAnimating = false;
         [SerializeField] private string currentCustomerId = "";
 
-        // ¹«¿ªÊôĞÔ
+        // å…¬å¼€å±æ€§
         public NpcCharacterData CurrentData { get; private set; }
         public bool IsServicing { get; private set; }
         public bool IsVisible => customerCanvasGroup != null && customerCanvasGroup.alpha > 0.1f;
         public bool IsAnimating => isAnimating;
 
-        // ¶¯»­ĞòÁĞÒıÓÃ
+        // åŠ¨ç”»åºåˆ—å¼•ç”¨
         private Sequence currentAnimation;
         private Coroutine walkingBobCoroutine;
+        
+        // éŸ³é¢‘æ§åˆ¶
+        private int footstepPlayId = -1; // è„šæ­¥å£°æ’­æ”¾ID
 
-        // ²àÉí¼ôÓ°¾«Áé»º´æ
+        // ä¾§èº«å‰ªå½±ç²¾çµç¼“å­˜
         private Sprite maleSilhouetteSprite;
         private Sprite femaleSilhouetteSprite;
 
-        #region UnityÉúÃüÖÜÆÚ
+        #region Unityç”Ÿå‘½å‘¨æœŸ
 
         private void Awake()
         {
@@ -70,48 +77,48 @@ namespace TabernaNoctis.NightScreen
 
         private void OnDestroy()
         {
-            // ÇåÀí¶¯»­ºÍĞ­³Ì
+            // æ¸…ç†åŠ¨ç”»å’Œåç¨‹
             StopAllAnimations();
         }
 
         #endregion
 
-        #region ¹«¿ª½Ó¿Ú
+        #region å…¬å¼€æ¥å£
 
         /// <summary>
-        /// ³õÊ¼»¯¹Ë¿ÍÊı¾İ²¢²¥·ÅÍêÕûÈë³¡¶¯»­
+        /// åˆå§‹åŒ–é¡¾å®¢æ•°æ®å¹¶æ’­æ”¾å®Œæ•´å…¥åœºåŠ¨ç”»
         /// </summary>
-        /// <param name="data">¹Ë¿ÍÊı¾İ</param>
-        /// <param name="onComplete">¶¯»­Íê³É»Øµ÷</param>
+        /// <param name="data">é¡¾å®¢æ•°æ®</param>
+        /// <param name="onComplete">åŠ¨ç”»å®Œæˆå›è°ƒ</param>
         public void Initialize(NpcCharacterData data, Action onComplete = null)
         {
             if (data == null)
             {
-                Debug.LogError("[CustomerNpcBehavior] Initialize: dataÎª¿Õ");
+                Debug.LogError("[CustomerNpcBehavior] Initialize: dataä¸ºç©º");
                 onComplete?.Invoke();
                 return;
             }
 
-            // Èç¹ûµ±Ç°ÓĞ¹Ë¿ÍÔÚ·şÎñÖĞ£¬ÏÈÈÃÆäÀë³¡
+            // å¦‚æœå½“å‰æœ‰é¡¾å®¢åœ¨æœåŠ¡ä¸­ï¼Œå…ˆè®©å…¶ç¦»åœº
             if (IsServicing && CurrentData != null)
             {
-                Debug.Log($"[CustomerNpcBehavior] ÉÏÒ»Î»¹Ë¿Í {CurrentData.displayName} ¿ªÊ¼Àë³¡£¬ÎªĞÂ¹Ë¿Í {data.displayName} ÈÃÎ»");
+                Debug.Log($"[CustomerNpcBehavior] ä¸Šä¸€ä½é¡¾å®¢ {CurrentData.displayName} å¼€å§‹ç¦»åœºï¼Œä¸ºæ–°é¡¾å®¢ {data.displayName} è®©ä½");
                 
                 PlayExitAnimation(() =>
                 {
-                    // ÉÏÒ»Î»¹Ë¿ÍÀë³¡Íê³Éºó£¬³õÊ¼»¯ĞÂ¹Ë¿Í
+                    // ä¸Šä¸€ä½é¡¾å®¢ç¦»åœºå®Œæˆåï¼Œåˆå§‹åŒ–æ–°é¡¾å®¢
                     InitializeNewCustomer(data, onComplete);
                 });
             }
             else
             {
-                // Ã»ÓĞµ±Ç°¹Ë¿Í£¬Ö±½Ó³õÊ¼»¯ĞÂ¹Ë¿Í
+                // æ²¡æœ‰å½“å‰é¡¾å®¢ï¼Œç›´æ¥åˆå§‹åŒ–æ–°é¡¾å®¢
                 InitializeNewCustomer(data, onComplete);
             }
         }
 
         /// <summary>
-        /// ³õÊ¼»¯ĞÂ¹Ë¿Í£¨ÄÚ²¿·½·¨£©
+        /// åˆå§‹åŒ–æ–°é¡¾å®¢ï¼ˆå†…éƒ¨æ–¹æ³•ï¼‰
         /// </summary>
         private void InitializeNewCustomer(NpcCharacterData data, Action onComplete)
         {
@@ -119,24 +126,24 @@ namespace TabernaNoctis.NightScreen
             IsServicing = true;
             currentCustomerId = data.identityId;
 
-            Debug.Log($"[CustomerNpcBehavior] ³õÊ¼»¯¹Ë¿Í: {data.displayName} ({data.state}, {data.gender})");
+            Debug.Log($"[CustomerNpcBehavior] åˆå§‹åŒ–é¡¾å®¢: {data.displayName} ({data.state}, {data.gender})");
 
-            // Ô¤¼ÓÔØ¹Ë¿ÍÁ¢»æÊı¾İ
+            // é¢„åŠ è½½é¡¾å®¢ç«‹ç»˜æ•°æ®
             PrepareCustomerUI(data);
 
-            // ²¥·ÅÍêÕûÈë³¡¶¯»­ĞòÁĞ
+            // æ’­æ”¾å®Œæ•´å…¥åœºåŠ¨ç”»åºåˆ—
             PlayEnterAnimationSequence(onComplete);
         }
 
         /// <summary>
-        /// ²¥·ÅÀë³¡¶¯»­
+        /// æ’­æ”¾ç¦»åœºåŠ¨ç”»
         /// </summary>
-        /// <param name="onComplete">¶¯»­Íê³É»Øµ÷</param>
+        /// <param name="onComplete">åŠ¨ç”»å®Œæˆå›è°ƒ</param>
         public void PlayExitAnimation(Action onComplete = null)
         {
             if (!IsServicing)
             {
-                Debug.LogWarning("[CustomerNpcBehavior] µ±Ç°ÎŞ¹Ë¿ÍÔÚ·şÎñÖĞ");
+                Debug.LogWarning("[CustomerNpcBehavior] å½“å‰æ— é¡¾å®¢åœ¨æœåŠ¡ä¸­");
                 onComplete?.Invoke();
                 return;
             }
@@ -144,15 +151,15 @@ namespace TabernaNoctis.NightScreen
             StopAllAnimations();
             isAnimating = true;
 
-            Debug.Log($"[CustomerNpcBehavior] ¿ªÊ¼Àë³¡¶¯»­: {CurrentData?.displayName}");
+            Debug.Log($"[CustomerNpcBehavior] å¼€å§‹ç¦»åœºåŠ¨ç”»: {CurrentData?.displayName}");
 
-            // ¼òµ¥µÄµ­³ö¶¯»­
+            // ç®€å•çš„æ·¡å‡ºåŠ¨ç”»
             currentAnimation = DOTween.Sequence()
                 .Append(customerCanvasGroup.DOFade(0f, exitFadeDuration).SetEase(fadeEase))
                 .OnComplete(() =>
                 {
                     isAnimating = false;
-                    Debug.Log($"[CustomerNpcBehavior] Àë³¡¶¯»­Íê³É: {CurrentData?.displayName}");
+                    Debug.Log($"[CustomerNpcBehavior] ç¦»åœºåŠ¨ç”»å®Œæˆ: {CurrentData?.displayName}");
                     onComplete?.Invoke();
                 });
 
@@ -160,19 +167,19 @@ namespace TabernaNoctis.NightScreen
         }
 
         /// <summary>
-        /// ÖØÖÃ×é¼ş×´Ì¬
+        /// é‡ç½®ç»„ä»¶çŠ¶æ€
         /// </summary>
         public void ResetState()
         {
             StopAllAnimations();
 
-            // Çå¿ÕÊı¾İ
+            // æ¸…ç©ºæ•°æ®
             CurrentData = null;
             IsServicing = false;
             currentCustomerId = "";
             isAnimating = false;
 
-            // ÖØÖÃUI×´Ì¬
+            // é‡ç½®UIçŠ¶æ€
             if (walkingContainer != null)
                 walkingContainer.SetActive(false);
 
@@ -189,66 +196,70 @@ namespace TabernaNoctis.NightScreen
                 customerCanvasGroup.blocksRaycasts = false;
             }
 
-            // Çå¿ÕUIÄÚÈİ
+            // æ¸…ç©ºUIå†…å®¹
             ClearCustomerUI();
 
-            Debug.Log("[CustomerNpcBehavior] ×´Ì¬ÒÑÖØÖÃ");
+            Debug.Log("[CustomerNpcBehavior] çŠ¶æ€å·²é‡ç½®");
         }
 
         #endregion
 
-        #region Èë³¡¶¯»­ĞòÁĞ
+        #region å…¥åœºåŠ¨ç”»åºåˆ—
 
         /// <summary>
-        /// ²¥·ÅÍêÕûÈë³¡¶¯»­ĞòÁĞ
+        /// æ’­æ”¾å®Œæ•´å…¥åœºåŠ¨ç”»åºåˆ—
         /// </summary>
         private void PlayEnterAnimationSequence(Action onComplete)
         {
             StopAllAnimations();
             isAnimating = true;
 
-            // ÉèÖÃ²àÉí¼ôÓ°
+            // è®¾ç½®ä¾§èº«å‰ªå½±
             SetupWalkingSilhouette();
 
-            // ¼¤»î×ßÂ·ÈİÆ÷£¬Òş²Ø¹Ë¿ÍÈİÆ÷
+            // æ¿€æ´»èµ°è·¯å®¹å™¨ï¼Œéšè—é¡¾å®¢å®¹å™¨
             walkingContainer.SetActive(true);
             customerContainer.SetActive(true);
             customerCanvasGroup.alpha = 0f;
 
-            // ÉèÖÃ²àÉí¼ôÓ°³õÊ¼Î»ÖÃ
+            // è®¾ç½®ä¾§èº«å‰ªå½±åˆå§‹ä½ç½®
             walkingSilhouette.transform.position = walkingStartPoint.position;
 
-            Debug.Log($"[CustomerNpcBehavior] ¿ªÊ¼Èë³¡¶¯»­ĞòÁĞ: {CurrentData?.displayName}");
+            Debug.Log($"[CustomerNpcBehavior] å¼€å§‹å…¥åœºåŠ¨ç”»åºåˆ—: {CurrentData?.displayName}");
 
-            // Æô¶¯×ßÂ·ÉÏÏÂÆğ·ü¶¯»­£¨°üº¬ÒÆ¶¯£©
+            // å¯åŠ¨èµ°è·¯ä¸Šä¸‹èµ·ä¼åŠ¨ç”»ï¼ˆåŒ…å«ç§»åŠ¨ï¼‰
             StartWalkingBobAnimation();
 
-            // ´´½¨¶¯»­ĞòÁĞ£¨½ö´¦Àíµ­Èëµ­³ö£©
+            // åˆ›å»ºåŠ¨ç”»åºåˆ—ï¼ˆä»…å¤„ç†æ·¡å…¥æ·¡å‡ºï¼‰
             currentAnimation = DOTween.Sequence();
 
-            // 1. µÈ´ı×ßÂ·¶¯»­½øĞĞµ½µ­³ö¿ªÊ¼Ê±¼ä
+            // 1. ç­‰å¾…èµ°è·¯åŠ¨ç”»è¿›è¡Œåˆ°æ·¡å‡ºå¼€å§‹æ—¶é—´
             var fadeOutStartDelay = walkDuration - fadeOutStartTime;
             currentAnimation.AppendInterval(fadeOutStartDelay);
 
-            // 2. ¿ªÊ¼µ­³ö²àÉí¼ôÓ°
-            currentAnimation.Append(walkingSilhouette.DOFade(0f, fadeOutDuration).SetEase(fadeEase));
+            // 2. å¼€å§‹æ·¡å‡ºä¾§èº«å‰ªå½±ï¼ŒåŒæ—¶åœæ­¢è„šæ­¥å£°
+            currentAnimation.Append(walkingSilhouette.DOFade(0f, fadeOutDuration).SetEase(fadeEase)
+                .OnStart(() => {
+                    StopFootstepSound();
+                    Debug.Log("[CustomerNpcBehavior] è„šæ­¥å£°åœ¨ä¾§èº«å¼€å§‹æ·¡å‡ºæ—¶åœæ­¢");
+                }));
 
-            // 3. Í¬Ê±µ­Èë¹Ë¿ÍÁ¢»æ£¨Óëµ­³öÍ¬Ê±½øĞĞ£©
+            // 3. åŒæ—¶æ·¡å…¥é¡¾å®¢ç«‹ç»˜ï¼ˆä¸æ·¡å‡ºåŒæ—¶è¿›è¡Œï¼‰
             currentAnimation.Insert(fadeOutStartDelay, 
                 customerCanvasGroup.DOFade(1f, fadeInDuration).SetEase(fadeEase));
 
-            // 4. ¶¯»­Íê³É»Øµ÷
+            // 4. åŠ¨ç”»å®Œæˆå›è°ƒ
             currentAnimation.OnComplete(() =>
             {
-                // Òş²Ø×ßÂ·ÈİÆ÷
+                // éšè—èµ°è·¯å®¹å™¨
                 walkingContainer.SetActive(false);
                 
-                // ÆôÓÃ¹Ë¿Í½»»¥
+                // å¯ç”¨é¡¾å®¢äº¤äº’
                 customerCanvasGroup.interactable = true;
                 customerCanvasGroup.blocksRaycasts = true;
                 
                 isAnimating = false;
-                Debug.Log($"[CustomerNpcBehavior] Èë³¡¶¯»­ĞòÁĞÍê³É: {CurrentData?.displayName}");
+                Debug.Log($"[CustomerNpcBehavior] å…¥åœºåŠ¨ç”»åºåˆ—å®Œæˆ: {CurrentData?.displayName}");
                 onComplete?.Invoke();
             });
 
@@ -256,14 +267,14 @@ namespace TabernaNoctis.NightScreen
         }
 
         /// <summary>
-        /// ÉèÖÃ²àÉí¼ôÓ°
+        /// è®¾ç½®ä¾§èº«å‰ªå½±
         /// </summary>
         private void SetupWalkingSilhouette()
         {
             if (walkingSilhouette == null || CurrentData == null)
                 return;
 
-            // ¸ù¾İĞÔ±ğÑ¡Ôñ²àÉí¼ôÓ°
+            // æ ¹æ®æ€§åˆ«é€‰æ‹©ä¾§èº«å‰ªå½±
             Sprite silhouetteSprite = CurrentData.gender.ToLower() == "female" 
                 ? femaleSilhouetteSprite 
                 : maleSilhouetteSprite;
@@ -271,28 +282,31 @@ namespace TabernaNoctis.NightScreen
             if (silhouetteSprite != null)
             {
                 walkingSilhouette.sprite = silhouetteSprite;
-                walkingSilhouette.color = Color.white; // ÖØÖÃÍ¸Ã÷¶È
-                Debug.Log($"[CustomerNpcBehavior] ÉèÖÃ²àÉí¼ôÓ°: {CurrentData.gender} -> {silhouetteSprite.name}");
+                walkingSilhouette.color = Color.white; // é‡ç½®é€æ˜åº¦
+                Debug.Log($"[CustomerNpcBehavior] è®¾ç½®ä¾§èº«å‰ªå½±: {CurrentData.gender} -> {silhouetteSprite.name}");
             }
             else
             {
-                Debug.LogWarning($"[CustomerNpcBehavior] ²àÉí¼ôÓ°¼ÓÔØÊ§°Ü: {CurrentData.gender}");
+                Debug.LogWarning($"[CustomerNpcBehavior] ä¾§èº«å‰ªå½±åŠ è½½å¤±è´¥: {CurrentData.gender}");
             }
         }
 
         /// <summary>
-        /// Æô¶¯×ßÂ·ÉÏÏÂÆğ·ü¶¯»­
+        /// å¯åŠ¨èµ°è·¯ä¸Šä¸‹èµ·ä¼åŠ¨ç”»
         /// </summary>
         private void StartWalkingBobAnimation()
         {
             if (walkingSilhouette == null)
                 return;
 
+            // æ’­æ”¾è„šæ­¥å£°
+            PlayFootstepSound();
+
             walkingBobCoroutine = StartCoroutine(WalkingBobCoroutine());
         }
 
         /// <summary>
-        /// ×ßÂ·ÉÏÏÂÆğ·üĞ­³Ì
+        /// èµ°è·¯ä¸Šä¸‹èµ·ä¼åç¨‹
         /// </summary>
         private IEnumerator WalkingBobCoroutine()
         {
@@ -302,37 +316,37 @@ namespace TabernaNoctis.NightScreen
 
             while (elapsed < walkDuration && isAnimating)
             {
-                // ¼ÆËãµ±Ç°Ó¦¸ÃÔÚµÄË®Æ½Î»ÖÃ£¨»ùÓÚÊ±¼ä½ø¶È£©
+                // è®¡ç®—å½“å‰åº”è¯¥åœ¨çš„æ°´å¹³ä½ç½®ï¼ˆåŸºäºæ—¶é—´è¿›åº¦ï¼‰
                 float progress = elapsed / walkDuration;
                 Vector3 currentBasePos = Vector3.Lerp(startWorldPos, endWorldPos, progress);
                 
-                // ¼ÆËãÉÏÏÂÆğ·üÆ«ÒÆ
+                // è®¡ç®—ä¸Šä¸‹èµ·ä¼åç§»
                 float bobOffset = Mathf.Sin(elapsed * walkBobSpeed * Mathf.PI * 2) * walkBobHeight;
                 
-                // Ó¦ÓÃÎ»ÖÃ£º»ù´¡Î»ÖÃ + Æğ·üÆ«ÒÆ
+                // åº”ç”¨ä½ç½®ï¼šåŸºç¡€ä½ç½® + èµ·ä¼åç§»
                 walkingSilhouette.transform.position = currentBasePos + Vector3.up * bobOffset;
 
                 elapsed += Time.deltaTime;
                 yield return null;
             }
 
-            // È·±£×îÖÕÎ»ÖÃÕıÈ·
+            // ç¡®ä¿æœ€ç»ˆä½ç½®æ­£ç¡®
             walkingSilhouette.transform.position = endWorldPos;
         }
 
         #endregion
 
-        #region UI¹ÜÀí
+        #region UIç®¡ç†
 
         /// <summary>
-        /// ×¼±¸¹Ë¿ÍUIÊı¾İ
+        /// å‡†å¤‡é¡¾å®¢UIæ•°æ®
         /// </summary>
         private void PrepareCustomerUI(NpcCharacterData data)
         {
-            // ¼ÓÔØ²¢ÉèÖÃÁ¢»æ
+            // åŠ è½½å¹¶è®¾ç½®ç«‹ç»˜
             LoadPortrait(data.portraitPath);
 
-            // ÉèÖÃÎÄ±¾ĞÅÏ¢
+            // è®¾ç½®æ–‡æœ¬ä¿¡æ¯
             if (nameText != null)
                 nameText.text = data.displayName;
 
@@ -342,18 +356,18 @@ namespace TabernaNoctis.NightScreen
                 stateText.color = data.stateColor;
             }
 
-            // ÉèÖÃĞÄÇéÖµ
+            // è®¾ç½®å¿ƒæƒ…å€¼
             if (moodBar != null)
             {
                 moodBar.value = Mathf.Clamp01(data.initialMood / 100f);
             }
 
-            // ¼ÓÔØ×´Ì¬Í¼±ê£¨¿ÉÑ¡£©
+            // åŠ è½½çŠ¶æ€å›¾æ ‡ï¼ˆå¯é€‰ï¼‰
             LoadStateIcon(data.state);
         }
 
         /// <summary>
-        /// ¼ÓÔØ¹Ë¿ÍÁ¢»æ
+        /// åŠ è½½é¡¾å®¢ç«‹ç»˜
         /// </summary>
         private void LoadPortrait(string portraitPath)
         {
@@ -366,23 +380,23 @@ namespace TabernaNoctis.NightScreen
                 if (sprite != null)
                 {
                     portraitImage.sprite = sprite;
-                    Debug.Log($"[CustomerNpcBehavior] Á¢»æ¼ÓÔØ³É¹¦: {portraitPath}");
+                    Debug.Log($"[CustomerNpcBehavior] ç«‹ç»˜åŠ è½½æˆåŠŸ: {portraitPath}");
                 }
                 else
                 {
-                    Debug.LogWarning($"[CustomerNpcBehavior] Á¢»æ¼ÓÔØÊ§°Ü: {portraitPath}");
+                    Debug.LogWarning($"[CustomerNpcBehavior] ç«‹ç»˜åŠ è½½å¤±è´¥: {portraitPath}");
                     LoadDefaultPortrait();
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"[CustomerNpcBehavior] Á¢»æ¼ÓÔØÒì³£: {portraitPath}, ´íÎó: {e.Message}");
+                Debug.LogError($"[CustomerNpcBehavior] ç«‹ç»˜åŠ è½½å¼‚å¸¸: {portraitPath}, é”™è¯¯: {e.Message}");
                 LoadDefaultPortrait();
             }
         }
 
         /// <summary>
-        /// ¼ÓÔØÄ¬ÈÏÁ¢»æ
+        /// åŠ è½½é»˜è®¤ç«‹ç»˜
         /// </summary>
         private void LoadDefaultPortrait()
         {
@@ -393,12 +407,12 @@ namespace TabernaNoctis.NightScreen
             if (defaultSprite != null)
             {
                 portraitImage.sprite = defaultSprite;
-                Debug.Log("[CustomerNpcBehavior] Ê¹ÓÃÄ¬ÈÏÁ¢»æ");
+                Debug.Log("[CustomerNpcBehavior] ä½¿ç”¨é»˜è®¤ç«‹ç»˜");
             }
         }
 
         /// <summary>
-        /// ¼ÓÔØ×´Ì¬Í¼±ê
+        /// åŠ è½½çŠ¶æ€å›¾æ ‡
         /// </summary>
         private void LoadStateIcon(string state)
         {
@@ -422,13 +436,13 @@ namespace TabernaNoctis.NightScreen
             }
             catch (Exception e)
             {
-                Debug.LogError($"[CustomerNpcBehavior] ×´Ì¬Í¼±ê¼ÓÔØÒì³£: {state}, ´íÎó: {e.Message}");
+                Debug.LogError($"[CustomerNpcBehavior] çŠ¶æ€å›¾æ ‡åŠ è½½å¼‚å¸¸: {state}, é”™è¯¯: {e.Message}");
                 stateIcon.gameObject.SetActive(false);
             }
         }
 
         /// <summary>
-        /// Çå¿Õ¹Ë¿ÍUI
+        /// æ¸…ç©ºé¡¾å®¢UI
         /// </summary>
         private void ClearCustomerUI()
         {
@@ -456,89 +470,137 @@ namespace TabernaNoctis.NightScreen
 
         #endregion
 
-        #region ×ÊÔ´¼ÓÔØ
+        #region èµ„æºåŠ è½½
 
         /// <summary>
-        /// ¼ÓÔØ²àÉí¼ôÓ°¾«Áé
+        /// åŠ è½½ä¾§èº«å‰ªå½±ç²¾çµ
         /// </summary>
         private void LoadSilhouetteSprites()
         {
             try
             {
-                maleSilhouetteSprite = Resources.Load<Sprite>("Character/Portrait/²àÉí(ÄĞ)");
-                femaleSilhouetteSprite = Resources.Load<Sprite>("Character/Portrait/²àÉí(Å®)");
+                maleSilhouetteSprite = Resources.Load<Sprite>("Character/Portrait/ä¾§èº«(ç”·)");
+                femaleSilhouetteSprite = Resources.Load<Sprite>("Character/Portrait/ä¾§èº«(å¥³)");
 
                 if (maleSilhouetteSprite == null)
-                    Debug.LogWarning("[CustomerNpcBehavior] ÄĞĞÔ²àÉí¼ôÓ°¼ÓÔØÊ§°Ü: Character/Portrait/²àÉí(ÄĞ)");
+                    Debug.LogWarning("[CustomerNpcBehavior] ç”·æ€§ä¾§èº«å‰ªå½±åŠ è½½å¤±è´¥: Character/Portrait/ä¾§èº«(ç”·)");
 
                 if (femaleSilhouetteSprite == null)
-                    Debug.LogWarning("[CustomerNpcBehavior] Å®ĞÔ²àÉí¼ôÓ°¼ÓÔØÊ§°Ü: Character/Portrait/²àÉí(Å®)");
+                    Debug.LogWarning("[CustomerNpcBehavior] å¥³æ€§ä¾§èº«å‰ªå½±åŠ è½½å¤±è´¥: Character/Portrait/ä¾§èº«(å¥³)");
 
-                Debug.Log($"[CustomerNpcBehavior] ²àÉí¼ôÓ°¼ÓÔØÍê³É - ÄĞĞÔ: {maleSilhouetteSprite != null}, Å®ĞÔ: {femaleSilhouetteSprite != null}");
+                Debug.Log($"[CustomerNpcBehavior] ä¾§èº«å‰ªå½±åŠ è½½å®Œæˆ - ç”·æ€§: {maleSilhouetteSprite != null}, å¥³æ€§: {femaleSilhouetteSprite != null}");
             }
             catch (Exception e)
             {
-                Debug.LogError($"[CustomerNpcBehavior] ²àÉí¼ôÓ°¼ÓÔØÒì³£: {e.Message}");
+                Debug.LogError($"[CustomerNpcBehavior] ä¾§èº«å‰ªå½±åŠ è½½å¼‚å¸¸: {e.Message}");
             }
         }
 
         #endregion
 
-        #region Ë½ÓĞ·½·¨
+        #region ç§æœ‰æ–¹æ³•
 
         /// <summary>
-        /// ÑéÖ¤±ØÒª×é¼ş
+        /// éªŒè¯å¿…è¦ç»„ä»¶
         /// </summary>
         private void ValidateComponents()
         {
             if (walkingContainer == null)
-                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: walkingContainerÒıÓÃÈ±Ê§");
+                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: walkingContainerå¼•ç”¨ç¼ºå¤±");
 
             if (walkingSilhouette == null)
-                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: walkingSilhouetteÒıÓÃÈ±Ê§");
+                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: walkingSilhouetteå¼•ç”¨ç¼ºå¤±");
 
             if (walkingStartPoint == null)
-                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: walkingStartPointÒıÓÃÈ±Ê§");
+                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: walkingStartPointå¼•ç”¨ç¼ºå¤±");
 
             if (walkingEndPoint == null)
-                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: walkingEndPointÒıÓÃÈ±Ê§");
+                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: walkingEndPointå¼•ç”¨ç¼ºå¤±");
 
             if (customerContainer == null)
-                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: customerContainerÒıÓÃÈ±Ê§");
+                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: customerContainerå¼•ç”¨ç¼ºå¤±");
 
             if (customerCanvasGroup == null)
-                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: customerCanvasGroupÒıÓÃÈ±Ê§");
+                Debug.LogError($"[CustomerNpcBehavior] {gameObject.name}: customerCanvasGroupå¼•ç”¨ç¼ºå¤±");
 
             if (portraitImage == null)
-                Debug.LogWarning($"[CustomerNpcBehavior] {gameObject.name}: portraitImageÒıÓÃÈ±Ê§");
+                Debug.LogWarning($"[CustomerNpcBehavior] {gameObject.name}: portraitImageå¼•ç”¨ç¼ºå¤±");
         }
 
         /// <summary>
-        /// Í£Ö¹ËùÓĞ¶¯»­ºÍĞ­³Ì
+        /// åœæ­¢æ‰€æœ‰åŠ¨ç”»å’Œåç¨‹
         /// </summary>
         private void StopAllAnimations()
         {
-            // Í£Ö¹DOTween¶¯»­
+            // åœæ­¢DOTweenåŠ¨ç”»
             if (currentAnimation != null && currentAnimation.IsActive())
             {
                 currentAnimation.Kill();
                 currentAnimation = null;
             }
 
-            // Í£Ö¹×ßÂ·Æğ·üĞ­³Ì
+            // åœæ­¢èµ°è·¯èµ·ä¼åç¨‹
             if (walkingBobCoroutine != null)
             {
                 StopCoroutine(walkingBobCoroutine);
                 walkingBobCoroutine = null;
             }
+            
+            // åœæ­¢è„šæ­¥å£°
+            StopFootstepSound();
         }
 
         #endregion
 
-        #region ±à¼­Æ÷µ÷ÊÔ
+        #region éŸ³é¢‘ç®¡ç†
+
+        /// <summary>
+        /// æ’­æ”¾è„šæ­¥å£°ï¼ˆä½¿ç”¨å¯æ§éŸ³æ•ˆAPIï¼‰
+        /// </summary>
+        private void PlayFootstepSound()
+        {
+            if (footstepPlayId != -1 || CurrentData == null)
+                return;
+
+            // æ ¹æ®æ€§åˆ«é€‰æ‹©è„šæ­¥å£°
+            string footstepAudio = CurrentData.gender.ToLower() == "female"
+                ? GlobalAudio.HighheelWalkFootstep
+                : GlobalAudio.BootWalkFootstep;
+
+            if (AudioManager.instance == null)
+            {
+                Debug.LogWarning("[CustomerNpcBehavior] AudioManager.instanceä¸ºç©ºï¼Œæ— æ³•æ’­æ”¾è„šæ­¥å£°");
+                return;
+            }
+
+            // ä½¿ç”¨å¯æ§éŸ³æ•ˆAPIæ’­æ”¾å¾ªç¯è„šæ­¥å£°
+            footstepPlayId = AudioManager.instance.PlayControllableSE(footstepAudio, footstepVolume, loop: true);
+            
+            if (footstepPlayId != -1)
+            {
+                Debug.Log($"[CustomerNpcBehavior] å¼€å§‹æ’­æ”¾è„šæ­¥å£° ID:{footstepPlayId}, {footstepAudio} (éŸ³é‡: {footstepVolume})");
+            }
+        }
+
+        /// <summary>
+        /// åœæ­¢è„šæ­¥å£°ï¼ˆä½¿ç”¨å¯æ§éŸ³æ•ˆAPIç«‹å³åœæ­¢ï¼‰
+        /// </summary>
+        private void StopFootstepSound()
+        {
+            if (footstepPlayId != -1 && AudioManager.instance != null)
+            {
+                AudioManager.instance.StopControllableSE(footstepPlayId);
+                Debug.Log($"[CustomerNpcBehavior] è„šæ­¥å£°å·²åœæ­¢ ID:{footstepPlayId}");
+                footstepPlayId = -1;
+            }
+        }
+
+        #endregion
+
+        #region ç¼–è¾‘å™¨è°ƒè¯•
 
 #if UNITY_EDITOR
-        [Header("±à¼­Æ÷µ÷ÊÔ")]
+        [Header("ç¼–è¾‘å™¨è°ƒè¯•")]
         [SerializeField] private bool showDebugInfo = true;
 
         private void OnValidate()
@@ -550,30 +612,30 @@ namespace TabernaNoctis.NightScreen
         }
 
         /// <summary>
-        /// ±à¼­Æ÷ÏÂ²âÊÔÈë³¡¶¯»­
+        /// ç¼–è¾‘å™¨ä¸‹æµ‹è¯•å…¥åœºåŠ¨ç”»
         /// </summary>
-        [ContextMenu("²âÊÔÈë³¡¶¯»­")]
+        [ContextMenu("æµ‹è¯•å…¥åœºåŠ¨ç”»")]
         private void TestEnterAnimation()
         {
             if (Application.isPlaying && CurrentData != null)
             {
-                PlayEnterAnimationSequence(() => Debug.Log("Èë³¡¶¯»­²âÊÔÍê³É"));
+                PlayEnterAnimationSequence(() => Debug.Log("å…¥åœºåŠ¨ç”»æµ‹è¯•å®Œæˆ"));
             }
             else
             {
-                Debug.LogWarning("ĞèÒªÔÚÔËĞĞÊ±ÇÒÓĞ¹Ë¿ÍÊı¾İÊ±²ÅÄÜ²âÊÔ");
+                Debug.LogWarning("éœ€è¦åœ¨è¿è¡Œæ—¶ä¸”æœ‰é¡¾å®¢æ•°æ®æ—¶æ‰èƒ½æµ‹è¯•");
             }
         }
 
         /// <summary>
-        /// ±à¼­Æ÷ÏÂ²âÊÔÀë³¡¶¯»­
+        /// ç¼–è¾‘å™¨ä¸‹æµ‹è¯•ç¦»åœºåŠ¨ç”»
         /// </summary>
-        [ContextMenu("²âÊÔÀë³¡¶¯»­")]
+        [ContextMenu("æµ‹è¯•ç¦»åœºåŠ¨ç”»")]
         private void TestExitAnimation()
         {
             if (Application.isPlaying)
             {
-                PlayExitAnimation(() => Debug.Log("Àë³¡¶¯»­²âÊÔÍê³É"));
+                PlayExitAnimation(() => Debug.Log("ç¦»åœºåŠ¨ç”»æµ‹è¯•å®Œæˆ"));
             }
         }
 #endif

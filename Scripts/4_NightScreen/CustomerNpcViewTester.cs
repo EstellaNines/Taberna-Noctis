@@ -7,31 +7,31 @@ using TabernaNoctis.CharacterDesign;
 namespace TabernaNoctis.NightScreen
 {
     /// <summary>
-    /// ¹Ë¿ÍNPCĞĞÎª²âÊÔÆ÷
-    /// ²»ÒÀÀµµ½·ÃÏµÍ³£¬¶ÀÁ¢²âÊÔCustomerNpcBehaviorµÄÍêÕûÈë³¡¶¯»­¹¦ÄÜ
-    /// ²âÊÔÁ÷³Ì£º²àÉí×ßÂ· ¡ú µ­³ö ¡ú Á¢»æµ­Èë ¡ú ·şÎñ ¡ú Àë³¡
-    /// Ê¹ÓÃ·½Ê½£º¹ÒÔØµ½²âÊÔ³¡¾°ÖĞ£¬ÅäÖÃºÃÒıÓÃºóµã»÷Inspector°´Å¥²âÊÔ
+    /// é¡¾å®¢NPCè¡Œä¸ºæµ‹è¯•å™¨
+    /// ä¸ä¾èµ–åˆ°è®¿ç³»ç»Ÿï¼Œç‹¬ç«‹æµ‹è¯•CustomerNpcBehaviorçš„å®Œæ•´å…¥åœºåŠ¨ç”»åŠŸèƒ½
+    /// æµ‹è¯•æµç¨‹ï¼šä¾§èº«èµ°è·¯ â†’ æ·¡å‡º â†’ ç«‹ç»˜æ·¡å…¥ â†’ æœåŠ¡ â†’ ç¦»åœº
+    /// ä½¿ç”¨æ–¹å¼ï¼šæŒ‚è½½åˆ°æµ‹è¯•åœºæ™¯ä¸­ï¼Œé…ç½®å¥½å¼•ç”¨åç‚¹å‡»InspectoræŒ‰é’®æµ‹è¯•
     /// </summary>
     public class CustomerNpcBehaviorTester : MonoBehaviour
     {
-        [Title("²âÊÔÅäÖÃ")]
-        [InfoBox("´Ë½Å±¾ÓÃÓÚ¶ÀÁ¢²âÊÔCustomerNpcBehavior×é¼şµÄÍêÕûÈë³¡¶¯»­£¬°üÀ¨²àÉí×ßÂ·¡úµ­³ö¡úÁ¢»æµ­ÈëÁ÷³Ì")]
+        [Title("æµ‹è¯•é…ç½®")]
+        [InfoBox("æ­¤è„šæœ¬ç”¨äºç‹¬ç«‹æµ‹è¯•CustomerNpcBehaviorç»„ä»¶çš„å®Œæ•´å…¥åœºåŠ¨ç”»ï¼ŒåŒ…æ‹¬ä¾§èº«èµ°è·¯â†’æ·¡å‡ºâ†’ç«‹ç»˜æ·¡å…¥æµç¨‹")]
         
-        [Header("ĞĞÎª×é¼şÒıÓÃ")]
-        [Required("±ØĞë·ÖÅäCustomerNpcBehavior×é¼ş")]
+        [Header("è¡Œä¸ºç»„ä»¶å¼•ç”¨")]
+        [Required("å¿…é¡»åˆ†é…CustomerNpcBehaviorç»„ä»¶")]
         [SerializeField] private CustomerNpcBehavior customerBehavior;
         
-        [Header("Êı¾İÔ´")]
-        [Tooltip("´ÓNpcDatabase¼ÓÔØËùÓĞNPCÊı¾İ")]
+        [Header("æ•°æ®æº")]
+        [Tooltip("ä»NpcDatabaseåŠ è½½æ‰€æœ‰NPCæ•°æ®")]
         [SerializeField] private NpcDatabase npcDatabase;
         
-        [Tooltip("ÊÖ¶¯Ö¸¶¨²âÊÔÓÃµÄNPCÊı¾İ")]
+        [Tooltip("æ‰‹åŠ¨æŒ‡å®šæµ‹è¯•ç”¨çš„NPCæ•°æ®")]
         [SerializeField] private NpcCharacterData manualTestData;
 
-        [Header("²âÊÔÑ¡Ïî")]
-        [InfoBox("ËùÓĞ²âÊÔ°´Å¥¶¼»á²¥·ÅÍêÕû¶¯»­Ğ§¹û")]
+        [Header("æµ‹è¯•é€‰é¡¹")]
+        [InfoBox("æ‰€æœ‰æµ‹è¯•æŒ‰é’®éƒ½ä¼šæ’­æ”¾å®Œæ•´åŠ¨ç”»æ•ˆæœï¼ŒåŒ…æ‹¬è„šæ­¥å£°éŸ³æ•ˆï¼ˆéŸ³é‡0.5ï¼Œä¾§èº«å¼€å§‹æ·¡å‡ºæ—¶åœæ­¢ï¼‰")]
         
-        [Title("ÔËĞĞÊ±×´Ì¬")]
+        [Title("è¿è¡Œæ—¶çŠ¶æ€")]
         [ShowInInspector, ReadOnly]
         private List<NpcCharacterData> availableNpcs = new List<NpcCharacterData>();
         
@@ -44,29 +44,29 @@ namespace TabernaNoctis.NightScreen
             
             if (availableNpcs.Count > 0)
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ¼ÓÔØÁË {availableNpcs.Count} ¸öNPCÊı¾İ");
+                Debug.Log($"[CustomerNpcBehaviorTester] åŠ è½½äº† {availableNpcs.Count} ä¸ªNPCæ•°æ®");
             }
             else
             {
-                Debug.LogWarning("[CustomerNpcBehaviorTester] Î´ÕÒµ½ÈÎºÎNPCÊı¾İ£¡ÇëÅäÖÃNpcDatabase»òmanualTestData");
+                Debug.LogWarning("[CustomerNpcBehaviorTester] æœªæ‰¾åˆ°ä»»ä½•NPCæ•°æ®ï¼è¯·é…ç½®NpcDatabaseæˆ–manualTestData");
             }
         }
 
         /// <summary>
-        /// ¼ÓÔØ¿ÉÓÃµÄNPCÊı¾İ
+        /// åŠ è½½å¯ç”¨çš„NPCæ•°æ®
         /// </summary>
         private void LoadAvailableNpcs()
         {
             availableNpcs.Clear();
 
-            // ÓÅÏÈ´ÓNpcDatabase¼ÓÔØ
+            // ä¼˜å…ˆä»NpcDatabaseåŠ è½½
             if (npcDatabase != null && npcDatabase.allNpcs != null)
             {
                 availableNpcs.AddRange(npcDatabase.allNpcs);
-                Debug.Log($"[CustomerNpcBehaviorTester] ´ÓNpcDatabase¼ÓÔØÁË {availableNpcs.Count} ¸öNPC");
+                Debug.Log($"[CustomerNpcBehaviorTester] ä»NpcDatabaseåŠ è½½äº† {availableNpcs.Count} ä¸ªNPC");
             }
 
-            // Èç¹ûÃ»ÓĞÊı¾İ¿â£¬³¢ÊÔ´ÓResources/Scripts/0_ScriptableObject/NpcDatabase¼ÓÔØ
+            // å¦‚æœæ²¡æœ‰æ•°æ®åº“ï¼Œå°è¯•ä»Resources/Scripts/0_ScriptableObject/NpcDatabaseåŠ è½½
             if (availableNpcs.Count == 0)
             {
                 var db = Resources.Load<NpcDatabase>("NpcDatabase");
@@ -74,49 +74,49 @@ namespace TabernaNoctis.NightScreen
                 {
                     npcDatabase = db;
                     availableNpcs.AddRange(db.allNpcs);
-                    Debug.Log($"[CustomerNpcBehaviorTester] ´ÓResources¼ÓÔØÁË {availableNpcs.Count} ¸öNPC");
+                    Debug.Log($"[CustomerNpcBehaviorTester] ä»ResourcesåŠ è½½äº† {availableNpcs.Count} ä¸ªNPC");
                 }
             }
 
-            // Èç¹û»¹ÊÇÃ»ÓĞ£¬Ìí¼ÓÊÖ¶¯Ö¸¶¨µÄÊı¾İ
+            // å¦‚æœè¿˜æ˜¯æ²¡æœ‰ï¼Œæ·»åŠ æ‰‹åŠ¨æŒ‡å®šçš„æ•°æ®
             if (availableNpcs.Count == 0 && manualTestData != null)
             {
                 availableNpcs.Add(manualTestData);
-                Debug.Log("[CustomerNpcBehaviorTester] Ê¹ÓÃÊÖ¶¯Ö¸¶¨µÄ²âÊÔÊı¾İ");
+                Debug.Log("[CustomerNpcBehaviorTester] ä½¿ç”¨æ‰‹åŠ¨æŒ‡å®šçš„æµ‹è¯•æ•°æ®");
             }
         }
 
-        [Button("²âÊÔ£ºÍêÕûÈë³¡¶¯»­£¨ÊÖ¶¯NPC£©", ButtonSizes.Large), GUIColor(0.3f, 1f, 0.3f)]
-        [InfoBox("²¥·ÅÊÖ¶¯Ö¸¶¨NPCµÄÍêÕûÈë³¡¶¯»­£º²àÉí×ßÂ·¡úµ­³ö¡úÁ¢»æµ­Èë")]
+        [Button("æµ‹è¯•ï¼šå®Œæ•´å…¥åœºåŠ¨ç”»ï¼ˆæ‰‹åŠ¨NPCï¼‰", ButtonSizes.Large), GUIColor(0.3f, 1f, 0.3f)]
+        [InfoBox("æ’­æ”¾æ‰‹åŠ¨æŒ‡å®šNPCçš„å®Œæ•´å…¥åœºåŠ¨ç”»ï¼šä¾§èº«èµ°è·¯â†’æ·¡å‡ºâ†’ç«‹ç»˜æ·¡å…¥")]
         public void TestFullEnterAnimationManual()
         {
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior æœªåˆ†é…ï¼");
                 return;
             }
 
             if (manualTestData == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] manualTestData Î´·ÖÅä£¡ÇëÏÈÔÚInspectorÖĞÖ¸¶¨Ò»¸öNpcCharacterData");
+                Debug.LogError("[CustomerNpcBehaviorTester] manualTestData æœªåˆ†é…ï¼è¯·å…ˆåœ¨Inspectorä¸­æŒ‡å®šä¸€ä¸ªNpcCharacterData");
                 return;
             }
 
-            Debug.Log($"[CustomerNpcBehaviorTester] ¿ªÊ¼ÍêÕûÈë³¡¶¯»­: {manualTestData.displayName} ({manualTestData.state}, {manualTestData.gender})");
+            Debug.Log($"[CustomerNpcBehaviorTester] å¼€å§‹å®Œæ•´å…¥åœºåŠ¨ç”»: {manualTestData.displayName} ({manualTestData.state}, {manualTestData.gender})");
             
             customerBehavior.Initialize(manualTestData, () =>
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 Èë³¡¶¯»­Íê³É: {manualTestData.displayName}");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 å…¥åœºåŠ¨ç”»å®Œæˆ: {manualTestData.displayName}");
             });
         }
 
-        [Button("²âÊÔ£ºÍêÕûÈë³¡¶¯»­£¨Ëæ»úNPC£©", ButtonSizes.Large), GUIColor(0.3f, 0.7f, 1f)]
-        [InfoBox("´ÓNpcDatabaseÖĞËæ»úÑ¡ÔñÒ»¸öNPC²¢²¥·ÅÍêÕûÈë³¡¶¯»­")]
+        [Button("æµ‹è¯•ï¼šå®Œæ•´å…¥åœºåŠ¨ç”»ï¼ˆéšæœºNPCï¼‰", ButtonSizes.Large), GUIColor(0.3f, 0.7f, 1f)]
+        [InfoBox("ä»NpcDatabaseä¸­éšæœºé€‰æ‹©ä¸€ä¸ªNPCå¹¶æ’­æ”¾å®Œæ•´å…¥åœºåŠ¨ç”»")]
         public void TestFullEnterAnimationRandom()
         {
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior æœªåˆ†é…ï¼");
                 return;
             }
 
@@ -127,26 +127,26 @@ namespace TabernaNoctis.NightScreen
 
             if (availableNpcs.Count == 0)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] Ã»ÓĞ¿ÉÓÃµÄNPCÊı¾İ£¡ÇëÅäÖÃNpcDatabase»òmanualTestData");
+                Debug.LogError("[CustomerNpcBehaviorTester] æ²¡æœ‰å¯ç”¨çš„NPCæ•°æ®ï¼è¯·é…ç½®NpcDatabaseæˆ–manualTestData");
                 return;
             }
 
             var randomNpc = availableNpcs[Random.Range(0, availableNpcs.Count)];
-            Debug.Log($"[CustomerNpcBehaviorTester] ¿ªÊ¼Ëæ»úNPCÈë³¡¶¯»­: {randomNpc.displayName} ({randomNpc.state}, {randomNpc.gender})");
+            Debug.Log($"[CustomerNpcBehaviorTester] å¼€å§‹éšæœºNPCå…¥åœºåŠ¨ç”»: {randomNpc.displayName} ({randomNpc.state}, {randomNpc.gender})");
             
             customerBehavior.Initialize(randomNpc, () =>
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 Ëæ»úNPCÈë³¡¶¯»­Íê³É: {randomNpc.displayName}");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 éšæœºNPCå…¥åœºåŠ¨ç”»å®Œæˆ: {randomNpc.displayName}");
             });
         }
 
-        [Button("²âÊÔ£ºÏÂÒ»¸öNPCÈë³¡¶¯»­", ButtonSizes.Large), GUIColor(0.7f, 0.7f, 1f)]
-        [InfoBox("°´Ë³Ğò²¥·ÅNpcDatabaseÖĞÏÂÒ»¸öNPCµÄÍêÕûÈë³¡¶¯»­")]
+        [Button("æµ‹è¯•ï¼šä¸‹ä¸€ä¸ªNPCå…¥åœºåŠ¨ç”»", ButtonSizes.Large), GUIColor(0.7f, 0.7f, 1f)]
+        [InfoBox("æŒ‰é¡ºåºæ’­æ”¾NpcDatabaseä¸­ä¸‹ä¸€ä¸ªNPCçš„å®Œæ•´å…¥åœºåŠ¨ç”»")]
         public void TestNextNpcEnterAnimation()
         {
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior æœªåˆ†é…ï¼");
                 return;
             }
 
@@ -157,27 +157,27 @@ namespace TabernaNoctis.NightScreen
 
             if (availableNpcs.Count == 0)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] Ã»ÓĞ¿ÉÓÃµÄNPCÊı¾İ£¡ÇëÅäÖÃNpcDatabase»òmanualTestData");
+                Debug.LogError("[CustomerNpcBehaviorTester] æ²¡æœ‰å¯ç”¨çš„NPCæ•°æ®ï¼è¯·é…ç½®NpcDatabaseæˆ–manualTestData");
                 return;
             }
 
             currentTestIndex = (currentTestIndex + 1) % availableNpcs.Count;
             var npc = availableNpcs[currentTestIndex];
-            Debug.Log($"[CustomerNpcBehaviorTester] ¿ªÊ¼µÚ {currentTestIndex + 1}/{availableNpcs.Count} ¸öNPCÈë³¡¶¯»­: {npc.displayName} ({npc.state}, {npc.gender})");
+            Debug.Log($"[CustomerNpcBehaviorTester] å¼€å§‹ç¬¬ {currentTestIndex + 1}/{availableNpcs.Count} ä¸ªNPCå…¥åœºåŠ¨ç”»: {npc.displayName} ({npc.state}, {npc.gender})");
             
             customerBehavior.Initialize(npc, () =>
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 µÚ {currentTestIndex + 1} ¸öNPCÈë³¡¶¯»­Íê³É: {npc.displayName}");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 ç¬¬ {currentTestIndex + 1} ä¸ªNPCå…¥åœºåŠ¨ç”»å®Œæˆ: {npc.displayName}");
             });
         }
 
-        [Button("²âÊÔ£º°´×´Ì¬Èë³¡¶¯»­", ButtonSizes.Medium)]
-        [InfoBox("²¥·ÅÖ¸¶¨×´Ì¬NPCµÄÍêÕûÈë³¡¶¯»­£¨Busy, Friendly, Irritable, Melancholy, Picky£©")]
+        [Button("æµ‹è¯•ï¼šæŒ‰çŠ¶æ€å…¥åœºåŠ¨ç”»", ButtonSizes.Medium)]
+        [InfoBox("æ’­æ”¾æŒ‡å®šçŠ¶æ€NPCçš„å®Œæ•´å…¥åœºåŠ¨ç”»ï¼ˆBusy, Friendly, Irritable, Melancholy, Pickyï¼‰")]
         public void TestEnterAnimationByState(string state)
         {
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior æœªåˆ†é…ï¼");
                 return;
             }
 
@@ -189,89 +189,89 @@ namespace TabernaNoctis.NightScreen
             var npc = availableNpcs.FirstOrDefault(n => n.state == state);
             if (npc != null)
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ¿ªÊ¼ {state} ×´Ì¬NPCÈë³¡¶¯»­: {npc.displayName} ({npc.gender})");
+                Debug.Log($"[CustomerNpcBehaviorTester] å¼€å§‹ {state} çŠ¶æ€NPCå…¥åœºåŠ¨ç”»: {npc.displayName} ({npc.gender})");
                 
                 customerBehavior.Initialize(npc, () =>
                 {
-                    Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 {state} ×´Ì¬NPCÈë³¡¶¯»­Íê³É: {npc.displayName}");
+                    Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 {state} çŠ¶æ€NPCå…¥åœºåŠ¨ç”»å®Œæˆ: {npc.displayName}");
                 });
             }
             else
             {
-                Debug.LogWarning($"[CustomerNpcBehaviorTester] Î´ÕÒµ½×´Ì¬Îª {state} µÄNPC");
+                Debug.LogWarning($"[CustomerNpcBehaviorTester] æœªæ‰¾åˆ°çŠ¶æ€ä¸º {state} çš„NPC");
             }
         }
 
-        [Button("²âÊÔ£ºÀë³¡¶¯»­", ButtonSizes.Large), GUIColor(1f, 0.5f, 0.3f)]
-        [InfoBox("²¥·Åµ±Ç°¹Ë¿ÍµÄÀë³¡¶¯»­")]
+        [Button("æµ‹è¯•ï¼šç¦»åœºåŠ¨ç”»", ButtonSizes.Large), GUIColor(1f, 0.5f, 0.3f)]
+        [InfoBox("æ’­æ”¾å½“å‰é¡¾å®¢çš„ç¦»åœºåŠ¨ç”»")]
         public void TestExitAnimation()
         {
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior æœªåˆ†é…ï¼");
                 return;
             }
 
             if (!customerBehavior.IsServicing)
             {
-                Debug.LogWarning("[CustomerNpcBehaviorTester] µ±Ç°Ã»ÓĞ¹Ë¿ÍÔÚ·şÎñÖĞ£¬ÎŞ·¨²¥·ÅÀë³¡¶¯»­");
+                Debug.LogWarning("[CustomerNpcBehaviorTester] å½“å‰æ²¡æœ‰é¡¾å®¢åœ¨æœåŠ¡ä¸­ï¼Œæ— æ³•æ’­æ”¾ç¦»åœºåŠ¨ç”»");
                 return;
             }
 
-            Debug.Log($"[CustomerNpcBehaviorTester] ¿ªÊ¼Àë³¡¶¯»­: {customerBehavior.CurrentData?.displayName}");
+            Debug.Log($"[CustomerNpcBehaviorTester] å¼€å§‹ç¦»åœºåŠ¨ç”»: {customerBehavior.CurrentData?.displayName}");
             
             customerBehavior.PlayExitAnimation(() =>
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 Àë³¡¶¯»­Íê³É: {customerBehavior.CurrentData?.displayName}");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 ç¦»åœºåŠ¨ç”»å®Œæˆ: {customerBehavior.CurrentData?.displayName}");
             });
         }
 
-        [Button("ÖØÖÃĞĞÎª×é¼ş", ButtonSizes.Medium), GUIColor(1f, 1f, 0.3f)]
-        [InfoBox("ÖØÖÃCustomerNpcBehavior×é¼ş×´Ì¬")]
+        [Button("é‡ç½®è¡Œä¸ºç»„ä»¶", ButtonSizes.Medium), GUIColor(1f, 1f, 0.3f)]
+        [InfoBox("é‡ç½®CustomerNpcBehaviorç»„ä»¶çŠ¶æ€")]
         public void TestResetBehavior()
         {
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior æœªåˆ†é…ï¼");
                 return;
             }
 
             customerBehavior.ResetState();
-            Debug.Log("[CustomerNpcBehaviorTester] ĞĞÎª×é¼şÒÑÖØÖÃ");
+            Debug.Log("[CustomerNpcBehaviorTester] è¡Œä¸ºç»„ä»¶å·²é‡ç½®");
         }
 
-        [Title("¿ìËÙ×´Ì¬Èë³¡¶¯»­²âÊÔ")]
-        [InfoBox("µã»÷°´Å¥²¥·Å¶ÔÓ¦×´Ì¬NPCµÄÍêÕûÈë³¡¶¯»­")]
+        [Title("å¿«é€ŸçŠ¶æ€å…¥åœºåŠ¨ç”»æµ‹è¯•")]
+        [InfoBox("ç‚¹å‡»æŒ‰é’®æ’­æ”¾å¯¹åº”çŠ¶æ€NPCçš„å®Œæ•´å…¥åœºåŠ¨ç”»")]
         
         [HorizontalGroup("States")]
-        [Button("Busy (ÂÌ)"), GUIColor(0f, 1f, 0f)]
+        [Button("Busy (ç»¿)"), GUIColor(0f, 1f, 0f)]
         private void TestBusy() => TestEnterAnimationByState("Busy");
 
         [HorizontalGroup("States")]
-        [Button("Friendly (À¶×Ï)"), GUIColor(0.54f, 0.17f, 0.89f)]
+        [Button("Friendly (è“ç´«)"), GUIColor(0.54f, 0.17f, 0.89f)]
         private void TestFriendly() => TestEnterAnimationByState("Friendly");
 
         [HorizontalGroup("States")]
-        [Button("Irritable (ºì)"), GUIColor(1f, 0f, 0f)]
+        [Button("Irritable (çº¢)"), GUIColor(1f, 0f, 0f)]
         private void TestIrritable() => TestEnterAnimationByState("Irritable");
 
         [HorizontalGroup("States2")]
-        [Button("Melancholy (Çà)"), GUIColor(0f, 1f, 1f)]
+        [Button("Melancholy (é’)"), GUIColor(0f, 1f, 1f)]
         private void TestMelancholy() => TestEnterAnimationByState("Melancholy");
 
         [HorizontalGroup("States2")]
-        [Button("Picky (»Æ)"), GUIColor(1f, 1f, 0f)]
+        [Button("Picky (é»„)"), GUIColor(1f, 1f, 0f)]
         private void TestPicky() => TestEnterAnimationByState("Picky");
 
-        [Title("µ÷ÊÔĞÅÏ¢")]
-        [Button("Ë¢ĞÂNPCÁĞ±í", ButtonSizes.Medium)]
+        [Title("è°ƒè¯•ä¿¡æ¯")]
+        [Button("åˆ·æ–°NPCåˆ—è¡¨", ButtonSizes.Medium)]
         public void RefreshNpcList()
         {
             LoadAvailableNpcs();
-            Debug.Log($"[CustomerNpcBehaviorTester] ÒÑË¢ĞÂ£¬µ±Ç°ÓĞ {availableNpcs.Count} ¸öNPC");
+            Debug.Log($"[CustomerNpcBehaviorTester] å·²åˆ·æ–°ï¼Œå½“å‰æœ‰ {availableNpcs.Count} ä¸ªNPC");
         }
 
-        [Button("´òÓ¡ËùÓĞNPC", ButtonSizes.Medium)]
+        [Button("æ‰“å°æ‰€æœ‰NPC", ButtonSizes.Medium)]
         public void PrintAllNpcs()
         {
             if (availableNpcs.Count == 0)
@@ -279,7 +279,7 @@ namespace TabernaNoctis.NightScreen
                 LoadAvailableNpcs();
             }
 
-            Debug.Log($"========== ËùÓĞNPCÁĞ±í (¹²{availableNpcs.Count}¸ö) ==========");
+            Debug.Log($"========== æ‰€æœ‰NPCåˆ—è¡¨ (å…±{availableNpcs.Count}ä¸ª) ==========");
             for (int i = 0; i < availableNpcs.Count; i++)
             {
                 var npc = availableNpcs[i];
@@ -288,63 +288,63 @@ namespace TabernaNoctis.NightScreen
             Debug.Log("==============================================");
         }
 
-        [Button("ÑéÖ¤×é¼şÒıÓÃ", ButtonSizes.Medium)]
+        [Button("éªŒè¯ç»„ä»¶å¼•ç”¨", ButtonSizes.Medium)]
         public void ValidateReferences()
         {
             bool valid = true;
 
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] ?7?4 customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] ?7?4 customerBehavior æœªåˆ†é…ï¼");
                 valid = false;
             }
             else
             {
-                Debug.Log("[CustomerNpcBehaviorTester] ?7?7 customerBehavior ÒÑ·ÖÅä");
+                Debug.Log("[CustomerNpcBehaviorTester] ?7?7 customerBehavior å·²åˆ†é…");
                 
-                // ÑéÖ¤CustomerNpcBehaviorµÄÄÚ²¿ÒıÓÃ
+                // éªŒè¯CustomerNpcBehaviorçš„å†…éƒ¨å¼•ç”¨
                 if (customerBehavior.IsAnimating)
                 {
-                    Debug.Log("[CustomerNpcBehaviorTester] ?7?2 µ±Ç°ÕıÔÚ²¥·Å¶¯»­");
+                    Debug.Log("[CustomerNpcBehaviorTester] ?7?2 å½“å‰æ­£åœ¨æ’­æ”¾åŠ¨ç”»");
                 }
                 
                 if (customerBehavior.IsServicing)
                 {
-                    Debug.Log($"[CustomerNpcBehaviorTester] ?6?7 µ±Ç°·şÎñÖĞµÄ¹Ë¿Í: {customerBehavior.CurrentData?.displayName}");
+                    Debug.Log($"[CustomerNpcBehaviorTester] ?6?7 å½“å‰æœåŠ¡ä¸­çš„é¡¾å®¢: {customerBehavior.CurrentData?.displayName}");
                 }
             }
 
             if (npcDatabase == null && manualTestData == null)
             {
-                Debug.LogWarning("[CustomerNpcBehaviorTester] ?7?2 Î´·ÖÅäÈÎºÎÊı¾İÔ´£¨npcDatabase ºÍ manualTestData ¶¼Îª¿Õ£©");
+                Debug.LogWarning("[CustomerNpcBehaviorTester] ?7?2 æœªåˆ†é…ä»»ä½•æ•°æ®æºï¼ˆnpcDatabase å’Œ manualTestData éƒ½ä¸ºç©ºï¼‰");
             }
             else if (npcDatabase != null)
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?7 npcDatabase ÒÑ·ÖÅä (°üº¬ {npcDatabase.allNpcs?.Count ?? 0} ¸öNPC)");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?7 npcDatabase å·²åˆ†é… (åŒ…å« {npcDatabase.allNpcs?.Count ?? 0} ä¸ªNPC)");
             }
             else if (manualTestData != null)
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?7 manualTestData ÒÑ·ÖÅä: {manualTestData.displayName} ({manualTestData.state}, {manualTestData.gender})");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?7 manualTestData å·²åˆ†é…: {manualTestData.displayName} ({manualTestData.state}, {manualTestData.gender})");
             }
 
             if (valid)
             {
-                Debug.Log("[CustomerNpcBehaviorTester] ?7?3 ËùÓĞ±ØÒª×é¼şÒıÓÃÑéÖ¤Í¨¹ı");
+                Debug.Log("[CustomerNpcBehaviorTester] ?7?3 æ‰€æœ‰å¿…è¦ç»„ä»¶å¼•ç”¨éªŒè¯é€šè¿‡");
             }
             else
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] ?7?4 ×é¼şÒıÓÃÑéÖ¤Ê§°Ü£¬Çë¼ì²éInspectorÅäÖÃ");
+                Debug.LogError("[CustomerNpcBehaviorTester] ?7?4 ç»„ä»¶å¼•ç”¨éªŒè¯å¤±è´¥ï¼Œè¯·æ£€æŸ¥Inspectoré…ç½®");
             }
         }
 
-        [Title("ÍêÕûÁ÷³Ì²âÊÔ")]
-        [Button("²âÊÔ£ºÍêÕû·şÎñÁ÷³Ì", ButtonSizes.Large), GUIColor(0.8f, 0.3f, 1f)]
-        [InfoBox("²¥·ÅÍêÕûµÄ¹Ë¿Í·şÎñÁ÷³Ì£ºÈë³¡¶¯»­ ¡ú µÈ´ı3Ãë ¡ú Àë³¡¶¯»­")]
+        [Title("å®Œæ•´æµç¨‹æµ‹è¯•")]
+        [Button("æµ‹è¯•ï¼šå®Œæ•´æœåŠ¡æµç¨‹", ButtonSizes.Large), GUIColor(0.8f, 0.3f, 1f)]
+        [InfoBox("æ’­æ”¾å®Œæ•´çš„é¡¾å®¢æœåŠ¡æµç¨‹ï¼šå…¥åœºåŠ¨ç”» â†’ ç­‰å¾…3ç§’ â†’ ç¦»åœºåŠ¨ç”»")]
         public void TestFullServiceFlow()
         {
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior æœªåˆ†é…ï¼");
                 return;
             }
 
@@ -355,30 +355,30 @@ namespace TabernaNoctis.NightScreen
 
             if (availableNpcs.Count == 0)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] Ã»ÓĞ¿ÉÓÃµÄNPCÊı¾İ£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] æ²¡æœ‰å¯ç”¨çš„NPCæ•°æ®ï¼");
                 return;
             }
 
             var randomNpc = availableNpcs[Random.Range(0, availableNpcs.Count)];
-            Debug.Log($"[CustomerNpcBehaviorTester] ?9?0 ¿ªÊ¼ÍêÕû·şÎñÁ÷³Ì: {randomNpc.displayName} ({randomNpc.state}, {randomNpc.gender})");
+            Debug.Log($"[CustomerNpcBehaviorTester] ?9?0 å¼€å§‹å®Œæ•´æœåŠ¡æµç¨‹: {randomNpc.displayName} ({randomNpc.state}, {randomNpc.gender})");
             
-            // 1. ²¥·ÅÈë³¡¶¯»­
+            // 1. æ’­æ”¾å…¥åœºåŠ¨ç”»
             customerBehavior.Initialize(randomNpc, () =>
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 Èë³¡¶¯»­Íê³É£¬3Ãëºó×Ô¶¯Àë³¡");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 å…¥åœºåŠ¨ç”»å®Œæˆï¼Œ3ç§’åè‡ªåŠ¨ç¦»åœº");
                 
-                // 2. µÈ´ı3Ãëºó×Ô¶¯Àë³¡
+                // 2. ç­‰å¾…3ç§’åè‡ªåŠ¨ç¦»åœº
                 StartCoroutine(DelayedExitCoroutine(3f));
             });
         }
 
-        [Button("²âÊÔ£ºÁ¬Ğø¹Ë¿ÍÇĞ»»", ButtonSizes.Large), GUIColor(1f, 0.6f, 0.2f)]
-        [InfoBox("²âÊÔÁ¬Ğø¹Ë¿ÍÇĞ»»£ºÉÏÒ»Î»¹Ë¿Íµ­³ö ¡ú ĞÂ¹Ë¿ÍÈë³¡")]
+        [Button("æµ‹è¯•ï¼šè¿ç»­é¡¾å®¢åˆ‡æ¢", ButtonSizes.Large), GUIColor(1f, 0.6f, 0.2f)]
+        [InfoBox("æµ‹è¯•è¿ç»­é¡¾å®¢åˆ‡æ¢ï¼šä¸Šä¸€ä½é¡¾å®¢æ·¡å‡º â†’ æ–°é¡¾å®¢å…¥åœº")]
         public void TestContinuousCustomerSwitch()
         {
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior æœªåˆ†é…ï¼");
                 return;
             }
 
@@ -389,20 +389,20 @@ namespace TabernaNoctis.NightScreen
 
             if (availableNpcs.Count < 2)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] ĞèÒªÖÁÉÙ2¸öNPCÊı¾İ²ÅÄÜ²âÊÔÁ¬ĞøÇĞ»»£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] éœ€è¦è‡³å°‘2ä¸ªNPCæ•°æ®æ‰èƒ½æµ‹è¯•è¿ç»­åˆ‡æ¢ï¼");
                 return;
             }
 
             StartCoroutine(ContinuousSwitchCoroutine());
         }
 
-        [Button("²âÊÔ£º2¸ö¹Ë¿ÍÍêÕû½ø³¡Á÷³Ì", ButtonSizes.Large), GUIColor(0.2f, 1f, 0.8f)]
-        [InfoBox("ÍêÕû²âÊÔ2¸ö¹Ë¿ÍµÄ½ø³¡Á÷³Ì£ºµÚ1¸ö¹Ë¿ÍÍêÕûÈë³¡ ¡ú µÚ2¸ö¹Ë¿Íµ½À´£¨µÚ1¸öµ­³ö+µÚ2¸öÈë³¡£©")]
+        [Button("æµ‹è¯•ï¼š2ä¸ªé¡¾å®¢å®Œæ•´è¿›åœºæµç¨‹", ButtonSizes.Large), GUIColor(0.2f, 1f, 0.8f)]
+        [InfoBox("å®Œæ•´æµ‹è¯•2ä¸ªé¡¾å®¢çš„è¿›åœºæµç¨‹ï¼šç¬¬1ä¸ªé¡¾å®¢å®Œæ•´å…¥åœº â†’ ç¬¬2ä¸ªé¡¾å®¢åˆ°æ¥ï¼ˆç¬¬1ä¸ªæ·¡å‡º+ç¬¬2ä¸ªå…¥åœºï¼‰")]
         public void TestTwoCustomersCompleteFlow()
         {
             if (customerBehavior == null)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior Î´·ÖÅä£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] customerBehavior æœªåˆ†é…ï¼");
                 return;
             }
 
@@ -413,7 +413,7 @@ namespace TabernaNoctis.NightScreen
 
             if (availableNpcs.Count < 2)
             {
-                Debug.LogError("[CustomerNpcBehaviorTester] ĞèÒªÖÁÉÙ2¸öNPCÊı¾İ²ÅÄÜ²âÊÔ2¸ö¹Ë¿ÍÁ÷³Ì£¡");
+                Debug.LogError("[CustomerNpcBehaviorTester] éœ€è¦è‡³å°‘2ä¸ªNPCæ•°æ®æ‰èƒ½æµ‹è¯•2ä¸ªé¡¾å®¢æµç¨‹ï¼");
                 return;
             }
 
@@ -425,80 +425,80 @@ namespace TabernaNoctis.NightScreen
             for (int i = 0; i < Mathf.Min(5, availableNpcs.Count); i++)
             {
                 var npc = availableNpcs[i];
-                Debug.Log($"[CustomerNpcBehaviorTester] ?9?4 ÇĞ»»µ½µÚ {i + 1} Î»¹Ë¿Í: {npc.displayName} ({npc.state}, {npc.gender})");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?9?4 åˆ‡æ¢åˆ°ç¬¬ {i + 1} ä½é¡¾å®¢: {npc.displayName} ({npc.state}, {npc.gender})");
                 
                 bool animationComplete = false;
                 
                 customerBehavior.Initialize(npc, () =>
                 {
-                    Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 µÚ {i + 1} Î»¹Ë¿ÍÈë³¡Íê³É");
+                    Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 ç¬¬ {i + 1} ä½é¡¾å®¢å…¥åœºå®Œæˆ");
                     animationComplete = true;
                 });
 
-                // µÈ´ıÈë³¡¶¯»­Íê³É
+                // ç­‰å¾…å…¥åœºåŠ¨ç”»å®Œæˆ
                 yield return new WaitUntil(() => animationComplete);
                 
-                // µÈ´ı2Ãë¹Û²ìĞ§¹û
+                // ç­‰å¾…2ç§’è§‚å¯Ÿæ•ˆæœ
                 yield return new WaitForSeconds(2f);
             }
             
-            Debug.Log("[CustomerNpcBehaviorTester] ?9?5 Á¬ĞøÇĞ»»²âÊÔÍê³É");
+            Debug.Log("[CustomerNpcBehaviorTester] ?9?5 è¿ç»­åˆ‡æ¢æµ‹è¯•å®Œæˆ");
         }
 
         private System.Collections.IEnumerator TwoCustomersCompleteFlowCoroutine()
         {
-            // È·±£´Ó¸É¾»×´Ì¬¿ªÊ¼
+            // ç¡®ä¿ä»å¹²å‡€çŠ¶æ€å¼€å§‹
             customerBehavior.ResetState();
             yield return new WaitForSeconds(0.5f);
 
-            // Ñ¡ÔñÁ½¸ö²»Í¬µÄ¹Ë¿Í
+            // é€‰æ‹©ä¸¤ä¸ªä¸åŒçš„é¡¾å®¢
             var customer1 = availableNpcs[0];
             var customer2 = availableNpcs[1];
 
-            Debug.Log($"[CustomerNpcBehaviorTester] ?9?0 ¿ªÊ¼2¸ö¹Ë¿ÍÍêÕû½ø³¡Á÷³Ì²âÊÔ");
-            Debug.Log($"[CustomerNpcBehaviorTester] µÚ1¸ö¹Ë¿Í: {customer1.displayName} ({customer1.state}, {customer1.gender})");
-            Debug.Log($"[CustomerNpcBehaviorTester] µÚ2¸ö¹Ë¿Í: {customer2.displayName} ({customer2.state}, {customer2.gender})");
+            Debug.Log($"[CustomerNpcBehaviorTester] ?9?0 å¼€å§‹2ä¸ªé¡¾å®¢å®Œæ•´è¿›åœºæµç¨‹æµ‹è¯•");
+            Debug.Log($"[CustomerNpcBehaviorTester] ç¬¬1ä¸ªé¡¾å®¢: {customer1.displayName} ({customer1.state}, {customer1.gender})");
+            Debug.Log($"[CustomerNpcBehaviorTester] ç¬¬2ä¸ªé¡¾å®¢: {customer2.displayName} ({customer2.state}, {customer2.gender})");
 
-            // === µÚ1¸ö¹Ë¿ÍÍêÕûÈë³¡Á÷³Ì ===
-            Debug.Log($"[CustomerNpcBehaviorTester] ?9?9 ½×¶Î1£ºµÚ1¸ö¹Ë¿Í¿ªÊ¼Èë³¡¶¯»­");
+            // === ç¬¬1ä¸ªé¡¾å®¢å®Œæ•´å…¥åœºæµç¨‹ ===
+            Debug.Log($"[CustomerNpcBehaviorTester] ?9?9 é˜¶æ®µ1ï¼šç¬¬1ä¸ªé¡¾å®¢å¼€å§‹å…¥åœºåŠ¨ç”»");
             
             bool customer1EnterComplete = false;
             customerBehavior.Initialize(customer1, () =>
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 µÚ1¸ö¹Ë¿ÍÈë³¡¶¯»­Íê³É: {customer1.displayName}");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 ç¬¬1ä¸ªé¡¾å®¢å…¥åœºåŠ¨ç”»å®Œæˆ: {customer1.displayName}");
                 customer1EnterComplete = true;
             });
 
-            // µÈ´ıµÚ1¸ö¹Ë¿ÍÍêÕûÈë³¡¶¯»­Íê³É£¨²àÉí×ßÂ·¡úµ­³ö¡úÁ¢»æµ­Èë£©
+            // ç­‰å¾…ç¬¬1ä¸ªé¡¾å®¢å®Œæ•´å…¥åœºåŠ¨ç”»å®Œæˆï¼ˆä¾§èº«èµ°è·¯â†’æ·¡å‡ºâ†’ç«‹ç»˜æ·¡å…¥ï¼‰
             yield return new WaitUntil(() => customer1EnterComplete);
             
-            // ÈÃµÚ1¸ö¹Ë¿ÍÍ£ÁôÒ»¶ÎÊ±¼ä£¬¹Û²ìĞ§¹û
-            Debug.Log($"[CustomerNpcBehaviorTester] ?7?7 µÚ1¸ö¹Ë¿ÍÍ£ÁôÖĞ£¬3ÃëºóµÚ2¸ö¹Ë¿Íµ½À´...");
+            // è®©ç¬¬1ä¸ªé¡¾å®¢åœç•™ä¸€æ®µæ—¶é—´ï¼Œè§‚å¯Ÿæ•ˆæœ
+            Debug.Log($"[CustomerNpcBehaviorTester] ?7?7 ç¬¬1ä¸ªé¡¾å®¢åœç•™ä¸­ï¼Œ3ç§’åç¬¬2ä¸ªé¡¾å®¢åˆ°æ¥...");
             yield return new WaitForSeconds(3f);
 
-            // === µÚ2¸ö¹Ë¿Íµ½À´£¬´¥·¢µÚ1¸ö¹Ë¿ÍÀë³¡ + µÚ2¸ö¹Ë¿ÍÈë³¡ ===
-            Debug.Log($"[CustomerNpcBehaviorTester] ?9?9 ½×¶Î2£ºµÚ2¸ö¹Ë¿Íµ½À´£¬µÚ1¸ö¹Ë¿Í¿ªÊ¼Àë³¡");
+            // === ç¬¬2ä¸ªé¡¾å®¢åˆ°æ¥ï¼Œè§¦å‘ç¬¬1ä¸ªé¡¾å®¢ç¦»åœº + ç¬¬2ä¸ªé¡¾å®¢å…¥åœº ===
+            Debug.Log($"[CustomerNpcBehaviorTester] ?9?9 é˜¶æ®µ2ï¼šç¬¬2ä¸ªé¡¾å®¢åˆ°æ¥ï¼Œç¬¬1ä¸ªé¡¾å®¢å¼€å§‹ç¦»åœº");
             
             bool customer2EnterComplete = false;
             customerBehavior.Initialize(customer2, () =>
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 µÚ2¸ö¹Ë¿ÍÈë³¡¶¯»­Íê³É: {customer2.displayName}");
-                Debug.Log($"[CustomerNpcBehaviorTester] ?9?7 ¹Ë¿ÍÇĞ»»Á÷³Ì£º{customer1.displayName} ¡ú {customer2.displayName}");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?3 ç¬¬2ä¸ªé¡¾å®¢å…¥åœºåŠ¨ç”»å®Œæˆ: {customer2.displayName}");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?9?7 é¡¾å®¢åˆ‡æ¢æµç¨‹ï¼š{customer1.displayName} â†’ {customer2.displayName}");
                 customer2EnterComplete = true;
             });
 
-            // µÈ´ıµÚ2¸ö¹Ë¿ÍÍêÕûÈë³¡¶¯»­Íê³É
+            // ç­‰å¾…ç¬¬2ä¸ªé¡¾å®¢å®Œæ•´å…¥åœºåŠ¨ç”»å®Œæˆ
             yield return new WaitUntil(() => customer2EnterComplete);
             
-            // ÈÃµÚ2¸ö¹Ë¿ÍÍ£ÁôÒ»¶ÎÊ±¼ä£¬¹Û²ì×îÖÕĞ§¹û
-            Debug.Log($"[CustomerNpcBehaviorTester] ?7?7 µÚ2¸ö¹Ë¿ÍÍ£ÁôÖĞ£¬2Ãëºó²âÊÔ½áÊø...");
+            // è®©ç¬¬2ä¸ªé¡¾å®¢åœç•™ä¸€æ®µæ—¶é—´ï¼Œè§‚å¯Ÿæœ€ç»ˆæ•ˆæœ
+            Debug.Log($"[CustomerNpcBehaviorTester] ?7?7 ç¬¬2ä¸ªé¡¾å®¢åœç•™ä¸­ï¼Œ2ç§’åæµ‹è¯•ç»“æŸ...");
             yield return new WaitForSeconds(2f);
 
-            Debug.Log($"[CustomerNpcBehaviorTester] ?9?5 2¸ö¹Ë¿ÍÍêÕû½ø³¡Á÷³Ì²âÊÔÍê³É£¡");
-            Debug.Log($"[CustomerNpcBehaviorTester] ?9?6 ²âÊÔ×Ü½á£º");
-            Debug.Log($"[CustomerNpcBehaviorTester] - µÚ1¸ö¹Ë¿ÍÍêÕûÈë³¡£º²àÉí×ßÂ·¡úµ­³ö¡úÁ¢»æµ­Èë ?7?3");
-            Debug.Log($"[CustomerNpcBehaviorTester] - µÚ2¸ö¹Ë¿Íµ½À´Ê±µÚ1¸ö¹Ë¿Íµ­³öÀë³¡ ?7?3");
-            Debug.Log($"[CustomerNpcBehaviorTester] - µÚ2¸ö¹Ë¿ÍÍêÕûÈë³¡£º²àÉí×ßÂ·¡úµ­³ö¡úÁ¢»æµ­Èë ?7?3");
+            Debug.Log($"[CustomerNpcBehaviorTester] ?9?5 2ä¸ªé¡¾å®¢å®Œæ•´è¿›åœºæµç¨‹æµ‹è¯•å®Œæˆï¼");
+            Debug.Log($"[CustomerNpcBehaviorTester] ?9?6 æµ‹è¯•æ€»ç»“ï¼š");
+            Debug.Log($"[CustomerNpcBehaviorTester] - ç¬¬1ä¸ªé¡¾å®¢å®Œæ•´å…¥åœºï¼šä¾§èº«èµ°è·¯â†’æ·¡å‡ºâ†’ç«‹ç»˜æ·¡å…¥ ?7?3");
+            Debug.Log($"[CustomerNpcBehaviorTester] - ç¬¬2ä¸ªé¡¾å®¢åˆ°æ¥æ—¶ç¬¬1ä¸ªé¡¾å®¢æ·¡å‡ºç¦»åœº ?7?3");
+            Debug.Log($"[CustomerNpcBehaviorTester] - ç¬¬2ä¸ªé¡¾å®¢å®Œæ•´å…¥åœºï¼šä¾§èº«èµ°è·¯â†’æ·¡å‡ºâ†’ç«‹ç»˜æ·¡å…¥ ?7?3");
         }
 
         private System.Collections.IEnumerator DelayedExitCoroutine(float delay)
@@ -507,11 +507,11 @@ namespace TabernaNoctis.NightScreen
             
             if (customerBehavior != null && customerBehavior.IsServicing)
             {
-                Debug.Log($"[CustomerNpcBehaviorTester] ?7?4 ¿ªÊ¼×Ô¶¯Àë³¡: {customerBehavior.CurrentData?.displayName}");
+                Debug.Log($"[CustomerNpcBehaviorTester] ?7?4 å¼€å§‹è‡ªåŠ¨ç¦»åœº: {customerBehavior.CurrentData?.displayName}");
                 
                 customerBehavior.PlayExitAnimation(() =>
                 {
-                    Debug.Log($"[CustomerNpcBehaviorTester] ?9?5 ÍêÕû·şÎñÁ÷³Ì½áÊø: {customerBehavior.CurrentData?.displayName}");
+                    Debug.Log($"[CustomerNpcBehaviorTester] ?9?5 å®Œæ•´æœåŠ¡æµç¨‹ç»“æŸ: {customerBehavior.CurrentData?.displayName}");
                 });
             }
         }

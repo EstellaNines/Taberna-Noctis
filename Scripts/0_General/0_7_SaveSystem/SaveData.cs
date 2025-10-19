@@ -33,6 +33,7 @@ public class SaveData
 	public int totalCustomersServed;       // 累计服务顾客数（≥0）
 	public int todayCustomersServed;       // 今日服务顾客数（≥0）
 	public float todayAverageScore;        // 今日平均评分（≥0）
+	public float todayReputationChange;    // 今日评价增量（可正可负）
 
 	// ===== 库存/配方 =====
 	public Dictionary<string, int> inventory = new Dictionary<string, int>();

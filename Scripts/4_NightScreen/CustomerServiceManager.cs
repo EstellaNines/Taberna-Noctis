@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using TabernaNoctis.CharacterDesign;
 using Sirenix.OdinInspector;
+using Random = UnityEngine.Random;
 
 namespace TabernaNoctis.NightScreen
 {
@@ -50,6 +51,9 @@ namespace TabernaNoctis.NightScreen
         [ShowInInspector] private bool isDrinking = false;
         [ShowInInspector] private float nextServeCountdown = 0f;
 
+        // 当前饮用音效路径（本次服务复用：开头一次、结尾一次）
+        private string currentDrinkingClipPath = null;
+
         #region Unity生命周期
 
         private void Awake()
@@ -69,13 +73,13 @@ namespace TabernaNoctis.NightScreen
             minDrinkingTime = 10f;
             maxDrinkingTime = 15f;
             Debug.Log($"[CustomerService] 品尝时间已强制设置为: {minDrinkingTime}-{maxDrinkingTime}秒");
-            
+
             // 检查当前阶段，如果已经是Night阶段则立即启动服务
             if (TimeSystemManager.Instance != null)
             {
                 var currentPhase = TimeSystemManager.Instance.CurrentPhase;
                 Debug.Log($"[CustomerService] Start时检查当前阶段: {currentPhase}");
-                
+
                 if (currentPhase == TimePhase.Night && !isNightActive)
                 {
                     Debug.Log("[CustomerService] 检测到已处于Night阶段，立即启动服务");
@@ -124,7 +128,7 @@ namespace TabernaNoctis.NightScreen
         private void OnPhaseChanged(TimePhase phase)
         {
             Debug.Log($"[CustomerService] 接收到阶段变更事件: {phase}");
-            
+
             if (phase == TimePhase.Night)
             {
                 isNightActive = true;
@@ -217,14 +221,28 @@ namespace TabernaNoctis.NightScreen
             isDrinking = true;
 
             // 随机品尝时间10-15秒
-            float drinkingTime = UnityEngine.Random.Range(minDrinkingTime, maxDrinkingTime);
+            float drinkingTime = Random.Range(minDrinkingTime, maxDrinkingTime);
             Debug.Log($"[CustomerService] 顾客品尝中... ({drinkingTime:F1}秒) [配置范围: {minDrinkingTime}-{maxDrinkingTime}秒]");
+
+            // 播放喝酒音效（规则：开始时一次；结尾离场前再一次）
+            PlayDrinkingSoundAtStart();
 
             yield return new WaitForSeconds(drinkingTime);
 
             // 结算：给钱、小费、评价
             var customerData = customerBehavior.CurrentData;
             CalculatePaymentAndRating(customerData, cocktailData);
+
+            // 结束前（离场淡出前）再播放一遍喝酒音效，并等待其播放完成
+            if (AudioManager.instance != null && !string.IsNullOrEmpty(currentDrinkingClipPath))
+            {
+                var clip = AudioManager.instance.LoadAudio(currentDrinkingClipPath);
+                if (clip != null)
+                {
+                    AudioManager.instance.PlaySE(clip, 1f);
+                    yield return new WaitForSeconds(clip.length);
+                }
+            }
 
             Debug.Log($"[CustomerService] 服务完成: {customerData.displayName} (第{currentServedCount}位)");
 
@@ -250,6 +268,39 @@ namespace TabernaNoctis.NightScreen
                     StartCoroutine(DelayedServeNext());
                 }
             });
+        }
+
+        /// <summary>
+        /// 在顾客开始品尝时播放喝酒音效（开头一次），并记录本次使用的音效路径。
+        /// 规则：男性从品尝1-4随机一条；女性固定品尝5。
+        /// </summary>
+        private void PlayDrinkingSoundAtStart()
+        {
+            var data = customerBehavior?.CurrentData;
+            if (data == null || AudioManager.instance == null) return;
+
+            // 选择音效
+            string clipPath;
+            if (!string.IsNullOrEmpty(data.gender) && data.gender.ToLower() == "female")
+            {
+                clipPath = GlobalAudio.DrinkTaste5; // 女士固定用品尝5
+            }
+            else
+            {
+                // 男士从1-4随机一个
+                int idx = Random.Range(1, 5); // 1..4
+                clipPath = idx switch
+                {
+                    1 => GlobalAudio.DrinkTaste1,
+                    2 => GlobalAudio.DrinkTaste2,
+                    3 => GlobalAudio.DrinkTaste3,
+                    _ => GlobalAudio.DrinkTaste4
+                };
+            }
+
+            currentDrinkingClipPath = clipPath;
+            // 开头立刻播放一次
+            AudioManager.instance.PlaySE(currentDrinkingClipPath, 1f);
         }
 
         /// <summary>

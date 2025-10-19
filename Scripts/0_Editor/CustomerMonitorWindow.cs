@@ -40,9 +40,6 @@ public class CustomerMonitorWindow : EditorWindow
 
     // 当前服务状态
     private NpcCharacterData _currentServingCustomer;
-    private float _serviceCooldownTime = 0f;
-    private float _drinkingTime = 0f;
-    private bool _isServiceComplete = false;
 
     private void CreateGUI()
     {
@@ -111,6 +108,14 @@ public class CustomerMonitorWindow : EditorWindow
         // 导出按钮
         _exportButton = new Button(ExportData) { text = "导出数据" };
         toolbar.Add(_exportButton);
+
+		// 强制随机入队（调试生成一位顾客）
+		var forceSpawnButton = new Button(ForceRandomEnqueue) { text = "强制随机入队" };
+		toolbar.Add(forceSpawnButton);
+
+		// 清空所有冷却池
+		var clearCooldownButton = new Button(ClearAllCooldown) { text = "清空冷却池" };
+		toolbar.Add(clearCooldownButton);
 
         // 自动刷新开关
         _autoRefreshToggle = new Toggle("自动刷新");
@@ -244,6 +249,14 @@ public class CustomerMonitorWindow : EditorWindow
         nameLabel.style.fontSize = 12;
         container.Add(nameLabel);
 
+		// 冷却显示
+		var cooldownLabel = new Label();
+		cooldownLabel.name = "cooldown";
+		cooldownLabel.style.width = 90;
+		cooldownLabel.style.fontSize = 10;
+		cooldownLabel.style.unityTextAlign = TextAnchor.MiddleRight;
+		container.Add(cooldownLabel);
+
         return container;
     }
 
@@ -256,7 +269,56 @@ public class CustomerMonitorWindow : EditorWindow
         element.Q<Label>("sequence").text = (index + 1).ToString("D2");
         element.Q<Label>("index").text = data.id;
         element.Q<Label>("name").text = data.displayName;
+
+		// 冷却显示：CD 剩余/总需求（若不在冷却池则显示 "--"）
+		var cdLabel = element.Q<Label>("cooldown");
+		int remaining = GetCooldownRemainingForNpc(data.id);
+		int requirement = GetCooldownRequirementTotal();
+		if (remaining > 0)
+		{
+			cdLabel.text = $"CD {remaining}/{requirement}";
+			cdLabel.style.color = new Color(1f, 0.8f, 0.2f, 1f); // 近似黄橙色
+		}
+		else
+		{
+			cdLabel.text = "CD --";
+			cdLabel.style.color = Color.gray;
+		}
     }
+
+	// 读取冷却池中该NPC的剩余冷却（通过反射）
+	private int GetCooldownRemainingForNpc(string npcId)
+	{
+		if (_spawnManager == null || string.IsNullOrEmpty(npcId)) return 0;
+		try
+		{
+			var type = _spawnManager.GetType();
+			var cooldownField = type.GetField("cooldownPool", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+			var dict = cooldownField?.GetValue(_spawnManager) as System.Collections.IDictionary;
+			if (dict != null && dict.Contains(npcId))
+			{
+				object val = dict[npcId];
+				if (val is int i) return i;
+			}
+		}
+		catch { }
+		return 0;
+	}
+
+	// 读取总冷却需求（通过反射）
+	private int GetCooldownRequirementTotal()
+	{
+		if (_spawnManager == null) return 0;
+		try
+		{
+			var type = _spawnManager.GetType();
+			var reqField = type.GetField("cooldownRequirement", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+			object val = reqField?.GetValue(_spawnManager);
+			if (val is int i) return i;
+		}
+		catch { }
+		return 0;
+	}
 
     private void AddDetailRow(VisualElement parent, string key, string value)
     {
@@ -494,6 +556,90 @@ public class CustomerMonitorWindow : EditorWindow
             EditorUtility.DisplayDialog("导出失败", $"导出过程中发生错误:\n{e.Message}", "确定");
         }
     }
+
+	// 强制随机入队（调用生成管理器的私有方法 TrySpawnCustomer/DebugSpawnCustomer）
+	private void ForceRandomEnqueue()
+	{
+		if (_spawnManager == null)
+		{
+			Debug.LogWarning("[CustomerMonitor] 未找到 CustomerSpawnManager，无法入队");
+			return;
+		}
+
+		try
+		{
+			var type = _spawnManager.GetType();
+			var trySpawnMethod = type.GetMethod("TrySpawnCustomer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+			object result = null;
+			if (trySpawnMethod != null)
+			{
+				result = trySpawnMethod.Invoke(_spawnManager, null);
+			}
+			else
+			{
+				// 备用：调用调试方法
+				var debugSpawn = type.GetMethod("DebugSpawnCustomer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+				debugSpawn?.Invoke(_spawnManager, null);
+			}
+
+			UpdateCustomerData();
+			Debug.Log($"[CustomerMonitor] 强制随机入队{(result is bool b ? (b ? "成功" : "失败") : "（已触发）")}");
+		}
+		catch (Exception e)
+		{
+			Debug.LogError($"[CustomerMonitor] 强制随机入队失败: {e.Message}");
+		}
+	}
+
+	// 清空所有冷却池（将冷却中的顾客立即解冻）
+	private void ClearAllCooldown()
+	{
+		if (_spawnManager == null)
+		{
+			Debug.LogWarning("[CustomerMonitor] 未找到 CustomerSpawnManager，无法清空冷却池");
+			return;
+		}
+
+		try
+		{
+			var type = _spawnManager.GetType();
+			var cooldownField = type.GetField("cooldownPool", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+			var availableField = type.GetField("availablePool", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+			var npcLookupField = type.GetField("npcLookup", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+			var cooldown = cooldownField?.GetValue(_spawnManager);
+			var available = availableField?.GetValue(_spawnManager) as System.Collections.IList;
+			var npcLookup = npcLookupField?.GetValue(_spawnManager) as System.Collections.IDictionary;
+
+			if (cooldown is System.Collections.IDictionary dict)
+			{
+				// 将冷却中的顾客全部放回可用池
+				if (available != null && npcLookup != null)
+				{
+					var keys = new System.Collections.ArrayList(dict.Keys);
+					foreach (var key in keys)
+					{
+						if (npcLookup.Contains(key))
+						{
+							available.Add(npcLookup[key]);
+						}
+					}
+				}
+
+				dict.Clear();
+				UpdateCustomerData();
+				Debug.Log("[CustomerMonitor] 冷却池已清空，所有顾客已解冻");
+			}
+			else
+			{
+				Debug.LogWarning("[CustomerMonitor] 反射获取冷却池失败");
+			}
+		}
+		catch (Exception e)
+		{
+			Debug.LogError($"[CustomerMonitor] 清空冷却池失败: {e.Message}");
+		}
+	}
 
     private void OnSearchChanged(ChangeEvent<string> evt)
     {
