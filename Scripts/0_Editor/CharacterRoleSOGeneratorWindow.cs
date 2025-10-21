@@ -5,17 +5,17 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// ½ÇÉ« SO Éú³ÉÆ÷£¨±à¼­Æ÷´°¿Ú£©
-/// ²Ëµ¥£º×ÔÖÆ¹¤¾ß/ÈËÎïÉè¼Æ/½ÇÉ«SOÉú³ÉÆ÷
-/// ¹¦ÄÜ£º
-/// 1) ´Ó Resources ÔØÈë NPCInfo.json£¨¾ÛºÏÉí·İ±¶ÂÊÓë NPC ÁĞ±í£©
-/// 2) ÎªÃ¿¸öÉí·İÉú³É/¸üĞÂ `CharacterRoleData` ×Ê²ú£¨²»¸´ÖÆÌ¨´Ê£¬½öĞ´Èë JSON ÒıÓÃÓë tag£©
-/// 3) Éú³É/¸üĞÂ `CharacterRolesIndex` Ë÷Òı×Ê²ú£¬Í³Ò»¹ÜÀíËùÓĞÉí·İ SO
-/// 4) ÈíĞ£ÑéÌ¨´Ê JSON ÊÇ·ñ´æÔÚ¶ÔÓ¦Éí·İ±êÇ©£¬²¢Êä³ö Warning£¨²»ÖĞ¶Ï£©
-/// Éè¼ÆÒªµã£º
-/// - ÃİµÈ£ºÖØ¸´Ö´ĞĞ»á¸üĞÂÒÑ´æÔÚµÄ SO£¬±ãÓÚÊı¾İÎ¬»¤
-/// - Ä¿Â¼/Â·¾¶¿ÉÅäÖÃ£ºResources Ïà¶ÔÂ·¾¶ + Assets Êä³öÂ·¾¶
-/// - ²»¸ÄĞ´Ì¨´Ê JSON£»½öÒıÓÃÆä Resources Â·¾¶Óë identityId ×÷Îª tag
+/// è§’è‰² SO ç”Ÿæˆå™¨ï¼ˆç¼–è¾‘å™¨çª—å£ï¼‰
+/// èœå•ï¼šè‡ªåˆ¶å·¥å…·/äººç‰©è®¾è®¡/è§’è‰²SOç”Ÿæˆå™¨
+/// åŠŸèƒ½ï¼š
+/// 1) ä» Resources è½½å…¥ NPCInfo.jsonï¼ˆèšåˆèº«ä»½å€ç‡ä¸ NPC åˆ—è¡¨ï¼‰
+/// 2) ä¸ºæ¯ä¸ªèº«ä»½ç”Ÿæˆ/æ›´æ–° `CharacterRoleData` èµ„äº§ï¼ˆä¸å¤åˆ¶å°è¯ï¼Œä»…å†™å…¥ JSON å¼•ç”¨ä¸ tagï¼‰
+/// 3) ç”Ÿæˆ/æ›´æ–° `CharacterRolesIndex` ç´¢å¼•èµ„äº§ï¼Œç»Ÿä¸€ç®¡ç†æ‰€æœ‰èº«ä»½ SO
+/// 4) è½¯æ ¡éªŒå°è¯ JSON æ˜¯å¦å­˜åœ¨å¯¹åº”èº«ä»½æ ‡ç­¾ï¼Œå¹¶è¾“å‡º Warningï¼ˆä¸ä¸­æ–­ï¼‰
+/// è®¾è®¡è¦ç‚¹ï¼š
+/// - å¹‚ç­‰ï¼šé‡å¤æ‰§è¡Œä¼šæ›´æ–°å·²å­˜åœ¨çš„ SOï¼Œä¾¿äºæ•°æ®ç»´æŠ¤
+/// - ç›®å½•/è·¯å¾„å¯é…ç½®ï¼šResources ç›¸å¯¹è·¯å¾„ + Assets è¾“å‡ºè·¯å¾„
+/// - ä¸æ”¹å†™å°è¯ JSONï¼›ä»…å¼•ç”¨å…¶ Resources è·¯å¾„ä¸ identityId ä½œä¸º tag
 /// </summary>
 public sealed class CharacterRoleSOGeneratorWindow : EditorWindow
 {
@@ -76,29 +76,29 @@ public sealed class CharacterRoleSOGeneratorWindow : EditorWindow
     private string _saveFolder = "Assets/Scripts/0_ScriptableObject/Characters";
     private string _indexPath = "Assets/Scripts/0_ScriptableObject/CharacterRolesIndex.asset";
 
-    [MenuItem("×ÔÖÆ¹¤¾ß/ÈËÎïÉè¼Æ/½ÇÉ«SOÉú³ÉÆ÷")] private static void Open()
+    [MenuItem("è‡ªåˆ¶å·¥å…·/äººç‰©è®¾è®¡/è§’è‰²SOç”Ÿæˆå™¨")] private static void Open()
     {
-        var w = GetWindow<CharacterRoleSOGeneratorWindow>(true, "½ÇÉ«SOÉú³ÉÆ÷", true);
+        var w = GetWindow<CharacterRoleSOGeneratorWindow>(true, "è§’è‰²SOç”Ÿæˆå™¨", true);
         w.minSize = new Vector2(560, 240);
         w.Show();
     }
 
     private void OnGUI()
     {
-        GUILayout.Label("ÊäÈë×ÊÔ´Â·¾¶(»ùÓÚ Resources)", EditorStyles.boldLabel);
+        GUILayout.Label("è¾“å…¥èµ„æºè·¯å¾„(åŸºäº Resources)", EditorStyles.boldLabel);
         _npcInfoResPath = EditorGUILayout.TextField("NPCInfo.json", _npcInfoResPath);
-        _dialoguesCNResPath = EditorGUILayout.TextField("Ì¨´Ê(CN)", _dialoguesCNResPath);
-        _dialoguesENResPath = EditorGUILayout.TextField("Ì¨´Ê(EN)", _dialoguesENResPath);
+        _dialoguesCNResPath = EditorGUILayout.TextField("å°è¯(CN)", _dialoguesCNResPath);
+        _dialoguesENResPath = EditorGUILayout.TextField("å°è¯(EN)", _dialoguesENResPath);
 
         GUILayout.Space(6);
-        GUILayout.Label("Êä³ö(Assets Â·¾¶)", EditorStyles.boldLabel);
-        _saveFolder = EditorGUILayout.TextField("½ÇÉ«SOÊä³öÄ¿Â¼", _saveFolder);
-        _indexPath = EditorGUILayout.TextField("Ë÷ÒıSOÂ·¾¶", _indexPath);
+        GUILayout.Label("è¾“å‡º(Assets è·¯å¾„)", EditorStyles.boldLabel);
+        _saveFolder = EditorGUILayout.TextField("è§’è‰²SOè¾“å‡ºç›®å½•", _saveFolder);
+        _indexPath = EditorGUILayout.TextField("ç´¢å¼•SOè·¯å¾„", _indexPath);
 
         GUILayout.Space(8);
         using (new EditorGUI.DisabledScope(string.IsNullOrEmpty(_npcInfoResPath)))
         {
-            if (GUILayout.Button("Éú³É/¸üĞÂ ½ÇÉ«SO Óë Ë÷ÒıSO"))
+            if (GUILayout.Button("ç”Ÿæˆ/æ›´æ–° è§’è‰²SO ä¸ ç´¢å¼•SO"))
             {
                 Generate();
             }
@@ -106,36 +106,36 @@ public sealed class CharacterRoleSOGeneratorWindow : EditorWindow
     }
 
     /// <summary>
-    /// Ö÷Á÷³Ì£º½âÎö NPCInfo ¡ú Éú³É/¸üĞÂ ½ÇÉ« SO ¡ú ¸üĞÂË÷Òı SO ¡ú ÈíĞ£ÑéÌ¨´Ê JSON ±êÇ©
+    /// ä¸»æµç¨‹ï¼šè§£æ NPCInfo â†’ ç”Ÿæˆ/æ›´æ–° è§’è‰² SO â†’ æ›´æ–°ç´¢å¼• SO â†’ è½¯æ ¡éªŒå°è¯ JSON æ ‡ç­¾
     /// </summary>
     private void Generate()
     {
         var npcInfoTa = Resources.Load<TextAsset>(_npcInfoResPath);
         if (npcInfoTa == null)
         {
-            EditorUtility.DisplayDialog("Ê§°Ü", "Î´ÔÚ Resources ÕÒµ½ NPCInfo.json: " + _npcInfoResPath, "ºÃµÄ");
+            EditorUtility.DisplayDialog("å¤±è´¥", "æœªåœ¨ Resources æ‰¾åˆ° NPCInfo.json: " + _npcInfoResPath, "å¥½çš„");
             return;
         }
         NpcInfoRoot npcInfo;
         try { npcInfo = JsonUtility.FromJson<NpcInfoRoot>(npcInfoTa.text); }
         catch (Exception e)
         {
-            EditorUtility.DisplayDialog("½âÎöÊ§°Ü", "NPCInfo ½âÎö´íÎó: " + e.Message, "ºÃµÄ");
+            EditorUtility.DisplayDialog("è§£æå¤±è´¥", "NPCInfo è§£æé”™è¯¯: " + e.Message, "å¥½çš„");
             return;
         }
         if (npcInfo == null || npcInfo.identities == null)
         {
-            EditorUtility.DisplayDialog("Ê§°Ü", "NPCInfo.identities Îª¿Õ", "ºÃµÄ");
+            EditorUtility.DisplayDialog("å¤±è´¥", "NPCInfo.identities ä¸ºç©º", "å¥½çš„");
             return;
         }
 
-        // È·±£Êä³öÄ¿Â¼´æÔÚ
+        // ç¡®ä¿è¾“å‡ºç›®å½•å­˜åœ¨
         if (!AssetDatabase.IsValidFolder(_saveFolder))
         {
             Directory.CreateDirectory(_saveFolder);
         }
 
-        // ÔØÈë»ò´´½¨Ë÷Òı SO
+        // è½½å…¥æˆ–åˆ›å»ºç´¢å¼• SO
         CharacterRolesIndex index = AssetDatabase.LoadAssetAtPath<CharacterRolesIndex>(_indexPath);
         if (index == null)
         {
@@ -152,7 +152,7 @@ public sealed class CharacterRoleSOGeneratorWindow : EditorWindow
             index.tipMultiplier = npcInfo.tipMultiplier;
         }
 
-        // ±éÀúÃ¿¸öÉí·İ£¬Éú³É/¸üĞÂ¶ÔÓ¦½ÇÉ« SO
+        // éå†æ¯ä¸ªèº«ä»½ï¼Œç”Ÿæˆ/æ›´æ–°å¯¹åº”è§’è‰² SO
         int created = 0, updated = 0, warned = 0;
         created += ProcessIdentity(index, "CompanyEmployee", npcInfo.identities.CompanyEmployee, ref updated, ref warned);
         created += ProcessIdentity(index, "SmallLeader", npcInfo.identities.SmallLeader, ref updated, ref warned);
@@ -164,13 +164,13 @@ public sealed class CharacterRoleSOGeneratorWindow : EditorWindow
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         EditorGUIUtility.PingObject(index);
-        EditorUtility.DisplayDialog("Íê³É", $"½ÇÉ«SOÉú³ÉÍê³É/¸üĞÂ£ºĞÂ½¨{created}£¬¸üĞÂ{updated}£¬Ì¨´Ê¾¯¸æ{warned}", "ºÃµÄ");
+        EditorUtility.DisplayDialog("å®Œæˆ", $"è§’è‰²SOç”Ÿæˆå®Œæˆ/æ›´æ–°ï¼šæ–°å»º{created}ï¼Œæ›´æ–°{updated}ï¼Œå°è¯è­¦å‘Š{warned}", "å¥½çš„");
     }
 
     /// <summary>
-    /// ÒÀ¾İ NPCInfo£¨¾«¼òÏî£©ÔÚÏîÄ¿ÖĞ²éÕÒ/°ó¶¨¶ÔÓ¦µÄ NpcCharacterData ×Ê²úµ½½ÇÉ« SO µÄ npcAssets¡£
-    /// ¹æÔò£º°´ identityId + Êı×Ö + ĞÔ±ğ Óë×´Ì¬Æ´³öÎÒÃÇ¼È¶¨ÃüÃû£¨ÀıÈç Busy_CompanyEmployee_001_M£©¡£
-    /// ÈôÕÒ²»µ½ÔòÌø¹ı¡£
+    /// ä¾æ® NPCInfoï¼ˆç²¾ç®€é¡¹ï¼‰åœ¨é¡¹ç›®ä¸­æŸ¥æ‰¾/ç»‘å®šå¯¹åº”çš„ NpcCharacterData èµ„äº§åˆ°è§’è‰² SO çš„ npcAssetsã€‚
+    /// è§„åˆ™ï¼šæŒ‰ identityId + æ•°å­— + æ€§åˆ« ä¸çŠ¶æ€æ‹¼å‡ºæˆ‘ä»¬æ—¢å®šå‘½åï¼ˆä¾‹å¦‚ Busy_CompanyEmployee_001_Mï¼‰ã€‚
+    /// è‹¥æ‰¾ä¸åˆ°åˆ™è·³è¿‡ã€‚
     /// </summary>
     private static void AppendAssets(CharacterRoleData role, string identityId, string state, List<NpcEntryLite> list)
     {
@@ -179,7 +179,7 @@ public sealed class CharacterRoleSOGeneratorWindow : EditorWindow
         for (int i = 0; i < list.Count; i++)
         {
             var src = list[i];
-            // ×Ê²úÃüÃû£º<State>_<IdentityId>_<NNN>_<M/F>
+            // èµ„äº§å‘½åï¼š<State>_<IdentityId>_<NNN>_<M/F>
             string assetName = $"{state}_{identityId}_{src.id.Split('_')[1]}_{(src.gender.StartsWith("m", StringComparison.OrdinalIgnoreCase) ? "M" : "F")}";
             string[] guids = AssetDatabase.FindAssets(assetName + " t:NpcCharacterData");
             if (guids != null && guids.Length > 0)
@@ -227,7 +227,7 @@ public sealed class CharacterRoleSOGeneratorWindow : EditorWindow
         var en = Resources.Load<TextAsset>(_dialoguesENResPath);
         if (cn != null && cn.text.Contains("\"" + identityId + "\"")) tagFound++;
         if (en != null && en.text.Contains("\"" + identityId + "\"")) tagFound++;
-        if (tagFound < 2) { warned++; Debug.LogWarning($"[½ÇÉ«SOÉú³ÉÆ÷] Ì¨´ÊJSONÖĞÎ´ÍêÈ«ÕÒµ½±êÇ©: {identityId} ({tagFound}/2)"); }
+        if (tagFound < 2) { warned++; Debug.LogWarning($"[è§’è‰²SOç”Ÿæˆå™¨] å°è¯JSONä¸­æœªå®Œå…¨æ‰¾åˆ°æ ‡ç­¾: {identityId} ({tagFound}/2)"); }
 
         return isNew ? 1 : 0;
     }

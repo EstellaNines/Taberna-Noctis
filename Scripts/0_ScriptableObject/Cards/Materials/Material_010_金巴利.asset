@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Campari
   category: "\u8C03\u5473\u9152\u7C7B"
   feature: "\u6025\u8E81\u6311\u5254\u578B\uFF0C\u82E6\u5473\u7279\u8272"
+  tags:
+  - "\u8C03\u5473\u9152"
+  themeColor: {r: 1, g: 0.95, b: 0.7, a: 1}
   effects:
     busy: 0
     impatient: 2

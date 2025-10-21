@@ -3,40 +3,50 @@ using UnityEditor;
 using System.IO;
 using System.Collections.Generic;
 using TabernaNoctis.Cards;
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using Sirenix.Utilities.Editor;
+using Sirenix.Utilities;
 
 namespace TabernaNoctis.Editor
 {
     /// <summary>
-    /// ¿¨ÅÆÖÆ×÷Æ÷ - ÍêÕûµÄ¿¨ÅÆÊı¾İ¹ÜÀí¹¤¾ß
+    /// å¡ç‰Œåˆ¶ä½œå™¨ - å®Œæ•´çš„å¡ç‰Œæ•°æ®ç®¡ç†å·¥å…·
     /// </summary>
     public class CardMaker : EditorWindow
     {
-        #region Ã¶¾Ù¶¨Òå
+        #region æšä¸¾å®šä¹‰
 
         private enum ImportResult
         {
-            Created,   // ĞÂ½¨
-            Updated,   // ¸üĞÂ
-            Skipped,   // Ìø¹ı£¨Î´ĞŞ¸Ä£©
-            Failed     // Ê§°Ü
+            Created,   // æ–°å»º
+            Updated,   // æ›´æ–°
+            Skipped,   // è·³è¿‡ï¼ˆæœªä¿®æ”¹ï¼‰
+            Failed     // å¤±è´¥
         }
 
         private enum CardType
         {
-            Cocktail,  // ¼¦Î²¾Æ
-            Material   // ²ÄÁÏ
+            Cocktail,  // é¸¡å°¾é…’
+            Material   // ææ–™
         }
 
         private enum LeftPanelTab
         {
-            JSONImport,      // JSONµ¼Èë
-            ManualCreate,    // ÊÖ¶¯´´½¨
-            ForceUpdate      // Ç¿ÖÆ¸üĞÂ
+            JSONImport,      // JSONå¯¼å…¥
+            ManualCreate,    // æ‰‹åŠ¨åˆ›å»º
+            ForceUpdate      // å¼ºåˆ¶æ›´æ–°
+        }
+
+        private enum CenterPanelTab 
+        { 
+            Cocktails,  // é¸¡å°¾é…’
+            Materials   // ææ–™
         }
 
         #endregion
 
-        #region JSONÊı¾İ½á¹¹
+        #region JSONæ•°æ®ç»“æ„
 
         [System.Serializable]
         public class JsonCardEffects
@@ -54,6 +64,7 @@ namespace TabernaNoctis.Editor
             public string name_en;
             public string name_cn;
             public string category;
+            public string[] tags;            // æ–°å¢ï¼šæ ‡ç­¾æ•°ç»„
             public JsonCardEffects effects;
             public int cost;
             public int price;
@@ -70,6 +81,7 @@ namespace TabernaNoctis.Editor
             public string name_cn;
             public string name_en;
             public string category;
+            public string[] tags;            // æ–°å¢ï¼šæ ‡ç­¾æ•°ç»„
             public JsonCardEffects effects;
             public int price;
             public string feature;
@@ -90,7 +102,7 @@ namespace TabernaNoctis.Editor
 
         #endregion
 
-        #region Â·¾¶ÅäÖÃ
+        #region è·¯å¾„é…ç½®
 
         private const string COCKTAILS_JSON_PATH = "Assets/Resources/Cards/Cocktails.json";
         private const string MATERIALS_JSON_PATH = "Assets/Resources/Cards/Materials.json";
@@ -98,88 +110,244 @@ namespace TabernaNoctis.Editor
         private const string COCKTAILS_FOLDER = "Assets/Scripts/0_ScriptableObject/Cards/Cocktails";
         private const string MATERIALS_FOLDER = "Assets/Scripts/0_ScriptableObject/Cards/Materials";
 
+		// é¢„åˆ¶ä»¶æ¨¡æ¿ä¸è¾“å‡ºç›®å½•
+		private const string CARD_TEMPLATE_PREFAB_PATH = "Assets/Resources/Prefabs/0_General/1_CardSystem/Card.prefab";
+		private const string CARD_PREFAB_OUTPUT_FOLDER = "Assets/Resources/Prefabs/0_General/1_CardSystem";
+
         #endregion
 
-        #region ´°¿Ú±äÁ¿
+        #region çª—å£å˜é‡
 
-        [MenuItem("×ÔÖÆ¹¤¾ß/¿¨ÅÆÏµÍ³/¿¨ÅÆÖÆ×÷Æ÷")]
-        public static void OpenCardMaker()
+        [MenuItem("è‡ªåˆ¶å·¥å…·/å¡ç‰Œç³»ç»Ÿ/å¡ç‰Œåˆ¶ä½œå™¨")]
+        private static void OpenCardMaker()
         {
-            var window = GetWindow<CardMaker>("¿¨ÅÆÖÆ×÷Æ÷");
-            window.minSize = new Vector2(1200, 600);
+            var window = GetWindow<CardMaker>();
+            window.titleContent = new GUIContent("å¡ç‰Œåˆ¶ä½œå™¨", EditorGUIUtility.IconContent("d_ScriptableObject Icon").image);
+            window.minSize = new Vector2(1200, 700);
+            window.position = new Rect(100, 100, 1400, 800);
+            window.LoadAllCards();
             window.Show();
         }
 
-        // ²¼¾Ö
-        private float leftPanelWidth = 400f;
-        private float centerPanelWidth = 400f;
+        private void OnEnable()
+        {
+            LoadAllCards();
+        }
+
+        // å¸ƒå±€
+        private float leftPanelWidth = 420f;
+        private float centerPanelWidth = 380f;
         private bool isDraggingLeftSplitter = false;
         private bool isDraggingCenterSplitter = false;
 
-        // ×ó²à°å¿é
+        // å·¦ä¾§æ¿å—
         private LeftPanelTab leftTab = LeftPanelTab.JSONImport;
         private Vector2 leftScrollPos;
-        private string logOutput = "×¼±¸¿ªÊ¼...\n";
+        private string logOutput = "";
         private bool incrementalUpdate = true;
 
-        // ÊÖ¶¯´´½¨±íµ¥
+        // æ‰‹åŠ¨åˆ›å»ºè¡¨å•
         private CardType createCardType = CardType.Cocktail;
         private JsonCocktailData cocktailFormData = new JsonCocktailData { effects = new JsonCardEffects() };
         private JsonMaterialData materialFormData = new JsonMaterialData { effects = new JsonCardEffects() };
 
-        // ÖĞ¼ä°å¿é
+        // ä¸­é—´æ¿å—
         private Vector2 centerScrollPos;
+        private CenterPanelTab centerTab = CenterPanelTab.Cocktails;
+        private List<CocktailCardSO> loadedCocktails = new List<CocktailCardSO>();
+        private List<MaterialCardSO> loadedMaterials = new List<MaterialCardSO>();
+        private string searchFilter = "";
         
-        // ÓÒ²à°å¿é
+        // å³ä¾§æ¿å—
         private Vector2 rightScrollPos;
+        private BaseCardSO selectedCard = null;
 
         #endregion
 
-        #region GUI»æÖÆ
+        #region GUIç»˜åˆ¶
 
         private void OnGUI()
         {
+            // ç»˜åˆ¶é¡¶éƒ¨å·¥å…·æ 
+            DrawTopToolbar();
+
             EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
-            // ×ó²à°å¿é
+            // å·¦ä¾§æ¿å—
             DrawLeftPanel();
 
-            // ×ó²à·Ö¸ôÌõ
-            DrawVerticalSplitter(ref isDraggingLeftSplitter, ref leftPanelWidth, 300f, 600f);
+            // å·¦ä¾§åˆ†éš”æ¡
+            DrawVerticalSplitter(ref isDraggingLeftSplitter, ref leftPanelWidth, 350f, 600f);
 
-            // ÖĞ¼ä°å¿é
+            // ä¸­é—´æ¿å—
             DrawCenterPanel();
 
-            // ÖĞ¼ä·Ö¸ôÌõ
-            DrawVerticalSplitter(ref isDraggingCenterSplitter, ref centerPanelWidth, 300f, 600f);
+            // ä¸­é—´åˆ†éš”æ¡
+            DrawVerticalSplitter(ref isDraggingCenterSplitter, ref centerPanelWidth, 300f, 550f);
 
-            // ÓÒ²à°å¿é
+            // å³ä¾§æ¿å—
             DrawRightPanel();
 
             EditorGUILayout.EndHorizontal();
 
-            // ´¦ÀíÍÏ×§
+            // å¤„ç†æ‹–æ‹½
             HandleSplitterDrag();
+        }
+
+        private void DrawTopToolbar()
+        {
+            SirenixEditorGUI.BeginBox();
+            EditorGUILayout.BeginHorizontal(GUILayout.Height(30));
+            
+            GUILayout.FlexibleSpace();
+            
+            var titleStyle = new GUIStyle(EditorStyles.largeLabel);
+            titleStyle.fontSize = 16;
+            titleStyle.fontStyle = FontStyle.Bold;
+            titleStyle.normal.textColor = EditorGUIUtility.isProSkin ? new Color(0.8f, 0.9f, 1f) : new Color(0.15f, 0.2f, 0.3f);
+            GUILayout.Label("å¡ç‰Œåˆ¶ä½œå™¨", titleStyle);
+            
+            GUILayout.FlexibleSpace();
+            
+			if (GUILayout.Button(new GUIContent("åˆ·æ–°å…¨éƒ¨", EditorGUIUtility.IconContent("d_Refresh").image), GUILayout.Width(90), GUILayout.Height(25)))
+            {
+                LoadAllCards();
+                logOutput = "å·²åˆ·æ–°æ‰€æœ‰æ•°æ®\n";
+            }
+
+			GUILayout.Space(6);
+
+			if (GUILayout.Button(new GUIContent("ç”Ÿæˆå…¨éƒ¨é¢„åˆ¶ä»¶", EditorGUIUtility.IconContent("d_Prefab Icon").image), GUILayout.Width(120), GUILayout.Height(25)))
+			{
+				GenerateAllCardPrefabs();
+			}
+            
+            EditorGUILayout.EndHorizontal();
+            SirenixEditorGUI.EndBox();
         }
 
         #endregion
 
-        #region ×ó²à°å¿é
+		#region é¢„åˆ¶ä»¶ç”Ÿæˆ
+
+		private void GenerateAllCardPrefabs()
+		{
+			LoadAllCards();
+			EnsureFolderExists(CARD_PREFAB_OUTPUT_FOLDER);
+
+			var template = AssetDatabase.LoadAssetAtPath<GameObject>(CARD_TEMPLATE_PREFAB_PATH);
+			if (template == null)
+			{
+				EditorUtility.DisplayDialog("é”™è¯¯", $"æ‰¾ä¸åˆ°æ¨¡æ¿é¢„åˆ¶ä»¶: {CARD_TEMPLATE_PREFAB_PATH}", "ç¡®å®š");
+				LogError($"æ‰¾ä¸åˆ°æ¨¡æ¿é¢„åˆ¶ä»¶: {CARD_TEMPLATE_PREFAB_PATH}");
+				return;
+			}
+
+			int created = 0;
+			foreach (var card in loadedMaterials)
+			{
+				if (card == null) continue;
+				if (CreateCardPrefab(template, card)) created++;
+			}
+			foreach (var card in loadedCocktails)
+			{
+				if (card == null) continue;
+				if (CreateCardPrefab(template, card)) created++;
+			}
+
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+			EditorUtility.DisplayDialog("å®Œæˆ", $"å·²ç”Ÿæˆ {created} ä¸ªå¡ç‰Œé¢„åˆ¶ä»¶", "ç¡®å®š");
+			Log($"ç”Ÿæˆé¢„åˆ¶ä»¶å®Œæˆ: {created} ä¸ª");
+		}
+
+		private bool CreateCardPrefab(GameObject template, BaseCardSO card)
+		{
+			try
+			{
+				// å®ä¾‹åŒ–ä¸´æ—¶å¯¹è±¡
+				var instance = (GameObject)PrefabUtility.InstantiatePrefab(template);
+				if (instance == null) return false;
+
+				// å‘½å
+				string safeName = SanitizeFileName(string.IsNullOrEmpty(card.nameEN) ? card.nameCN : card.nameEN);
+				instance.name = $"Card_{card.id:D3}_{safeName}";
+
+				// ç»‘å®šæ•°æ®åˆ°CardDisplayï¼ˆä½¿ç”¨éšè—çš„editorPreviewCardä»¥ä¾¿ç¼–è¾‘å™¨é¢„è§ˆï¼‰
+				var display = instance.GetComponent<TabernaNoctis.CardSystem.CardDisplay>();
+				if (display != null)
+				{
+					var so = new SerializedObject(display);
+					var prop = so.FindProperty("editorPreviewCard");
+					if (prop != null)
+					{
+						prop.objectReferenceValue = card;
+						so.ApplyModifiedPropertiesWithoutUndo();
+					}
+				}
+
+				// ä¿å­˜ä¸ºé¢„åˆ¶ä»¶
+				string assetPath = System.IO.Path.Combine(CARD_PREFAB_OUTPUT_FOLDER, instance.name + ".prefab").Replace("\\", "/");
+				PrefabUtility.SaveAsPrefabAsset(instance, assetPath, out bool success);
+				Object.DestroyImmediate(instance);
+				if (success)
+				{
+					Log($"  ç”Ÿæˆé¢„åˆ¶ä»¶: {assetPath}");
+					return true;
+				}
+				LogError($"  ç”Ÿæˆå¤±è´¥: {assetPath}");
+				return false;
+			}
+			catch (System.Exception e)
+			{
+				LogError($"ç”Ÿæˆé¢„åˆ¶ä»¶å¤±è´¥ ({card.nameEN}): {e.Message}");
+				Debug.LogException(e);
+				return false;
+			}
+		}
+
+		private string SanitizeFileName(string name)
+		{
+			if (string.IsNullOrEmpty(name)) return "Card";
+			foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+			{
+				name = name.Replace(c.ToString(), "_");
+			}
+			// é¢å¤–æ›¿æ¢ç©ºç™½
+			name = name.Replace(' ', '_');
+			return name;
+		}
+
+		#endregion
+
+        #region å·¦ä¾§æ¿å—
 
         private void DrawLeftPanel()
         {
+            SirenixEditorGUI.BeginBox();
             EditorGUILayout.BeginVertical(GUILayout.Width(leftPanelWidth), GUILayout.ExpandHeight(true));
             
-            GUILayout.Label("´´½¨¹¤¾ß", EditorStyles.boldLabel);
+            SirenixEditorGUI.Title("åˆ›å»ºå·¥å…·", "", TextAlignment.Left, true);
             
-            // TabÇĞ»»
+            // Tabåˆ‡æ¢
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Toggle(leftTab == LeftPanelTab.JSONImport, "JSONµ¼Èë", "Button"))
+            
+            // èƒŒæ™¯é«˜äº®ç»˜åˆ¶éœ€è¦åœ¨æœ‰å†…å®¹ä¹‹åè·å–Rect
+            Color originalColor = GUI.backgroundColor;
+            
+            GUI.backgroundColor = leftTab == LeftPanelTab.JSONImport ? (EditorGUIUtility.isProSkin ? new Color(0.5f, 0.8f, 1f) : new Color(0.75f, 0.9f, 1f)) : (EditorGUIUtility.isProSkin ? new Color(0.2f,0.2f,0.2f,1f) : Color.white);
+            if (GUILayout.Button("JSONå¯¼å…¥", GUILayout.Height(30)))
                 leftTab = LeftPanelTab.JSONImport;
-            if (GUILayout.Toggle(leftTab == LeftPanelTab.ManualCreate, "ÊÖ¶¯´´½¨", "Button"))
+                
+            GUI.backgroundColor = leftTab == LeftPanelTab.ManualCreate ? (EditorGUIUtility.isProSkin ? new Color(0.5f, 1f, 0.7f) : new Color(0.7f, 1f, 0.85f)) : (EditorGUIUtility.isProSkin ? new Color(0.2f,0.2f,0.2f,1f) : Color.white);
+            if (GUILayout.Button("æ‰‹åŠ¨åˆ›å»º", GUILayout.Height(30)))
                 leftTab = LeftPanelTab.ManualCreate;
-            if (GUILayout.Toggle(leftTab == LeftPanelTab.ForceUpdate, "Ç¿ÖÆ¸üĞÂ", "Button"))
+                
+            GUI.backgroundColor = leftTab == LeftPanelTab.ForceUpdate ? (EditorGUIUtility.isProSkin ? new Color(1f, 0.8f, 0.5f) : new Color(1f, 0.9f, 0.7f)) : (EditorGUIUtility.isProSkin ? new Color(0.2f,0.2f,0.2f,1f) : Color.white);
+            if (GUILayout.Button("å¼ºåˆ¶æ›´æ–°", GUILayout.Height(30)))
                 leftTab = LeftPanelTab.ForceUpdate;
+                
+            GUI.backgroundColor = originalColor;
             EditorGUILayout.EndHorizontal();
 
             GUILayout.Space(10);
@@ -202,28 +370,35 @@ namespace TabernaNoctis.Editor
             EditorGUILayout.EndScrollView();
             
             EditorGUILayout.EndVertical();
+            SirenixEditorGUI.EndBox();
         }
 
         private void DrawJSONImportTab()
         {
             EditorGUILayout.HelpBox(
-                "´ÓJSONÎÄ¼şµ¼Èë¿¨ÅÆÊı¾İ²¢Éú³ÉScriptableObject×ÊÔ´¡£\n" +
-                "Ô´ÎÄ¼ş£º\n" +
+                "ä»JSONæ–‡ä»¶å¯¼å…¥å¡ç‰Œæ•°æ®å¹¶ç”ŸæˆScriptableObjectèµ„æº\n" +
+                "æºæ–‡ä»¶ï¼š\n" +
                 "- " + COCKTAILS_JSON_PATH + "\n" +
                 "- " + MATERIALS_JSON_PATH,
                 MessageType.Info);
 
             GUILayout.Space(10);
 
-            // ÔöÁ¿¸üĞÂÑ¡Ïî
-            EditorGUILayout.BeginHorizontal();
-            incrementalUpdate = EditorGUILayout.Toggle("ÔöÁ¿¸üĞÂ", incrementalUpdate, GUILayout.Width(200));
-            EditorGUILayout.LabelField(incrementalUpdate ? "Ö»¸üĞÂÓĞ±ä»¯µÄ×ÊÔ´" : "¸²¸ÇËùÓĞÏÖÓĞ×ÊÔ´", EditorStyles.miniLabel);
-            EditorGUILayout.EndHorizontal();
+            // å¢é‡æ›´æ–°é€‰é¡¹
+            SirenixEditorGUI.BeginBox("å¯¼å…¥é€‰é¡¹");
+            incrementalUpdate = EditorGUILayout.Toggle("å¢é‡æ›´æ–°æ¨¡å¼", incrementalUpdate);
+            EditorGUILayout.HelpBox(
+                incrementalUpdate ? "åªæ›´æ–°æœ‰å˜åŒ–çš„èµ„æºï¼Œè·³è¿‡æœªä¿®æ”¹çš„æ–‡ä»¶" : "å¼ºåˆ¶è¦†ç›–æ‰€æœ‰ç°æœ‰èµ„æº",
+                incrementalUpdate ? MessageType.Info : MessageType.Warning);
+            SirenixEditorGUI.EndBox();
 
             GUILayout.Space(10);
 
-            if (GUILayout.Button("µ¼ÈëËùÓĞ¿¨ÅÆÊı¾İ", GUILayout.Height(40)))
+            // å¯¼å…¥æŒ‰é’®
+            Color originalColor = GUI.backgroundColor;
+            
+            GUI.backgroundColor = new Color(0.4f, 0.8f, 1f);
+            if (GUILayout.Button("å¯¼å…¥æ‰€æœ‰å¡ç‰Œæ•°æ®", GUILayout.Height(45)))
             {
                 ImportAllCards();
             }
@@ -231,33 +406,39 @@ namespace TabernaNoctis.Editor
             GUILayout.Space(5);
 
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("½öµ¼Èë¼¦Î²¾Æ", GUILayout.Height(30)))
+            GUI.backgroundColor = new Color(0.7f, 0.9f, 1f);
+            if (GUILayout.Button("ä»…å¯¼å…¥é¸¡å°¾é…’", GUILayout.Height(35)))
             {
                 ImportCocktails();
             }
-            if (GUILayout.Button("½öµ¼Èë²ÄÁÏ", GUILayout.Height(30)))
+            if (GUILayout.Button("ä»…å¯¼å…¥ææ–™", GUILayout.Height(35)))
             {
                 ImportMaterials();
             }
             EditorGUILayout.EndHorizontal();
+            
+            GUI.backgroundColor = originalColor;
 
-            GUILayout.Space(20);
-            GUILayout.Label("µ¼ÈëÈÕÖ¾:", EditorStyles.boldLabel);
-            EditorGUILayout.TextArea(logOutput, GUILayout.ExpandHeight(true));
+            GUILayout.Space(15);
+            
+            SirenixEditorGUI.Title("å¯¼å…¥æ—¥å¿—", "", TextAlignment.Left, false);
+            DrawStyledTextArea(logOutput);
         }
 
         private void DrawManualCreateTab()
         {
-            GUILayout.Label("ÊÖ¶¯´´½¨¿¨ÅÆ", EditorStyles.boldLabel);
+            SirenixEditorGUI.Title("æ‰‹åŠ¨åˆ›å»ºå¡ç‰Œ", "", TextAlignment.Left, true);
             
             EditorGUILayout.HelpBox(
-                "ÊÖ¶¯ÊäÈëÊı¾İ´´½¨¿¨ÅÆ²¢×Ô¶¯Ğ´ÈëJSONÎÄ¼ş", 
+                "æ‰‹åŠ¨è¾“å…¥æ•°æ®åˆ›å»ºå¡ç‰Œå¹¶è‡ªåŠ¨å†™å…¥JSONæ–‡ä»¶", 
                 MessageType.Info);
 
             GUILayout.Space(10);
 
-            // ¿¨ÅÆÀàĞÍÑ¡Ôñ
-            createCardType = (CardType)EditorGUILayout.EnumPopup("¿¨ÅÆÀàĞÍ", createCardType);
+            // å¡ç‰Œç±»å‹é€‰æ‹©
+            SirenixEditorGUI.BeginBox("å¡ç‰Œç±»å‹");
+            createCardType = (CardType)EditorGUILayout.EnumPopup("é€‰æ‹©ç±»å‹", createCardType);
+            SirenixEditorGUI.EndBox();
 
             GUILayout.Space(10);
 
@@ -272,149 +453,667 @@ namespace TabernaNoctis.Editor
 
             GUILayout.Space(20);
             
-            if (GUILayout.Button("´´½¨¿¨ÅÆ²¢Ğ´ÈëJSON", GUILayout.Height(40)))
+            Color originalColor = GUI.backgroundColor;
+            GUI.backgroundColor = new Color(0.3f, 1f, 0.5f);
+            if (GUILayout.Button("åˆ›å»ºå¡ç‰Œå¹¶å†™å…¥JSON", GUILayout.Height(45)))
             {
                 CreateCardManually();
             }
+            GUI.backgroundColor = originalColor;
 
             GUILayout.Space(10);
-            GUILayout.Label("ÈÕÖ¾:", EditorStyles.boldLabel);
-            EditorGUILayout.TextArea(logOutput, GUILayout.Height(150));
+            SirenixEditorGUI.Title("æ“ä½œæ—¥å¿—", "", TextAlignment.Left, false);
+            DrawStyledTextArea(logOutput, 120);
         }
 
         private void DrawCocktailForm()
         {
-            GUILayout.Label("¼¦Î²¾ÆĞÅÏ¢", EditorStyles.boldLabel);
+            SirenixEditorGUI.BeginBox("é¸¡å°¾é…’åŸºç¡€ä¿¡æ¯");
+            cocktailFormData.name_cn = EditorGUILayout.TextField("ä¸­æ–‡å", cocktailFormData.name_cn);
+            cocktailFormData.name_en = EditorGUILayout.TextField("è‹±æ–‡å", cocktailFormData.name_en);
+            cocktailFormData.category = EditorGUILayout.TextField("åˆ†ç±»", cocktailFormData.category);
+            cocktailFormData.feature = EditorGUILayout.TextField("ç‰¹ç‚¹", cocktailFormData.feature);
+            cocktailFormData.ui_path = EditorGUILayout.TextField("UIè·¯å¾„", cocktailFormData.ui_path);
+            SirenixEditorGUI.EndBox();
+
+            GUILayout.Space(5);
             
-            cocktailFormData.name_cn = EditorGUILayout.TextField("ÖĞÎÄÃû", cocktailFormData.name_cn);
-            cocktailFormData.name_en = EditorGUILayout.TextField("Ó¢ÎÄÃû", cocktailFormData.name_en);
-            cocktailFormData.category = EditorGUILayout.TextField("·ÖÀà", cocktailFormData.category);
-            cocktailFormData.feature = EditorGUILayout.TextField("ÌØµã", cocktailFormData.feature);
-            cocktailFormData.ui_path = EditorGUILayout.TextField("UIÂ·¾¶", cocktailFormData.ui_path);
+            SirenixEditorGUI.BeginBox("æ•ˆæœæ•°å€¼");
+            cocktailFormData.effects.busy = EditorGUILayout.IntField("å¿™ç¢Œ", cocktailFormData.effects.busy);
+            cocktailFormData.effects.impatient = EditorGUILayout.IntField("æ€¥èº", cocktailFormData.effects.impatient);
+            cocktailFormData.effects.bored = EditorGUILayout.IntField("çƒ¦é—·", cocktailFormData.effects.bored);
+            cocktailFormData.effects.picky = EditorGUILayout.IntField("æŒ‘å‰”", cocktailFormData.effects.picky);
+            cocktailFormData.effects.friendly = EditorGUILayout.IntField("å‹å¥½", cocktailFormData.effects.friendly);
+            SirenixEditorGUI.EndBox();
 
             GUILayout.Space(5);
-            GUILayout.Label("Ğ§¹ûÊıÖµ", EditorStyles.boldLabel);
-            cocktailFormData.effects.busy = EditorGUILayout.IntField("Ã¦Âµ", cocktailFormData.effects.busy);
-            cocktailFormData.effects.impatient = EditorGUILayout.IntField("¼±Ôê", cocktailFormData.effects.impatient);
-            cocktailFormData.effects.bored = EditorGUILayout.IntField("·³ÃÆ", cocktailFormData.effects.bored);
-            cocktailFormData.effects.picky = EditorGUILayout.IntField("ÌôÌŞ", cocktailFormData.effects.picky);
-            cocktailFormData.effects.friendly = EditorGUILayout.IntField("ÓÑºÃ", cocktailFormData.effects.friendly);
-
-            GUILayout.Space(5);
-            GUILayout.Label("¾­¼ÃÊı¾İ", EditorStyles.boldLabel);
-            cocktailFormData.cost = EditorGUILayout.IntField("³É±¾", cocktailFormData.cost);
-            cocktailFormData.price = EditorGUILayout.IntField("ÊÛ¼Û", cocktailFormData.price);
-            cocktailFormData.profit = EditorGUILayout.IntField("ÀûÈó", cocktailFormData.profit);
-            cocktailFormData.reputation_change = EditorGUILayout.IntField("ÆÀ¼Û±ä»¯", cocktailFormData.reputation_change);
+            
+            SirenixEditorGUI.BeginBox("ç»æµæ•°æ®");
+            cocktailFormData.cost = EditorGUILayout.IntField("æˆæœ¬", cocktailFormData.cost);
+            cocktailFormData.price = EditorGUILayout.IntField("å”®ä»·", cocktailFormData.price);
+            cocktailFormData.profit = EditorGUILayout.IntField("åˆ©æ¶¦", cocktailFormData.profit);
+            cocktailFormData.reputation_change = EditorGUILayout.IntField("è¯„ä»·å˜åŒ–", cocktailFormData.reputation_change);
+            SirenixEditorGUI.EndBox();
         }
 
         private void DrawMaterialForm()
         {
-            GUILayout.Label("²ÄÁÏĞÅÏ¢", EditorStyles.boldLabel);
-            
+            SirenixEditorGUI.BeginBox("ææ–™åŸºç¡€ä¿¡æ¯");
             materialFormData.id = EditorGUILayout.IntField("ID", materialFormData.id);
-            materialFormData.name_cn = EditorGUILayout.TextField("ÖĞÎÄÃû", materialFormData.name_cn);
-            materialFormData.name_en = EditorGUILayout.TextField("Ó¢ÎÄÃû", materialFormData.name_en);
-            materialFormData.category = EditorGUILayout.TextField("·ÖÀà", materialFormData.category);
-            materialFormData.feature = EditorGUILayout.TextField("ÌØµã", materialFormData.feature);
-            materialFormData.ui_path = EditorGUILayout.TextField("UIÂ·¾¶", materialFormData.ui_path);
+            materialFormData.name_cn = EditorGUILayout.TextField("ä¸­æ–‡å", materialFormData.name_cn);
+            materialFormData.name_en = EditorGUILayout.TextField("è‹±æ–‡å", materialFormData.name_en);
+            materialFormData.category = EditorGUILayout.TextField("åˆ†ç±»", materialFormData.category);
+            materialFormData.feature = EditorGUILayout.TextField("ç‰¹ç‚¹", materialFormData.feature);
+            materialFormData.ui_path = EditorGUILayout.TextField("UIè·¯å¾„", materialFormData.ui_path);
+            SirenixEditorGUI.EndBox();
 
             GUILayout.Space(5);
-            GUILayout.Label("Ğ§¹ûÊıÖµ", EditorStyles.boldLabel);
-            materialFormData.effects.busy = EditorGUILayout.IntField("Ã¦Âµ", materialFormData.effects.busy);
-            materialFormData.effects.impatient = EditorGUILayout.IntField("¼±Ôê", materialFormData.effects.impatient);
-            materialFormData.effects.bored = EditorGUILayout.IntField("·³ÃÆ", materialFormData.effects.bored);
-            materialFormData.effects.picky = EditorGUILayout.IntField("ÌôÌŞ", materialFormData.effects.picky);
-            materialFormData.effects.friendly = EditorGUILayout.IntField("ÓÑºÃ", materialFormData.effects.friendly);
+            
+            SirenixEditorGUI.BeginBox("æ•ˆæœæ•°å€¼");
+            materialFormData.effects.busy = EditorGUILayout.IntField("å¿™ç¢Œ", materialFormData.effects.busy);
+            materialFormData.effects.impatient = EditorGUILayout.IntField("æ€¥èº", materialFormData.effects.impatient);
+            materialFormData.effects.bored = EditorGUILayout.IntField("çƒ¦é—·", materialFormData.effects.bored);
+            materialFormData.effects.picky = EditorGUILayout.IntField("æŒ‘å‰”", materialFormData.effects.picky);
+            materialFormData.effects.friendly = EditorGUILayout.IntField("å‹å¥½", materialFormData.effects.friendly);
+            SirenixEditorGUI.EndBox();
 
             GUILayout.Space(5);
-            GUILayout.Label("¾­¼ÃÊı¾İ", EditorStyles.boldLabel);
-            materialFormData.price = EditorGUILayout.IntField("¼Û¸ñ", materialFormData.price);
+            
+            SirenixEditorGUI.BeginBox("ç»æµæ•°æ®");
+            materialFormData.price = EditorGUILayout.IntField("ä»·æ ¼", materialFormData.price);
+            SirenixEditorGUI.EndBox();
         }
 
         private void DrawForceUpdateTab()
         {
-            GUILayout.Label("Ç¿ÖÆ¸üĞÂÄ£Ê½", EditorStyles.boldLabel);
+            SirenixEditorGUI.Title("å¼ºåˆ¶æ›´æ–°æ¨¡å¼", "", TextAlignment.Left, true);
             
             EditorGUILayout.HelpBox(
-                "±éÀúJSONÎÄ¼şÖĞµÄËùÓĞÊı¾İ£¬Ç¿ÖÆÌæ»»ÏÖÓĞµÄScriptableObject£¬\n" +
-                "¼´Ê¹Êı¾İÏàÍ¬Ò²»áÖØĞÂ´´½¨¡£ÓÃÓÚĞŞ¸´Êı¾İ²»Ò»ÖÂÎÊÌâ¡£",
+                "éå†JSONæ–‡ä»¶ä¸­çš„æ‰€æœ‰æ•°æ®ï¼Œå¼ºåˆ¶æ›¿æ¢ç°æœ‰çš„ScriptableObject\n" +
+                "å³ä½¿æ•°æ®ç›¸åŒä¹Ÿä¼šé‡æ–°åˆ›å»ºã€‚ç”¨äºä¿®å¤æ•°æ®ä¸ä¸€è‡´é—®é¢˜ã€‚",
                 MessageType.Warning);
 
-            GUILayout.Space(10);
+            GUILayout.Space(15);
 
-            if (GUILayout.Button("Ç¿ÖÆ¸üĞÂËùÓĞ¼¦Î²¾Æ", GUILayout.Height(40)))
+            Color originalColor = GUI.backgroundColor;
+            
+            GUI.backgroundColor = new Color(1f, 0.6f, 0.4f);
+            if (GUILayout.Button("å¼ºåˆ¶æ›´æ–°æ‰€æœ‰é¸¡å°¾é…’", GUILayout.Height(40)))
             {
-                ForceUpdateCocktails();
+                if (EditorUtility.DisplayDialog("ç¡®è®¤æ“ä½œ", "æ­¤æ“ä½œä¼šåˆ é™¤å¹¶é‡å»ºæ‰€æœ‰é¸¡å°¾é…’SOï¼Œæ˜¯å¦ç»§ç»­ï¼Ÿ", "ç¡®å®š", "å–æ¶ˆ"))
+                {
+                    ForceUpdateCocktails();
+                }
             }
 
             GUILayout.Space(5);
 
-            if (GUILayout.Button("Ç¿ÖÆ¸üĞÂËùÓĞ²ÄÁÏ", GUILayout.Height(40)))
+            if (GUILayout.Button("å¼ºåˆ¶æ›´æ–°æ‰€æœ‰ææ–™", GUILayout.Height(40)))
             {
-                ForceUpdateMaterials();
+                if (EditorUtility.DisplayDialog("ç¡®è®¤æ“ä½œ", "æ­¤æ“ä½œä¼šåˆ é™¤å¹¶é‡å»ºæ‰€æœ‰ææ–™SOï¼Œæ˜¯å¦ç»§ç»­ï¼Ÿ", "ç¡®å®š", "å–æ¶ˆ"))
+                {
+                    ForceUpdateMaterials();
+                }
             }
 
             GUILayout.Space(5);
 
-            if (GUILayout.Button("Ç¿ÖÆ¸üĞÂÈ«²¿¿¨ÅÆ", GUILayout.Height(40)))
+            GUI.backgroundColor = new Color(1f, 0.4f, 0.4f);
+            if (GUILayout.Button("å¼ºåˆ¶æ›´æ–°å…¨éƒ¨å¡ç‰Œ", GUILayout.Height(40)))
             {
-                ForceUpdateAll();
+                if (EditorUtility.DisplayDialog("ç¡®è®¤æ“ä½œ", "æ­¤æ“ä½œä¼šåˆ é™¤å¹¶é‡å»ºæ‰€æœ‰å¡ç‰ŒSOï¼Œæ˜¯å¦ç»§ç»­ï¼Ÿ", "ç¡®å®š", "å–æ¶ˆ"))
+                {
+                    ForceUpdateAll();
+                }
             }
+            
+            GUI.backgroundColor = originalColor;
 
             GUILayout.Space(20);
-            GUILayout.Label("¸üĞÂÈÕÖ¾:", EditorStyles.boldLabel);
-            EditorGUILayout.TextArea(logOutput, GUILayout.ExpandHeight(true));
+            SirenixEditorGUI.Title("æ›´æ–°æ—¥å¿—", "", TextAlignment.Left, false);
+            DrawStyledTextArea(logOutput);
+        }
+
+        private void DrawStyledTextArea(string text, float height = -1)
+        {
+            var style = new GUIStyle(EditorStyles.textArea);
+            style.wordWrap = true;
+            style.fontSize = 11;
+            style.padding = new RectOffset(8, 8, 8, 8);
+            
+            if (height > 0)
+            {
+                EditorGUILayout.TextArea(text, style, GUILayout.ExpandHeight(true), GUILayout.Height(height));
+            }
+            else
+            {
+                EditorGUILayout.TextArea(text, style, GUILayout.ExpandHeight(true));
+            }
         }
 
         #endregion
 
-        #region ÖĞ¼ä°å¿é
+        #region ä¸­é—´æ¿å—
 
         private void DrawCenterPanel()
         {
+            SirenixEditorGUI.BeginBox();
             EditorGUILayout.BeginVertical(GUILayout.Width(centerPanelWidth), GUILayout.ExpandHeight(true));
             
-            GUILayout.Label("ÖĞ¼ä°å¿é", EditorStyles.boldLabel);
+            // æ ‡é¢˜æ 
+            EditorGUILayout.BeginHorizontal();
+            SirenixEditorGUI.Title("å¡ç‰Œåº“", "", TextAlignment.Left, false, true);
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button(new GUIContent(EditorGUIUtility.IconContent("d_Refresh").image, "åˆ·æ–°åˆ—è¡¨"), GUILayout.Width(30), GUILayout.Height(25)))
+            {
+                LoadAllCards();
+            }
+            EditorGUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+
+            // Tabåˆ‡æ¢
+            EditorGUILayout.BeginHorizontal();
+            Color originalColor = GUI.backgroundColor;
             
+            GUI.backgroundColor = centerTab == CenterPanelTab.Cocktails ? (EditorGUIUtility.isProSkin ? new Color(0.8f, 0.6f, 1f) : new Color(0.9f, 0.8f, 1f)) : (EditorGUIUtility.isProSkin ? new Color(0.2f,0.2f,0.2f,1f) : Color.white);
+            if (GUILayout.Button($"é¸¡å°¾é…’ [{loadedCocktails.Count}]", GUILayout.Height(28)))
+                centerTab = CenterPanelTab.Cocktails;
+                
+            GUI.backgroundColor = centerTab == CenterPanelTab.Materials ? (EditorGUIUtility.isProSkin ? new Color(1f, 0.8f, 0.5f) : new Color(1f, 0.9f, 0.7f)) : (EditorGUIUtility.isProSkin ? new Color(0.2f,0.2f,0.2f,1f) : Color.white);
+            if (GUILayout.Button($"ææ–™ [{loadedMaterials.Count}]", GUILayout.Height(28)))
+                centerTab = CenterPanelTab.Materials;
+                
+            GUI.backgroundColor = originalColor;
+            EditorGUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+
+            // æœç´¢æ¡†
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label(EditorGUIUtility.IconContent("d_Search Icon"), GUILayout.Width(20), GUILayout.Height(20));
+            searchFilter = EditorGUILayout.TextField(searchFilter, EditorStyles.toolbarSearchField);
+            if (GUILayout.Button("Ã—", GUILayout.Width(25), GUILayout.Height(20)))
+            {
+                searchFilter = "";
+                GUI.FocusControl(null);
+            }
+            EditorGUILayout.EndHorizontal();
+
+            GUILayout.Space(8);
+
+            // åˆ—è¡¨æ˜¾ç¤º
             centerScrollPos = EditorGUILayout.BeginScrollView(centerScrollPos);
-            
-            EditorGUILayout.HelpBox("´ËÇøÓòÔ¤ÁôÓÃÓÚÎ´À´¹¦ÄÜ", MessageType.Info);
-            
+
+            if (centerTab == CenterPanelTab.Cocktails)
+            {
+                DrawCocktailsList();
+            }
+            else
+            {
+                DrawMaterialsList();
+            }
+
             EditorGUILayout.EndScrollView();
             
             EditorGUILayout.EndVertical();
+            SirenixEditorGUI.EndBox();
+        }
+
+        private void DrawCocktailsList()
+        {
+            if (loadedCocktails.Count == 0)
+            {
+                EditorGUILayout.HelpBox("æ²¡æœ‰æ‰¾åˆ°é¸¡å°¾é…’å¡ç‰Œ\nè¯·å…ˆä»JSONå¯¼å…¥æˆ–æ‰‹åŠ¨åˆ›å»º", MessageType.Warning);
+                return;
+            }
+
+            // è¿‡æ»¤
+            var filteredList = loadedCocktails;
+            if (!string.IsNullOrEmpty(searchFilter))
+            {
+                filteredList = loadedCocktails.FindAll(c => 
+                    c.nameCN.Contains(searchFilter) || 
+                    c.nameEN.ToLower().Contains(searchFilter.ToLower()) ||
+                    c.category.Contains(searchFilter));
+            }
+
+            if (filteredList.Count == 0)
+            {
+                EditorGUILayout.HelpBox($"æ²¡æœ‰æ‰¾åˆ°åŒ¹é… \"{searchFilter}\" çš„é¸¡å°¾é…’", MessageType.Info);
+                return;
+            }
+
+            foreach (var cocktail in filteredList)
+            {
+                if (cocktail == null) continue;
+                DrawCardListItem(cocktail, cocktail.price);
+            }
+        }
+
+        private void DrawMaterialsList()
+        {
+            if (loadedMaterials.Count == 0)
+            {
+                EditorGUILayout.HelpBox("æ²¡æœ‰æ‰¾åˆ°ææ–™å¡ç‰Œ\nè¯·å…ˆä»JSONå¯¼å…¥æˆ–æ‰‹åŠ¨åˆ›å»º", MessageType.Warning);
+                return;
+            }
+
+            // è¿‡æ»¤
+            var filteredList = loadedMaterials;
+            if (!string.IsNullOrEmpty(searchFilter))
+            {
+                filteredList = loadedMaterials.FindAll(m => 
+                    m.nameCN.Contains(searchFilter) || 
+                    m.nameEN.ToLower().Contains(searchFilter.ToLower()) ||
+                    m.category.Contains(searchFilter));
+            }
+
+            if (filteredList.Count == 0)
+            {
+                EditorGUILayout.HelpBox($"æ²¡æœ‰æ‰¾åˆ°åŒ¹é… \"{searchFilter}\" çš„ææ–™", MessageType.Info);
+                return;
+            }
+
+            foreach (var material in filteredList)
+            {
+                if (material == null) continue;
+                DrawCardListItem(material, material.price);
+            }
+        }
+
+        private void DrawCardListItem(BaseCardSO card, int price)
+        {
+            bool isSelected = selectedCard == card;
+            
+            SirenixEditorGUI.BeginBox();
+
+            EditorGUILayout.BeginHorizontal();
+
+            // å›¾æ ‡é¢„è§ˆ
+            if (card.uiSpritePreview != null)
+            {
+                Rect iconRect = GUILayoutUtility.GetRect(50, 50, GUILayout.Width(50), GUILayout.Height(50));
+                SirenixEditorGUI.DrawSolidRect(iconRect, new Color(0, 0, 0, 0.1f));
+                GUI.DrawTexture(iconRect.Padding(2), card.uiSpritePreview.texture, ScaleMode.ScaleToFit);
+            }
+            else
+            {
+                Rect iconRect = GUILayoutUtility.GetRect(50, 50, GUILayout.Width(50), GUILayout.Height(50));
+                SirenixEditorGUI.DrawSolidRect(iconRect, new Color(0.5f, 0.5f, 0.5f, 0.2f));
+                GUI.Label(iconRect, "æ— å›¾", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = 9 });
+            }
+
+            GUILayout.Space(8);
+
+            // å¡ç‰Œä¿¡æ¯
+            EditorGUILayout.BeginVertical();
+            
+            var nameStyle = new GUIStyle(EditorStyles.boldLabel);
+            nameStyle.fontSize = 13;
+            nameStyle.normal.textColor = isSelected
+                ? (EditorGUIUtility.isProSkin ? new Color(0.4f, 0.7f, 1f) : new Color(0.1f, 0.25f, 0.5f))
+                : (EditorGUIUtility.isProSkin ? Color.white : new Color(0.1f, 0.1f, 0.1f));
+            EditorGUILayout.LabelField($"{card.id:D3}. {card.nameCN}", nameStyle);
+            
+            var subStyle = new GUIStyle(EditorStyles.miniLabel);
+            subStyle.normal.textColor = EditorGUIUtility.isProSkin ? new Color(0.7f, 0.7f, 0.7f) : new Color(0.3f, 0.3f, 0.3f);
+            EditorGUILayout.LabelField(card.nameEN, subStyle);
+            
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(card.category, subStyle, GUILayout.Width(120));
+            GUILayout.FlexibleSpace();
+            var priceStyle = new GUIStyle(EditorStyles.miniLabel);
+            priceStyle.fontStyle = FontStyle.Bold;
+            priceStyle.normal.textColor = EditorGUIUtility.isProSkin ? new Color(1f, 0.8f, 0.3f) : new Color(0.6f, 0.4f, 0.0f);
+            EditorGUILayout.LabelField($"${price}", priceStyle);
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.EndVertical();
+
+            // åœ¨è¡Œæœ«å°¾ç»˜åˆ¶é«˜äº®èƒŒæ™¯ï¼ˆæ­¤æ—¶å·²æœ‰å¸ƒå±€å¯ä¾›GetLastRectï¼‰
+            if (isSelected)
+            {
+                var rowRect = GUILayoutUtility.GetLastRect();
+                // æ‰©å±•åˆ°æ•´å—Boxå®½åº¦ï¼ˆåŒ…å«å·¦å³å†…è¾¹è·ï¼‰ï¼Œå¹¶é™å®šé«˜åº¦
+                rowRect.x = 0f;
+                rowRect.width = GUILayoutUtility.GetLastRect().width + 4f;
+                rowRect.height = Mathf.Max(rowRect.height, 60f);
+                SirenixEditorGUI.DrawSolidRect(rowRect, new Color(0.3f, 0.5f, 0.8f, 0.15f));
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            GUILayout.Space(3);
+
+            // æŸ¥çœ‹è¯¦æƒ…æŒ‰é’®
+            Color originalColor = GUI.backgroundColor;
+            GUI.backgroundColor = isSelected ? new Color(0.5f, 0.8f, 1f) : new Color(0.7f, 0.7f, 0.7f);
+            if (GUILayout.Button(isSelected ? "å·²é€‰ä¸­" : "æŸ¥çœ‹è¯¦æƒ…", GUILayout.Height(25)))
+            {
+                selectedCard = card;
+                Repaint();
+            }
+            GUI.backgroundColor = originalColor;
+
+            SirenixEditorGUI.EndBox();
+            GUILayout.Space(4);
         }
 
         #endregion
 
-        #region ÓÒ²à°å¿é
+        #region å³ä¾§æ¿å—
 
         private void DrawRightPanel()
         {
+            SirenixEditorGUI.BeginBox();
             EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             
-            GUILayout.Label("ÓÒ²à°å¿é", EditorStyles.boldLabel);
-            
-            rightScrollPos = EditorGUILayout.BeginScrollView(rightScrollPos);
-            
-            EditorGUILayout.HelpBox("´ËÇøÓòÔ¤ÁôÓÃÓÚÎ´À´¹¦ÄÜ", MessageType.Info);
-            
-            EditorGUILayout.EndScrollView();
+            SirenixEditorGUI.Title("å¡ç‰Œè¯¦æƒ…", "", TextAlignment.Left, true);
+
+            if (selectedCard == null)
+            {
+                GUILayout.FlexibleSpace();
+                EditorGUILayout.HelpBox("è¯·åœ¨ä¸­é—´æ¿å—é€‰æ‹©ä¸€å¼ å¡ç‰ŒæŸ¥çœ‹è¯¦ç»†ä¿¡æ¯", MessageType.Info);
+                GUILayout.FlexibleSpace();
+            }
+            else
+            {
+                rightScrollPos = EditorGUILayout.BeginScrollView(rightScrollPos);
+                DrawCardDetails();
+                EditorGUILayout.EndScrollView();
+            }
             
             EditorGUILayout.EndVertical();
+            SirenixEditorGUI.EndBox();
+        }
+
+        private void DrawCardDetails()
+        {
+            if (selectedCard == null) return;
+
+            // å¡ç‰Œæ ‡é¢˜
+            var titleStyle = new GUIStyle(EditorStyles.largeLabel);
+            titleStyle.fontSize = 16;
+            titleStyle.fontStyle = FontStyle.Bold;
+            titleStyle.alignment = TextAnchor.MiddleCenter;
+            titleStyle.normal.textColor = new Color(0.6f, 0.8f, 1f);
+            
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField($"{selectedCard.nameCN} | {selectedCard.nameEN}", titleStyle);
+            
+            GUILayout.Space(15);
+
+            // ç²¾çµé¢„è§ˆ
+            if (selectedCard.uiSpritePreview != null)
+            {
+                EditorGUILayout.BeginHorizontal();
+                GUILayout.FlexibleSpace();
+                
+                EditorGUILayout.BeginVertical();
+                SirenixEditorGUI.Title("ç²¾çµé¢„è§ˆ", "", TextAlignment.Center, false);
+                
+                Rect previewRect = GUILayoutUtility.GetRect(280, 280, GUILayout.Width(280), GUILayout.Height(280));
+                
+                // ç»˜åˆ¶èƒŒæ™¯å’Œè¾¹æ¡†
+                SirenixEditorGUI.DrawSolidRect(previewRect.Padding(-4), new Color(0.2f, 0.2f, 0.2f, 0.3f));
+                SirenixEditorGUI.DrawBorders(previewRect.Padding(-3), 2, new Color(0.4f, 0.6f, 0.8f));
+                SirenixEditorGUI.DrawSolidRect(previewRect, Color.white);
+                
+                GUI.DrawTexture(previewRect.Padding(5), selectedCard.uiSpritePreview.texture, ScaleMode.ScaleToFit);
+                
+                EditorGUILayout.EndVertical();
+                GUILayout.FlexibleSpace();
+                EditorGUILayout.EndHorizontal();
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("æœªæ‰¾åˆ°ç²¾çµé¢„è§ˆå›¾", MessageType.Warning);
+            }
+
+            GUILayout.Space(20);
+
+            // åŸºç¡€ä¿¡æ¯
+            SirenixEditorGUI.BeginBox("åŸºç¡€ä¿¡æ¯");
+            DrawDetailField("ID", selectedCard.id.ToString());
+            DrawDetailField("ä¸­æ–‡å", selectedCard.nameCN);
+            DrawDetailField("è‹±æ–‡å", selectedCard.nameEN);
+            DrawDetailField("åˆ†ç±»", selectedCard.category);
+            
+            // æ˜¾ç¤ºæ ‡ç­¾
+            if (selectedCard.tags != null && selectedCard.tags.Length > 0)
+            {
+                DrawTagsField(selectedCard.tags);
+            }
+            
+            DrawDetailField("ç‰¹ç‚¹", selectedCard.feature);
+            DrawDetailField("UIè·¯å¾„", selectedCard.uiPath);
+            SirenixEditorGUI.EndBox();
+
+            GUILayout.Space(10);
+
+            // æ•ˆæœæ•°å€¼
+            SirenixEditorGUI.BeginBox("æ•ˆæœæ•°å€¼");
+            DrawEffectBar("å¿™ç¢Œ", selectedCard.effects.busy);
+            DrawEffectBar("æ€¥èº", selectedCard.effects.impatient);
+            DrawEffectBar("çƒ¦é—·", selectedCard.effects.bored);
+            DrawEffectBar("æŒ‘å‰”", selectedCard.effects.picky);
+            DrawEffectBar("å‹å¥½", selectedCard.effects.friendly);
+            SirenixEditorGUI.EndBox();
+
+            GUILayout.Space(10);
+
+            // ç»æµæ•°æ®
+            SirenixEditorGUI.BeginBox("ç»æµæ•°æ®");
+            if (selectedCard is CocktailCardSO cocktail)
+            {
+                DrawDetailField("æˆæœ¬", $"{cocktail.cost}");
+                DrawDetailField("å”®ä»·", $"{cocktail.price}");
+                DrawDetailField("åˆ©æ¶¦", $"{cocktail.profit}");
+                DrawDetailField("è¯„ä»·å˜åŒ–", cocktail.reputationChange.ToString());
+            }
+            else if (selectedCard is MaterialCardSO material)
+            {
+                DrawDetailField("ä»·æ ¼", $"{material.price}");
+            }
+            SirenixEditorGUI.EndBox();
+
+            GUILayout.Space(10);
+
+            // èµ„æºå¼•ç”¨
+            SirenixEditorGUI.BeginBox("èµ„æºå¼•ç”¨");
+            EditorGUILayout.ObjectField("ScriptableObject", selectedCard, typeof(BaseCardSO), false);
+            SirenixEditorGUI.EndBox();
+
+            GUILayout.Space(15);
+
+            // æ“ä½œæŒ‰é’®
+            EditorGUILayout.BeginHorizontal();
+            Color originalBG = GUI.backgroundColor;
+            
+            GUI.backgroundColor = new Color(0.5f, 0.8f, 1f);
+            if (GUILayout.Button(new GUIContent("åœ¨Projectä¸­å®šä½", EditorGUIUtility.IconContent("d_Project").image), GUILayout.Height(35)))
+            {
+                EditorGUIUtility.PingObject(selectedCard);
+                Selection.activeObject = selectedCard;
+            }
+            
+            GUI.backgroundColor = new Color(0.6f, 1f, 0.6f);
+            if (GUILayout.Button(new GUIContent("åœ¨Inspectorä¸­æ‰“å¼€", EditorGUIUtility.IconContent("d_UnityEditor.InspectorWindow").image), GUILayout.Height(35)))
+            {
+                Selection.activeObject = selectedCard;
+                EditorGUIUtility.PingObject(selectedCard);
+            }
+            
+            GUI.backgroundColor = originalBG;
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawDetailField(string label, string value)
+        {
+            EditorGUILayout.BeginHorizontal();
+            
+            var labelStyle = new GUIStyle(EditorStyles.label);
+            labelStyle.fontStyle = FontStyle.Bold;
+            labelStyle.normal.textColor = EditorGUIUtility.isProSkin ? new Color(0.7f, 0.8f, 0.9f) : new Color(0.15f, 0.2f, 0.3f);
+            EditorGUILayout.LabelField(label, labelStyle, GUILayout.Width(80));
+            
+            var valueStyle = new GUIStyle(EditorStyles.label);
+            valueStyle.wordWrap = true;
+            valueStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : new Color(0.05f, 0.05f, 0.05f);
+            EditorGUILayout.LabelField(value, valueStyle);
+            
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawTagsField(string[] tags)
+        {
+            EditorGUILayout.BeginHorizontal();
+            
+            var labelStyle = new GUIStyle(EditorStyles.label);
+            labelStyle.fontStyle = FontStyle.Bold;
+            labelStyle.normal.textColor = EditorGUIUtility.isProSkin ? new Color(0.7f, 0.8f, 0.9f) : new Color(0.15f, 0.2f, 0.3f);
+            EditorGUILayout.LabelField("æ ‡ç­¾", labelStyle, GUILayout.Width(80));
+            
+            EditorGUILayout.BeginHorizontal();
+            foreach (string tag in tags)
+            {
+                // æ ¹æ®æ ‡ç­¾ç±»å‹é€‰æ‹©é¢œè‰²
+                Color tagColor = GetTagColor(tag);
+                
+                var tagStyle = new GUIStyle(GUI.skin.box);
+                tagStyle.normal.background = MakeTex(2, 2, tagColor);
+                tagStyle.normal.textColor = Color.white;
+                tagStyle.fontStyle = FontStyle.Bold;
+                tagStyle.padding = new RectOffset(8, 8, 3, 3);
+                tagStyle.margin = new RectOffset(2, 2, 2, 2);
+                
+                GUILayout.Label(tag, tagStyle);
+            }
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private Color GetTagColor(string tag)
+        {
+            // ä¸ºä¸åŒæ ‡ç­¾è¿”å›ä¸åŒé¢œè‰²
+            switch (tag)
+            {
+                case "åŸºé…’": return new Color(0.70f, 0.85f, 1.00f);       // æµ…è“è‰²ï¼ˆåŸºé…’ï¼‰
+                case "è°ƒå‘³é…’": return new Color(1.00f, 0.95f, 0.70f);     // æµ…é»„è‰²ï¼ˆè°ƒå‘³é…’ï¼‰
+                case "è°ƒå‘³å“": return new Color(1.00f, 0.70f, 0.70f);     // æµ…çº¢è‰²ï¼ˆè°ƒå‘³å“ï¼‰
+                case "æ–°é²œé…æ–™": return new Color(0.80f, 1.00f, 0.80f);   // æµ…ç»¿è‰²ï¼ˆæ–°é²œé…æ–™ï¼‰
+                case "ç»å…¸é…’": return new Color(0.53f, 0.81f, 0.98f);     // å¤©è“è‰²ï¼ˆç»å…¸é…’ï¼‰
+                case "çƒ­å¸¦é…’": return new Color(1.00f, 0.80f, 0.60f);     // æµ…æ©™è‰²ï¼ˆçƒ­å¸¦é…’ï¼‰
+                case "ç‰¹è°ƒé…’": return new Color(0.90f, 0.80f, 1.00f);     // æµ…ç´«è‰²ï¼ˆç‰¹è°ƒé…’ï¼‰
+                default: return new Color(0.5f, 0.5f, 0.5f);           // ç°è‰²
+            }
+        }
+
+        private Texture2D MakeTex(int width, int height, Color col)
+        {
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; i++)
+                pix[i] = col;
+            
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
+        }
+
+        /// <summary>
+        /// æ ¹æ®æ ‡ç­¾è·å–é¢œè‰²åŸºè°ƒï¼ˆç”¨äºå¡ç‰ŒèƒŒæ™¯ï¼‰
+        /// é¢œè‰²æ¯”æ ‡ç­¾é¢œè‰²æ›´æŸ”å’Œï¼Œé€‚åˆä½œä¸ºèƒŒæ™¯
+        /// </summary>
+        private Color GetThemeColorFromTags(string[] tags)
+        {
+            if (tags == null || tags.Length == 0)
+            {
+                return new Color(0.9f, 0.9f, 0.9f);  // é»˜è®¤æµ…ç°è‰²
+            }
+
+            // ä½¿ç”¨ç¬¬ä¸€ä¸ªæ ‡ç­¾å†³å®šé¢œè‰²åŸºè°ƒ
+            string primaryTag = tags[0];
+            
+            switch (primaryTag)
+            {
+                case "åŸºé…’":
+                    return new Color(0.70f, 0.85f, 1.00f);   // æµ…è“è‰²
+                case "è°ƒå‘³é…’":
+                    return new Color(1.00f, 0.95f, 0.70f);   // æµ…é»„è‰²
+                case "è°ƒå‘³å“":
+                    return new Color(1.00f, 0.70f, 0.70f);   // æµ…çº¢è‰²
+                case "æ–°é²œé…æ–™":
+                    return new Color(0.80f, 1.00f, 0.80f);   // æµ…ç»¿è‰²
+                case "ç»å…¸é…’":
+                    return new Color(0.53f, 0.81f, 0.98f);   // å¤©è“è‰²
+                case "çƒ­å¸¦é…’":
+                    return new Color(1.00f, 0.80f, 0.60f);   // æµ…æ©™è‰²
+                case "ç‰¹è°ƒé…’":
+                    return new Color(0.90f, 0.80f, 1.00f);   // æµ…ç´«è‰²
+                default:
+                    return new Color(0.9f, 0.9f, 0.9f);     // é»˜è®¤æµ…ç°è‰²
+            }
+        }
+
+        private void DrawEffectBar(string label, int value)
+        {
+            EditorGUILayout.BeginHorizontal();
+            
+            var labelStyle = new GUIStyle(EditorStyles.label);
+            labelStyle.fontStyle = FontStyle.Bold;
+            labelStyle.fixedWidth = 60;
+            labelStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : new Color(0.1f, 0.1f, 0.1f);
+            EditorGUILayout.LabelField(label, labelStyle);
+            
+            // é¢œè‰²æ ¹æ®æ•°å€¼
+            Color barColor;
+            if (value > 0)
+                barColor = new Color(0.3f, 0.9f, 0.4f);
+            else if (value < 0)
+                barColor = new Color(0.9f, 0.3f, 0.3f);
+            else
+                barColor = new Color(0.6f, 0.6f, 0.6f);
+
+            // ç»˜åˆ¶èƒŒæ™¯å’Œè¿›åº¦
+            Rect rect = EditorGUILayout.GetControlRect(GUILayout.Height(22));
+            
+            // èƒŒæ™¯
+            SirenixEditorGUI.DrawSolidRect(rect, new Color(0.2f, 0.2f, 0.2f, 0.3f));
+            
+            // è¿›åº¦æ¡
+            float normalizedValue = Mathf.Clamp01(Mathf.Abs(value) / 10f);
+            Rect fillRect = new Rect(rect.x, rect.y, rect.width * normalizedValue, rect.height);
+            SirenixEditorGUI.DrawSolidRect(fillRect, barColor * 0.8f);
+            
+            // è¾¹æ¡†
+            SirenixEditorGUI.DrawBorders(rect, 1, new Color(0.3f, 0.3f, 0.3f));
+            
+            // æ–‡å­—
+            var textStyle = new GUIStyle(GUI.skin.label);
+            textStyle.alignment = TextAnchor.MiddleCenter;
+            textStyle.fontStyle = FontStyle.Bold;
+            textStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
+            
+            string valueText = value > 0 ? $"+{value}" : value.ToString();
+            GUI.Label(rect, valueText, textStyle);
+
+            EditorGUILayout.EndHorizontal();
         }
 
         #endregion
 
-        #region ·Ö¸ôÌõ
+        #region åˆ†éš”æ¡
 
         private void DrawVerticalSplitter(ref bool isDragging, ref float width, float minWidth, float maxWidth)
         {
-            Rect splitterRect = EditorGUILayout.BeginVertical(GUILayout.Width(5), GUILayout.ExpandHeight(true));
+            Rect splitterRect = EditorGUILayout.BeginVertical(GUILayout.Width(4), GUILayout.ExpandHeight(true));
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndVertical();
 
+            SirenixEditorGUI.DrawSolidRect(splitterRect, new Color(0.3f, 0.3f, 0.3f, 0.5f));
             EditorGUIUtility.AddCursorRect(splitterRect, MouseCursor.ResizeHorizontal);
 
             if (Event.current.type == EventType.MouseDown && splitterRect.Contains(Event.current.mousePosition))
@@ -445,11 +1144,12 @@ namespace TabernaNoctis.Editor
 
         #endregion
 
-        #region JSONµ¼Èë¹¦ÄÜ£¨±£ÁôÔ­ÓĞ£©
+        #region JSONå¯¼å…¥åŠŸèƒ½
 
         private void ImportAllCards()
         {
-            logOutput = "=== ¿ªÊ¼µ¼ÈëËùÓĞ¿¨ÅÆÊı¾İ ===\n";
+            logOutput = "å¼€å§‹å¯¼å…¥æ‰€æœ‰å¡ç‰Œæ•°æ®\n";
+            logOutput += "=====================================\n";
             Repaint();
 
             bool success = true;
@@ -458,12 +1158,13 @@ namespace TabernaNoctis.Editor
 
             if (success)
             {
-                Log("=== ËùÓĞ¿¨ÅÆÊı¾İµ¼ÈëÍê³É£¡ ===");
-                EditorUtility.DisplayDialog("µ¼Èë³É¹¦", "ËùÓĞ¿¨ÅÆÊı¾İÒÑ³É¹¦µ¼Èë²¢Éú³ÉScriptableObject×ÊÔ´£¡", "È·¶¨");
+                Log("=====================================");
+                Log("æ‰€æœ‰å¡ç‰Œæ•°æ®å¯¼å…¥å®Œæˆ");
+                EditorUtility.DisplayDialog("å¯¼å…¥æˆåŠŸ", "æ‰€æœ‰å¡ç‰Œæ•°æ®å·²æˆåŠŸå¯¼å…¥å¹¶ç”ŸæˆScriptableObjectèµ„æº", "ç¡®å®š");
             }
             else
             {
-                EditorUtility.DisplayDialog("µ¼ÈëÊ§°Ü", "²¿·ÖÊı¾İµ¼ÈëÊ§°Ü£¬Çë²é¿´ÈÕÖ¾¡£", "È·¶¨");
+                EditorUtility.DisplayDialog("å¯¼å…¥å¤±è´¥", "éƒ¨åˆ†æ•°æ®å¯¼å…¥å¤±è´¥ï¼Œè¯·æŸ¥çœ‹æ—¥å¿—", "ç¡®å®š");
             }
         }
 
@@ -471,11 +1172,11 @@ namespace TabernaNoctis.Editor
         {
             try
             {
-                Log("\n--- ¿ªÊ¼µ¼Èë¼¦Î²¾ÆÊı¾İ ---");
+                Log("\n[å¯¼å…¥é¸¡å°¾é…’]");
 
                 if (!File.Exists(COCKTAILS_JSON_PATH))
                 {
-                    LogError($"ÕÒ²»µ½JSONÎÄ¼ş: {COCKTAILS_JSON_PATH}");
+                    LogError($"æ‰¾ä¸åˆ°JSONæ–‡ä»¶: {COCKTAILS_JSON_PATH}");
                     return false;
                 }
 
@@ -484,11 +1185,11 @@ namespace TabernaNoctis.Editor
 
                 if (cocktailsData == null || cocktailsData.cocktails == null)
                 {
-                    LogError("JSON½âÎöÊ§°Ü»òÊı¾İÎª¿Õ");
+                    LogError("JSONè§£æå¤±è´¥æˆ–æ•°æ®ä¸ºç©º");
                     return false;
                 }
 
-                Log($"³É¹¦½âÎöJSON£¬ÕÒµ½ {cocktailsData.cocktails.Count} ¸ö¼¦Î²¾Æ");
+                Log($"è§£ææˆåŠŸï¼Œæ‰¾åˆ° {cocktailsData.cocktails.Count} ä¸ªé¸¡å°¾é…’");
 
                 EnsureFolderExists(COCKTAILS_FOLDER);
 
@@ -500,8 +1201,8 @@ namespace TabernaNoctis.Editor
                 for (int i = 0; i < cocktailsData.cocktails.Count; i++)
                 {
                     var jsonData = cocktailsData.cocktails[i];
-                    EditorUtility.DisplayProgressBar("µ¼Èë¼¦Î²¾Æ", 
-                        $"ÕıÔÚµ¼Èë: {jsonData.name_cn}", 
+                    EditorUtility.DisplayProgressBar("å¯¼å…¥é¸¡å°¾é…’", 
+                        $"æ­£åœ¨å¯¼å…¥: {jsonData.name_cn}", 
                         (float)i / cocktailsData.cocktails.Count);
 
                     var result = CreateCocktailSO(jsonData, i + 1, out bool spriteLoaded);
@@ -519,23 +1220,22 @@ namespace TabernaNoctis.Editor
 
                 EditorUtility.ClearProgressBar();
 
-                Log($"7½7 ¼¦Î²¾Æµ¼ÈëÍê³É: {successCount}/{cocktailsData.cocktails.Count} ³É¹¦");
+                Log($"é¸¡å°¾é…’å¯¼å…¥å®Œæˆ: {successCount}/{cocktailsData.cocktails.Count} æˆåŠŸ");
                 if (incrementalUpdate)
                 {
-                    Log($"  ©À©¤ ĞÂ½¨: {successCount - updatedCount} ¸ö");
-                    Log($"  ©À©¤ ¸üĞÂ: {updatedCount} ¸ö");
-                    Log($"  ©¸©¤ Ìø¹ı: {skippedCount} ¸ö£¨Î´ĞŞ¸Ä£©");
+                    Log($"  æ–°å»º: {successCount - updatedCount} | æ›´æ–°: {updatedCount} | è·³è¿‡: {skippedCount}");
                 }
-                Log($"  ©¸©¤ ¾«Áé¼ÓÔØ: {spriteLoadedCount}/{successCount} ³É¹¦");
+                Log($"  ç²¾çµåŠ è½½: {spriteLoadedCount}/{successCount}");
                 
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+                LoadAllCards();
                 return true;
             }
             catch (System.Exception e)
             {
                 EditorUtility.ClearProgressBar();
-                LogError($"µ¼Èë¼¦Î²¾ÆÊ±·¢Éú´íÎó: {e.Message}");
+                LogError($"å¯¼å…¥é¸¡å°¾é…’æ—¶å‘ç”Ÿé”™è¯¯: {e.Message}");
                 Debug.LogException(e);
                 return false;
             }
@@ -545,11 +1245,11 @@ namespace TabernaNoctis.Editor
         {
             try
             {
-                Log("\n--- ¿ªÊ¼µ¼Èë²ÄÁÏÊı¾İ ---");
+                Log("\n[å¯¼å…¥ææ–™]");
 
                 if (!File.Exists(MATERIALS_JSON_PATH))
                 {
-                    LogError($"ÕÒ²»µ½JSONÎÄ¼ş: {MATERIALS_JSON_PATH}");
+                    LogError($"æ‰¾ä¸åˆ°JSONæ–‡ä»¶: {MATERIALS_JSON_PATH}");
                     return false;
                 }
 
@@ -558,11 +1258,11 @@ namespace TabernaNoctis.Editor
 
                 if (materialsData == null || materialsData.materials == null)
                 {
-                    LogError("JSON½âÎöÊ§°Ü»òÊı¾İÎª¿Õ");
+                    LogError("JSONè§£æå¤±è´¥æˆ–æ•°æ®ä¸ºç©º");
                     return false;
                 }
 
-                Log($"³É¹¦½âÎöJSON£¬ÕÒµ½ {materialsData.materials.Count} ¸ö²ÄÁÏ");
+                Log($"è§£ææˆåŠŸï¼Œæ‰¾åˆ° {materialsData.materials.Count} ä¸ªææ–™");
 
                 EnsureFolderExists(MATERIALS_FOLDER);
 
@@ -574,8 +1274,8 @@ namespace TabernaNoctis.Editor
                 for (int i = 0; i < materialsData.materials.Count; i++)
                 {
                     var jsonData = materialsData.materials[i];
-                    EditorUtility.DisplayProgressBar("µ¼Èë²ÄÁÏ", 
-                        $"ÕıÔÚµ¼Èë: {jsonData.name_cn}", 
+                    EditorUtility.DisplayProgressBar("å¯¼å…¥ææ–™", 
+                        $"æ­£åœ¨å¯¼å…¥: {jsonData.name_cn}", 
                         (float)i / materialsData.materials.Count);
 
                     var result = CreateMaterialSO(jsonData, out bool spriteLoaded);
@@ -593,23 +1293,22 @@ namespace TabernaNoctis.Editor
 
                 EditorUtility.ClearProgressBar();
 
-                Log($"7½7 ²ÄÁÏµ¼ÈëÍê³É: {successCount}/{materialsData.materials.Count} ³É¹¦");
+                Log($"ææ–™å¯¼å…¥å®Œæˆ: {successCount}/{materialsData.materials.Count} æˆåŠŸ");
                 if (incrementalUpdate)
                 {
-                    Log($"  ©À©¤ ĞÂ½¨: {successCount - updatedCount} ¸ö");
-                    Log($"  ©À©¤ ¸üĞÂ: {updatedCount} ¸ö");
-                    Log($"  ©¸©¤ Ìø¹ı: {skippedCount} ¸ö£¨Î´ĞŞ¸Ä£©");
+                    Log($"  æ–°å»º: {successCount - updatedCount} | æ›´æ–°: {updatedCount} | è·³è¿‡: {skippedCount}");
                 }
-                Log($"  ©¸©¤ ¾«Áé¼ÓÔØ: {spriteLoadedCount}/{successCount} ³É¹¦");
+                Log($"  ç²¾çµåŠ è½½: {spriteLoadedCount}/{successCount}");
                 
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+                LoadAllCards();
                 return true;
             }
             catch (System.Exception e)
             {
                 EditorUtility.ClearProgressBar();
-                LogError($"µ¼Èë²ÄÁÏÊ±·¢Éú´íÎó: {e.Message}");
+                LogError($"å¯¼å…¥ææ–™æ—¶å‘ç”Ÿé”™è¯¯: {e.Message}");
                 Debug.LogException(e);
                 return false;
             }
@@ -617,11 +1316,12 @@ namespace TabernaNoctis.Editor
 
         #endregion
 
-        #region ÊÖ¶¯´´½¨¹¦ÄÜ£¨ĞÂÔö£©
+        #region æ‰‹åŠ¨åˆ›å»ºåŠŸèƒ½
 
         private void CreateCardManually()
         {
-            logOutput = "=== ¿ªÊ¼ÊÖ¶¯´´½¨¿¨ÅÆ ===\n";
+            logOutput = "å¼€å§‹æ‰‹åŠ¨åˆ›å»ºå¡ç‰Œ\n";
+            logOutput += "=====================================\n";
             
             try
             {
@@ -634,26 +1334,24 @@ namespace TabernaNoctis.Editor
                     CreateMaterialManually();
                 }
                 
-                EditorUtility.DisplayDialog("´´½¨³É¹¦", "¿¨ÅÆÒÑ³É¹¦´´½¨²¢Ğ´ÈëJSON£¡", "È·¶¨");
+                EditorUtility.DisplayDialog("åˆ›å»ºæˆåŠŸ", "å¡ç‰Œå·²æˆåŠŸåˆ›å»ºå¹¶å†™å…¥JSON", "ç¡®å®š");
             }
             catch (System.Exception e)
             {
-                EditorUtility.DisplayDialog("´´½¨Ê§°Ü", $"´´½¨¿¨ÅÆÊ±·¢Éú´íÎó£º{e.Message}", "È·¶¨");
-                LogError($"´´½¨Ê§°Ü: {e.Message}");
+                EditorUtility.DisplayDialog("åˆ›å»ºå¤±è´¥", $"åˆ›å»ºå¡ç‰Œæ—¶å‘ç”Ÿé”™è¯¯ï¼š{e.Message}", "ç¡®å®š");
+                LogError($"åˆ›å»ºå¤±è´¥: {e.Message}");
                 Debug.LogException(e);
             }
         }
 
         private void CreateCocktailManually()
         {
-            // ÑéÖ¤Êı¾İ
             if (string.IsNullOrEmpty(cocktailFormData.name_cn) || string.IsNullOrEmpty(cocktailFormData.name_en))
             {
-                LogError("Ãû³Æ²»ÄÜÎª¿Õ£¡");
+                LogError("åç§°ä¸èƒ½ä¸ºç©º");
                 return;
             }
 
-            // ¶ÁÈ¡ÏÖÓĞJSON
             CocktailsWrapper wrapper;
             if (File.Exists(COCKTAILS_JSON_PATH))
             {
@@ -665,45 +1363,40 @@ namespace TabernaNoctis.Editor
                 wrapper = new CocktailsWrapper { cocktails = new List<JsonCocktailData>() };
             }
 
-            // Ìí¼Óµ½ÁĞ±í
             wrapper.cocktails.Add(cocktailFormData);
             
-            // Ğ´ÈëJSON
             string newJson = JsonUtility.ToJson(wrapper, true);
             File.WriteAllText(COCKTAILS_JSON_PATH, newJson);
             AssetDatabase.Refresh();
 
-            Log($"7½7 ÒÑĞ´ÈëJSON: {cocktailFormData.name_cn}");
+            Log($"å·²å†™å…¥JSON: {cocktailFormData.name_cn}");
 
-            // ´´½¨SO
             int id = wrapper.cocktails.Count;
             CreateCocktailSO(cocktailFormData, id, out bool spriteLoaded);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            Log($"7½7 ÒÑ´´½¨SO: Cocktail_{id:D3}_{cocktailFormData.name_cn}");
-            Log("=== ´´½¨Íê³É ===");
+            Log($"å·²åˆ›å»ºSO: Cocktail_{id:D3}_{cocktailFormData.name_cn}");
+            Log("åˆ›å»ºå®Œæˆ");
 
-            // ÖØÖÃ±íµ¥
+            LoadAllCards();
             cocktailFormData = new JsonCocktailData { effects = new JsonCardEffects() };
         }
 
         private void CreateMaterialManually()
         {
-            // ÑéÖ¤Êı¾İ
             if (string.IsNullOrEmpty(materialFormData.name_cn) || string.IsNullOrEmpty(materialFormData.name_en))
             {
-                LogError("Ãû³Æ²»ÄÜÎª¿Õ£¡");
+                LogError("åç§°ä¸èƒ½ä¸ºç©º");
                 return;
             }
 
             if (materialFormData.id <= 0)
             {
-                LogError("ID±ØĞë´óÓÚ0£¡");
+                LogError("IDå¿…é¡»å¤§äº0");
                 return;
             }
 
-            // ¶ÁÈ¡ÏÖÓĞJSON
             MaterialsWrapper wrapper;
             if (File.Exists(MATERIALS_JSON_PATH))
             {
@@ -715,59 +1408,57 @@ namespace TabernaNoctis.Editor
                 wrapper = new MaterialsWrapper { materials = new List<JsonMaterialData>() };
             }
 
-            // ¼ì²éIDÊÇ·ñÒÑ´æÔÚ
             if (wrapper.materials.Exists(m => m.id == materialFormData.id))
             {
-                LogError($"ID {materialFormData.id} ÒÑ´æÔÚ£¡");
+                LogError($"ID {materialFormData.id} å·²å­˜åœ¨");
                 return;
             }
 
-            // Ìí¼Óµ½ÁĞ±í
             wrapper.materials.Add(materialFormData);
             
-            // Ğ´ÈëJSON
             string newJson = JsonUtility.ToJson(wrapper, true);
             File.WriteAllText(MATERIALS_JSON_PATH, newJson);
             AssetDatabase.Refresh();
 
-            Log($"7½7 ÒÑĞ´ÈëJSON: {materialFormData.name_cn}");
+            Log($"å·²å†™å…¥JSON: {materialFormData.name_cn}");
 
-            // ´´½¨SO
             CreateMaterialSO(materialFormData, out bool spriteLoaded);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            Log($"7½7 ÒÑ´´½¨SO: Material_{materialFormData.id:D3}_{materialFormData.name_cn}");
-            Log("=== ´´½¨Íê³É ===");
+            Log($"å·²åˆ›å»ºSO: Material_{materialFormData.id:D3}_{materialFormData.name_cn}");
+            Log("åˆ›å»ºå®Œæˆ");
 
-            // ÖØÖÃ±íµ¥
+            LoadAllCards();
             materialFormData = new JsonMaterialData { effects = new JsonCardEffects() };
         }
 
         #endregion
 
-        #region Ç¿ÖÆ¸üĞÂ¹¦ÄÜ£¨ĞÂÔö£©
+        #region å¼ºåˆ¶æ›´æ–°åŠŸèƒ½
 
         private void ForceUpdateAll()
         {
-            logOutput = "=== ¿ªÊ¼Ç¿ÖÆ¸üĞÂËùÓĞ¿¨ÅÆ ===\n";
+            logOutput = "å¼€å§‹å¼ºåˆ¶æ›´æ–°æ‰€æœ‰å¡ç‰Œ\n";
+            logOutput += "=====================================\n";
             
             ForceUpdateCocktails();
             ForceUpdateMaterials();
             
-            Log("=== Ç¿ÖÆ¸üĞÂÍê³É ===");
-            EditorUtility.DisplayDialog("¸üĞÂÍê³É", "ËùÓĞ¿¨ÅÆÒÑÇ¿ÖÆ¸üĞÂ£¡", "È·¶¨");
+            Log("=====================================");
+            Log("å¼ºåˆ¶æ›´æ–°å®Œæˆ");
+            EditorUtility.DisplayDialog("æ›´æ–°å®Œæˆ", "æ‰€æœ‰å¡ç‰Œå·²å¼ºåˆ¶æ›´æ–°", "ç¡®å®š");
         }
 
         private void ForceUpdateCocktails()
         {
             try
             {
-                Log("\n--- Ç¿ÖÆ¸üĞÂ¼¦Î²¾Æ ---");
+                Log("\n[å¼ºåˆ¶æ›´æ–°é¸¡å°¾é…’]");
 
                 if (!File.Exists(COCKTAILS_JSON_PATH))
                 {
-                    LogError($"ÕÒ²»µ½JSONÎÄ¼ş: {COCKTAILS_JSON_PATH}");
+                    LogError($"æ‰¾ä¸åˆ°JSONæ–‡ä»¶: {COCKTAILS_JSON_PATH}");
                     return;
                 }
 
@@ -776,13 +1467,12 @@ namespace TabernaNoctis.Editor
 
                 if (cocktailsData == null || cocktailsData.cocktails == null)
                 {
-                    LogError("JSON½âÎöÊ§°Ü»òÊı¾İÎª¿Õ");
+                    LogError("JSONè§£æå¤±è´¥æˆ–æ•°æ®ä¸ºç©º");
                     return;
                 }
 
                 EnsureFolderExists(COCKTAILS_FOLDER);
 
-                // ÁÙÊ±¹Ø±ÕÔöÁ¿¸üĞÂ
                 bool oldIncrementalSetting = incrementalUpdate;
                 incrementalUpdate = false;
 
@@ -790,38 +1480,35 @@ namespace TabernaNoctis.Editor
                 for (int i = 0; i < cocktailsData.cocktails.Count; i++)
                 {
                     var jsonData = cocktailsData.cocktails[i];
-                    EditorUtility.DisplayProgressBar("Ç¿ÖÆ¸üĞÂ¼¦Î²¾Æ", 
-                        $"ÕıÔÚ¸üĞÂ: {jsonData.name_cn}", 
+                    EditorUtility.DisplayProgressBar("å¼ºåˆ¶æ›´æ–°é¸¡å°¾é…’", 
+                        $"æ­£åœ¨æ›´æ–°: {jsonData.name_cn}", 
                         (float)i / cocktailsData.cocktails.Count);
 
                     string fileName = $"Cocktail_{i + 1:D3}_{jsonData.name_cn}.asset";
                     string assetPath = Path.Combine(COCKTAILS_FOLDER, fileName);
 
-                    // É¾³ıÏÖÓĞ×ÊÔ´
                     if (File.Exists(assetPath))
                     {
                         AssetDatabase.DeleteAsset(assetPath);
                     }
 
-                    // ÖØĞÂ´´½¨
                     CreateCocktailSO(jsonData, i + 1, out bool spriteLoaded);
                     successCount++;
-                    Log($"  6Ê7 Ç¿ÖÆ¸üĞÂ: {fileName}");
+                    Log($"  å¼ºåˆ¶æ›´æ–°: {fileName}");
                 }
 
                 EditorUtility.ClearProgressBar();
-                
-                // »Ö¸´ÉèÖÃ
                 incrementalUpdate = oldIncrementalSetting;
 
-                Log($"7½7 ¼¦Î²¾ÆÇ¿ÖÆ¸üĞÂÍê³É: {successCount}/{cocktailsData.cocktails.Count}");
+                Log($"é¸¡å°¾é…’å¼ºåˆ¶æ›´æ–°å®Œæˆ: {successCount}/{cocktailsData.cocktails.Count}");
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+                LoadAllCards();
             }
             catch (System.Exception e)
             {
                 EditorUtility.ClearProgressBar();
-                LogError($"Ç¿ÖÆ¸üĞÂ¼¦Î²¾ÆÊ±·¢Éú´íÎó: {e.Message}");
+                LogError($"å¼ºåˆ¶æ›´æ–°é¸¡å°¾é…’æ—¶å‘ç”Ÿé”™è¯¯: {e.Message}");
                 Debug.LogException(e);
             }
         }
@@ -830,11 +1517,11 @@ namespace TabernaNoctis.Editor
         {
             try
             {
-                Log("\n--- Ç¿ÖÆ¸üĞÂ²ÄÁÏ ---");
+                Log("\n[å¼ºåˆ¶æ›´æ–°ææ–™]");
 
                 if (!File.Exists(MATERIALS_JSON_PATH))
                 {
-                    LogError($"ÕÒ²»µ½JSONÎÄ¼ş: {MATERIALS_JSON_PATH}");
+                    LogError($"æ‰¾ä¸åˆ°JSONæ–‡ä»¶: {MATERIALS_JSON_PATH}");
                     return;
                 }
 
@@ -843,13 +1530,12 @@ namespace TabernaNoctis.Editor
 
                 if (materialsData == null || materialsData.materials == null)
                 {
-                    LogError("JSON½âÎöÊ§°Ü»òÊı¾İÎª¿Õ");
+                    LogError("JSONè§£æå¤±è´¥æˆ–æ•°æ®ä¸ºç©º");
                     return;
                 }
 
                 EnsureFolderExists(MATERIALS_FOLDER);
 
-                // ÁÙÊ±¹Ø±ÕÔöÁ¿¸üĞÂ
                 bool oldIncrementalSetting = incrementalUpdate;
                 incrementalUpdate = false;
 
@@ -857,45 +1543,42 @@ namespace TabernaNoctis.Editor
                 for (int i = 0; i < materialsData.materials.Count; i++)
                 {
                     var jsonData = materialsData.materials[i];
-                    EditorUtility.DisplayProgressBar("Ç¿ÖÆ¸üĞÂ²ÄÁÏ", 
-                        $"ÕıÔÚ¸üĞÂ: {jsonData.name_cn}", 
+                    EditorUtility.DisplayProgressBar("å¼ºåˆ¶æ›´æ–°ææ–™", 
+                        $"æ­£åœ¨æ›´æ–°: {jsonData.name_cn}", 
                         (float)i / materialsData.materials.Count);
 
                     string fileName = $"Material_{jsonData.id:D3}_{jsonData.name_cn}.asset";
                     string assetPath = Path.Combine(MATERIALS_FOLDER, fileName);
 
-                    // É¾³ıÏÖÓĞ×ÊÔ´
                     if (File.Exists(assetPath))
                     {
                         AssetDatabase.DeleteAsset(assetPath);
                     }
 
-                    // ÖØĞÂ´´½¨
                     CreateMaterialSO(jsonData, out bool spriteLoaded);
                     successCount++;
-                    Log($"  6Ê7 Ç¿ÖÆ¸üĞÂ: {fileName}");
+                    Log($"  å¼ºåˆ¶æ›´æ–°: {fileName}");
                 }
 
                 EditorUtility.ClearProgressBar();
-                
-                // »Ö¸´ÉèÖÃ
                 incrementalUpdate = oldIncrementalSetting;
 
-                Log($"7½7 ²ÄÁÏÇ¿ÖÆ¸üĞÂÍê³É: {successCount}/{materialsData.materials.Count}");
+                Log($"ææ–™å¼ºåˆ¶æ›´æ–°å®Œæˆ: {successCount}/{materialsData.materials.Count}");
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+                LoadAllCards();
             }
             catch (System.Exception e)
             {
                 EditorUtility.ClearProgressBar();
-                LogError($"Ç¿ÖÆ¸üĞÂ²ÄÁÏÊ±·¢Éú´íÎó: {e.Message}");
+                LogError($"å¼ºåˆ¶æ›´æ–°ææ–™æ—¶å‘ç”Ÿé”™è¯¯: {e.Message}");
                 Debug.LogException(e);
             }
         }
 
         #endregion
 
-        #region SO´´½¨·½·¨£¨±£ÁôÔ­ÓĞ£©
+        #region SOåˆ›å»ºæ–¹æ³•
 
         private ImportResult CreateCocktailSO(JsonCocktailData jsonData, int id, out bool spriteLoaded)
         {
@@ -905,7 +1588,6 @@ namespace TabernaNoctis.Editor
                 string fileName = $"Cocktail_{id:D3}_{jsonData.name_cn}.asset";
                 string assetPath = Path.Combine(COCKTAILS_FOLDER, fileName);
 
-                // ÔöÁ¿¸üĞÂ£º¼ì²éÏÖÓĞ×ÊÔ´
                 CocktailCardSO existingCocktail = null;
                 bool isUpdate = false;
                 if (incrementalUpdate && File.Exists(assetPath))
@@ -913,28 +1595,26 @@ namespace TabernaNoctis.Editor
                     existingCocktail = AssetDatabase.LoadAssetAtPath<CocktailCardSO>(assetPath);
                     if (existingCocktail != null)
                     {
-                        // ±È½ÏÊı¾İÊÇ·ñÏàÍ¬
                         if (IsCocktailDataSame(existingCocktail, jsonData, id))
                         {
-                            Log($"  ¡Ñ Ìø¹ı: {fileName} (Î´ĞŞ¸Ä)");
+                            Log($"  è·³è¿‡: {fileName} (æœªä¿®æ”¹)");
                             return ImportResult.Skipped;
                         }
                         isUpdate = true;
                     }
                 }
 
-                // ´´½¨»òÊ¹ÓÃÏÖÓĞÊµÀı
                 CocktailCardSO cocktail = existingCocktail ?? ScriptableObject.CreateInstance<CocktailCardSO>();
 
-                // Ó³ÉäÊı¾İ
                 cocktail.id = id;
                 cocktail.nameCN = jsonData.name_cn;
                 cocktail.nameEN = jsonData.name_en;
                 cocktail.category = jsonData.category;
+                cocktail.tags = jsonData.tags ?? new string[0];  // æ ‡ç­¾å¤„ç†
+                cocktail.themeColor = GetThemeColorFromTags(cocktail.tags);  // æ ¹æ®æ ‡ç­¾è®¾ç½®é¢œè‰²åŸºè°ƒ
                 cocktail.feature = jsonData.feature;
                 cocktail.uiPath = jsonData.ui_path;
 
-                // ³¢ÊÔ¼ÓÔØUI¾«Áé
                 if (!string.IsNullOrEmpty(jsonData.ui_path))
                 {
                     Sprite sprite = Resources.Load<Sprite>(jsonData.ui_path);
@@ -952,14 +1632,9 @@ namespace TabernaNoctis.Editor
                             cocktail.uiSpritePreview = sprite;
                             spriteLoaded = true;
                         }
-                        else
-                        {
-                            Log($"    7²2 Î´ÕÒµ½¾«Áé: {jsonData.ui_path}");
-                        }
                     }
                 }
 
-                // Ó³ÉäĞ§¹û
                 cocktail.effects = new CardEffects
                 {
                     busy = jsonData.effects.busy,
@@ -969,29 +1644,27 @@ namespace TabernaNoctis.Editor
                     friendly = jsonData.effects.friendly
                 };
 
-                // Ó³Éä¾­¼ÃÊı¾İ
                 cocktail.cost = jsonData.cost;
                 cocktail.price = jsonData.price;
                 cocktail.profit = jsonData.profit;
                 cocktail.reputationChange = jsonData.reputation_change;
 
-                // ±£´æ×ÊÔ´
                 if (!isUpdate)
                 {
                     AssetDatabase.CreateAsset(cocktail, assetPath);
-                    Log($"  ¡ú ´´½¨: {fileName}");
+                    Log($"  åˆ›å»º: {fileName}");
                 }
                 else
                 {
                     EditorUtility.SetDirty(cocktail);
-                    Log($"  6Ê7 ¸üĞÂ: {fileName}");
+                    Log($"  æ›´æ–°: {fileName}");
                 }
                 
                 return isUpdate ? ImportResult.Updated : ImportResult.Created;
             }
             catch (System.Exception e)
             {
-                LogError($"´´½¨¼¦Î²¾ÆSOÊ§°Ü ({jsonData.name_cn}): {e.Message}");
+                LogError($"åˆ›å»ºé¸¡å°¾é…’SOå¤±è´¥ ({jsonData.name_cn}): {e.Message}");
                 return ImportResult.Failed;
             }
         }
@@ -1004,7 +1677,6 @@ namespace TabernaNoctis.Editor
                 string fileName = $"Material_{jsonData.id:D3}_{jsonData.name_cn}.asset";
                 string assetPath = Path.Combine(MATERIALS_FOLDER, fileName);
 
-                // ÔöÁ¿¸üĞÂ£º¼ì²éÏÖÓĞ×ÊÔ´
                 MaterialCardSO existingMaterial = null;
                 bool isUpdate = false;
                 if (incrementalUpdate && File.Exists(assetPath))
@@ -1012,28 +1684,26 @@ namespace TabernaNoctis.Editor
                     existingMaterial = AssetDatabase.LoadAssetAtPath<MaterialCardSO>(assetPath);
                     if (existingMaterial != null)
                     {
-                        // ±È½ÏÊı¾İÊÇ·ñÏàÍ¬
                         if (IsMaterialDataSame(existingMaterial, jsonData))
                         {
-                            Log($"  ¡Ñ Ìø¹ı: {fileName} (Î´ĞŞ¸Ä)");
+                            Log($"  è·³è¿‡: {fileName} (æœªä¿®æ”¹)");
                             return ImportResult.Skipped;
                         }
                         isUpdate = true;
                     }
                 }
 
-                // ´´½¨»òÊ¹ÓÃÏÖÓĞÊµÀı
                 MaterialCardSO material = existingMaterial ?? ScriptableObject.CreateInstance<MaterialCardSO>();
 
-                // Ó³ÉäÊı¾İ
                 material.id = jsonData.id;
                 material.nameCN = jsonData.name_cn;
                 material.nameEN = jsonData.name_en;
                 material.category = jsonData.category;
+                material.tags = jsonData.tags ?? new string[0];  // æ ‡ç­¾å¤„ç†
+                material.themeColor = GetThemeColorFromTags(material.tags);  // æ ¹æ®æ ‡ç­¾è®¾ç½®é¢œè‰²åŸºè°ƒ
                 material.feature = jsonData.feature;
                 material.uiPath = jsonData.ui_path;
 
-                // ³¢ÊÔ¼ÓÔØUI¾«Áé
                 if (!string.IsNullOrEmpty(jsonData.ui_path))
                 {
                     Sprite sprite = Resources.Load<Sprite>(jsonData.ui_path);
@@ -1051,14 +1721,9 @@ namespace TabernaNoctis.Editor
                             material.uiSpritePreview = sprite;
                             spriteLoaded = true;
                         }
-                        else
-                        {
-                            Log($"    7²2 Î´ÕÒµ½¾«Áé: {jsonData.ui_path}");
-                        }
                     }
                 }
 
-                // Ó³ÉäĞ§¹û
                 material.effects = new CardEffects
                 {
                     busy = jsonData.effects.busy,
@@ -1068,33 +1733,31 @@ namespace TabernaNoctis.Editor
                     friendly = jsonData.effects.friendly
                 };
 
-                // Ó³Éä¾­¼ÃÊı¾İ
                 material.price = jsonData.price;
 
-                // ±£´æ×ÊÔ´
                 if (!isUpdate)
                 {
                     AssetDatabase.CreateAsset(material, assetPath);
-                    Log($"  ¡ú ´´½¨: {fileName}");
+                    Log($"  åˆ›å»º: {fileName}");
                 }
                 else
                 {
                     EditorUtility.SetDirty(material);
-                    Log($"  6Ê7 ¸üĞÂ: {fileName}");
+                    Log($"  æ›´æ–°: {fileName}");
                 }
                 
                 return isUpdate ? ImportResult.Updated : ImportResult.Created;
             }
             catch (System.Exception e)
             {
-                LogError($"´´½¨²ÄÁÏSOÊ§°Ü ({jsonData.name_cn}): {e.Message}");
+                LogError($"åˆ›å»ºææ–™SOå¤±è´¥ ({jsonData.name_cn}): {e.Message}");
                 return ImportResult.Failed;
             }
         }
 
         #endregion
 
-        #region Êı¾İ±È½Ï·½·¨
+        #region æ•°æ®æ¯”è¾ƒæ–¹æ³•
 
         private bool IsCocktailDataSame(CocktailCardSO existing, JsonCocktailData jsonData, int id)
         {
@@ -1133,7 +1796,45 @@ namespace TabernaNoctis.Editor
 
         #endregion
 
-        #region ¸¨Öú·½·¨
+        #region åŠ è½½å¡ç‰Œåˆ—è¡¨
+
+        private void LoadAllCards()
+        {
+            loadedCocktails.Clear();
+            loadedMaterials.Clear();
+
+            string[] cocktailGuids = AssetDatabase.FindAssets("t:CocktailCardSO", new[] { COCKTAILS_FOLDER });
+            foreach (string guid in cocktailGuids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                CocktailCardSO cocktail = AssetDatabase.LoadAssetAtPath<CocktailCardSO>(path);
+                if (cocktail != null)
+                {
+                    loadedCocktails.Add(cocktail);
+                }
+            }
+
+            loadedCocktails.Sort((a, b) => a.id.CompareTo(b.id));
+
+            string[] materialGuids = AssetDatabase.FindAssets("t:MaterialCardSO", new[] { MATERIALS_FOLDER });
+            foreach (string guid in materialGuids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                MaterialCardSO material = AssetDatabase.LoadAssetAtPath<MaterialCardSO>(path);
+                if (material != null)
+                {
+                    loadedMaterials.Add(material);
+                }
+            }
+
+            loadedMaterials.Sort((a, b) => a.id.CompareTo(b.id));
+
+            Debug.Log($"[CardMaker] å·²åŠ è½½ {loadedCocktails.Count} ä¸ªé¸¡å°¾é…’, {loadedMaterials.Count} ä¸ªææ–™");
+        }
+
+        #endregion
+
+        #region è¾…åŠ©æ–¹æ³•
 
         private void EnsureFolderExists(string folderPath)
         {
@@ -1148,21 +1849,21 @@ namespace TabernaNoctis.Editor
                 }
 
                 AssetDatabase.CreateFolder(parentFolder, newFolderName);
-                Log($"´´½¨ÎÄ¼ş¼Ğ: {folderPath}");
+                Log($"åˆ›å»ºæ–‡ä»¶å¤¹: {folderPath}");
             }
         }
 
         private void Log(string message)
         {
             logOutput += message + "\n";
-            Debug.Log(message);
+            Debug.Log("[CardMaker] " + message);
             Repaint();
         }
 
         private void LogError(string message)
         {
-            logOutput += "7¾1 ´íÎó: " + message + "\n";
-            Debug.LogError(message);
+            logOutput += "[é”™è¯¯] " + message + "\n";
+            Debug.LogError("[CardMaker] " + message);
             Repaint();
         }
 

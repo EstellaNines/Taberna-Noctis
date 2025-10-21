@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Sweet Vermouth
   category: "\u8C03\u5473\u9152\u7C7B"
   feature: "\u591A\u72B6\u6001\u9002\u7528\uFF0C\u751C\u5473\u5E73\u8861"
+  tags:
+  - "\u8C03\u5473\u9152"
+  themeColor: {r: 1, g: 0.95, b: 0.7, a: 1}
   effects:
     busy: 0
     impatient: 1

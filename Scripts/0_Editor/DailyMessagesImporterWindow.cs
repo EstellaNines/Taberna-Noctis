@@ -8,24 +8,24 @@ public class DailyMessagesImporterWindow : EditorWindow
     private string _assetName = "DailyMessagesData";
     private string _saveFolder = "Assets/Scripts/0_ScriptableObject";
 
-    [MenuItem("×ÔÖÆ¹¤¾ß/Êı¾İµ¼Èë/JSON¡úÃ¿ÈÕÏûÏ¢SO ×ª»»Æ÷")] 
+    [MenuItem("è‡ªåˆ¶å·¥å…·/æ•°æ®å¯¼å…¥/JSONâ†’æ¯æ—¥æ¶ˆæ¯SO è½¬æ¢å™¨")] 
     public static void Open()
     {
-        var wnd = GetWindow<DailyMessagesImporterWindow>(true, "JSON¡úÃ¿ÈÕÏûÏ¢SO ×ª»»Æ÷");
+        var wnd = GetWindow<DailyMessagesImporterWindow>(true, "JSONâ†’æ¯æ—¥æ¶ˆæ¯SO è½¬æ¢å™¨");
         wnd.minSize = new Vector2(520, 160);
         wnd.Show();
     }
 
     private void OnGUI()
     {
-        GUILayout.Label("½« DailyMessages.json ×ªÎª ScriptableObject", EditorStyles.boldLabel);
-        _json = (TextAsset)EditorGUILayout.ObjectField("JSON ÎÄ¼ş", _json, typeof(TextAsset), false);
-        _assetName = EditorGUILayout.TextField("SO Ãû³Æ", _assetName);
+        GUILayout.Label("å°† DailyMessages.json è½¬ä¸º ScriptableObject", EditorStyles.boldLabel);
+        _json = (TextAsset)EditorGUILayout.ObjectField("JSON æ–‡ä»¶", _json, typeof(TextAsset), false);
+        _assetName = EditorGUILayout.TextField("SO åç§°", _assetName);
         EditorGUILayout.BeginHorizontal();
-        _saveFolder = EditorGUILayout.TextField("±£´æÄ¿Â¼", _saveFolder);
-        if (GUILayout.Button("Ñ¡Ôñ¡­", GUILayout.Width(72)))
+        _saveFolder = EditorGUILayout.TextField("ä¿å­˜ç›®å½•", _saveFolder);
+        if (GUILayout.Button("é€‰æ‹©â€¦", GUILayout.Width(72)))
         {
-            var abs = EditorUtility.OpenFolderPanel("Ñ¡Ôñ±£´æÄ¿Â¼(AssetsÏÂ)", Application.dataPath, "");
+            var abs = EditorUtility.OpenFolderPanel("é€‰æ‹©ä¿å­˜ç›®å½•(Assetsä¸‹)", Application.dataPath, "");
             if (!string.IsNullOrEmpty(abs))
             {
                 var proj = Application.dataPath.Substring(0, Application.dataPath.Length - "Assets".Length);
@@ -33,7 +33,7 @@ public class DailyMessagesImporterWindow : EditorWindow
                 {
                     _saveFolder = abs.Substring(proj.Length).Replace("\\", "/");
                 }
-                else EditorUtility.DisplayDialog("Â·¾¶´íÎó", "ÇëÑ¡ÔñÏîÄ¿ Assets Ä¿Â¼ÄÚµÄÂ·¾¶", "ºÃµÄ");
+                else EditorUtility.DisplayDialog("è·¯å¾„é”™è¯¯", "è¯·é€‰æ‹©é¡¹ç›® Assets ç›®å½•å†…çš„è·¯å¾„", "å¥½çš„");
             }
         }
         EditorGUILayout.EndHorizontal();
@@ -41,7 +41,7 @@ public class DailyMessagesImporterWindow : EditorWindow
         GUILayout.Space(8);
         using (new EditorGUI.DisabledScope(_json == null || string.IsNullOrEmpty(_assetName)))
         {
-            if (GUILayout.Button("×ª»»²¢±£´æ SO"))
+            if (GUILayout.Button("è½¬æ¢å¹¶ä¿å­˜ SO"))
             {
                 ConvertAndSave();
             }
@@ -52,7 +52,7 @@ public class DailyMessagesImporterWindow : EditorWindow
     {
         if (_json == null)
         {
-            EditorUtility.DisplayDialog("Ê§°Ü", "ÇëÏÈÖ¸¶¨ JSON ÎÄ¼ş", "ºÃµÄ");
+            EditorUtility.DisplayDialog("å¤±è´¥", "è¯·å…ˆæŒ‡å®š JSON æ–‡ä»¶", "å¥½çš„");
             return;
         }
         DailyMessagesData.Root root = null;
@@ -62,12 +62,12 @@ public class DailyMessagesImporterWindow : EditorWindow
         }
         catch (System.Exception e)
         {
-            EditorUtility.DisplayDialog("½âÎöÊ§°Ü", "Json ½âÎö´íÎó: " + e.Message, "ºÃµÄ");
+            EditorUtility.DisplayDialog("è§£æå¤±è´¥", "Json è§£æé”™è¯¯: " + e.Message, "å¥½çš„");
             return;
         }
         if (root == null || root.messages == null || root.messages.Count == 0)
         {
-            EditorUtility.DisplayDialog("×ª»»½á¹ûÎª¿Õ", "JSON ÖĞÎ´ÕÒµ½ messages£¬»òÊıÁ¿Îª 0", "ºÃµÄ");
+            EditorUtility.DisplayDialog("è½¬æ¢ç»“æœä¸ºç©º", "JSON ä¸­æœªæ‰¾åˆ° messagesï¼Œæˆ–æ•°é‡ä¸º 0", "å¥½çš„");
             return;
         }
 
@@ -77,11 +77,11 @@ public class DailyMessagesImporterWindow : EditorWindow
             AssetDatabase.Refresh();
         }
         var so = ScriptableObject.CreateInstance<DailyMessagesData>();
-        so.jsonResourcePath = string.Empty; // ¶ÀÁ¢ÓÚ Resources Â·¾¶
+        so.jsonResourcePath = string.Empty; // ç‹¬ç«‹äº Resources è·¯å¾„
         var soPath = Path.Combine(_saveFolder, _assetName + ".asset").Replace("\\", "/");
         AssetDatabase.CreateAsset(so, soPath);
 
-        // Í¨¹ı SerializedObject Ğ´ÈëÁĞ±íÄÚÈİ
+        // é€šè¿‡ SerializedObject å†™å…¥åˆ—è¡¨å†…å®¹
         var ser = new SerializedObject(so);
         var list = ser.FindProperty("messagesInSO");
         list.arraySize = 0;
@@ -116,7 +116,7 @@ public class DailyMessagesImporterWindow : EditorWindow
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         EditorGUIUtility.PingObject(so);
-        EditorUtility.DisplayDialog("³É¹¦", $"ÒÑ´´½¨ SO: {soPath}\nÌõÄ¿: {root.messages.Count}", "ºÃµÄ");
+        EditorUtility.DisplayDialog("æˆåŠŸ", $"å·²åˆ›å»º SO: {soPath}\næ¡ç›®: {root.messages.Count}", "å¥½çš„");
     }
 }
 

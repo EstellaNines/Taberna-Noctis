@@ -7,16 +7,16 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-// ³¡¾°Ë³Ğò¹ÜÀí´°¿Ú£º¿ÉÊÓ»¯ Build Settings ÖĞµÄ³¡¾°Ë³Ğò£¬Ö§³ÖÔöÉ¾¸Ä²é¡¢²åÈëÓëÉÏÏÂÒÆ¶¯£»
-// ¼à¿Ø³¡¾°±ä»¯£»Ò»¼ü´ò¿ª¡¢²½½øÓë×Ô¶¯Ë³Ğò²¥·Å£»³Ö¾Ã»¯µ½ EditorBuildSettings¡£
+// åœºæ™¯é¡ºåºç®¡ç†çª—å£ï¼šå¯è§†åŒ– Build Settings ä¸­çš„åœºæ™¯é¡ºåºï¼Œæ”¯æŒå¢åˆ æ”¹æŸ¥ã€æ’å…¥ä¸ä¸Šä¸‹ç§»åŠ¨ï¼›
+// ç›‘æ§åœºæ™¯å˜åŒ–ï¼›ä¸€é”®æ‰“å¼€ã€æ­¥è¿›ä¸è‡ªåŠ¨é¡ºåºæ’­æ”¾ï¼›æŒä¹…åŒ–åˆ° EditorBuildSettingsã€‚
 public class SceneSequenceWindow : EditorWindow
 {
     [Serializable]
     private class SceneEntry
     {
-        public string path;           // ¾ø¶Ô¹¤³ÌÄÚÂ·¾¶
-        public string name;           // ½öÏÔÊ¾Ãû
-        public bool enabled;          // ÊÇ·ñ²ÎÓë¹¹½¨
+        public string path;           // ç»å¯¹å·¥ç¨‹å†…è·¯å¾„
+        public string name;           // ä»…æ˜¾ç¤ºå
+        public bool enabled;          // æ˜¯å¦å‚ä¸æ„å»º
     }
 
     private readonly List<SceneEntry> _entries = new List<SceneEntry>();
@@ -32,9 +32,9 @@ public class SceneSequenceWindow : EditorWindow
     private double _nextAutoAt;
     private int _playCursor;
 
-    [MenuItem("×ÔÖÆ¹¤¾ß/³¡¾°/³¡¾°Ë³Ğò¹ÜÀíÆ÷")] private static void Open()
+    [MenuItem("è‡ªåˆ¶å·¥å…·/åœºæ™¯/åœºæ™¯é¡ºåºç®¡ç†å™¨")] private static void Open()
     {
-        var w = GetWindow<SceneSequenceWindow>(false, "³¡¾°Ë³Ğò", true);
+        var w = GetWindow<SceneSequenceWindow>(false, "åœºæ™¯é¡ºåº", true);
         w.minSize = new Vector2(680, 420);
     }
 
@@ -61,10 +61,10 @@ public class SceneSequenceWindow : EditorWindow
     private void OnSceneOpened(UnityEngine.SceneManagement.Scene scn, OpenSceneMode mode)
     {
         RefreshActiveSceneLabel();
-        // ´ò¿ªºóÈô´¦ÓÚ×Ô¶¯²¥·Å£¬ÍÆ½øÓÎ±ê
+        // æ‰“å¼€åè‹¥å¤„äºè‡ªåŠ¨æ’­æ”¾ï¼Œæ¨è¿›æ¸¸æ ‡
         if (_autoPlaying)
         {
-            // ½«ÓÎ±êÒÆ¶¯µ½¸Õ´ò¿ª³¡¾°Ë÷Òı
+            // å°†æ¸¸æ ‡ç§»åŠ¨åˆ°åˆšæ‰“å¼€åœºæ™¯ç´¢å¼•
             int idx = _entries.FindIndex(e => e.path == scn.path);
             if (idx >= 0) _playCursor = idx;
             _nextAutoAt = EditorApplication.timeSinceStartup + Mathf.Max(0.2f, _autoDelayField.value);
@@ -82,7 +82,7 @@ public class SceneSequenceWindow : EditorWindow
 
     public void CreateGUI()
     {
-        // ÔØÈë²ÊÉ«ÑùÊ½£¨¿ÉÑ¡£©
+        // è½½å…¥å½©è‰²æ ·å¼ï¼ˆå¯é€‰ï¼‰
         var ussPath = "Assets/Scripts/0_Editor/UITK/EditorColors.uss";
         var sheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(ussPath);
         if (sheet != null) rootVisualElement.styleSheets.Add(sheet);
@@ -103,8 +103,8 @@ public class SceneSequenceWindow : EditorWindow
         bottom.AddToClassList("section");
         split.Add(bottom);
 
-        // ¶¥²¿£º×´Ì¬Óë²Ù×÷
-        var title = new Label("³¡¾°Ë³Ğò¹ÜÀíÆ÷");
+        // é¡¶éƒ¨ï¼šçŠ¶æ€ä¸æ“ä½œ
+        var title = new Label("åœºæ™¯é¡ºåºç®¡ç†å™¨");
         title.AddToClassList("section-title");
         top.Add(title);
 
@@ -112,8 +112,8 @@ public class SceneSequenceWindow : EditorWindow
         top.Add(_activeSceneLabel);
 
         var row1 = new VisualElement { style = { flexDirection = FlexDirection.Row } };
-        _refreshBtn = new Button(RefreshFromBuildSettings) { text = "Ë¢ĞÂ" };
-        _applyBtn = new Button(ApplyToBuildSettings) { text = "Ó¦ÓÃµ½BuildSettings" };
+        _refreshBtn = new Button(RefreshFromBuildSettings) { text = "åˆ·æ–°" };
+        _applyBtn = new Button(ApplyToBuildSettings) { text = "åº”ç”¨åˆ°BuildSettings" };
         _refreshBtn.AddToClassList("btn"); _refreshBtn.AddToClassList("btn-primary");
         _applyBtn.AddToClassList("btn"); _applyBtn.AddToClassList("btn-success");
         row1.Add(_refreshBtn);
@@ -121,22 +121,22 @@ public class SceneSequenceWindow : EditorWindow
         top.Add(row1);
 
         var row2 = new VisualElement { style = { flexDirection = FlexDirection.Row } };
-        _addField = new ObjectField("Ìí¼Ó³¡¾°") { objectType = typeof(SceneAsset), allowSceneObjects = false };
-        var addBtn = new Button(() => AddSceneAtEnd(_addField.value as SceneAsset)) { text = "Ìí¼Óµ½Ä©Î²" };
-        _insertIndexField = new IntegerField("²åÈëÏÂ±ê") { value = 0 };
-        var insertBtn = new Button(() => InsertSceneAt(_insertIndexField.value, _addField.value as SceneAsset)) { text = "ÔÚÏÂ±ê²åÈë" };
+        _addField = new ObjectField("æ·»åŠ åœºæ™¯") { objectType = typeof(SceneAsset), allowSceneObjects = false };
+        var addBtn = new Button(() => AddSceneAtEnd(_addField.value as SceneAsset)) { text = "æ·»åŠ åˆ°æœ«å°¾" };
+        _insertIndexField = new IntegerField("æ’å…¥ä¸‹æ ‡") { value = 0 };
+        var insertBtn = new Button(() => InsertSceneAt(_insertIndexField.value, _addField.value as SceneAsset)) { text = "åœ¨ä¸‹æ ‡æ’å…¥" };
         addBtn.AddToClassList("btn"); addBtn.AddToClassList("btn-secondary");
         insertBtn.AddToClassList("btn"); insertBtn.AddToClassList("btn-secondary");
         row2.Add(_addField); row2.Add(addBtn); row2.Add(_insertIndexField); row2.Add(insertBtn);
         top.Add(row2);
 
         var row3 = new VisualElement { style = { flexDirection = FlexDirection.Row } };
-        _prevBtn = new Button(StepPrev) { text = "ÉÏÒ»¸ö" };
-        _nextBtn = new Button(StepNext) { text = "ÏÂÒ»¸ö" };
-        _autoDelayField = new FloatField("×Ô¶¯¼ä¸ô(Ãë)") { value = 1.0f };
-        _autoLoopToggle = new Toggle("Ñ­»·") { value = false };
-        _playBtn = new Button(StartAuto) { text = "×Ô¶¯²¥·Å" };
-        _stopBtn = new Button(StopAuto) { text = "Í£Ö¹" };
+        _prevBtn = new Button(StepPrev) { text = "ä¸Šä¸€ä¸ª" };
+        _nextBtn = new Button(StepNext) { text = "ä¸‹ä¸€ä¸ª" };
+        _autoDelayField = new FloatField("è‡ªåŠ¨é—´éš”(ç§’)") { value = 1.0f };
+        _autoLoopToggle = new Toggle("å¾ªç¯") { value = false };
+        _playBtn = new Button(StartAuto) { text = "è‡ªåŠ¨æ’­æ”¾" };
+        _stopBtn = new Button(StopAuto) { text = "åœæ­¢" };
         _prevBtn.AddToClassList("btn"); _prevBtn.AddToClassList("btn-ghost");
         _nextBtn.AddToClassList("btn"); _nextBtn.AddToClassList("btn-ghost");
         _playBtn.AddToClassList("btn"); _playBtn.AddToClassList("btn-primary");
@@ -144,7 +144,7 @@ public class SceneSequenceWindow : EditorWindow
         row3.Add(_prevBtn); row3.Add(_nextBtn); row3.Add(_autoDelayField); row3.Add(_autoLoopToggle); row3.Add(_playBtn); row3.Add(_stopBtn);
         top.Add(row3);
 
-        // ÁĞ±í
+        // åˆ—è¡¨
         _listView = new ListView
         {
             selectionType = SelectionType.Single,
@@ -161,7 +161,7 @@ public class SceneSequenceWindow : EditorWindow
             var e = _entries[i];
             ve.AddToClassList((i % 2 == 0) ? "row-even" : "row-odd");
 
-            var enableToggle = new Toggle() { value = e.enabled, tooltip = "ÊÇ·ñ²ÎÓë¹¹½¨" };
+            var enableToggle = new Toggle() { value = e.enabled, tooltip = "æ˜¯å¦å‚ä¸æ„å»º" };
             enableToggle.RegisterValueChangedCallback(v => { e.enabled = v.newValue; });
             ve.Add(enableToggle);
 
@@ -172,10 +172,10 @@ public class SceneSequenceWindow : EditorWindow
             pathLabel.style.whiteSpace = WhiteSpace.Normal;
             ve.Add(pathLabel);
 
-            var openBtn = new Button(() => OpenSceneAt(i)) { text = "´ò¿ª" };
-            var upBtn = new Button(() => MoveUp(i)) { text = "ÉÏÒÆ" };
-            var downBtn = new Button(() => MoveDown(i)) { text = "ÏÂÒÆ" };
-            var delBtn = new Button(() => RemoveAt(i)) { text = "É¾³ı" };
+            var openBtn = new Button(() => OpenSceneAt(i)) { text = "æ‰“å¼€" };
+            var upBtn = new Button(() => MoveUp(i)) { text = "ä¸Šç§»" };
+            var downBtn = new Button(() => MoveDown(i)) { text = "ä¸‹ç§»" };
+            var delBtn = new Button(() => RemoveAt(i)) { text = "åˆ é™¤" };
             openBtn.AddToClassList("btn"); openBtn.AddToClassList("btn-primary");
             upBtn.AddToClassList("btn"); downBtn.AddToClassList("btn");
             delBtn.AddToClassList("btn"); delBtn.AddToClassList("btn-danger");
@@ -183,13 +183,13 @@ public class SceneSequenceWindow : EditorWindow
         };
         _listView.selectionChanged += sel =>
         {
-            // Ñ¡ÖĞÊ±¸üĞÂ²¥·ÅÓÎ±ê
+            // é€‰ä¸­æ—¶æ›´æ–°æ’­æ”¾æ¸¸æ ‡
             int idx = _listView.selectedIndex;
             if (idx >= 0 && idx < _entries.Count) _playCursor = idx;
         };
         bottom.Add(_listView);
 
-        // ³õÊ¼Êı¾İ
+        // åˆå§‹æ•°æ®
         RefreshFromBuildSettings();
         RefreshActiveSceneLabel();
     }
@@ -197,7 +197,7 @@ public class SceneSequenceWindow : EditorWindow
     private void RefreshActiveSceneLabel()
     {
         var scn = EditorSceneManager.GetActiveScene();
-        _activeSceneLabel.text = $"µ±Ç°³¡¾°£º{(scn.IsValid() ? scn.name : "<ÎŞ>")}  @ {scn.path}";
+        _activeSceneLabel.text = $"å½“å‰åœºæ™¯ï¼š{(scn.IsValid() ? scn.name : "<æ— >")}  @ {scn.path}";
     }
 
     private void RefreshFromBuildSettings()
@@ -219,7 +219,7 @@ public class SceneSequenceWindow : EditorWindow
         EditorBuildSettings.scenes = arr;
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        ShowNotification(new GUIContent("ÒÑĞ´Èë BuildSettings"));
+        ShowNotification(new GUIContent("å·²å†™å…¥ BuildSettings"));
     }
 
     private static string GetAssetPath(SceneAsset asset)

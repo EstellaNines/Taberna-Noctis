@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Manhattan
   category: "\u7ECF\u5178\u9E21\u5C3E\u9152"
   feature: "\u5FD9\u788C\u6311\u5254\u578B\uFF0C\u539A\u91CD\u5A01\u58EB\u5FCC\u7684\u90FD\u4F1A\u98CE"
+  tags:
+  - "\u7ECF\u5178\u9152"
+  themeColor: {r: 0.53, g: 0.81, b: 0.98, a: 1}
   effects:
     busy: 3
     impatient: 0

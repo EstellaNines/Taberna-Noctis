@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Vodka
   category: "\u57FA\u7840\u9152\u7C7B"
   feature: "\u70E6\u95F7\u7F13\u89E3\u578B\uFF0C\u6027\u4EF7\u6BD4\u9AD8"
+  tags:
+  - "\u57FA\u9152"
+  themeColor: {r: 0.7, g: 0.85, b: 1, a: 1}
   effects:
     busy: -1
     impatient: -1

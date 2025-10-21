@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// È«²¿¹Ë¿ÍµÄË÷ÒıSO£º½ö±£´æ¹Ë¿ÍSOµÄÒıÓÃ¼¯ºÏ£¬±ãÓÚÔËĞĞÊ±¿ìËÙ¼ìË÷¡£
+/// å…¨éƒ¨é¡¾å®¢çš„ç´¢å¼•SOï¼šä»…ä¿å­˜é¡¾å®¢SOçš„å¼•ç”¨é›†åˆï¼Œä¾¿äºè¿è¡Œæ—¶å¿«é€Ÿæ£€ç´¢ã€‚
 /// </summary>
 [CreateAssetMenu(menuName = "TN/Characters/NpcDatabase", fileName = "NpcDatabase")]
 public sealed class NpcDatabase : ScriptableObject

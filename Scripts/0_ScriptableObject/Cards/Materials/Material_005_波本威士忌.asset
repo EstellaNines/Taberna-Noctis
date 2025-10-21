@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Bourbon
   category: "\u57FA\u7840\u9152\u7C7B"
   feature: "\u5FD9\u788C\u53CB\u597D\u578B\uFF0C\u7F8E\u5F0F\u7ECF\u5178"
+  tags:
+  - "\u57FA\u9152"
+  themeColor: {r: 0.7, g: 0.85, b: 1, a: 1}
   effects:
     busy: 2
     impatient: 0

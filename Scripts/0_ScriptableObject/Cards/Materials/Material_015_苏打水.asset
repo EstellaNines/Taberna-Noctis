@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Soda Water
   category: "\u65B0\u9C9C\u914D\u6599"
   feature: "\u70E6\u95F7\u514B\u661F\uFF0C\u6C14\u6CE1\u6E05\u723D"
+  tags:
+  - "\u65B0\u9C9C\u914D\u6599"
+  themeColor: {r: 0.8, g: 1, b: 0.8, a: 1}
   effects:
     busy: -2
     impatient: 1

@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Cola
   category: "\u65B0\u9C9C\u914D\u6599"
   feature: "\u70E6\u95F7\u53CB\u597D\u578B\uFF0C\u751C\u5473\u6C7D\u6C34"
+  tags:
+  - "\u65B0\u9C9C\u914D\u6599"
+  themeColor: {r: 0.8, g: 1, b: 0.8, a: 1}
   effects:
     busy: -1
     impatient: 1

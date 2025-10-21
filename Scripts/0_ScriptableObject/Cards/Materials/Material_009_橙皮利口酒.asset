@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Orange Liqueur
   category: "\u8C03\u5473\u9152\u7C7B"
   feature: "\u53CB\u597D\u578B\uFF0C\u679C\u9999\u8C03\u5473"
+  tags:
+  - "\u8C03\u5473\u9152"
+  themeColor: {r: 1, g: 0.95, b: 0.7, a: 1}
   effects:
     busy: 0
     impatient: -1

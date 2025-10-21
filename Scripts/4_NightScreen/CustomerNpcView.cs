@@ -6,37 +6,37 @@ using DG.Tweening;
 namespace TabernaNoctis.NightScreen
 {
     /// <summary>
-    /// ¹Ë¿ÍNPC UIÊÓÍ¼×é¼ş
-    /// ¹ÒÔØÔÚCustomerNPCÔ¤ÖÆ¼şÉÏ£¬¸ºÔğ¶ÁÈ¡²¢ÏÔÊ¾¹Ë¿ÍÊı¾İ
+    /// é¡¾å®¢NPC UIè§†å›¾ç»„ä»¶
+    /// æŒ‚è½½åœ¨CustomerNPCé¢„åˆ¶ä»¶ä¸Šï¼Œè´Ÿè´£è¯»å–å¹¶æ˜¾ç¤ºé¡¾å®¢æ•°æ®
     /// </summary>
     public class CustomerNpcView : MonoBehaviour
     {
-        [Header("UI×é¼şÒıÓÃ")]
-        [SerializeField] private Image portraitImage;           // Á¢»æÍ¼Æ¬
-        [SerializeField] private TextMeshProUGUI stateText;     // ×´Ì¬±êÇ©£¨²ÊÉ«£©
-        [SerializeField] private TextMeshProUGUI nameText;      // ÈËÎïÃû³Æ£¨°×É«£©
+        [Header("UIç»„ä»¶å¼•ç”¨")]
+        [SerializeField] private Image portraitImage;           // ç«‹ç»˜å›¾ç‰‡
+        [SerializeField] private TextMeshProUGUI stateText;     // çŠ¶æ€æ ‡ç­¾ï¼ˆå½©è‰²ï¼‰
+        [SerializeField] private TextMeshProUGUI nameText;      // äººç‰©åç§°ï¼ˆç™½è‰²ï¼‰
         
-        [Header("¶¯»­ÅäÖÃ")]
-        [SerializeField] private CanvasGroup canvasGroup;       // ÓÃÓÚµ­Èëµ­³ö
+        [Header("åŠ¨ç”»é…ç½®")]
+        [SerializeField] private CanvasGroup canvasGroup;       // ç”¨äºæ·¡å…¥æ·¡å‡º
         [SerializeField] private float fadeInDuration = 0.5f;
         [SerializeField] private float fadeOutDuration = 0.5f;
         
-        [Header("µ÷ÊÔĞÅÏ¢")]
-        [SerializeField] private NpcCharacterData currentData;  // µ±Ç°ÏÔÊ¾µÄNPCÊı¾İ£¨µ÷ÊÔÓÃ£©
+        [Header("è°ƒè¯•ä¿¡æ¯")]
+        [SerializeField] private NpcCharacterData currentData;  // å½“å‰æ˜¾ç¤ºçš„NPCæ•°æ®ï¼ˆè°ƒè¯•ç”¨ï¼‰
         
         /// <summary>
-        /// µ±Ç°ÏÔÊ¾µÄ¹Ë¿ÍÊı¾İ
+        /// å½“å‰æ˜¾ç¤ºçš„é¡¾å®¢æ•°æ®
         /// </summary>
         public NpcCharacterData CurrentData => currentData;
         
         /// <summary>
-        /// ÊÇ·ñÕıÔÚÏÔÊ¾¹Ë¿Í
+        /// æ˜¯å¦æ­£åœ¨æ˜¾ç¤ºé¡¾å®¢
         /// </summary>
         public bool IsActive => canvasGroup != null && canvasGroup.alpha > 0.5f;
 
         private void Awake()
         {
-            // È·±£³õÊ¼×´Ì¬ÎªÒş²Ø
+            // ç¡®ä¿åˆå§‹çŠ¶æ€ä¸ºéšè—
             if (canvasGroup != null)
             {
                 canvasGroup.alpha = 0f;
@@ -44,60 +44,60 @@ namespace TabernaNoctis.NightScreen
         }
 
         /// <summary>
-        /// ³õÊ¼»¯²¢ÏÔÊ¾¹Ë¿ÍUI
+        /// åˆå§‹åŒ–å¹¶æ˜¾ç¤ºé¡¾å®¢UI
         /// </summary>
-        /// <param name="data">¹Ë¿ÍÊı¾İ</param>
-        /// <param name="playAnimation">ÊÇ·ñ²¥·Åµ­Èë¶¯»­</param>
+        /// <param name="data">é¡¾å®¢æ•°æ®</param>
+        /// <param name="playAnimation">æ˜¯å¦æ’­æ”¾æ·¡å…¥åŠ¨ç”»</param>
         public void ShowCustomer(NpcCharacterData data, bool playAnimation = true)
         {
             if (data == null)
             {
-                Debug.LogError("[CustomerNpcView] ShowCustomer: data Îª¿Õ£¡");
+                Debug.LogError("[CustomerNpcView] ShowCustomer: data ä¸ºç©ºï¼");
                 return;
             }
 
             currentData = data;
 
-            // 1. ¼ÓÔØÁ¢»æ
+            // 1. åŠ è½½ç«‹ç»˜
             LoadPortrait(data.portraitPath);
 
-            // 2. ÏÔÊ¾×´Ì¬±êÇ©£¨²ÊÉ«£¬100%²»Í¸Ã÷£¬¸ñÊ½£º<×´Ì¬>£©
+            // 2. æ˜¾ç¤ºçŠ¶æ€æ ‡ç­¾ï¼ˆå½©è‰²ï¼Œ100%ä¸é€æ˜ï¼Œæ ¼å¼ï¼š<çŠ¶æ€>ï¼‰
             if (stateText != null)
             {
-                // ½ûÓÃRich TextÒÔ·ÀÖ¹<>±»½âÊÍÎª±êÇ©
+                // ç¦ç”¨Rich Textä»¥é˜²æ­¢<>è¢«è§£é‡Šä¸ºæ ‡ç­¾
                 stateText.richText = false;
-                stateText.text = $"<{data.state}>"; // ÏÔÊ¾¸ñÊ½£º<Busy>, <Friendly>µÈ
+                stateText.text = $"<{data.state}>"; // æ˜¾ç¤ºæ ¼å¼ï¼š<Busy>, <Friendly>ç­‰
                 
                 Color stateColorWithAlpha = data.stateColor;
-                stateColorWithAlpha.a = 1f; // È·±£alphaÎª1£¨ÍêÈ«²»Í¸Ã÷£©
-                stateText.color = stateColorWithAlpha; // Ó¦ÓÃ×´Ì¬¶ÔÓ¦µÄÑÕÉ«
+                stateColorWithAlpha.a = 1f; // ç¡®ä¿alphaä¸º1ï¼ˆå®Œå…¨ä¸é€æ˜ï¼‰
+                stateText.color = stateColorWithAlpha; // åº”ç”¨çŠ¶æ€å¯¹åº”çš„é¢œè‰²
                 
-                // Ç¿ÖÆË¢ĞÂ
+                // å¼ºåˆ¶åˆ·æ–°
                 stateText.SetAllDirty();
                 
-                Debug.Log($"[CustomerNpcView] ×´Ì¬ÎÄ±¾: '<{data.state}>', ÑÕÉ«: {stateColorWithAlpha}");
+                Debug.Log($"[CustomerNpcView] çŠ¶æ€æ–‡æœ¬: '<{data.state}>', é¢œè‰²: {stateColorWithAlpha}");
             }
 
-            // 3. ÏÔÊ¾ÈËÎïÃû³Æ£¨°×É«£¬100%²»Í¸Ã÷£©
+            // 3. æ˜¾ç¤ºäººç‰©åç§°ï¼ˆç™½è‰²ï¼Œ100%ä¸é€æ˜ï¼‰
             if (nameText != null)
             {
-                nameText.text = data.displayName; // ÏÔÊ¾¼ò¶ÌÃû³Æ£ºCompany Employee, BossµÈ
+                nameText.text = data.displayName; // æ˜¾ç¤ºç®€çŸ­åç§°ï¼šCompany Employee, Bossç­‰
                 
-                // Ç¿ÖÆÉèÖÃÎª°×É«£¬¸²¸ÇÈÎºÎ¿ÉÄÜµÄÑùÊ½
+                // å¼ºåˆ¶è®¾ç½®ä¸ºç™½è‰²ï¼Œè¦†ç›–ä»»ä½•å¯èƒ½çš„æ ·å¼
                 Color nameColorWithAlpha = Color.white;
-                nameColorWithAlpha.a = 1f; // È·±£alphaÎª1£¨ÍêÈ«²»Í¸Ã÷£©
+                nameColorWithAlpha.a = 1f; // ç¡®ä¿alphaä¸º1ï¼ˆå®Œå…¨ä¸é€æ˜ï¼‰
                 nameText.color = nameColorWithAlpha;
                 
-                // Ç¿ÖÆË¢ĞÂ
+                // å¼ºåˆ¶åˆ·æ–°
                 nameText.SetAllDirty();
                 
-                Debug.Log($"[CustomerNpcView] Ãû³ÆÎÄ±¾: '{data.displayName}', ÑÕÉ«: °×É«");
+                Debug.Log($"[CustomerNpcView] åç§°æ–‡æœ¬: '{data.displayName}', é¢œè‰²: ç™½è‰²");
             }
 
-            // 4. ²¥·Åµ­Èë¶¯»­
+            // 4. æ’­æ”¾æ·¡å…¥åŠ¨ç”»
             if (playAnimation && canvasGroup != null)
             {
-                canvasGroup.DOKill(); // Í£Ö¹Ö®Ç°µÄ¶¯»­
+                canvasGroup.DOKill(); // åœæ­¢ä¹‹å‰çš„åŠ¨ç”»
                 canvasGroup.alpha = 0f;
                 canvasGroup.DOFade(1f, fadeInDuration).SetEase(Ease.OutQuad);
             }
@@ -106,14 +106,14 @@ namespace TabernaNoctis.NightScreen
                 canvasGroup.alpha = 1f;
             }
 
-            Debug.Log($"[CustomerNpcView] ÏÔÊ¾¹Ë¿Í: {data.displayName} ({data.state})");
+            Debug.Log($"[CustomerNpcView] æ˜¾ç¤ºé¡¾å®¢: {data.displayName} ({data.state})");
         }
 
         /// <summary>
-        /// Òş²Ø¹Ë¿ÍUI
+        /// éšè—é¡¾å®¢UI
         /// </summary>
-        /// <param name="playAnimation">ÊÇ·ñ²¥·Åµ­³ö¶¯»­</param>
-        /// <param name="onComplete">Íê³É»Øµ÷</param>
+        /// <param name="playAnimation">æ˜¯å¦æ’­æ”¾æ·¡å‡ºåŠ¨ç”»</param>
+        /// <param name="onComplete">å®Œæˆå›è°ƒ</param>
         public void HideCustomer(bool playAnimation = true, System.Action onComplete = null)
         {
             if (playAnimation && canvasGroup != null)
@@ -137,11 +137,11 @@ namespace TabernaNoctis.NightScreen
                 onComplete?.Invoke();
             }
 
-            Debug.Log($"[CustomerNpcView] Òş²Ø¹Ë¿Í: {currentData?.displayName}");
+            Debug.Log($"[CustomerNpcView] éšè—é¡¾å®¢: {currentData?.displayName}");
         }
 
         /// <summary>
-        /// ÖØÖÃÊÓÍ¼×´Ì¬
+        /// é‡ç½®è§†å›¾çŠ¶æ€
         /// </summary>
         public void ResetView()
         {
@@ -155,13 +155,13 @@ namespace TabernaNoctis.NightScreen
             if (stateText != null)
             {
                 stateText.text = "";
-                stateText.richText = false; // È·±£Rich Text±»½ûÓÃ
+                stateText.richText = false; // ç¡®ä¿Rich Textè¢«ç¦ç”¨
             }
 
             if (nameText != null)
             {
                 nameText.text = "";
-                nameText.color = Color.white; // ÖØÖÃÎª°×É«
+                nameText.color = Color.white; // é‡ç½®ä¸ºç™½è‰²
             }
 
             if (canvasGroup != null)
@@ -171,41 +171,41 @@ namespace TabernaNoctis.NightScreen
         }
 
         /// <summary>
-        /// ´ÓResources¼ÓÔØÁ¢»æ
+        /// ä»ResourcesåŠ è½½ç«‹ç»˜
         /// </summary>
         private void LoadPortrait(string portraitPath)
         {
             if (portraitImage == null)
             {
-                Debug.LogWarning("[CustomerNpcView] portraitImage Î´·ÖÅä£¡");
+                Debug.LogWarning("[CustomerNpcView] portraitImage æœªåˆ†é…ï¼");
                 return;
             }
 
             if (string.IsNullOrEmpty(portraitPath))
             {
-                Debug.LogWarning("[CustomerNpcView] portraitPath Îª¿Õ£¬ÎŞ·¨¼ÓÔØÁ¢»æ");
+                Debug.LogWarning("[CustomerNpcView] portraitPath ä¸ºç©ºï¼Œæ— æ³•åŠ è½½ç«‹ç»˜");
                 portraitImage.sprite = null;
                 return;
             }
 
-            // ´ÓResources¼ÓÔØSprite
+            // ä»ResourcesåŠ è½½Sprite
             Sprite sprite = Resources.Load<Sprite>(portraitPath);
             
             if (sprite != null)
             {
                 portraitImage.sprite = sprite;
                 portraitImage.enabled = true;
-                Debug.Log($"[CustomerNpcView] ³É¹¦¼ÓÔØÁ¢»æ: {portraitPath}");
+                Debug.Log($"[CustomerNpcView] æˆåŠŸåŠ è½½ç«‹ç»˜: {portraitPath}");
             }
             else
             {
-                Debug.LogWarning($"[CustomerNpcView] ÎŞ·¨¼ÓÔØÁ¢»æ: Resources/{portraitPath}");
+                Debug.LogWarning($"[CustomerNpcView] æ— æ³•åŠ è½½ç«‹ç»˜: Resources/{portraitPath}");
                 portraitImage.sprite = null;
             }
         }
 
         /// <summary>
-        /// ÑéÖ¤×é¼şÒıÓÃÊÇ·ñÍêÕû
+        /// éªŒè¯ç»„ä»¶å¼•ç”¨æ˜¯å¦å®Œæ•´
         /// </summary>
         private void OnValidate()
         {
@@ -213,51 +213,51 @@ namespace TabernaNoctis.NightScreen
 
             if (portraitImage == null)
             {
-                Debug.LogWarning($"[CustomerNpcView] {gameObject.name}: portraitImage Î´·ÖÅä£¡");
+                Debug.LogWarning($"[CustomerNpcView] {gameObject.name}: portraitImage æœªåˆ†é…ï¼");
                 hasErrors = true;
             }
 
             if (stateText == null)
             {
-                Debug.LogWarning($"[CustomerNpcView] {gameObject.name}: stateText Î´·ÖÅä£¡Ó¦¸ÃÍÏÈë¡¾×´Ì¬±êÇ©¡¿µÄTMP×é¼ş");
+                Debug.LogWarning($"[CustomerNpcView] {gameObject.name}: stateText æœªåˆ†é…ï¼åº”è¯¥æ‹–å…¥ã€çŠ¶æ€æ ‡ç­¾ã€‘çš„TMPç»„ä»¶");
                 hasErrors = true;
             }
             else
             {
-                // ¼ì²é×´Ì¬ÎÄ±¾µÄÃû³Æ£¬°ïÖúÊ¶±ğÊÇ·ñÍÏ´íÁË
+                // æ£€æŸ¥çŠ¶æ€æ–‡æœ¬çš„åç§°ï¼Œå¸®åŠ©è¯†åˆ«æ˜¯å¦æ‹–é”™äº†
                 string objName = stateText.gameObject.name.ToLower();
                 if (objName.Contains("name") && !objName.Contains("state"))
                 {
-                    Debug.LogError($"[CustomerNpcView] {gameObject.name}: stateText ¿ÉÄÜÍÏ´íÁË£¡µ±Ç°ÍÏÈëµÄÊÇ '{stateText.gameObject.name}'£¬Ó¦¸ÃÍÏÈë¡¾StateText/×´Ì¬ÎÄ±¾¡¿×é¼ş");
+                    Debug.LogError($"[CustomerNpcView] {gameObject.name}: stateText å¯èƒ½æ‹–é”™äº†ï¼å½“å‰æ‹–å…¥çš„æ˜¯ '{stateText.gameObject.name}'ï¼Œåº”è¯¥æ‹–å…¥ã€StateText/çŠ¶æ€æ–‡æœ¬ã€‘ç»„ä»¶");
                     hasErrors = true;
                 }
             }
 
             if (nameText == null)
             {
-                Debug.LogWarning($"[CustomerNpcView] {gameObject.name}: nameText Î´·ÖÅä£¡Ó¦¸ÃÍÏÈë¡¾Ãû³Æ/Éí·İ¡¿µÄTMP×é¼ş");
+                Debug.LogWarning($"[CustomerNpcView] {gameObject.name}: nameText æœªåˆ†é…ï¼åº”è¯¥æ‹–å…¥ã€åç§°/èº«ä»½ã€‘çš„TMPç»„ä»¶");
                 hasErrors = true;
             }
             else
             {
-                // ¼ì²éÃû³ÆÎÄ±¾µÄÃû³Æ£¬°ïÖúÊ¶±ğÊÇ·ñÍÏ´íÁË
+                // æ£€æŸ¥åç§°æ–‡æœ¬çš„åç§°ï¼Œå¸®åŠ©è¯†åˆ«æ˜¯å¦æ‹–é”™äº†
                 string objName = nameText.gameObject.name.ToLower();
                 if (objName.Contains("state") && !objName.Contains("name"))
                 {
-                    Debug.LogError($"[CustomerNpcView] {gameObject.name}: nameText ¿ÉÄÜÍÏ´íÁË£¡µ±Ç°ÍÏÈëµÄÊÇ '{nameText.gameObject.name}'£¬Ó¦¸ÃÍÏÈë¡¾NameText/Ãû³ÆÎÄ±¾¡¿×é¼ş");
+                    Debug.LogError($"[CustomerNpcView] {gameObject.name}: nameText å¯èƒ½æ‹–é”™äº†ï¼å½“å‰æ‹–å…¥çš„æ˜¯ '{nameText.gameObject.name}'ï¼Œåº”è¯¥æ‹–å…¥ã€NameText/åç§°æ–‡æœ¬ã€‘ç»„ä»¶");
                     hasErrors = true;
                 }
             }
 
             if (canvasGroup == null)
             {
-                Debug.LogWarning($"[CustomerNpcView] {gameObject.name}: canvasGroup Î´·ÖÅä£¡");
+                Debug.LogWarning($"[CustomerNpcView] {gameObject.name}: canvasGroup æœªåˆ†é…ï¼");
                 hasErrors = true;
             }
 
             if (!hasErrors)
             {
-                Debug.Log($"[CustomerNpcView] {gameObject.name}: ? ËùÓĞ×é¼şÒıÓÃÑéÖ¤Í¨¹ı");
+                Debug.Log($"[CustomerNpcView] {gameObject.name}: ? æ‰€æœ‰ç»„ä»¶å¼•ç”¨éªŒè¯é€šè¿‡");
             }
         }
     }

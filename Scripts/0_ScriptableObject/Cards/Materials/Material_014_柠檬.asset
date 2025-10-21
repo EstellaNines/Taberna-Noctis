@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Lemon
   category: "\u65B0\u9C9C\u914D\u6599"
   feature: "\u6E29\u548C\u6E05\u9999\uFF0C\u53CB\u597D\u63D0\u5347"
+  tags:
+  - "\u65B0\u9C9C\u914D\u6599"
+  themeColor: {r: 0.8, g: 1, b: 0.8, a: 1}
   effects:
     busy: -2
     impatient: -1

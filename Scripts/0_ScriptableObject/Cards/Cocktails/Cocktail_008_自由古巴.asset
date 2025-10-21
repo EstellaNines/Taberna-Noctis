@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Cuba Libre
   category: "\u70ED\u5E26\u98CE\u5473"
   feature: "\u70E6\u95F7\u53CB\u597D\u578B\uFF0C\u751C\u6C7D\u53EF\u4E50\u7684\u7545\u5FEB\u914D\u65B9"
+  tags:
+  - "\u70ED\u5E26\u9152"
+  themeColor: {r: 1, g: 0.8, b: 0.6, a: 1}
   effects:
     busy: -4
     impatient: 1

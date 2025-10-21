@@ -5,94 +5,94 @@ using System.IO;
 using System.Text.RegularExpressions;
 
 /// <summary>
-/// Á¢»æÂ·¾¶¸üĞÂ¹¤¾ß£º½«PortraitÎÄ¼ş¼ĞÖĞµÄÁ¢»æÂ·¾¶Ğ´ÈëNPCInfo.json
+/// ç«‹ç»˜è·¯å¾„æ›´æ–°å·¥å…·ï¼šå°†Portraitæ–‡ä»¶å¤¹ä¸­çš„ç«‹ç»˜è·¯å¾„å†™å…¥NPCInfo.json
 /// </summary>
 public class PortraitPathUpdater : EditorWindow
 {
-    [MenuItem("×ÔÖÆ¹¤¾ß/ÈËÎïÉè¼Æ/½ÇÉ«ÏµÍ³/¸üĞÂÁ¢»æÂ·¾¶µ½NPCInfo")]
+    [MenuItem("è‡ªåˆ¶å·¥å…·/äººç‰©è®¾è®¡/è§’è‰²ç³»ç»Ÿ/æ›´æ–°ç«‹ç»˜è·¯å¾„åˆ°NPCInfo")]
     public static void ShowWindow()
     {
-        GetWindow<PortraitPathUpdater>("Á¢»æÂ·¾¶¸üĞÂÆ÷");
+        GetWindow<PortraitPathUpdater>("ç«‹ç»˜è·¯å¾„æ›´æ–°å™¨");
     }
     
     private void OnGUI()
     {
-        GUILayout.Label("Á¢»æÂ·¾¶¸üĞÂ¹¤¾ß", EditorStyles.boldLabel);
+        GUILayout.Label("ç«‹ç»˜è·¯å¾„æ›´æ–°å·¥å…·", EditorStyles.boldLabel);
         GUILayout.Space(10);
         
-        GUILayout.Label("´Ë¹¤¾ß½«É¨ÃèResources/Character/PortraitÎÄ¼ş¼ĞÖĞµÄËùÓĞÁ¢»æÎÄ¼ş£¬");
-        GUILayout.Label("²¢¸ù¾İÎÄ¼şÃû×Ô¶¯Æ¥Åäµ½NPCInfo.jsonÖĞ¶ÔÓ¦µÄNPC£¬Ìí¼ÓportraitPath×Ö¶Î¡£");
+        GUILayout.Label("æ­¤å·¥å…·å°†æ‰«æResources/Character/Portraitæ–‡ä»¶å¤¹ä¸­çš„æ‰€æœ‰ç«‹ç»˜æ–‡ä»¶ï¼Œ");
+        GUILayout.Label("å¹¶æ ¹æ®æ–‡ä»¶åè‡ªåŠ¨åŒ¹é…åˆ°NPCInfo.jsonä¸­å¯¹åº”çš„NPCï¼Œæ·»åŠ portraitPathå­—æ®µã€‚");
         GUILayout.Space(10);
         
-        if (GUILayout.Button("É¨Ãè²¢¸üĞÂÁ¢»æÂ·¾¶", GUILayout.Height(30)))
+        if (GUILayout.Button("æ‰«æå¹¶æ›´æ–°ç«‹ç»˜è·¯å¾„", GUILayout.Height(30)))
         {
             UpdatePortraitPaths();
         }
         
         GUILayout.Space(10);
-        if (GUILayout.Button("Ô¤ÀÀÓ³Éä¹ØÏµ£¨²»ĞŞ¸ÄÎÄ¼ş£©", GUILayout.Height(25)))
+        if (GUILayout.Button("é¢„è§ˆæ˜ å°„å…³ç³»ï¼ˆä¸ä¿®æ”¹æ–‡ä»¶ï¼‰", GUILayout.Height(25)))
         {
             PreviewPortraitMapping();
         }
     }
     
     /// <summary>
-    /// ¸üĞÂÁ¢»æÂ·¾¶µ½NPCInfo.json
+    /// æ›´æ–°ç«‹ç»˜è·¯å¾„åˆ°NPCInfo.json
     /// </summary>
     private void UpdatePortraitPaths()
     {
         try
         {
-            // 1. É¨ÃèPortraitÎÄ¼ş¼Ğ
+            // 1. æ‰«æPortraitæ–‡ä»¶å¤¹
             var portraitMappings = ScanPortraitFiles();
             
-            // 2. ¶ÁÈ¡NPCInfo.json
+            // 2. è¯»å–NPCInfo.json
             string npcInfoPath = "Assets/Resources/Character/NPCInfo.json";
             if (!File.Exists(npcInfoPath))
             {
-                Debug.LogError($"NPCInfo.jsonÎÄ¼ş²»´æÔÚ: {npcInfoPath}");
+                Debug.LogError($"NPCInfo.jsonæ–‡ä»¶ä¸å­˜åœ¨: {npcInfoPath}");
                 return;
             }
             
             string jsonContent = File.ReadAllText(npcInfoPath);
             var npcData = JsonUtility.FromJson<NPCInfoRoot>(jsonContent);
             
-            // 3. ¸üĞÂÁ¢»æÂ·¾¶
+            // 3. æ›´æ–°ç«‹ç»˜è·¯å¾„
             int updatedCount = ApplyPortraitPaths(npcData, portraitMappings);
             
-            // 4. ±£´æÎÄ¼ş
+            // 4. ä¿å­˜æ–‡ä»¶
             string updatedJson = JsonUtility.ToJson(npcData, true);
             File.WriteAllText(npcInfoPath, updatedJson);
             
-            Debug.Log($"Á¢»æÂ·¾¶¸üĞÂÍê³É£¡¹²¸üĞÂÁË {updatedCount} ¸öNPCµÄÁ¢»æÂ·¾¶");
-            Debug.Log($"ÎÄ¼şÒÑ±£´æ: {npcInfoPath}");
+            Debug.Log($"ç«‹ç»˜è·¯å¾„æ›´æ–°å®Œæˆï¼å…±æ›´æ–°äº† {updatedCount} ä¸ªNPCçš„ç«‹ç»˜è·¯å¾„");
+            Debug.Log($"æ–‡ä»¶å·²ä¿å­˜: {npcInfoPath}");
             
-            // Ë¢ĞÂAssetDatabase
+            // åˆ·æ–°AssetDatabase
             AssetDatabase.Refresh();
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"¸üĞÂÁ¢»æÂ·¾¶Ê±·¢Éú´íÎó: {e.Message}");
+            Debug.LogError($"æ›´æ–°ç«‹ç»˜è·¯å¾„æ—¶å‘ç”Ÿé”™è¯¯: {e.Message}");
         }
     }
     
     /// <summary>
-    /// Ô¤ÀÀÓ³Éä¹ØÏµ
+    /// é¢„è§ˆæ˜ å°„å…³ç³»
     /// </summary>
     private void PreviewPortraitMapping()
     {
         var portraitMappings = ScanPortraitFiles();
         
-        Debug.Log("=== Á¢»æÎÄ¼şÓ³ÉäÔ¤ÀÀ ===");
+        Debug.Log("=== ç«‹ç»˜æ–‡ä»¶æ˜ å°„é¢„è§ˆ ===");
         foreach (var mapping in portraitMappings)
         {
             Debug.Log($"{mapping.Key} -> {mapping.Value}");
         }
-        Debug.Log($"¹²ÕÒµ½ {portraitMappings.Count} ¸öÁ¢»æÎÄ¼ş");
+        Debug.Log($"å…±æ‰¾åˆ° {portraitMappings.Count} ä¸ªç«‹ç»˜æ–‡ä»¶");
     }
     
     /// <summary>
-    /// É¨ÃèPortraitÎÄ¼ş¼ĞÖĞµÄÁ¢»æÎÄ¼ş
+    /// æ‰«æPortraitæ–‡ä»¶å¤¹ä¸­çš„ç«‹ç»˜æ–‡ä»¶
     /// </summary>
     private Dictionary<string, string> ScanPortraitFiles()
     {
@@ -101,7 +101,7 @@ public class PortraitPathUpdater : EditorWindow
         
         if (!Directory.Exists(portraitFolder))
         {
-            Debug.LogWarning($"PortraitÎÄ¼ş¼Ğ²»´æÔÚ: {portraitFolder}");
+            Debug.LogWarning($"Portraitæ–‡ä»¶å¤¹ä¸å­˜åœ¨: {portraitFolder}");
             return mappings;
         }
         
@@ -112,7 +112,7 @@ public class PortraitPathUpdater : EditorWindow
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             string resourcePath = $"Character/Portrait/{fileName}";
             
-            // ¸ù¾İÎÄ¼şÃû·ÖÎö¶ÔÓ¦µÄNPC
+            // æ ¹æ®æ–‡ä»¶ååˆ†æå¯¹åº”çš„NPC
             var npcKey = AnalyzePortraitFileName(fileName);
             if (!string.IsNullOrEmpty(npcKey))
             {
@@ -124,77 +124,77 @@ public class PortraitPathUpdater : EditorWindow
     }
     
     /// <summary>
-    /// ·ÖÎöÁ¢»æÎÄ¼şÃû£¬·µ»Ø¶ÔÓ¦µÄNPC¼üÖµ
+    /// åˆ†æç«‹ç»˜æ–‡ä»¶åï¼Œè¿”å›å¯¹åº”çš„NPCé”®å€¼
     /// </summary>
     private string AnalyzePortraitFileName(string fileName)
     {
-        // ÒÆ³ı¿ÉÄÜµÄ¿Õ¸ñºÍÌØÊâ×Ö·û
+        // ç§»é™¤å¯èƒ½çš„ç©ºæ ¼å’Œç‰¹æ®Šå­—ç¬¦
         fileName = fileName.Trim();
         
-        // Ó³Éä¹æÔò£º
-        // YH2-BusyÅ®Ô±¹¤ -> CompanyEmployee_Busy_F
-        // YH2-BusyÄĞÔ±¹¤ -> CompanyEmployee_Busy_M
-        // YH2-Ğ¡Áìµ¼(Å®) -> SmallLeader_F (Í¨ÓÃ)
-        // YH2-×ÔÓÉÖ°ÒµÕß(ÄĞ) -> Freelancer_M (Í¨ÓÃ)
-        // YH2-ÀÏ°å(Å®) -> Boss_F (Í¨ÓÃ)
-        // YH2-Å®´óÑ§Éú -> Student_F (Í¨ÓÃ)
+        // æ˜ å°„è§„åˆ™ï¼š
+        // YH2-Busyå¥³å‘˜å·¥ -> CompanyEmployee_Busy_F
+        // YH2-Busyç”·å‘˜å·¥ -> CompanyEmployee_Busy_M
+        // YH2-å°é¢†å¯¼(å¥³) -> SmallLeader_F (é€šç”¨)
+        // YH2-è‡ªç”±èŒä¸šè€…(ç”·) -> Freelancer_M (é€šç”¨)
+        // YH2-è€æ¿(å¥³) -> Boss_F (é€šç”¨)
+        // YH2-å¥³å¤§å­¦ç”Ÿ -> Student_F (é€šç”¨)
         
-        // Ô±¹¤Àà£¨ÓĞ¾ßÌå×´Ì¬£©
-        if (fileName.Contains("Busy") && fileName.Contains("Ô±¹¤"))
+        // å‘˜å·¥ç±»ï¼ˆæœ‰å…·ä½“çŠ¶æ€ï¼‰
+        if (fileName.Contains("Busy") && fileName.Contains("å‘˜å·¥"))
         {
-            return fileName.Contains("Å®") ? "CompanyEmployee_Busy_F" : "CompanyEmployee_Busy_M";
+            return fileName.Contains("å¥³") ? "CompanyEmployee_Busy_F" : "CompanyEmployee_Busy_M";
         }
-        if (fileName.Contains("Impatient") && fileName.Contains("Ô±¹¤"))
+        if (fileName.Contains("Impatient") && fileName.Contains("å‘˜å·¥"))
         {
-            return fileName.Contains("Å®") ? "CompanyEmployee_Irritable_F" : "CompanyEmployee_Irritable_M";
+            return fileName.Contains("å¥³") ? "CompanyEmployee_Irritable_F" : "CompanyEmployee_Irritable_M";
         }
-        if (fileName.Contains("Boredom") && fileName.Contains("Ô±¹¤"))
+        if (fileName.Contains("Boredom") && fileName.Contains("å‘˜å·¥"))
         {
-            return fileName.Contains("Å®") ? "CompanyEmployee_Melancholy_F" : "CompanyEmployee_Melancholy_M";
+            return fileName.Contains("å¥³") ? "CompanyEmployee_Melancholy_F" : "CompanyEmployee_Melancholy_M";
         }
-        if (fileName.Contains("Picky") && fileName.Contains("Ô±¹¤"))
+        if (fileName.Contains("Picky") && fileName.Contains("å‘˜å·¥"))
         {
-            return fileName.Contains("Å®") ? "CompanyEmployee_Picky_F" : "CompanyEmployee_Picky_M";
+            return fileName.Contains("å¥³") ? "CompanyEmployee_Picky_F" : "CompanyEmployee_Picky_M";
         }
-        if (fileName.Contains("Friendly") && fileName.Contains("Ô±¹¤"))
+        if (fileName.Contains("Friendly") && fileName.Contains("å‘˜å·¥"))
         {
-            return fileName.Contains("Å®") ? "CompanyEmployee_Friendly_F" : "CompanyEmployee_Friendly_M";
-        }
-        
-        // ÆäËûÉí·İ£¨Í¨ÓÃÁ¢»æ£©
-        if (fileName.Contains("Ğ¡Áìµ¼"))
-        {
-            return fileName.Contains("Å®") ? "SmallLeader_F" : "SmallLeader_M";
-        }
-        if (fileName.Contains("×ÔÓÉÖ°ÒµÕß"))
-        {
-            return fileName.Contains("Å®") ? "Freelancer_F" : "Freelancer_M";
-        }
-        if (fileName.Contains("ÀÏ°å"))
-        {
-            return fileName.Contains("Å®") ? "Boss_F" : "Boss_M";
-        }
-        if (fileName.Contains("´óÑ§Éú"))
-        {
-            return fileName.Contains("Å®") ? "Student_F" : "Student_M";
+            return fileName.Contains("å¥³") ? "CompanyEmployee_Friendly_F" : "CompanyEmployee_Friendly_M";
         }
         
-        // ÌØÊâÁ¢»æ
-        if (fileName.Contains("²àÉí"))
+        // å…¶ä»–èº«ä»½ï¼ˆé€šç”¨ç«‹ç»˜ï¼‰
+        if (fileName.Contains("å°é¢†å¯¼"))
         {
-            return fileName.Contains("Å®") ? "Profile_F" : "Profile_M";
+            return fileName.Contains("å¥³") ? "SmallLeader_F" : "SmallLeader_M";
         }
-        if (fileName.Contains("ÀÏµê³¤"))
+        if (fileName.Contains("è‡ªç”±èŒä¸šè€…"))
+        {
+            return fileName.Contains("å¥³") ? "Freelancer_F" : "Freelancer_M";
+        }
+        if (fileName.Contains("è€æ¿"))
+        {
+            return fileName.Contains("å¥³") ? "Boss_F" : "Boss_M";
+        }
+        if (fileName.Contains("å¤§å­¦ç”Ÿ"))
+        {
+            return fileName.Contains("å¥³") ? "Student_F" : "Student_M";
+        }
+        
+        // ç‰¹æ®Šç«‹ç»˜
+        if (fileName.Contains("ä¾§èº«"))
+        {
+            return fileName.Contains("å¥³") ? "Profile_F" : "Profile_M";
+        }
+        if (fileName.Contains("è€åº—é•¿"))
         {
             return "ShopKeeper";
         }
         
-        Debug.LogWarning($"ÎŞ·¨Ê¶±ğµÄÁ¢»æÎÄ¼şÃû: {fileName}");
+        Debug.LogWarning($"æ— æ³•è¯†åˆ«çš„ç«‹ç»˜æ–‡ä»¶å: {fileName}");
         return null;
     }
     
     /// <summary>
-    /// ½«Á¢»æÂ·¾¶Ó¦ÓÃµ½NPCÊı¾İ
+    /// å°†ç«‹ç»˜è·¯å¾„åº”ç”¨åˆ°NPCæ•°æ®
     /// </summary>
     private int ApplyPortraitPaths(NPCInfoRoot npcData, Dictionary<string, string> portraitMappings)
     {
@@ -205,7 +205,7 @@ public class PortraitPathUpdater : EditorWindow
             string identityName = identityKV.Key;
             var identity = identityKV.Value;
             
-            // ±éÀúÃ¿¸ö×´Ì¬
+            // éå†æ¯ä¸ªçŠ¶æ€
             foreach (var stateField in identity.GetType().GetFields())
             {
                 if (stateField.FieldType == typeof(List<NPCInfo>))
@@ -217,12 +217,12 @@ public class PortraitPathUpdater : EditorWindow
                     {
                         foreach (var npc in npcList)
                         {
-                            // ¹¹½¨²éÕÒ¼ü
+                            // æ„å»ºæŸ¥æ‰¾é”®
                             string genderSuffix = npc.gender == "male" ? "M" : "F";
                             
-                            // ÓÅÏÈ²éÕÒ¾ßÌå×´Ì¬µÄÁ¢»æ
+                            // ä¼˜å…ˆæŸ¥æ‰¾å…·ä½“çŠ¶æ€çš„ç«‹ç»˜
                             string specificKey = $"{identityName}_{stateName}_{genderSuffix}";
-                            // ±¸ÓÃÍ¨ÓÃÁ¢»æ
+                            // å¤‡ç”¨é€šç”¨ç«‹ç»˜
                             string genericKey = $"{identityName}_{genderSuffix}";
                             
                             string portraitPath = null;
@@ -239,11 +239,11 @@ public class PortraitPathUpdater : EditorWindow
                             {
                                 npc.portraitPath = portraitPath;
                                 updatedCount++;
-                                Debug.Log($"¸üĞÂÁ¢»æ: {npc.id} -> {portraitPath}");
+                                Debug.Log($"æ›´æ–°ç«‹ç»˜: {npc.id} -> {portraitPath}");
                             }
                             else
                             {
-                                Debug.LogWarning($"Î´ÕÒµ½Á¢»æ: {npc.id} (²éÕÒ¼ü: {specificKey}, {genericKey})");
+                                Debug.LogWarning($"æœªæ‰¾åˆ°ç«‹ç»˜: {npc.id} (æŸ¥æ‰¾é”®: {specificKey}, {genericKey})");
                             }
                         }
                     }
@@ -255,7 +255,7 @@ public class PortraitPathUpdater : EditorWindow
     }
 }
 
-// Êı¾İ½á¹¹¶¨Òå£¨¼ò»¯°æ£¬ÓÃÓÚJSON½âÎö£©
+// æ•°æ®ç»“æ„å®šä¹‰ï¼ˆç®€åŒ–ç‰ˆï¼Œç”¨äºJSONè§£æï¼‰
 [System.Serializable]
 public class NPCInfoRoot
 {
@@ -289,5 +289,5 @@ public class NPCInfo
     public string name;
     public int initialMood;
     public int visitPercent;
-    public string portraitPath; // ĞÂÔö×Ö¶Î
+    public string portraitPath; // æ–°å¢å­—æ®µ
 }

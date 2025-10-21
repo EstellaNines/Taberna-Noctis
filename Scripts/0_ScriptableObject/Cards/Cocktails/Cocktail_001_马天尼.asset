@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Martini
   category: "\u7ECF\u5178\u9E21\u5C3E\u9152"
   feature: "\u6311\u5254\u4E13\u7CBE\uFF0C\u5E72\u7EC3\u7EAF\u7CB9\u7684\u7ECF\u5178\u4E4B\u738B"
+  tags:
+  - "\u7ECF\u5178\u9152"
+  themeColor: {r: 0.53, g: 0.81, b: 0.98, a: 1}
   effects:
     busy: 1
     impatient: -2

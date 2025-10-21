@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Tequila
   category: "\u57FA\u7840\u9152\u7C7B"
   feature: "\u6311\u5254\u578B\uFF0C\u4E2A\u6027\u5F3A\u70C8"
+  tags:
+  - "\u57FA\u9152"
+  themeColor: {r: 0.7, g: 0.85, b: 1, a: 1}
   effects:
     busy: -1
     impatient: -2

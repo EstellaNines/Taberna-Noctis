@@ -22,6 +22,12 @@ namespace TabernaNoctis.Cards
         [TextArea]
         public string feature;           // 特点/描述
 
+        [Header("标签系统")]
+        public string[] tags;            // 标签（基酒、调味酒、调味品、新鲜配料、经典酒、热带酒、特调酒等）
+
+        [Header("颜色基调")]
+        public Color themeColor = Color.white;  // 卡牌颜色基调（根据标签自动设定）
+
         [Header("数值效果(五向)")]
         public CardEffects effects;      // 五向效果
 

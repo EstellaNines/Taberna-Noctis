@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Angostura Bitters
   category: "\u8C03\u5473\u54C1"
   feature: "\u591A\u72B6\u6001\u589E\u5F3A\uFF0C\u7ECF\u5178\u82E6\u7CBE"
+  tags:
+  - "\u8C03\u5473\u54C1"
+  themeColor: {r: 1, g: 0.7, b: 0.7, a: 1}
   effects:
     busy: 1
     impatient: 1

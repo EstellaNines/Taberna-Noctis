@@ -3,27 +3,27 @@ using UnityEditor;
 using System.IO;
 
 /// <summary>
-/// ±à¼­Æ÷¹¤¾ß£º°ïÖúÉèÖÃ CustomerSpawnManager µÄÒıÓÃ
+/// ç¼–è¾‘å™¨å·¥å…·ï¼šå¸®åŠ©è®¾ç½® CustomerSpawnManager çš„å¼•ç”¨
 /// </summary>
 public class CustomerSpawnManagerSetup
 {
     [MenuItem("Tools/TN/Setup CustomerSpawnManager References")]
     public static void SetupReferences()
     {
-        Debug.Log("=== CustomerSpawnManager ÒıÓÃÉèÖÃ¹¤¾ß ===");
+        Debug.Log("=== CustomerSpawnManager å¼•ç”¨è®¾ç½®å·¥å…· ===");
 
-        // 1. ²éÕÒ³¡¾°ÖĞµÄ CustomerSpawnManager
+        // 1. æŸ¥æ‰¾åœºæ™¯ä¸­çš„ CustomerSpawnManager
         var spawnManager = Object.FindObjectOfType<CustomerSpawnManager>();
         if (spawnManager == null)
         {
-            Debug.LogError("³¡¾°ÖĞÎ´ÕÒµ½ CustomerSpawnManager ×é¼ş£¡");
-            Debug.LogError("ÇëÏÈÔÚ NightScreen ³¡¾°ÖĞ´´½¨Ò»¸ö GameObject ²¢Ìí¼Ó CustomerSpawnManager ×é¼ş");
+            Debug.LogError("åœºæ™¯ä¸­æœªæ‰¾åˆ° CustomerSpawnManager ç»„ä»¶ï¼");
+            Debug.LogError("è¯·å…ˆåœ¨ NightScreen åœºæ™¯ä¸­åˆ›å»ºä¸€ä¸ª GameObject å¹¶æ·»åŠ  CustomerSpawnManager ç»„ä»¶");
             return;
         }
 
-        Debug.Log($"ÕÒµ½ CustomerSpawnManager: {spawnManager.gameObject.name}");
+        Debug.Log($"æ‰¾åˆ° CustomerSpawnManager: {spawnManager.gameObject.name}");
 
-        // 2. ²éÕÒ CharacterRolesIndex
+        // 2. æŸ¥æ‰¾ CharacterRolesIndex
         string[] rolesIndexGuids = AssetDatabase.FindAssets("t:CharacterRolesIndex");
         CharacterRolesIndex rolesIndex = null;
         
@@ -31,10 +31,10 @@ public class CustomerSpawnManagerSetup
         {
             string path = AssetDatabase.GUIDToAssetPath(rolesIndexGuids[0]);
             rolesIndex = AssetDatabase.LoadAssetAtPath<CharacterRolesIndex>(path);
-            Debug.Log($"ÕÒµ½ CharacterRolesIndex: {path}");
+            Debug.Log($"æ‰¾åˆ° CharacterRolesIndex: {path}");
         }
 
-        // 3. ²éÕÒ NpcDatabase
+        // 3. æŸ¥æ‰¾ NpcDatabase
         string[] databaseGuids = AssetDatabase.FindAssets("t:NpcDatabase");
         NpcDatabase npcDatabase = null;
         
@@ -42,13 +42,13 @@ public class CustomerSpawnManagerSetup
         {
             string path = AssetDatabase.GUIDToAssetPath(databaseGuids[0]);
             npcDatabase = AssetDatabase.LoadAssetAtPath<NpcDatabase>(path);
-            Debug.Log($"ÕÒµ½ NpcDatabase: {path}");
+            Debug.Log($"æ‰¾åˆ° NpcDatabase: {path}");
         }
 
-        // 4. ÉèÖÃÒıÓÃ
+        // 4. è®¾ç½®å¼•ç”¨
         bool hasChanges = false;
 
-        // Ê¹ÓÃ·´ÉäÉèÖÃË½ÓĞ×Ö¶Î£¨½öÔÚ±à¼­Æ÷ÖĞ£©
+        // ä½¿ç”¨åå°„è®¾ç½®ç§æœ‰å­—æ®µï¼ˆä»…åœ¨ç¼–è¾‘å™¨ä¸­ï¼‰
         var characterRolesIndexField = typeof(CustomerSpawnManager).GetField("characterRolesIndex", 
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         var npcDatabaseField = typeof(CustomerSpawnManager).GetField("npcDatabase", 
@@ -58,27 +58,27 @@ public class CustomerSpawnManagerSetup
         {
             characterRolesIndexField.SetValue(spawnManager, rolesIndex);
             hasChanges = true;
-            Debug.Log("7¼3 ÒÑÉèÖÃ CharacterRolesIndex ÒıÓÃ");
+            Debug.Log("ï¿½7ï¿½3 å·²è®¾ç½® CharacterRolesIndex å¼•ç”¨");
         }
 
         if (npcDatabaseField != null && npcDatabase != null)
         {
             npcDatabaseField.SetValue(spawnManager, npcDatabase);
             hasChanges = true;
-            Debug.Log("7¼3 ÒÑÉèÖÃ NpcDatabase ÒıÓÃ");
+            Debug.Log("ï¿½7ï¿½3 å·²è®¾ç½® NpcDatabase å¼•ç”¨");
         }
 
         if (hasChanges)
         {
             EditorUtility.SetDirty(spawnManager);
-            Debug.Log("7¼3 ÒıÓÃÉèÖÃÍê³É£¡Çë±£´æ³¡¾°");
+            Debug.Log("ï¿½7ï¿½3 å¼•ç”¨è®¾ç½®å®Œæˆï¼è¯·ä¿å­˜åœºæ™¯");
         }
         else
         {
-            Debug.LogWarning("7Ã4 Î´ÕÒµ½¿ÉÉèÖÃµÄÒıÓÃ");
+            Debug.LogWarning("ï¿½7ï¿½4 æœªæ‰¾åˆ°å¯è®¾ç½®çš„å¼•ç”¨");
         }
 
-        // 5. ÑéÖ¤ÉèÖÃ
+        // 5. éªŒè¯è®¾ç½®
         VerifySetup(spawnManager);
     }
 
@@ -88,7 +88,7 @@ public class CustomerSpawnManagerSetup
         var spawnManager = Object.FindObjectOfType<CustomerSpawnManager>();
         if (spawnManager == null)
         {
-            Debug.LogError("³¡¾°ÖĞÎ´ÕÒµ½ CustomerSpawnManager£¡");
+            Debug.LogError("åœºæ™¯ä¸­æœªæ‰¾åˆ° CustomerSpawnManagerï¼");
             return;
         }
 
@@ -97,9 +97,9 @@ public class CustomerSpawnManagerSetup
 
     private static void VerifySetup(CustomerSpawnManager spawnManager)
     {
-        Debug.Log("=== CustomerSpawnManager ÉèÖÃÑéÖ¤ ===");
+        Debug.Log("=== CustomerSpawnManager è®¾ç½®éªŒè¯ ===");
 
-        // Ê¹ÓÃ·´Éä¼ì²éË½ÓĞ×Ö¶Î
+        // ä½¿ç”¨åå°„æ£€æŸ¥ç§æœ‰å­—æ®µ
         var characterRolesIndexField = typeof(CustomerSpawnManager).GetField("characterRolesIndex", 
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         var npcDatabaseField = typeof(CustomerSpawnManager).GetField("npcDatabase", 
@@ -110,9 +110,9 @@ public class CustomerSpawnManagerSetup
 
         if (rolesIndex != null)
         {
-            Debug.Log($"7¼3 CharacterRolesIndex: {rolesIndex.name}");
-            Debug.Log($"   - °æ±¾: {rolesIndex.version}");
-            Debug.Log($"   - Éí·İÊıÁ¿: {rolesIndex.roles.Count}");
+            Debug.Log($"ï¿½7ï¿½3 CharacterRolesIndex: {rolesIndex.name}");
+            Debug.Log($"   - ç‰ˆæœ¬: {rolesIndex.version}");
+            Debug.Log($"   - èº«ä»½æ•°é‡: {rolesIndex.roles.Count}");
             
             int totalNpcs = 0;
             foreach (var role in rolesIndex.roles)
@@ -120,58 +120,58 @@ public class CustomerSpawnManagerSetup
                 if (role != null)
                 {
                     totalNpcs += role.npcAssets.Count;
-                    Debug.Log($"   - {role.identityId}: {role.npcAssets.Count} ¸öNPC");
+                    Debug.Log($"   - {role.identityId}: {role.npcAssets.Count} ä¸ªNPC");
                 }
             }
-            Debug.Log($"   - ×ÜNPCÊıÁ¿: {totalNpcs}");
+            Debug.Log($"   - æ€»NPCæ•°é‡: {totalNpcs}");
         }
         else
         {
-            Debug.LogWarning("7Ã4 CharacterRolesIndex Î´ÉèÖÃ");
+            Debug.LogWarning("ï¿½7ï¿½4 CharacterRolesIndex æœªè®¾ç½®");
         }
 
         if (database != null)
         {
-            Debug.Log($"7¼3 NpcDatabase: {database.name}");
-            Debug.Log($"   - NPCÊıÁ¿: {database.allNpcs.Count}");
+            Debug.Log($"ï¿½7ï¿½3 NpcDatabase: {database.name}");
+            Debug.Log($"   - NPCæ•°é‡: {database.allNpcs.Count}");
         }
         else
         {
-            Debug.LogWarning("7Ã4 NpcDatabase Î´ÉèÖÃ");
+            Debug.LogWarning("ï¿½7ï¿½4 NpcDatabase æœªè®¾ç½®");
         }
 
         if (rolesIndex == null && database == null)
         {
-            Debug.LogError("7Ã4 ÖÁÉÙĞèÒªÉèÖÃ CharacterRolesIndex »ò NpcDatabase ÖĞµÄÒ»¸ö£¡");
-            Debug.LogError("ÍÆ¼öÊ¹ÓÃ CharacterRolesIndex£¬ÒòÎªËüÀûÓÃÁËÏÖÓĞµÄ²ã´Î»¯¼Ü¹¹");
+            Debug.LogError("ï¿½7ï¿½4 è‡³å°‘éœ€è¦è®¾ç½® CharacterRolesIndex æˆ– NpcDatabase ä¸­çš„ä¸€ä¸ªï¼");
+            Debug.LogError("æ¨èä½¿ç”¨ CharacterRolesIndexï¼Œå› ä¸ºå®ƒåˆ©ç”¨äº†ç°æœ‰çš„å±‚æ¬¡åŒ–æ¶æ„");
         }
 
-        Debug.Log("=== ÑéÖ¤Íê³É ===");
+        Debug.Log("=== éªŒè¯å®Œæˆ ===");
     }
 
     [MenuItem("Tools/TN/Create CustomerSpawnManager GameObject")]
     public static void CreateCustomerSpawnManagerGameObject()
     {
-        // ¼ì²éÊÇ·ñÒÑ´æÔÚ
+        // æ£€æŸ¥æ˜¯å¦å·²å­˜åœ¨
         var existing = Object.FindObjectOfType<CustomerSpawnManager>();
         if (existing != null)
         {
-            Debug.LogWarning($"³¡¾°ÖĞÒÑ´æÔÚ CustomerSpawnManager: {existing.gameObject.name}");
+            Debug.LogWarning($"åœºæ™¯ä¸­å·²å­˜åœ¨ CustomerSpawnManager: {existing.gameObject.name}");
             Selection.activeGameObject = existing.gameObject;
             return;
         }
 
-        // ´´½¨ĞÂµÄ GameObject
+        // åˆ›å»ºæ–°çš„ GameObject
         var go = new GameObject("CustomerSpawnManager");
         var component = go.AddComponent<CustomerSpawnManager>();
         
-        // ÉèÖÃÎ»ÖÃ
+        // è®¾ç½®ä½ç½®
         go.transform.position = Vector3.zero;
         
-        // Ñ¡ÖĞĞÂ´´½¨µÄ¶ÔÏó
+        // é€‰ä¸­æ–°åˆ›å»ºçš„å¯¹è±¡
         Selection.activeGameObject = go;
         
-        Debug.Log("7¼3 ÒÑ´´½¨ CustomerSpawnManager GameObject");
-        Debug.Log("ÇëÔËĞĞ 'Tools ¡ú TN ¡ú Setup CustomerSpawnManager References' À´ÉèÖÃÒıÓÃ");
+        Debug.Log("ï¿½7ï¿½3 å·²åˆ›å»º CustomerSpawnManager GameObject");
+        Debug.Log("è¯·è¿è¡Œ 'Tools â†’ TN â†’ Setup CustomerSpawnManager References' æ¥è®¾ç½®å¼•ç”¨");
     }
 }

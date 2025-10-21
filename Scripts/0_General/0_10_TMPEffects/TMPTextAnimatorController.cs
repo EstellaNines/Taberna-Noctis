@@ -3,29 +3,29 @@ using TMPro;
 using System.Collections;
 
 /// <summary>
-/// TMP²¨ÀË¶¯»­¿ØÖÆÆ÷ - ÎªTMPÎÄ±¾Ìí¼ÓÇáÎ¢µÄ²¨ÀËĞÎÉÏÏÂ¸¡¶¯Ğ§¹û
-/// ÎŞĞèÈÎºÎ²å¼şÒÀÀµ£¬Ö±½Ó²Ù×÷¶¥µãÊµÏÖ
+/// TMPæ³¢æµªåŠ¨ç”»æ§åˆ¶å™¨ - ä¸ºTMPæ–‡æœ¬æ·»åŠ è½»å¾®çš„æ³¢æµªå½¢ä¸Šä¸‹æµ®åŠ¨æ•ˆæœ
+/// æ— éœ€ä»»ä½•æ’ä»¶ä¾èµ–ï¼Œç›´æ¥æ“ä½œé¡¶ç‚¹å®ç°
 /// </summary>
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class TMPTextAnimatorController : MonoBehaviour
 {
-    [Header("²¨ÀË¶¯»­ÉèÖÃ")]
+    [Header("æ³¢æµªåŠ¨ç”»è®¾ç½®")]
     [SerializeField] private bool enableWaveAnimation = true;
     [SerializeField] private bool autoStart = true;
     
-    [Header("²¨ÀËĞ§¹û²ÎÊı")]
+    [Header("æ³¢æµªæ•ˆæœå‚æ•°")]
     [Range(0.5f, 8f)]
-    [SerializeField] private float waveAmplitude = 3f;      // ²¨ÀËÕñ·ù£¨ÉÏÏÂ¸¡¶¯¾àÀë£©
+    [SerializeField] private float waveAmplitude = 3f;      // æ³¢æµªæŒ¯å¹…ï¼ˆä¸Šä¸‹æµ®åŠ¨è·ç¦»ï¼‰
     [Range(0.5f, 5f)]
-    [SerializeField] private float waveSpeed = 2f;         // ²¨ÀËËÙ¶È
+    [SerializeField] private float waveSpeed = 2f;         // æ³¢æµªé€Ÿåº¦
     [Range(0.1f, 2f)]
-    [SerializeField] private float waveFrequency = 1f;     // ²¨ÀËÆµÂÊ£¨×Ö·û¼äµÄ²¨ÀËÃÜ¶È£©
+    [SerializeField] private float waveFrequency = 1f;     // æ³¢æµªé¢‘ç‡ï¼ˆå­—ç¬¦é—´çš„æ³¢æµªå¯†åº¦ï¼‰
     
-    [Header("¸ß¼¶ÉèÖÃ")]
-    [SerializeField] private bool randomOffset = true;     // Ëæ»úÆğÊ¼Æ«ÒÆ
-    [SerializeField] private AnimationCurve waveCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // ²¨ÀËÇúÏß
+    [Header("é«˜çº§è®¾ç½®")]
+    [SerializeField] private bool randomOffset = true;     // éšæœºèµ·å§‹åç§»
+    [SerializeField] private AnimationCurve waveCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // æ³¢æµªæ›²çº¿
     
-    // ×é¼şÒıÓÃºÍ¶¯»­×´Ì¬
+    // ç»„ä»¶å¼•ç”¨å’ŒåŠ¨ç”»çŠ¶æ€
     private TextMeshProUGUI tmpText;
     private Coroutine waveCoroutine;
     private bool isAnimating = false;
@@ -33,17 +33,17 @@ public class TMPTextAnimatorController : MonoBehaviour
     
     private void Awake()
     {
-        // »ñÈ¡×é¼şÒıÓÃ
+        // è·å–ç»„ä»¶å¼•ç”¨
         tmpText = GetComponent<TextMeshProUGUI>();
         
         if (tmpText == null)
         {
-            Debug.LogError("[TMPTextAnimatorController] Î´ÕÒµ½ TextMeshProUGUI ×é¼ş£¡");
+            Debug.LogError("[TMPTextAnimatorController] æœªæ‰¾åˆ° TextMeshProUGUI ç»„ä»¶ï¼");
             enabled = false;
             return;
         }
         
-        // ÉèÖÃËæ»úÊ±¼äÆ«ÒÆ
+        // è®¾ç½®éšæœºæ—¶é—´åç§»
         if (randomOffset)
         {
             timeOffset = Random.Range(0f, Mathf.PI * 2f);
@@ -72,7 +72,7 @@ public class TMPTextAnimatorController : MonoBehaviour
     }
     
     /// <summary>
-    /// ¿ªÊ¼²¨ÀË¶¯»­
+    /// å¼€å§‹æ³¢æµªåŠ¨ç”»
     /// </summary>
     public void StartWaveAnimation()
     {
@@ -81,11 +81,11 @@ public class TMPTextAnimatorController : MonoBehaviour
         isAnimating = true;
         waveCoroutine = StartCoroutine(WaveAnimationCoroutine());
         
-        Debug.Log("[TMPTextAnimatorController] ²¨ÀË¶¯»­ÒÑÆô¶¯");
+        Debug.Log("[TMPTextAnimatorController] æ³¢æµªåŠ¨ç”»å·²å¯åŠ¨");
     }
     
     /// <summary>
-    /// Í£Ö¹²¨ÀË¶¯»­
+    /// åœæ­¢æ³¢æµªåŠ¨ç”»
     /// </summary>
     public void StopWaveAnimation()
     {
@@ -97,54 +97,54 @@ public class TMPTextAnimatorController : MonoBehaviour
         
         isAnimating = false;
         
-        Debug.Log("[TMPTextAnimatorController] ²¨ÀË¶¯»­ÒÑÍ£Ö¹");
+        Debug.Log("[TMPTextAnimatorController] æ³¢æµªåŠ¨ç”»å·²åœæ­¢");
     }
     
     /// <summary>
-    /// ²¨ÀË¶¯»­Ğ­³Ì - ºËĞÄ¶¯»­ÊµÏÖ
+    /// æ³¢æµªåŠ¨ç”»åç¨‹ - æ ¸å¿ƒåŠ¨ç”»å®ç°
     /// </summary>
     private IEnumerator WaveAnimationCoroutine()
     {
         while (enableWaveAnimation && isAnimating)
         {
-            // Ç¿ÖÆ¸üĞÂÎÄ±¾Íø¸ñ
+            // å¼ºåˆ¶æ›´æ–°æ–‡æœ¬ç½‘æ ¼
             tmpText.ForceMeshUpdate();
             
-            // »ñÈ¡ÎÄ±¾ĞÅÏ¢
+            // è·å–æ–‡æœ¬ä¿¡æ¯
             TMP_TextInfo textInfo = tmpText.textInfo;
             
             for (int i = 0; i < textInfo.characterCount; i++)
             {
                 TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
                 
-                // Ìø¹ı²»¿É¼û×Ö·û
+                // è·³è¿‡ä¸å¯è§å­—ç¬¦
                 if (!charInfo.isVisible) continue;
                 
-                // »ñÈ¡×Ö·ûµÄ¶¥µãË÷Òı
+                // è·å–å­—ç¬¦çš„é¡¶ç‚¹ç´¢å¼•
                 int vertexIndex = charInfo.vertexIndex;
                 
-                // »ñÈ¡²ÄÖÊË÷Òı
+                // è·å–æè´¨ç´¢å¼•
                 int materialIndex = charInfo.materialReferenceIndex;
                 Vector3[] vertices = textInfo.meshInfo[materialIndex].vertices;
                 
-                // ¼ÆËã²¨ÀËÆ«ÒÆ
+                // è®¡ç®—æ³¢æµªåç§»
                 float time = Time.time * waveSpeed + timeOffset;
                 float waveOffset = Mathf.Sin(time + i * waveFrequency) * waveAmplitude;
                 
-                // Ó¦ÓÃÇúÏßµ÷ÖÆ
+                // åº”ç”¨æ›²çº¿è°ƒåˆ¶
                 float curveValue = waveCurve.Evaluate((Mathf.Sin(time + i * waveFrequency) + 1f) * 0.5f);
                 waveOffset *= curveValue;
                 
-                // Ó¦ÓÃÆ«ÒÆµ½×Ö·ûµÄËùÓĞ¶¥µã£¨Ã¿¸ö×Ö·ûÓĞ4¸ö¶¥µã£©
+                // åº”ç”¨åç§»åˆ°å­—ç¬¦çš„æ‰€æœ‰é¡¶ç‚¹ï¼ˆæ¯ä¸ªå­—ç¬¦æœ‰4ä¸ªé¡¶ç‚¹ï¼‰
                 Vector3 offset = new Vector3(0, waveOffset, 0);
                 
-                vertices[vertexIndex + 0] += offset; // ×óÏÂ
-                vertices[vertexIndex + 1] += offset; // ×óÉÏ
-                vertices[vertexIndex + 2] += offset; // ÓÒÉÏ
-                vertices[vertexIndex + 3] += offset; // ÓÒÏÂ
+                vertices[vertexIndex + 0] += offset; // å·¦ä¸‹
+                vertices[vertexIndex + 1] += offset; // å·¦ä¸Š
+                vertices[vertexIndex + 2] += offset; // å³ä¸Š
+                vertices[vertexIndex + 3] += offset; // å³ä¸‹
             }
             
-            // ¸üĞÂËùÓĞ²ÄÖÊµÄÍø¸ñ
+            // æ›´æ–°æ‰€æœ‰æè´¨çš„ç½‘æ ¼
             for (int i = 0; i < textInfo.meshInfo.Length; i++)
             {
                 textInfo.meshInfo[i].mesh.vertices = textInfo.meshInfo[i].vertices;
@@ -155,10 +155,10 @@ public class TMPTextAnimatorController : MonoBehaviour
         }
     }
     
-    #region ¹«¹²¿ØÖÆ·½·¨
+    #region å…¬å…±æ§åˆ¶æ–¹æ³•
     
     /// <summary>
-    /// ÇĞ»»²¨ÀË¶¯»­
+    /// åˆ‡æ¢æ³¢æµªåŠ¨ç”»
     /// </summary>
     public void ToggleWaveAnimation()
     {
@@ -173,7 +173,7 @@ public class TMPTextAnimatorController : MonoBehaviour
     }
     
     /// <summary>
-    /// ÆôÓÃ/½ûÓÃ²¨ÀË¶¯»­
+    /// å¯ç”¨/ç¦ç”¨æ³¢æµªåŠ¨ç”»
     /// </summary>
     public void SetWaveAnimationEnabled(bool enabled)
     {
@@ -190,7 +190,7 @@ public class TMPTextAnimatorController : MonoBehaviour
     }
     
     /// <summary>
-    /// ÉèÖÃ²¨ÀËÕñ·ù
+    /// è®¾ç½®æ³¢æµªæŒ¯å¹…
     /// </summary>
     public void SetWaveAmplitude(float amplitude)
     {
@@ -198,7 +198,7 @@ public class TMPTextAnimatorController : MonoBehaviour
     }
     
     /// <summary>
-    /// ÉèÖÃ²¨ÀËËÙ¶È
+    /// è®¾ç½®æ³¢æµªé€Ÿåº¦
     /// </summary>
     public void SetWaveSpeed(float speed)
     {
@@ -206,7 +206,7 @@ public class TMPTextAnimatorController : MonoBehaviour
     }
     
     /// <summary>
-    /// ÉèÖÃ²¨ÀËÆµÂÊ
+    /// è®¾ç½®æ³¢æµªé¢‘ç‡
     /// </summary>
     public void SetWaveFrequency(float frequency)
     {
@@ -214,7 +214,7 @@ public class TMPTextAnimatorController : MonoBehaviour
     }
     
     /// <summary>
-    /// ÉèÖÃËùÓĞ²¨ÀË²ÎÊı
+    /// è®¾ç½®æ‰€æœ‰æ³¢æµªå‚æ•°
     /// </summary>
     public void SetWaveParameters(float amplitude, float speed, float frequency)
     {
@@ -225,12 +225,12 @@ public class TMPTextAnimatorController : MonoBehaviour
     
     #endregion
     
-    #region Ô¤Éè²¨ÀËĞ§¹û
+    #region é¢„è®¾æ³¢æµªæ•ˆæœ
     
     /// <summary>
-    /// ÇáÎ¢²¨ÀËÔ¤Éè
+    /// è½»å¾®æ³¢æµªé¢„è®¾
     /// </summary>
-    [ContextMenu("Ó¦ÓÃÇáÎ¢²¨ÀË")]
+    [ContextMenu("åº”ç”¨è½»å¾®æ³¢æµª")]
     public void ApplyGentleWave()
     {
         waveAmplitude = 2f;
@@ -245,9 +245,9 @@ public class TMPTextAnimatorController : MonoBehaviour
     }
     
     /// <summary>
-    /// ±ê×¼²¨ÀËÔ¤Éè
+    /// æ ‡å‡†æ³¢æµªé¢„è®¾
     /// </summary>
-    [ContextMenu("Ó¦ÓÃ±ê×¼²¨ÀË")]
+    [ContextMenu("åº”ç”¨æ ‡å‡†æ³¢æµª")]
     public void ApplyStandardWave()
     {
         waveAmplitude = 3f;
@@ -262,9 +262,9 @@ public class TMPTextAnimatorController : MonoBehaviour
     }
     
     /// <summary>
-    /// Ç¿ÁÒ²¨ÀËÔ¤Éè
+    /// å¼ºçƒˆæ³¢æµªé¢„è®¾
     /// </summary>
-    [ContextMenu("Ó¦ÓÃÇ¿ÁÒ²¨ÀË")]
+    [ContextMenu("åº”ç”¨å¼ºçƒˆæ³¢æµª")]
     public void ApplyStrongWave()
     {
         waveAmplitude = 5f;
@@ -279,9 +279,9 @@ public class TMPTextAnimatorController : MonoBehaviour
     }
     
     /// <summary>
-    /// ÂıËÙÓÅÑÅ²¨ÀËÔ¤Éè
+    /// æ…¢é€Ÿä¼˜é›…æ³¢æµªé¢„è®¾
     /// </summary>
-    [ContextMenu("Ó¦ÓÃÓÅÑÅ²¨ÀË")]
+    [ContextMenu("åº”ç”¨ä¼˜é›…æ³¢æµª")]
     public void ApplyElegantWave()
     {
         waveAmplitude = 1.5f;
@@ -297,20 +297,20 @@ public class TMPTextAnimatorController : MonoBehaviour
     
     #endregion
     
-    #region ±à¼­Æ÷¹¦ÄÜ
+    #region ç¼–è¾‘å™¨åŠŸèƒ½
     
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        // ÏŞÖÆ²ÎÊı·¶Î§
+        // é™åˆ¶å‚æ•°èŒƒå›´
         waveAmplitude = Mathf.Clamp(waveAmplitude, 0.5f, 8f);
         waveSpeed = Mathf.Clamp(waveSpeed, 0.5f, 5f);
         waveFrequency = Mathf.Clamp(waveFrequency, 0.1f, 2f);
         
-        // ÔÚÔËĞĞÊ±ÊµÊ±µ÷Õû¶¯»­Ğ§¹û
+        // åœ¨è¿è¡Œæ—¶å®æ—¶è°ƒæ•´åŠ¨ç”»æ•ˆæœ
         if (Application.isPlaying && enableWaveAnimation && isAnimating)
         {
-            // ²ÎÊı·¢Éú±ä»¯Ê±£¬¶¯»­»á×Ô¶¯Ó¦ÓÃĞÂ²ÎÊı
+            // å‚æ•°å‘ç”Ÿå˜åŒ–æ—¶ï¼ŒåŠ¨ç”»ä¼šè‡ªåŠ¨åº”ç”¨æ–°å‚æ•°
         }
     }
 #endif

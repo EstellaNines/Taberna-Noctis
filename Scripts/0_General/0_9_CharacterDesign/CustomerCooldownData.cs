@@ -4,15 +4,15 @@ using System.Collections.Generic;
 namespace TabernaNoctis.CharacterDesign
 {
     /// <summary>
-    /// ¹Ë¿ÍÀäÈ´Êı¾İ£ºÓÃÓÚ±£´æÏµÍ³³Ö¾Ã»¯
+    /// é¡¾å®¢å†·å´æ•°æ®ï¼šç”¨äºä¿å­˜ç³»ç»ŸæŒä¹…åŒ–
     /// </summary>
     [Serializable]
     public class CustomerCooldownData
     {
-        /// <summary>¹Ë¿ÍID£¨Èç CompanyEmployee_001_M£©</summary>
+        /// <summary>é¡¾å®¢IDï¼ˆå¦‚ CompanyEmployee_001_Mï¼‰</summary>
         public string npcId;
         
-        /// <summary>Ê£ÓàÀäÈ´¼ÆÊı£¨ĞèÒªÔÙÓĞNÎ»¹Ë¿Íµ½·Ã²Å½â¶³£©</summary>
+        /// <summary>å‰©ä½™å†·å´è®¡æ•°ï¼ˆéœ€è¦å†æœ‰Nä½é¡¾å®¢åˆ°è®¿æ‰è§£å†»ï¼‰</summary>
         public int remainingCooldown;
 
         public CustomerCooldownData() { }
@@ -25,48 +25,48 @@ namespace TabernaNoctis.CharacterDesign
 
         public override string ToString()
         {
-            return $"[Cooldown] {npcId}: {remainingCooldown} Ê£Óà";
+            return $"[Cooldown] {npcId}: {remainingCooldown} å‰©ä½™";
         }
     }
 
     /// <summary>
-    /// Ò¹¼ä¹Ë¿ÍÏµÍ³ÍêÕû×´Ì¬£ºÓÃÓÚ¿çÌì³Ö¾Ã»¯
+    /// å¤œé—´é¡¾å®¢ç³»ç»Ÿå®Œæ•´çŠ¶æ€ï¼šç”¨äºè·¨å¤©æŒä¹…åŒ–
     /// </summary>
     [Serializable]
     public class NightCustomerState
     {
-        /// <summary>µ±Ç°¶ÓÁĞÖĞµÄ¹Ë¿ÍIDÁĞ±í£¨°´Èë¶ÓË³Ğò£©</summary>
+        /// <summary>å½“å‰é˜Ÿåˆ—ä¸­çš„é¡¾å®¢IDåˆ—è¡¨ï¼ˆæŒ‰å…¥é˜Ÿé¡ºåºï¼‰</summary>
         public List<string> queuedNpcIds = new List<string>();
         
-        /// <summary>ÀäÈ´³Ø£ºµÈ´ı½â¶³µÄ¹Ë¿Í</summary>
+        /// <summary>å†·å´æ± ï¼šç­‰å¾…è§£å†»çš„é¡¾å®¢</summary>
         public List<CustomerCooldownData> cooldownPool = new List<CustomerCooldownData>();
         
-        /// <summary>¿ÉÓÃ³Ø£º¿ÉÒÔ±»³éÈ¡µÄ¹Ë¿ÍIDÁĞ±í</summary>
+        /// <summary>å¯ç”¨æ± ï¼šå¯ä»¥è¢«æŠ½å–çš„é¡¾å®¢IDåˆ—è¡¨</summary>
         public List<string> availablePool = new List<string>();
         
-        /// <summary>È«¾Öµ½·Ã¼ÆÊı£¨ÓÃÓÚÀäÈ´»úÖÆ£©</summary>
+        /// <summary>å…¨å±€åˆ°è®¿è®¡æ•°ï¼ˆç”¨äºå†·å´æœºåˆ¶ï¼‰</summary>
         public int globalVisitorCount = 0;
         
-        /// <summary>×ÜÉú³É¼ÆÊı£¨ÓÃÓÚ¿ìËÙÉú³ÉÂß¼­£©</summary>
+        /// <summary>æ€»ç”Ÿæˆè®¡æ•°ï¼ˆç”¨äºå¿«é€Ÿç”Ÿæˆé€»è¾‘ï¼‰</summary>
         public int totalSpawnedCount = 0;
         
-        /// <summary>Éú³É¼ÆÊ±Æ÷ÀÛ»ıÊ±¼ä</summary>
+        /// <summary>ç”Ÿæˆè®¡æ—¶å™¨ç´¯ç§¯æ—¶é—´</summary>
         public float spawnTimer = 0f;
         
-        /// <summary>±£µ×³Ø£º×îºó3Î»¹Ë¿ÍµÄID£¨ÓªÒµ½áÊøÊ±ÈôÎ´µ½·ÃÔòÖ±½Ó¹é»¹£©</summary>
+        /// <summary>ä¿åº•æ± ï¼šæœ€å3ä½é¡¾å®¢çš„IDï¼ˆè¥ä¸šç»“æŸæ—¶è‹¥æœªåˆ°è®¿åˆ™ç›´æ¥å½’è¿˜ï¼‰</summary>
         public List<string> guaranteeIds = new List<string>();
         
-        /// <summary>ÒÑµ½·Ã¹Ë¿ÍID¼¯ºÏ£¨ÓÃÓÚ±£µ×»úÖÆÅĞ¶Ï£©</summary>
+        /// <summary>å·²åˆ°è®¿é¡¾å®¢IDé›†åˆï¼ˆç”¨äºä¿åº•æœºåˆ¶åˆ¤æ–­ï¼‰</summary>
         public List<string> visitedIds = new List<string>();
 
         /// <summary>
-        /// ´´½¨Ä¬ÈÏ×´Ì¬£¨È«²¿50¸ö¹Ë¿ÍÔÚ¿ÉÓÃ³Ø£©
+        /// åˆ›å»ºé»˜è®¤çŠ¶æ€ï¼ˆå…¨éƒ¨50ä¸ªé¡¾å®¢åœ¨å¯ç”¨æ± ï¼‰
         /// </summary>
         public static NightCustomerState CreateDefault()
         {
             var state = new NightCustomerState();
             
-            // ´Ó NpcDatabase ¼ÓÔØËùÓĞ50¸ö¹Ë¿ÍID
+            // ä» NpcDatabase åŠ è½½æ‰€æœ‰50ä¸ªé¡¾å®¢ID
             var database = UnityEngine.Resources.Load<NpcDatabase>("NpcDatabase");
             if (database != null)
             {
@@ -84,8 +84,8 @@ namespace TabernaNoctis.CharacterDesign
 
         public override string ToString()
         {
-            return $"[NightCustomerState] ¶ÓÁĞ:{queuedNpcIds.Count}, ¿ÉÓÃ:{availablePool.Count}, " +
-                   $"ÀäÈ´:{cooldownPool.Count}, µ½·Ã:{globalVisitorCount}, Éú³É:{totalSpawnedCount}, ±£µ×:{guaranteeIds.Count}";
+            return $"[NightCustomerState] é˜Ÿåˆ—:{queuedNpcIds.Count}, å¯ç”¨:{availablePool.Count}, " +
+                   $"å†·å´:{cooldownPool.Count}, åˆ°è®¿:{globalVisitorCount}, ç”Ÿæˆ:{totalSpawnedCount}, ä¿åº•:{guaranteeIds.Count}";
         }
     }
 }

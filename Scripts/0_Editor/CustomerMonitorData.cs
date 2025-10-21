@@ -2,36 +2,36 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// ¹Ë¿Í¼à¿ØÊı¾İ½á¹¹£ºÓÃÓÚÔÚ¼à¿ØÆ÷ÖĞÏÔÊ¾¹Ë¿ÍĞÅÏ¢
+/// é¡¾å®¢ç›‘æ§æ•°æ®ç»“æ„ï¼šç”¨äºåœ¨ç›‘æ§å™¨ä¸­æ˜¾ç¤ºé¡¾å®¢ä¿¡æ¯
 /// </summary>
 [Serializable]
 public class CustomerMonitorData
 {
-    [Header("»ù±¾ĞÅÏ¢")]
-    public int sequence;                    // ĞòºÅ
-    public string customerName;             // ½ÇÉ«Ãû³Æ
-    public float currentProbability;        // µ±Ç°¸ÅÂÊ£¨%£©
-    public string customerIndex;            // ½ÇÉ«Ë÷ÒıºÅ£¨Èç£ºCompanyEmployee_001_M£©
+    [Header("åŸºæœ¬ä¿¡æ¯")]
+    public int sequence;                    // åºå·
+    public string customerName;             // è§’è‰²åç§°
+    public float currentProbability;        // å½“å‰æ¦‚ç‡ï¼ˆ%ï¼‰
+    public string customerIndex;            // è§’è‰²ç´¢å¼•å·ï¼ˆå¦‚ï¼šCompanyEmployee_001_Mï¼‰
     
-    [Header("ÏêÏ¸ĞÅÏ¢")]
-    public string identityId;               // Éí·İID£¨Èç£ºCompanyEmployee£©
-    public string state;                    // ×´Ì¬£¨Busy/Irritable/Melancholy/Picky/Friendly£©
-    public string gender;                   // ĞÔ±ğ£¨male/female£©
-    public int initialMood;                 // ³õÊ¼ĞÄÇéÖµ
-    public string portraitPath;             // Á¢»æÂ·¾¶
+    [Header("è¯¦ç»†ä¿¡æ¯")]
+    public string identityId;               // èº«ä»½IDï¼ˆå¦‚ï¼šCompanyEmployeeï¼‰
+    public string state;                    // çŠ¶æ€ï¼ˆBusy/Irritable/Melancholy/Picky/Friendlyï¼‰
+    public string gender;                   // æ€§åˆ«ï¼ˆmale/femaleï¼‰
+    public int initialMood;                 // åˆå§‹å¿ƒæƒ…å€¼
+    public string portraitPath;             // ç«‹ç»˜è·¯å¾„
     
-    [Header("ÔËĞĞÊ±×´Ì¬")]
-    public CustomerStatus status;           // µ±Ç°×´Ì¬
-    public int queuePosition;               // ¶ÓÁĞÎ»ÖÃ£¨-1±íÊ¾²»ÔÚ¶ÓÁĞÖĞ£©
-    public int cooldownRemaining;           // Ê£ÓàÀäÈ´¼ÆÊı
-    public DateTime lastUpdateTime;         // ×îºó¸üĞÂÊ±¼ä
-    public bool isInGuaranteePool;          // ÊÇ·ñÔÚ±£µ×³ØÖĞ
+    [Header("è¿è¡Œæ—¶çŠ¶æ€")]
+    public CustomerStatus status;           // å½“å‰çŠ¶æ€
+    public int queuePosition;               // é˜Ÿåˆ—ä½ç½®ï¼ˆ-1è¡¨ç¤ºä¸åœ¨é˜Ÿåˆ—ä¸­ï¼‰
+    public int cooldownRemaining;           // å‰©ä½™å†·å´è®¡æ•°
+    public DateTime lastUpdateTime;         // æœ€åæ›´æ–°æ—¶é—´
+    public bool isInGuaranteePool;          // æ˜¯å¦åœ¨ä¿åº•æ± ä¸­
     
-    [Header("Í³¼ÆĞÅÏ¢")]
-    public int totalVisits;                 // ×Üµ½·Ã´ÎÊı
-    public int totalSpawns;                 // ×ÜÉú³É´ÎÊı
-    public DateTime lastVisitTime;          // ×îºóµ½·ÃÊ±¼ä
-    public DateTime lastSpawnTime;          // ×îºóÉú³ÉÊ±¼ä
+    [Header("ç»Ÿè®¡ä¿¡æ¯")]
+    public int totalVisits;                 // æ€»åˆ°è®¿æ¬¡æ•°
+    public int totalSpawns;                 // æ€»ç”Ÿæˆæ¬¡æ•°
+    public DateTime lastVisitTime;          // æœ€ååˆ°è®¿æ—¶é—´
+    public DateTime lastSpawnTime;          // æœ€åç”Ÿæˆæ—¶é—´
 
     public CustomerMonitorData()
     {
@@ -53,11 +53,11 @@ public class CustomerMonitorData
         gender = npc.gender;
         initialMood = npc.initialMood;
         portraitPath = npc.portraitPath;
-        currentProbability = 0f; // ½«ÔÚÔËĞĞÊ±¼ÆËã
+        currentProbability = 0f; // å°†åœ¨è¿è¡Œæ—¶è®¡ç®—
     }
 
     /// <summary>
-    /// ¸üĞÂ¸ÅÂÊÊı¾İ
+    /// æ›´æ–°æ¦‚ç‡æ•°æ®
     /// </summary>
     public void UpdateProbability(float probability)
     {
@@ -66,7 +66,7 @@ public class CustomerMonitorData
     }
 
     /// <summary>
-    /// ¸üĞÂ×´Ì¬
+    /// æ›´æ–°çŠ¶æ€
     /// </summary>
     public void UpdateStatus(CustomerStatus newStatus, int queuePos = -1, int cooldown = 0)
     {
@@ -75,7 +75,7 @@ public class CustomerMonitorData
         cooldownRemaining = cooldown;
         lastUpdateTime = DateTime.Now;
 
-        // ¸üĞÂÍ³¼Æ
+        // æ›´æ–°ç»Ÿè®¡
         switch (newStatus)
         {
             case CustomerStatus.Spawned:
@@ -90,31 +90,31 @@ public class CustomerMonitorData
     }
 
     /// <summary>
-    /// »ñÈ¡×´Ì¬ÏÔÊ¾ÎÄ±¾
+    /// è·å–çŠ¶æ€æ˜¾ç¤ºæ–‡æœ¬
     /// </summary>
     public string GetStatusText()
     {
         switch (status)
         {
             case CustomerStatus.Available:
-                return "¿ÉÓÃ";
+                return "å¯ç”¨";
             case CustomerStatus.InQueue:
-                return $"¶ÓÁĞÖĞ (#{queuePosition})";
+                return $"é˜Ÿåˆ—ä¸­ (#{queuePosition})";
             case CustomerStatus.Cooldown:
-                return $"ÀäÈ´ÖĞ ({cooldownRemaining})";
+                return $"å†·å´ä¸­ ({cooldownRemaining})";
             case CustomerStatus.Spawned:
-                return "ÒÑÉú³É";
+                return "å·²ç”Ÿæˆ";
             case CustomerStatus.Visited:
-                return "ÒÑµ½·Ã";
+                return "å·²åˆ°è®¿";
             case CustomerStatus.Guarantee:
-                return "±£µ×³Ø";
+                return "ä¿åº•æ± ";
             default:
-                return "Î´Öª";
+                return "æœªçŸ¥";
         }
     }
 
     /// <summary>
-    /// »ñÈ¡×´Ì¬ÑÕÉ«
+    /// è·å–çŠ¶æ€é¢œè‰²
     /// </summary>
     public Color GetStatusColor()
     {
@@ -138,14 +138,14 @@ public class CustomerMonitorData
     }
 
     /// <summary>
-    /// ¸üĞÂ×´Ì¬
+    /// æ›´æ–°çŠ¶æ€
     /// </summary>
     public void UpdateStatus(CustomerStatus newStatus)
     {
         status = newStatus;
         lastUpdateTime = DateTime.Now;
         
-        // ¸ù¾İ×´Ì¬¸üĞÂÏà¹Ø×Ö¶Î
+        // æ ¹æ®çŠ¶æ€æ›´æ–°ç›¸å…³å­—æ®µ
         switch (newStatus)
         {
             case CustomerStatus.Spawned:
@@ -166,14 +166,14 @@ public class CustomerMonitorData
 }
 
 /// <summary>
-/// ¹Ë¿Í×´Ì¬Ã¶¾Ù
+/// é¡¾å®¢çŠ¶æ€æšä¸¾
 /// </summary>
 public enum CustomerStatus
 {
-    Available,      // ¿ÉÓÃ£¨ÔÚ¿ÉÓÃ³ØÖĞ£©
-    InQueue,        // ÔÚ¶ÓÁĞÖĞ
-    Cooldown,       // ÀäÈ´ÖĞ
-    Spawned,        // ÒÑÉú³É
-    Visited,        // ÒÑµ½·Ã
-    Guarantee       // ÔÚ±£µ×³ØÖĞ
+    Available,      // å¯ç”¨ï¼ˆåœ¨å¯ç”¨æ± ä¸­ï¼‰
+    InQueue,        // åœ¨é˜Ÿåˆ—ä¸­
+    Cooldown,       // å†·å´ä¸­
+    Spawned,        // å·²ç”Ÿæˆ
+    Visited,        // å·²åˆ°è®¿
+    Guarantee       // åœ¨ä¿åº•æ± ä¸­
 }

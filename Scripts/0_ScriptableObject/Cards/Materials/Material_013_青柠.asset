@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Lime
   category: "\u65B0\u9C9C\u914D\u6599"
   feature: "\u6E05\u65B0\u89E3\u538B\uFF0C\u9178\u5473\u5E73\u8861"
+  tags:
+  - "\u65B0\u9C9C\u914D\u6599"
+  themeColor: {r: 0.8, g: 1, b: 0.8, a: 1}
   effects:
     busy: -2
     impatient: -1

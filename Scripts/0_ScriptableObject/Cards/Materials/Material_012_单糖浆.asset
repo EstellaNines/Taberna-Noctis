@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Simple Syrup
   category: "\u8C03\u5473\u54C1"
   feature: "\u751C\u5473\u8C03\u8282\uFF0C\u4EF7\u683C\u4F4E\u5EC9"
+  tags:
+  - "\u8C03\u5473\u54C1"
+  themeColor: {r: 1, g: 0.7, b: 0.7, a: 1}
   effects:
     busy: -1
     impatient: 1

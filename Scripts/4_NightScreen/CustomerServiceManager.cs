@@ -8,53 +8,53 @@ using Random = UnityEngine.Random;
 namespace TabernaNoctis.NightScreen
 {
     /// <summary>
-    /// ¹Ë¿Í·şÎñ¹ÜÀíÆ÷
-    /// ¹ÜÀíÍêÕûµÄ¹Ë¿Í·şÎñÁ÷³Ì£º
-    /// - Night¿ªÊ¼ÑÓ³Ù3ÃëºóµÚ1Î»¹Ë¿Í³ö¶Ó
-    /// - ¼àÌı¿¨ÅÆÍÏ×§ ¡ú Æ·³¢3-5Ãë ¡ú ×Ô¶¯½áËã ¡ú ¹Ë¿ÍÀë³¡
-    /// - Ç°5Î»·şÎñÍê³ÉºóÁ¢¼´³ö¶ÓÏÂÒ»Î»£¨ÎŞµÈ´ı£©
-    /// - µÚ6Î»Æğ·şÎñÍê³ÉºóµÈ´ı20ÃëÔÙ³ö¶ÓÏÂÒ»Î»
+    /// é¡¾å®¢æœåŠ¡ç®¡ç†å™¨
+    /// ç®¡ç†å®Œæ•´çš„é¡¾å®¢æœåŠ¡æµç¨‹ï¼š
+    /// - Nightå¼€å§‹å»¶è¿Ÿ3ç§’åç¬¬1ä½é¡¾å®¢å‡ºé˜Ÿ
+    /// - ç›‘å¬å¡ç‰Œæ‹–æ‹½ â†’ å“å°3-5ç§’ â†’ è‡ªåŠ¨ç»“ç®— â†’ é¡¾å®¢ç¦»åœº
+    /// - å‰5ä½æœåŠ¡å®Œæˆåç«‹å³å‡ºé˜Ÿä¸‹ä¸€ä½ï¼ˆæ— ç­‰å¾…ï¼‰
+    /// - ç¬¬6ä½èµ·æœåŠ¡å®Œæˆåç­‰å¾…20ç§’å†å‡ºé˜Ÿä¸‹ä¸€ä½
     /// </summary>
     public class CustomerServiceManager : MonoBehaviour
     {
         public static CustomerServiceManager Instance { get; private set; }
 
-        [Title("×é¼şÒıÓÃ")]
-        [InfoBox("³¡¾°ÖĞ¹Ì¶¨µÄCustomerNpcBehavior×é¼ş£¬¸´ÓÃÏÔÊ¾ËùÓĞ¹Ë¿Í")]
-        [Required("±ØĞë·ÖÅäCustomerNpcBehavior×é¼ş")]
+        [Title("ç»„ä»¶å¼•ç”¨")]
+        [InfoBox("åœºæ™¯ä¸­å›ºå®šçš„CustomerNpcBehaviorç»„ä»¶ï¼Œå¤ç”¨æ˜¾ç¤ºæ‰€æœ‰é¡¾å®¢")]
+        [Required("å¿…é¡»åˆ†é…CustomerNpcBehaviorç»„ä»¶")]
         [SerializeField] private CustomerNpcBehavior customerBehavior;
 
-        [Title("Ê±¼äÅäÖÃ")]
-        [LabelText("Night¿ªÊ¼ºó³õÊ¼ÑÓ³Ù£¨Ãë£©")]
-        [Tooltip("Night½×¶Î¿ªÊ¼ºóµÈ´ı¶à¾Ã³ö¶ÓµÚ1Î»¹Ë¿Í")]
+        [Title("æ—¶é—´é…ç½®")]
+        [LabelText("Nightå¼€å§‹ååˆå§‹å»¶è¿Ÿï¼ˆç§’ï¼‰")]
+        [Tooltip("Nighté˜¶æ®µå¼€å§‹åç­‰å¾…å¤šä¹…å‡ºé˜Ÿç¬¬1ä½é¡¾å®¢")]
         [SerializeField] private float initialDelay = 3f;
 
-        [LabelText("Õı³£³ö¶Ó¼ä¸ô£¨Ãë£©")]
-        [Tooltip("µÚ6Î»¼°Ö®ºóÃ¿Î»¹Ë¿Í·şÎñÍê³ÉºóµÄµÈ´ıÊ±¼ä")]
+        [LabelText("æ­£å¸¸å‡ºé˜Ÿé—´éš”ï¼ˆç§’ï¼‰")]
+        [Tooltip("ç¬¬6ä½åŠä¹‹åæ¯ä½é¡¾å®¢æœåŠ¡å®Œæˆåçš„ç­‰å¾…æ—¶é—´")]
         [SerializeField] private float normalSpawnInterval = 20f;
 
-        [LabelText("¿ìËÙ·şÎñÊıÁ¿")]
-        [Tooltip("Ç°NÎ»¹Ë¿Í·şÎñÍê³ÉºóÁ¢¼´³ö¶ÓÏÂÒ»Î»£¬ÎŞµÈ´ı")]
+        [LabelText("å¿«é€ŸæœåŠ¡æ•°é‡")]
+        [Tooltip("å‰Nä½é¡¾å®¢æœåŠ¡å®Œæˆåç«‹å³å‡ºé˜Ÿä¸‹ä¸€ä½ï¼Œæ— ç­‰å¾…")]
         [SerializeField] private int fastServeCount = 5;
 
-        [Title("Æ·³¢Ê±¼äÅäÖÃ")]
-        [LabelText("×î¶ÌÆ·³¢Ê±¼ä£¨Ãë£©")]
+        [Title("å“å°æ—¶é—´é…ç½®")]
+        [LabelText("æœ€çŸ­å“å°æ—¶é—´ï¼ˆç§’ï¼‰")]
         [SerializeField] private float minDrinkingTime = 10f;
 
-        [LabelText("×î³¤Æ·³¢Ê±¼ä£¨Ãë£©")]
+        [LabelText("æœ€é•¿å“å°æ—¶é—´ï¼ˆç§’ï¼‰")]
         [SerializeField] private float maxDrinkingTime = 15f;
 
-        [Title("ÔËĞĞÊ±×´Ì¬")]
+        [Title("è¿è¡Œæ—¶çŠ¶æ€")]
         [ShowInInspector] private bool isNightActive = false;
         [ShowInInspector] private int currentServedCount = 0;
         [ShowInInspector] private bool isServicing = false;
         [ShowInInspector] private bool isDrinking = false;
         [ShowInInspector] private float nextServeCountdown = 0f;
 
-        // µ±Ç°ÒûÓÃÒôĞ§Â·¾¶£¨±¾´Î·şÎñ¸´ÓÃ£º¿ªÍ·Ò»´Î¡¢½áÎ²Ò»´Î£©
+        // å½“å‰é¥®ç”¨éŸ³æ•ˆè·¯å¾„ï¼ˆæœ¬æ¬¡æœåŠ¡å¤ç”¨ï¼šå¼€å¤´ä¸€æ¬¡ã€ç»“å°¾ä¸€æ¬¡ï¼‰
         private string currentDrinkingClipPath = null;
 
-        #region UnityÉúÃüÖÜÆÚ
+        #region Unityç”Ÿå‘½å‘¨æœŸ
 
         private void Awake()
         {
@@ -64,52 +64,52 @@ namespace TabernaNoctis.NightScreen
                 return;
             }
             Instance = this;
-            Debug.Log("[CustomerService] CustomerServiceManager ³õÊ¼»¯Íê³É");
+            Debug.Log("[CustomerService] CustomerServiceManager åˆå§‹åŒ–å®Œæˆ");
         }
 
         private void Start()
         {
-            // Ç¿ÖÆÉèÖÃÆ·³¢Ê±¼äÎª10-15Ãë£¨¸²¸ÇInspectorÖĞ¿ÉÄÜµÄ¾ÉÖµ£©
+            // å¼ºåˆ¶è®¾ç½®å“å°æ—¶é—´ä¸º10-15ç§’ï¼ˆè¦†ç›–Inspectorä¸­å¯èƒ½çš„æ—§å€¼ï¼‰
             minDrinkingTime = 10f;
             maxDrinkingTime = 15f;
-            Debug.Log($"[CustomerService] Æ·³¢Ê±¼äÒÑÇ¿ÖÆÉèÖÃÎª: {minDrinkingTime}-{maxDrinkingTime}Ãë");
+            Debug.Log($"[CustomerService] å“å°æ—¶é—´å·²å¼ºåˆ¶è®¾ç½®ä¸º: {minDrinkingTime}-{maxDrinkingTime}ç§’");
 
-            // ¼ì²éµ±Ç°½×¶Î£¬Èç¹ûÒÑ¾­ÊÇNight½×¶ÎÔòÁ¢¼´Æô¶¯·şÎñ
+            // æ£€æŸ¥å½“å‰é˜¶æ®µï¼Œå¦‚æœå·²ç»æ˜¯Nighté˜¶æ®µåˆ™ç«‹å³å¯åŠ¨æœåŠ¡
             if (TimeSystemManager.Instance != null)
             {
                 var currentPhase = TimeSystemManager.Instance.CurrentPhase;
-                Debug.Log($"[CustomerService] StartÊ±¼ì²éµ±Ç°½×¶Î: {currentPhase}");
+                Debug.Log($"[CustomerService] Startæ—¶æ£€æŸ¥å½“å‰é˜¶æ®µ: {currentPhase}");
 
                 if (currentPhase == TimePhase.Night && !isNightActive)
                 {
-                    Debug.Log("[CustomerService] ¼ì²âµ½ÒÑ´¦ÓÚNight½×¶Î£¬Á¢¼´Æô¶¯·şÎñ");
+                    Debug.Log("[CustomerService] æ£€æµ‹åˆ°å·²å¤„äºNighté˜¶æ®µï¼Œç«‹å³å¯åŠ¨æœåŠ¡");
                     OnPhaseChanged(TimePhase.Night);
                 }
             }
             else
             {
-                Debug.LogWarning("[CustomerService] TimeSystemManager.InstanceÎª¿Õ");
+                Debug.LogWarning("[CustomerService] TimeSystemManager.Instanceä¸ºç©º");
             }
         }
 
         private void OnEnable()
         {
-            // ¶©ÔÄÊÂ¼ş
+            // è®¢é˜…äº‹ä»¶
             MessageManager.Register<TimePhase>(MessageDefine.PHASE_CHANGED, OnPhaseChanged);
             MessageManager.Register<object>(MessageDefine.COCKTAIL_DELIVERED, OnCocktailDelivered);
-            Debug.Log("[CustomerService] ÊÂ¼ş¶©ÔÄÍê³É - PHASE_CHANGED, COCKTAIL_DELIVERED");
+            Debug.Log("[CustomerService] äº‹ä»¶è®¢é˜…å®Œæˆ - PHASE_CHANGED, COCKTAIL_DELIVERED");
         }
 
         private void OnDisable()
         {
-            // È¡Ïû¶©ÔÄ
+            // å–æ¶ˆè®¢é˜…
             MessageManager.Remove<TimePhase>(MessageDefine.PHASE_CHANGED, OnPhaseChanged);
             MessageManager.Remove<object>(MessageDefine.COCKTAIL_DELIVERED, OnCocktailDelivered);
         }
 
         private void Update()
         {
-            // ¸üĞÂµ¹¼ÆÊ±ÏÔÊ¾£¨½öÓÃÓÚInspector¹Û²ì£©
+            // æ›´æ–°å€’è®¡æ—¶æ˜¾ç¤ºï¼ˆä»…ç”¨äºInspectorè§‚å¯Ÿï¼‰
             if (nextServeCountdown > 0)
             {
                 float deltaTime = Time.deltaTime;
@@ -123,24 +123,24 @@ namespace TabernaNoctis.NightScreen
 
         #endregion
 
-        #region ÊÂ¼ş´¦Àí
+        #region äº‹ä»¶å¤„ç†
 
         private void OnPhaseChanged(TimePhase phase)
         {
-            Debug.Log($"[CustomerService] ½ÓÊÕµ½½×¶Î±ä¸üÊÂ¼ş: {phase}");
+            Debug.Log($"[CustomerService] æ¥æ”¶åˆ°é˜¶æ®µå˜æ›´äº‹ä»¶: {phase}");
 
             if (phase == TimePhase.Night)
             {
                 isNightActive = true;
                 currentServedCount = 0;
                 StartCoroutine(CustomerServiceLoop());
-                Debug.Log($"[CustomerService] Night½×¶Î¿ªÊ¼£¬{initialDelay}ÃëºóµÚÒ»Î»¹Ë¿Íµ½·Ã");
+                Debug.Log($"[CustomerService] Nighté˜¶æ®µå¼€å§‹ï¼Œ{initialDelay}ç§’åç¬¬ä¸€ä½é¡¾å®¢åˆ°è®¿");
             }
             else
             {
                 isNightActive = false;
                 StopAllCoroutines();
-                Debug.Log($"[CustomerService] ½×¶ÎÇĞ»»µ½{phase}£¬Í£Ö¹¹Ë¿Í·şÎñ");
+                Debug.Log($"[CustomerService] é˜¶æ®µåˆ‡æ¢åˆ°{phase}ï¼Œåœæ­¢é¡¾å®¢æœåŠ¡");
             }
         }
 
@@ -149,53 +149,53 @@ namespace TabernaNoctis.NightScreen
             if (!isServicing || isDrinking)
             {
                 if (!isServicing)
-                    Debug.LogWarning("[CustomerService] µ±Ç°ÎŞ¹Ë¿ÍÔÚ·şÎñÖĞ£¬ÎŞ·¨½»¸¶¼¦Î²¾Æ");
+                    Debug.LogWarning("[CustomerService] å½“å‰æ— é¡¾å®¢åœ¨æœåŠ¡ä¸­ï¼Œæ— æ³•äº¤ä»˜é¸¡å°¾é…’");
                 if (isDrinking)
-                    Debug.LogWarning("[CustomerService] ¹Ë¿ÍÕıÔÚÆ·³¢ÖĞ£¬ÇëÉÔºó");
+                    Debug.LogWarning("[CustomerService] é¡¾å®¢æ­£åœ¨å“å°ä¸­ï¼Œè¯·ç¨å");
                 return;
             }
 
-            Debug.Log($"[CustomerService] ¹Ë¿ÍÊÕµ½¼¦Î²¾Æ£¬¿ªÊ¼Æ·³¢...");
+            Debug.Log($"[CustomerService] é¡¾å®¢æ”¶åˆ°é¸¡å°¾é…’ï¼Œå¼€å§‹å“å°...");
             StartCoroutine(CustomerDrinkingProcess(cocktailData));
         }
 
         #endregion
 
-        #region ·şÎñÁ÷³Ì
+        #region æœåŠ¡æµç¨‹
 
         /// <summary>
-        /// ¹Ë¿Í·şÎñÖ÷Ñ­»·
+        /// é¡¾å®¢æœåŠ¡ä¸»å¾ªç¯
         /// </summary>
         private IEnumerator CustomerServiceLoop()
         {
-            // Night¿ªÊ¼ºóÑÓ³Ù3Ãë
+            // Nightå¼€å§‹åå»¶è¿Ÿ3ç§’
             yield return new WaitForSeconds(initialDelay);
 
-            // ³ö¶ÓµÚ1Î»¹Ë¿Í
+            // å‡ºé˜Ÿç¬¬1ä½é¡¾å®¢
             TryServeNextCustomer();
         }
 
         /// <summary>
-        /// ³¢ÊÔ·şÎñÏÂÒ»Î»¹Ë¿Í
+        /// å°è¯•æœåŠ¡ä¸‹ä¸€ä½é¡¾å®¢
         /// </summary>
         private void TryServeNextCustomer()
         {
             if (isServicing)
             {
-                Debug.LogWarning("[CustomerService] ÒÑÓĞ¹Ë¿ÍÔÚ·şÎñÖĞ£¬Ìø¹ı³ö¶Ó");
+                Debug.LogWarning("[CustomerService] å·²æœ‰é¡¾å®¢åœ¨æœåŠ¡ä¸­ï¼Œè·³è¿‡å‡ºé˜Ÿ");
                 return;
             }
 
             if (CustomerSpawnManager.Instance == null)
             {
-                Debug.LogError("[CustomerService] CustomerSpawnManager.InstanceÎª¿Õ");
+                Debug.LogError("[CustomerService] CustomerSpawnManager.Instanceä¸ºç©º");
                 return;
             }
 
             var data = CustomerSpawnManager.Instance.DequeueCustomer();
             if (data == null)
             {
-                Debug.Log("[CustomerService] ¶ÓÁĞÎª¿Õ£¬ÎŞ¸ü¶à¹Ë¿Í");
+                Debug.Log("[CustomerService] é˜Ÿåˆ—ä¸ºç©ºï¼Œæ— æ›´å¤šé¡¾å®¢");
                 return;
             }
 
@@ -203,37 +203,37 @@ namespace TabernaNoctis.NightScreen
             isDrinking = false;
             currentServedCount++;
 
-            Debug.Log($"[CustomerService] ¿ªÊ¼·şÎñµÚ{currentServedCount}Î»¹Ë¿Í: {data.displayName} ({data.state}, {data.gender})");
+            Debug.Log($"[CustomerService] å¼€å§‹æœåŠ¡ç¬¬{currentServedCount}ä½é¡¾å®¢: {data.displayName} ({data.state}, {data.gender})");
 
-            // µ÷ÓÃInitialize»á×Ô¶¯´¦ÀíÉÏÒ»Î»¹Ë¿Íµ­³ö
+            // è°ƒç”¨Initializeä¼šè‡ªåŠ¨å¤„ç†ä¸Šä¸€ä½é¡¾å®¢æ·¡å‡º
             customerBehavior.Initialize(data, () =>
             {
                 MessageManager.Send(MessageDefine.CUSTOMER_DEQUEUED, data);
-                Debug.Log($"[CustomerService] µÚ{currentServedCount}Î»¹Ë¿ÍÈë³¡Íê³É£¬µÈ´ıÍæ¼ÒÍÏ×§¼¦Î²¾Æ...");
+                Debug.Log($"[CustomerService] ç¬¬{currentServedCount}ä½é¡¾å®¢å…¥åœºå®Œæˆï¼Œç­‰å¾…ç©å®¶æ‹–æ‹½é¸¡å°¾é…’...");
             });
         }
 
         /// <summary>
-        /// ¹Ë¿ÍÆ·³¢¼¦Î²¾ÆÁ÷³Ì
+        /// é¡¾å®¢å“å°é¸¡å°¾é…’æµç¨‹
         /// </summary>
         private IEnumerator CustomerDrinkingProcess(object cocktailData)
         {
             isDrinking = true;
 
-            // Ëæ»úÆ·³¢Ê±¼ä10-15Ãë
+            // éšæœºå“å°æ—¶é—´10-15ç§’
             float drinkingTime = Random.Range(minDrinkingTime, maxDrinkingTime);
-            Debug.Log($"[CustomerService] ¹Ë¿ÍÆ·³¢ÖĞ... ({drinkingTime:F1}Ãë) [ÅäÖÃ·¶Î§: {minDrinkingTime}-{maxDrinkingTime}Ãë]");
+            Debug.Log($"[CustomerService] é¡¾å®¢å“å°ä¸­... ({drinkingTime:F1}ç§’) [é…ç½®èŒƒå›´: {minDrinkingTime}-{maxDrinkingTime}ç§’]");
 
-            // ²¥·ÅºÈ¾ÆÒôĞ§£¨¹æÔò£º¿ªÊ¼Ê±Ò»´Î£»½áÎ²Àë³¡Ç°ÔÙÒ»´Î£©
+            // æ’­æ”¾å–é…’éŸ³æ•ˆï¼ˆè§„åˆ™ï¼šå¼€å§‹æ—¶ä¸€æ¬¡ï¼›ç»“å°¾ç¦»åœºå‰å†ä¸€æ¬¡ï¼‰
             PlayDrinkingSoundAtStart();
 
             yield return new WaitForSeconds(drinkingTime);
 
-            // ½áËã£º¸øÇ®¡¢Ğ¡·Ñ¡¢ÆÀ¼Û
+            // ç»“ç®—ï¼šç»™é’±ã€å°è´¹ã€è¯„ä»·
             var customerData = customerBehavior.CurrentData;
             CalculatePaymentAndRating(customerData, cocktailData);
 
-            // ½áÊøÇ°£¨Àë³¡µ­³öÇ°£©ÔÙ²¥·ÅÒ»±éºÈ¾ÆÒôĞ§£¬²¢µÈ´ıÆä²¥·ÅÍê³É
+            // ç»“æŸå‰ï¼ˆç¦»åœºæ·¡å‡ºå‰ï¼‰å†æ’­æ”¾ä¸€éå–é…’éŸ³æ•ˆï¼Œå¹¶ç­‰å¾…å…¶æ’­æ”¾å®Œæˆ
             if (AudioManager.instance != null && !string.IsNullOrEmpty(currentDrinkingClipPath))
             {
                 var clip = AudioManager.instance.LoadAudio(currentDrinkingClipPath);
@@ -244,26 +244,26 @@ namespace TabernaNoctis.NightScreen
                 }
             }
 
-            Debug.Log($"[CustomerService] ·şÎñÍê³É: {customerData.displayName} (µÚ{currentServedCount}Î»)");
+            Debug.Log($"[CustomerService] æœåŠ¡å®Œæˆ: {customerData.displayName} (ç¬¬{currentServedCount}ä½)");
 
-            // ¹Ë¿Íµ­³öÀë³¡
+            // é¡¾å®¢æ·¡å‡ºç¦»åœº
             customerBehavior.PlayExitAnimation(() =>
             {
                 MessageManager.Send(MessageDefine.CUSTOMER_VISITED, customerData);
                 isServicing = false;
                 isDrinking = false;
 
-                // ÅĞ¶ÏÊÇ·ñĞèÒªµÈ´ı
+                // åˆ¤æ–­æ˜¯å¦éœ€è¦ç­‰å¾…
                 if (currentServedCount < fastServeCount)
                 {
-                    // Ç°5Î»£ºÁ¢¼´·şÎñÏÂÒ»Î»
-                    Debug.Log($"[CustomerService] Ç°{fastServeCount}Î»¿ìËÙ·şÎñ£¬Á¢¼´³ö¶ÓÏÂÒ»Î»");
+                    // å‰5ä½ï¼šç«‹å³æœåŠ¡ä¸‹ä¸€ä½
+                    Debug.Log($"[CustomerService] å‰{fastServeCount}ä½å¿«é€ŸæœåŠ¡ï¼Œç«‹å³å‡ºé˜Ÿä¸‹ä¸€ä½");
                     TryServeNextCustomer();
                 }
                 else
                 {
-                    // µÚ6Î»Æğ£ºµÈ´ı20Ãë
-                    Debug.Log($"[CustomerService] µÚ{currentServedCount}Î»ÒÑÍê³É£¬{normalSpawnInterval}Ãëºó·şÎñÏÂÒ»Î»");
+                    // ç¬¬6ä½èµ·ï¼šç­‰å¾…20ç§’
+                    Debug.Log($"[CustomerService] ç¬¬{currentServedCount}ä½å·²å®Œæˆï¼Œ{normalSpawnInterval}ç§’åæœåŠ¡ä¸‹ä¸€ä½");
                     nextServeCountdown = normalSpawnInterval;
                     StartCoroutine(DelayedServeNext());
                 }
@@ -271,23 +271,23 @@ namespace TabernaNoctis.NightScreen
         }
 
         /// <summary>
-        /// ÔÚ¹Ë¿Í¿ªÊ¼Æ·³¢Ê±²¥·ÅºÈ¾ÆÒôĞ§£¨¿ªÍ·Ò»´Î£©£¬²¢¼ÇÂ¼±¾´ÎÊ¹ÓÃµÄÒôĞ§Â·¾¶¡£
-        /// ¹æÔò£ºÄĞĞÔ´ÓÆ·³¢1-4Ëæ»úÒ»Ìõ£»Å®ĞÔ¹Ì¶¨Æ·³¢5¡£
+        /// åœ¨é¡¾å®¢å¼€å§‹å“å°æ—¶æ’­æ”¾å–é…’éŸ³æ•ˆï¼ˆå¼€å¤´ä¸€æ¬¡ï¼‰ï¼Œå¹¶è®°å½•æœ¬æ¬¡ä½¿ç”¨çš„éŸ³æ•ˆè·¯å¾„ã€‚
+        /// è§„åˆ™ï¼šç”·æ€§ä»å“å°1-4éšæœºä¸€æ¡ï¼›å¥³æ€§å›ºå®šå“å°5ã€‚
         /// </summary>
         private void PlayDrinkingSoundAtStart()
         {
             var data = customerBehavior?.CurrentData;
             if (data == null || AudioManager.instance == null) return;
 
-            // Ñ¡ÔñÒôĞ§
+            // é€‰æ‹©éŸ³æ•ˆ
             string clipPath;
             if (!string.IsNullOrEmpty(data.gender) && data.gender.ToLower() == "female")
             {
-                clipPath = GlobalAudio.DrinkTaste5; // Å®Ê¿¹Ì¶¨ÓÃÆ·³¢5
+                clipPath = GlobalAudio.DrinkTaste5; // å¥³å£«å›ºå®šç”¨å“å°5
             }
             else
             {
-                // ÄĞÊ¿´Ó1-4Ëæ»úÒ»¸ö
+                // ç”·å£«ä»1-4éšæœºä¸€ä¸ª
                 int idx = Random.Range(1, 5); // 1..4
                 clipPath = idx switch
                 {
@@ -299,12 +299,12 @@ namespace TabernaNoctis.NightScreen
             }
 
             currentDrinkingClipPath = clipPath;
-            // ¿ªÍ·Á¢¿Ì²¥·ÅÒ»´Î
+            // å¼€å¤´ç«‹åˆ»æ’­æ”¾ä¸€æ¬¡
             AudioManager.instance.PlaySE(currentDrinkingClipPath, 1f);
         }
 
         /// <summary>
-        /// ÑÓ³Ù·şÎñÏÂÒ»Î»¹Ë¿Í£¨µÚ6Î»Æğ£©
+        /// å»¶è¿ŸæœåŠ¡ä¸‹ä¸€ä½é¡¾å®¢ï¼ˆç¬¬6ä½èµ·ï¼‰
         /// </summary>
         private IEnumerator DelayedServeNext()
         {
@@ -329,43 +329,43 @@ namespace TabernaNoctis.NightScreen
         }
 
         /// <summary>
-        /// ¼ÆËã¸¶¿îºÍÆÀ¼Û£¨Õ¼Î»·û£©
+        /// è®¡ç®—ä»˜æ¬¾å’Œè¯„ä»·ï¼ˆå ä½ç¬¦ï¼‰
         /// </summary>
         private void CalculatePaymentAndRating(NpcCharacterData customerData, object cocktailData)
         {
-            // TODO: ¸ù¾İÊµ¼ÊÓÎÏ·Âß¼­ÊµÏÖ
-            // 1. ¼ÆËã»ù´¡¼Û¸ñ£¨basePaymentDefault£©
-            // 2. ¸ù¾İ¹Ë¿ÍÂúÒâ¶È¼ÆËãĞ¡·Ñ£¨identityMultiplier * satisfaction£©
-            // 3. ¸üĞÂÆÀ¼ÛÏµÍ³
-            // 4. ´¥·¢½ğ±ÒÔö¼ÓĞ§¹û
+            // TODO: æ ¹æ®å®é™…æ¸¸æˆé€»è¾‘å®ç°
+            // 1. è®¡ç®—åŸºç¡€ä»·æ ¼ï¼ˆbasePaymentDefaultï¼‰
+            // 2. æ ¹æ®é¡¾å®¢æ»¡æ„åº¦è®¡ç®—å°è´¹ï¼ˆidentityMultiplier * satisfactionï¼‰
+            // 3. æ›´æ–°è¯„ä»·ç³»ç»Ÿ
+            // 4. è§¦å‘é‡‘å¸å¢åŠ æ•ˆæœ
 
-            Debug.Log($"[CustomerService] ½áËãÍê³É - ¹Ë¿Í: {customerData.displayName}");
+            Debug.Log($"[CustomerService] ç»“ç®—å®Œæˆ - é¡¾å®¢: {customerData.displayName}");
 
-            // ·¢ËÍ½áËãÏûÏ¢£¨¹©ÆäËûÏµÍ³Ê¹ÓÃ£©
+            // å‘é€ç»“ç®—æ¶ˆæ¯ï¼ˆä¾›å…¶ä»–ç³»ç»Ÿä½¿ç”¨ï¼‰
             // MessageManager.Send(MessageDefine.SERVICE_PAYMENT_COMPLETE, paymentData);
         }
 
         #endregion
 
-        #region ±à¼­Æ÷µ÷ÊÔ
+        #region ç¼–è¾‘å™¨è°ƒè¯•
 
 #if UNITY_EDITOR
-        [Title("µ÷ÊÔ¹¤¾ß")]
+        [Title("è°ƒè¯•å·¥å…·")]
 
-        [Button("Ä£Äâ½»¸¶¼¦Î²¾Æ", ButtonSizes.Large), GUIColor(0.3f, 1f, 0.3f)]
-        [InfoBox("Ä£ÄâÍæ¼ÒÍÏ×§¼¦Î²¾Æ¿¨ÅÆ¸ø¹Ë¿Í£¨ÓÃÓÚ²âÊÔ£©")]
+        [Button("æ¨¡æ‹Ÿäº¤ä»˜é¸¡å°¾é…’", ButtonSizes.Large), GUIColor(0.3f, 1f, 0.3f)]
+        [InfoBox("æ¨¡æ‹Ÿç©å®¶æ‹–æ‹½é¸¡å°¾é…’å¡ç‰Œç»™é¡¾å®¢ï¼ˆç”¨äºæµ‹è¯•ï¼‰")]
         private void DebugDeliverCocktail()
         {
             if (!Application.isPlaying)
             {
-                Debug.LogWarning("[CustomerService] ½öÔÚÔËĞĞÊ±¿ÉÓÃ");
+                Debug.LogWarning("[CustomerService] ä»…åœ¨è¿è¡Œæ—¶å¯ç”¨");
                 return;
             }
 
             OnCocktailDelivered(null);
         }
 
-        [Button("Ç¿ÖÆ³ö¶ÓÏÂÒ»Î»¹Ë¿Í", ButtonSizes.Medium)]
+        [Button("å¼ºåˆ¶å‡ºé˜Ÿä¸‹ä¸€ä½é¡¾å®¢", ButtonSizes.Medium)]
         private void DebugForceNextCustomer()
         {
             if (!Application.isPlaying) return;
@@ -374,19 +374,19 @@ namespace TabernaNoctis.NightScreen
             TryServeNextCustomer();
         }
 
-        [Button("ÏÔÊ¾·şÎñ×´Ì¬", ButtonSizes.Medium)]
+        [Button("æ˜¾ç¤ºæœåŠ¡çŠ¶æ€", ButtonSizes.Medium)]
         private void DebugShowStatus()
         {
             if (!Application.isPlaying) return;
 
-            Debug.Log($"========== CustomerServiceManager ×´Ì¬ ==========");
-            Debug.Log($"Night¼¤»î: {isNightActive}");
-            Debug.Log($"ÒÑ·şÎñÊıÁ¿: {currentServedCount}");
-            Debug.Log($"ÕıÔÚ·şÎñ: {isServicing}");
-            Debug.Log($"ÕıÔÚÆ·³¢: {isDrinking}");
-            Debug.Log($"µ±Ç°¹Ë¿Í: {customerBehavior?.CurrentData?.displayName ?? "ÎŞ"}");
-            Debug.Log($"ÏÂ´Î³ö¶Óµ¹¼ÆÊ±: {nextServeCountdown:F1}Ãë");
-            Debug.Log($"¶ÓÁĞÊ£Óà: {CustomerSpawnManager.Instance?.GetQueueCount() ?? 0}Î»");
+            Debug.Log($"========== CustomerServiceManager çŠ¶æ€ ==========");
+            Debug.Log($"Nightæ¿€æ´»: {isNightActive}");
+            Debug.Log($"å·²æœåŠ¡æ•°é‡: {currentServedCount}");
+            Debug.Log($"æ­£åœ¨æœåŠ¡: {isServicing}");
+            Debug.Log($"æ­£åœ¨å“å°: {isDrinking}");
+            Debug.Log($"å½“å‰é¡¾å®¢: {customerBehavior?.CurrentData?.displayName ?? "æ— "}");
+            Debug.Log($"ä¸‹æ¬¡å‡ºé˜Ÿå€’è®¡æ—¶: {nextServeCountdown:F1}ç§’");
+            Debug.Log($"é˜Ÿåˆ—å‰©ä½™: {CustomerSpawnManager.Instance?.GetQueueCount() ?? 0}ä½");
             Debug.Log($"===============================================");
         }
 #endif

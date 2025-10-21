@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Daiquiri
   category: "\u70ED\u5E26\u98CE\u5473"
   feature: "\u53CB\u597D\u578B\uFF0C\u6E05\u723D\u76F4\u7ED9\u7684\u6717\u59C6\u9178"
+  tags:
+  - "\u70ED\u5E26\u9152"
+  themeColor: {r: 1, g: 0.8, b: 0.6, a: 1}
   effects:
     busy: -4
     impatient: -2

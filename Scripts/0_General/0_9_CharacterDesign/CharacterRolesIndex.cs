@@ -2,30 +2,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ½ÇÉ« SO ×ÜË÷Òı£º¼¯ÖĞ¹ÜÀíËùÓĞÉí·İ¶ÔÓ¦µÄ SO¡£
-/// - version£ºÓë NPCInfo.json µÄ°æ±¾ºÅ±£³ÖÒ»ÖÂ£¬±ãÓÚÊı¾İÑİ½ø
-/// - tipMultiplier£ºÈ«¾ÖĞ¡·Ñ±¶ÂÊ£¨À´×Ô NPCInfo.json£©
-/// - basePaymentDefault£ºÈ«¾Ö»ù´¡¸¶·ÑÄ¬ÈÏÖµ£¨À´×Ô NPCInfo.json£©
-/// - roles£ºÏîÄ¿ÄÚËùÓĞÉí·İµÄ `CharacterRoleData` ÁĞ±í
-/// ÓÃÍ¾£ºÔËĞĞÊ± Loader ¿ÉÍ¨¹ı¸ÃË÷Òı¿ìËÙ¶¨Î»Éí·İ SO£»±à¼­Æ÷Éú³ÉÆ÷¸ºÔğÎ¬»¤¸Ã×Ê²úÄÚÈİ¡£
+/// è§’è‰² SO æ€»ç´¢å¼•ï¼šé›†ä¸­ç®¡ç†æ‰€æœ‰èº«ä»½å¯¹åº”çš„ SOã€‚
+/// - versionï¼šä¸ NPCInfo.json çš„ç‰ˆæœ¬å·ä¿æŒä¸€è‡´ï¼Œä¾¿äºæ•°æ®æ¼”è¿›
+/// - tipMultiplierï¼šå…¨å±€å°è´¹å€ç‡ï¼ˆæ¥è‡ª NPCInfo.jsonï¼‰
+/// - basePaymentDefaultï¼šå…¨å±€åŸºç¡€ä»˜è´¹é»˜è®¤å€¼ï¼ˆæ¥è‡ª NPCInfo.jsonï¼‰
+/// - rolesï¼šé¡¹ç›®å†…æ‰€æœ‰èº«ä»½çš„ `CharacterRoleData` åˆ—è¡¨
+/// ç”¨é€”ï¼šè¿è¡Œæ—¶ Loader å¯é€šè¿‡è¯¥ç´¢å¼•å¿«é€Ÿå®šä½èº«ä»½ SOï¼›ç¼–è¾‘å™¨ç”Ÿæˆå™¨è´Ÿè´£ç»´æŠ¤è¯¥èµ„äº§å†…å®¹ã€‚
 /// </summary>
 [CreateAssetMenu(menuName = "TabernaNoctis/Characters/CharacterRolesIndex", fileName = "CharacterRolesIndex")]
 public sealed class CharacterRolesIndex : ScriptableObject
 {
     /// <summary>
-    /// Êı¾İ°æ±¾£¨Óë NPCInfo.json µÄ version ¶ÔÆë£©
+    /// æ•°æ®ç‰ˆæœ¬ï¼ˆä¸ NPCInfo.json çš„ version å¯¹é½ï¼‰
     /// </summary>
     public int version = 1;
     /// <summary>
-    /// È«¾ÖĞ¡·Ñ±¶ÂÊ£¨ÓÃÓÚ½áËãÏµÊı£©
+    /// å…¨å±€å°è´¹å€ç‡ï¼ˆç”¨äºç»“ç®—ç³»æ•°ï¼‰
     /// </summary>
     public float tipMultiplier = 1f;
     /// <summary>
-    /// Ä¬ÈÏ»ù´¡¸¶·Ñ£¨ÓÃÓÚÈ±Ê¡»ùÏß£©
+    /// é»˜è®¤åŸºç¡€ä»˜è´¹ï¼ˆç”¨äºç¼ºçœåŸºçº¿ï¼‰
     /// </summary>
     public int basePaymentDefault = 0;
     /// <summary>
-    /// È«²¿Éí·İµÄ SO ÒıÓÃ¼¯ºÏ
+    /// å…¨éƒ¨èº«ä»½çš„ SO å¼•ç”¨é›†åˆ
     /// </summary>
     public List<CharacterRoleData> roles = new List<CharacterRoleData>();
 }

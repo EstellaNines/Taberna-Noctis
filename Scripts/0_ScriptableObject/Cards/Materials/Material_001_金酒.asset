@@ -17,6 +17,9 @@ MonoBehaviour:
   nameEN: Gin
   category: "\u57FA\u7840\u9152\u7C7B"
   feature: "\u6311\u5254\u53CB\u597D\u578B\uFF0C\u7ECF\u5178\u57FA\u9152"
+  tags:
+  - "\u57FA\u9152"
+  themeColor: {r: 0.7, g: 0.85, b: 1, a: 1}
   effects:
     busy: 0
     impatient: -1
