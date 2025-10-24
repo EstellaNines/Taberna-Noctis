@@ -464,7 +464,7 @@ public class TimeSystemManager : MonoBehaviour
 			startHour = 8,
 			startMinute = 0,
 			timeScale = 80f,
-			sceneName = "3_DayScreen"
+            sceneName = "3_DayScreen"
 		};
 		phaseConfigs[1] = new TimePhaseConfig
 		{
@@ -473,7 +473,7 @@ public class TimeSystemManager : MonoBehaviour
 			startHour = 14,
 			startMinute = 0,
 			timeScale = 80f,
-			sceneName = "3_DayScreen"
+            sceneName = "4_AfternoonScreen"
 		};
 		phaseConfigs[2] = new TimePhaseConfig
 		{
@@ -482,7 +482,7 @@ public class TimeSystemManager : MonoBehaviour
 			startHour = 19,
 			startMinute = 0,
 			timeScale = 96f,
-			sceneName = "4_NightScreen"
+            sceneName = "5_NightScreen"
 		};
     }
 

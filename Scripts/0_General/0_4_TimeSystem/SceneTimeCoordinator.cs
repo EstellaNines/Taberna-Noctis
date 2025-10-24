@@ -14,9 +14,13 @@ public class SceneTimeCoordinator : MonoBehaviour
 #endif
     [SerializeField] private string daySceneName = "3_DayScreen";
 #if ODIN_INSPECTOR
+    [Sirenix.OdinInspector.LabelText("Afternoon 场景名")]
+#endif
+    [SerializeField] private string afternoonSceneName = "4_AfternoonScreen";
+#if ODIN_INSPECTOR
     [Sirenix.OdinInspector.LabelText("Night 场景名")]
 #endif
-    [SerializeField] private string nightSceneName = "4_NightScreen";
+    [SerializeField] private string nightSceneName = "5_NightScreen";
 
     // 避免在结算→新一天时，PHASE_CHANGED( Morning ) 抢先把场景切到 DayScreen
     private bool suppressNextPhaseChange; // 一次性屏蔽
@@ -50,7 +54,7 @@ public class SceneTimeCoordinator : MonoBehaviour
         var active = SceneManager.GetActiveScene().name;
         if (string.Equals(active, "0_StartScreen", System.StringComparison.Ordinal)) return;
         // 若当前在结算场景，开始新一天应回到“日循环起点”（一般为 2_DayMessageScreen）
-        if (string.Equals(active, "5_SettlementScreen", System.StringComparison.Ordinal))
+        if (string.Equals(active, "6_SettlementScreen", System.StringComparison.Ordinal))
         {
             // 抑制紧随其后的 PHASE_CHANGED(Morning)
             suppressNextPhaseChange = true;
@@ -74,15 +78,17 @@ public class SceneTimeCoordinator : MonoBehaviour
             return;
         }
 
-        // 早上/下午 → Day 场景；夜晚 → Night 场景
-        string target = (phase == TimePhase.Night) ? nightSceneName : daySceneName;
+        // 早上 → Day 场景；下午 → Afternoon 场景；夜晚 → Night 场景
+        string target = daySceneName;
+        if (phase == TimePhase.Afternoon) target = afternoonSceneName;
+        else if (phase == TimePhase.Night) target = nightSceneName;
 
         // 若已经在目标场景则不重复加载
         var active = SceneManager.GetActiveScene().name;
         // 在 DayMessageScreen 期间忽略阶段切换（由流程按钮推进）
         if (string.Equals(active, "2_DayMessageScreen", System.StringComparison.Ordinal)) return;
         // 在结算期间忽略阶段切换（由玩家确认后开始新一天）
-        if (string.Equals(active, "5_SettlementScreen", System.StringComparison.Ordinal)) return;
+        if (string.Equals(active, "6_SettlementScreen", System.StringComparison.Ordinal)) return;
         if (string.Equals(active, target, System.StringComparison.Ordinal)) return;
 
         GlobalSceneManager.LoadWithLoadingScreen(target, LoadSceneMode.Single);
@@ -100,6 +106,7 @@ public class SceneTimeCoordinator : MonoBehaviour
             return;
         }
         if (string.Equals(name, daySceneName, System.StringComparison.Ordinal) ||
+            string.Equals(name, afternoonSceneName, System.StringComparison.Ordinal) ||
             string.Equals(name, nightSceneName, System.StringComparison.Ordinal))
         {
             // 进入实际游玩场景时恢复计时（Loading 时由 TimeSystemManager 自己暂停/恢复）

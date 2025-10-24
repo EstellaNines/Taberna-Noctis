@@ -18,8 +18,11 @@ MonoBehaviour:
   category: "\u8C03\u5473\u9152\u7C7B"
   feature: "\u6311\u5254\u4E13\u7CBE\uFF0C\u7ECF\u5178\u8C03\u5473"
   tags:
-  - "\u8C03\u5473\u9152"
-  themeColor: {r: 1, g: 0.95, b: 0.7, a: 1}
+  - Flavored Wine
+  themeColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  mainBackgroundColor: {r: 1, g: 0.95, b: 0.7, a: 1}
+  outlineBackgroundColor: {r: 0.8, g: 0.76, b: 0.56, a: 1}
+  textBackgroundColor: {r: 1, g: 0.98, b: 0.74, a: 1}
   effects:
     busy: 0
     impatient: 0

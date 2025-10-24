@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TabernaNoctis.Cards;
 using DG.Tweening;
+using TabernaNoctis.QueueSystem;
 
 namespace TabernaNoctis.CardSystem
 {
@@ -84,7 +85,7 @@ namespace TabernaNoctis.CardSystem
 		#region 私有字段
 
 		private List<CardSlot> cardSlots = new List<CardSlot>();
-		private Queue<BaseCardSO> cardQueue = new Queue<BaseCardSO>();
+		private PooledQueue<BaseCardSO> cardQueue = new PooledQueue<BaseCardSO>(16);
 		private Coroutine dispenseCoroutine;
 		private bool isDispensing = false;
 
@@ -183,7 +184,7 @@ namespace TabernaNoctis.CardSystem
 				return;
 			}
 
-			if (cardQueue.Count == 0)
+            if (cardQueue.Count == 0)
 			{
 				Debug.LogWarning("[CardQueueDispenser] 队列为空，无法开始派发");
 				return;
@@ -212,14 +213,16 @@ namespace TabernaNoctis.CardSystem
 		/// </summary>
 		public void DispenseNextCard()
 		{
-			if (cardQueue.Count == 0)
+            if (cardQueue.Count == 0)
 			{
 				Debug.LogWarning("[CardQueueDispenser] 队列为空");
 				return;
 			}
 
-			BaseCardSO nextCard = cardQueue.Dequeue();
-			DispenseCard(nextCard);
+            if (cardQueue.TryDequeue(out var nextCard))
+            {
+                DispenseCard(nextCard);
+            }
 		}
 
 		/// <summary>
@@ -320,14 +323,16 @@ namespace TabernaNoctis.CardSystem
 
 		#region 私有方法 - 派发逻辑
 
-	private IEnumerator DispenseCardsCoroutine()
+    private IEnumerator DispenseCardsCoroutine()
 	{
 		isDispensing = true;
 
-		while (cardQueue.Count > 0)
+        while (cardQueue.Count > 0)
 		{
-			BaseCardSO nextCard = cardQueue.Dequeue();
-			DispenseCard(nextCard);
+            if (cardQueue.TryDequeue(out var nextCard))
+            {
+                DispenseCard(nextCard);
+            }
 
 			// 等待指定间隔
 			yield return new WaitForSeconds(dispenseInterval);

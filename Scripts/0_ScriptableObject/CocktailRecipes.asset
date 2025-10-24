@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5397a780b70375e49b8ed34f7075499d, type: 3}
+  m_Name: CocktailRecipes
+  m_EditorClassIdentifier: 
+  recipes:
+  - materialA: {fileID: 11400000, guid: b5a3223a03a7a2d4e94765845cb5e54e, type: 2}
+    materialB: {fileID: 11400000, guid: 0a79cf5ea1f90b44eb46468d4f2a612c, type: 2}
+    materialC: {fileID: 11400000, guid: 4b5e745fba1cfd542a95400090896717, type: 2}
+    result: {fileID: 11400000, guid: 93daad5e6b54158449c093c45ab7afe0, type: 2}
+  - materialA: {fileID: 11400000, guid: 2d9952cd333af6543985866c86c0204d, type: 2}
+    materialB: {fileID: 11400000, guid: 74fc4478124c65c43882e8f5ca44a2ec, type: 2}
+    materialC: {fileID: 11400000, guid: b3fe08c9e6f79fd41980f9478054820c, type: 2}
+    result: {fileID: 11400000, guid: e9af463ba84b58a44bf3604029c3f0ae, type: 2}
+  - materialA: {fileID: 11400000, guid: 00817ee7967f82b428bffbc814809d3c, type: 2}
+    materialB: {fileID: 11400000, guid: b3fe08c9e6f79fd41980f9478054820c, type: 2}
+    materialC: {fileID: 11400000, guid: 90ea2d910e4afe647ac8e6abf0f52ae5, type: 2}
+    result: {fileID: 11400000, guid: ea4d471f52dab93408641dabd7f51e65, type: 2}
+  - materialA: {fileID: 11400000, guid: b5a3223a03a7a2d4e94765845cb5e54e, type: 2}
+    materialB: {fileID: 11400000, guid: 74fc4478124c65c43882e8f5ca44a2ec, type: 2}
+    materialC: {fileID: 11400000, guid: 6350197cd27bd5a4baa654cd585e0441, type: 2}
+    result: {fileID: 11400000, guid: 6e7d4be5c155b384a819c81d0e08cf03, type: 2}
+  - materialA: {fileID: 11400000, guid: 516505550b44cf944b2e4bb4f3813016, type: 2}
+    materialB: {fileID: 11400000, guid: cb26272271e6aea498872ef1c4164a4c, type: 2}
+    materialC: {fileID: 11400000, guid: 52255071ecc21b5498c6f97b4e264102, type: 2}
+    result: {fileID: 11400000, guid: eed8e31185916964cb60d0e029b3a7cb, type: 2}
+  - materialA: {fileID: 11400000, guid: b95bc7abf7bd2524e8c217aee4ae1aaf, type: 2}
+    materialB: {fileID: 11400000, guid: 90ea2d910e4afe647ac8e6abf0f52ae5, type: 2}
+    materialC: {fileID: 11400000, guid: 52255071ecc21b5498c6f97b4e264102, type: 2}
+    result: {fileID: 11400000, guid: 2d74192193081c947b7c597d0817f114, type: 2}
+  - materialA: {fileID: 11400000, guid: 63752ee65e387fd4ab8bd2f299cf35cb, type: 2}
+    materialB: {fileID: 11400000, guid: 52255071ecc21b5498c6f97b4e264102, type: 2}
+    materialC: {fileID: 11400000, guid: 2fc01a29e5e489a47924a13a610b3f83, type: 2}
+    result: {fileID: 11400000, guid: 20c5a9c6af965894b82f853f425e3fc4, type: 2}
+  - materialA: {fileID: 11400000, guid: b95bc7abf7bd2524e8c217aee4ae1aaf, type: 2}
+    materialB: {fileID: 11400000, guid: 52255071ecc21b5498c6f97b4e264102, type: 2}
+    materialC: {fileID: 11400000, guid: ccb086a47fdbfbd41ab5b9818e8366e8, type: 2}
+    result: {fileID: 11400000, guid: 29330425d3852b24cb0fda763f94d6bb, type: 2}
+  fallbackUnspeakable: {fileID: 11400000, guid: 8a1f59f42d61406479b4bba253e83f75, type: 2}

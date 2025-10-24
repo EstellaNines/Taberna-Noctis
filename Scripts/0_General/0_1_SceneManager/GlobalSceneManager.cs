@@ -243,13 +243,15 @@ public class GlobalSceneManager : MonoBehaviour
         if (string.Equals(name, "SaveFilesScreen", StringComparison.Ordinal)) return "1_SaveFilesScreen";
         if (string.Equals(name, "DayMessageScreen", StringComparison.Ordinal)) return "2_DayMessageScreen";
         if (string.Equals(name, "DayScreen", StringComparison.Ordinal)) return "3_DayScreen";
-        if (string.Equals(name, "NightScreen", StringComparison.Ordinal)) return "4_NightScreen";
-        if (string.Equals(name, "SettlementScreen", StringComparison.Ordinal)) return "5_SettlementScreen";
+        if (string.Equals(name, "AfternoonScreen", StringComparison.Ordinal)) return "4_AfternoonScreen";
+        if (string.Equals(name, "NightScreen", StringComparison.Ordinal)) return "5_NightScreen";
+        if (string.Equals(name, "SettlementScreen", StringComparison.Ordinal)) return "6_SettlementScreen";
         if (string.Equals(name, "LoadingScreen", StringComparison.Ordinal)) return "S_LoadingScreen";
 
         // 向后兼容：老编号映射到新编号
         if (string.Equals(name, "2_DayScreen", StringComparison.Ordinal)) return "3_DayScreen";
-        if (string.Equals(name, "3_NightScreen", StringComparison.Ordinal)) return "4_NightScreen";
+        if (string.Equals(name, "4_NightScreen", StringComparison.Ordinal)) return "5_NightScreen";
+        if (string.Equals(name, "5_SettlementScreen", StringComparison.Ordinal)) return "6_SettlementScreen";
         return name;
     }
 

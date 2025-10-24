@@ -18,8 +18,11 @@ MonoBehaviour:
   category: "\u7279\u5236\u9E21\u5C3E\u9152"
   feature: "\u9AD8\u6210\u672C\uFF0C\u964D\u8BC4\u7684\u7981\u5FCC\u4E4B\u676F"
   tags:
-  - "\u7279\u8C03\u9152"
-  themeColor: {r: 0.9, g: 0.8, b: 1, a: 1}
+  - Signature
+  themeColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  mainBackgroundColor: {r: 0.9, g: 0.8, b: 1, a: 1}
+  outlineBackgroundColor: {r: 0.72, g: 0.64, b: 0.8, a: 1}
+  textBackgroundColor: {r: 0.95, g: 0.84, b: 1, a: 1}
   effects:
     busy: -5
     impatient: -5

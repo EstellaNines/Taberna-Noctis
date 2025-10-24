@@ -18,8 +18,11 @@ MonoBehaviour:
   category: "\u70ED\u5E26\u98CE\u5473"
   feature: "\u70E6\u95F7\u7F13\u89E3\u578B\uFF0C\u59DC\u5473\u8F9B\u53E3\u7684\u6E05\u51C9\u6C14\u6CE1"
   tags:
-  - "\u70ED\u5E26\u9152"
-  themeColor: {r: 1, g: 0.8, b: 0.6, a: 1}
+  - Tropical
+  themeColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  mainBackgroundColor: {r: 1, g: 0.8, b: 0.6, a: 1}
+  outlineBackgroundColor: {r: 0.8, g: 0.64, b: 0.48, a: 1}
+  textBackgroundColor: {r: 1, g: 0.84, b: 0.63, a: 1}
   effects:
     busy: -5
     impatient: -1

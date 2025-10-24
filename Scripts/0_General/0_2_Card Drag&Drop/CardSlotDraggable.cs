@@ -163,7 +163,10 @@ namespace TabernaNoctis.CardSystem
 				tempOrSelfCanvas.sortingOrder = dragSortingOrder;
 			}
 
-			Debug.Log($"[CardSlotDraggable] 开始拖拽卡牌: {cardSlot.GetCardData()?.nameEN}");
+			// 广播拖拽开始（用于价格展示）
+			var cardData = cardSlot.GetCardData();
+			MessageManager.Send<BaseCardSO>(MessageDefine.CARD_DRAG_STARTED, cardData);
+			Debug.Log($"[CardSlotDraggable] 开始拖拽卡牌: {cardData?.nameEN}");
 		}
 
 		public void OnDrag(PointerEventData eventData)
@@ -226,9 +229,12 @@ namespace TabernaNoctis.CardSystem
 				tempOrSelfCanvas = null;
 			}
 
+			// 广播拖拽结束（隐藏价格）
+			MessageManager.Send<bool>(MessageDefine.CARD_DRAG_ENDED, true);
 			isDragging = false;
 			Debug.Log($"[CardSlotDraggable] 结束拖拽");
 		}
+        
 
 		#endregion
 

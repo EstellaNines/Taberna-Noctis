@@ -37,6 +37,21 @@ public static class MessageDefine
     // ====== 鸡尾酒卡牌系统 ======
     public static readonly string COCKTAIL_DELIVERED = "COCKTAIL_DELIVERED";
     public static readonly string SERVICE_PAYMENT_COMPLETE = "SERVICE_PAYMENT_COMPLETE";
+
+    // ====== 拖拽事件（卡牌价格展示用） ======
+    public static readonly string CARD_DRAG_STARTED = "CARD_DRAG_STARTED";   // 携带 BaseCardSO
+    public static readonly string CARD_DRAG_ENDED = "CARD_DRAG_ENDED";       // 无或携带 BaseCardSO
+
+    // ====== 卡牌交互/合成 ======
+    public static readonly string CARD_CLICKED = "CARD_CLICKED";             // 携带 BaseCardSO
+    public static readonly string CRAFTING_SLOT_FILLED = "CRAFTING_SLOT_FILLED"; // 携带 (int slotIndex, int materialId)
+    public static readonly string CRAFTING_SLOT_CLEARED = "CRAFTING_SLOT_CLEARED"; // 携带 int slotIndex
+    public static readonly string CRAFTING_READY = "CRAFTING_READY";         // 携带 List<int> 3个材料ID
+    public static readonly string CRAFTING_RESULT = "CRAFTING_RESULT";       // 携带 CocktailCardSO
+    public static readonly string CRAFTING_SLOT_CONTENT_UPDATED = "CRAFTING_SLOT_CONTENT_UPDATED"; // 携带 (int slotIndex, BaseCardSO card)
+
+    // ====== 采购/经济事件 ======
+    public static readonly string MATERIAL_PURCHASED = "MATERIAL_PURCHASED"; // 携带 (string itemKey, int price)
     
     // ========== 每日消息查看器 ==========
     // 可选：用于编辑器查看器主动请求刷新

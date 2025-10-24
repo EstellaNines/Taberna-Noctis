@@ -18,6 +18,7 @@ public class NewspaperAnimationController : MonoBehaviour
     [LabelText("每页之间的延迟")][SerializeField] private float delayBetweenPages = 0.3f;
     [LabelText("淡入动画时长")][SerializeField] private float fadeInDuration = 0.5f;
     [LabelText("是否在Start时自动播放")][SerializeField] private bool playOnStart = true;
+    [LabelText("开始延迟(秒)")][SerializeField] private float startDelay = 1f;
     [LabelText("淡入缓动曲线")][SerializeField] private Ease fadeEase = Ease.OutQuad;
 
     [Title("每日消息预制体")]
@@ -31,6 +32,7 @@ public class NewspaperAnimationController : MonoBehaviour
 
 
     private Sequence _animationSequence;
+    private Tween _startDelayTween;
 
 
 
@@ -38,7 +40,16 @@ public class NewspaperAnimationController : MonoBehaviour
     {
         if (playOnStart)
         {
-            PlayAnimation();
+            // 一开始先隐藏所有报纸
+            InitializeNewspapers();
+            if (startDelay > 0f)
+            {
+                _startDelayTween = DOVirtual.DelayedCall(startDelay, PlayAnimation, false);
+            }
+            else
+            {
+                PlayAnimation();
+            }
         }
     }
 
@@ -189,6 +200,11 @@ public class NewspaperAnimationController : MonoBehaviour
         if (_animationSequence != null && _animationSequence.IsActive())
         {
             _animationSequence.Kill();
+        }
+        if (_startDelayTween != null && _startDelayTween.IsActive())
+        {
+            _startDelayTween.Kill();
+            _startDelayTween = null;
         }
     }
 

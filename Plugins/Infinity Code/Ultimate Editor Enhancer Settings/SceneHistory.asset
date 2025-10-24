@@ -15,20 +15,22 @@ MonoBehaviour:
   _items:
   - name: 3_DayScreen
     path: Assets/Scenes/3_DayScreen.unity
-  - name: TEST
-    path: Assets/Scenes/Test/TEST.unity
+  - name: 4_AfternoonScreen
+    path: Assets/Scenes/4_AfternoonScreen.unity
   - name: 0_StartScreen
     path: Assets/Scenes/0_StartScreen.unity
+  - name: 2_DayMessageScreen
+    path: Assets/Scenes/2_DayMessageScreen.unity
+  - name: S_LoadingScreen
+    path: Assets/Scenes/S_LoadingScreen.unity
+  - name: TEST
+    path: Assets/Scenes/Test/TEST.unity
   - name: 1_SaveFilesScreen
     path: Assets/Scenes/1_SaveFilesScreen.unity
   - name: 5_SettlementScreen
     path: Assets/Scenes/5_SettlementScreen.unity
   - name: 4_NightScreen
     path: Assets/Scenes/4_NightScreen.unity
-  - name: 2_DayMessageScreen
-    path: Assets/Scenes/2_DayMessageScreen.unity
-  - name: S_LoadingScreen
-    path: Assets/Scenes/S_LoadingScreen.unity
   - name: 2_DayScreen
     path: Assets/Scenes/2_DayScreen.unity
   - name: 3_NightScreen
@@ -50,5 +52,3 @@ MonoBehaviour:
   - name: UGUIBlurredBackgroundUIOverUI-Layers-Demo (Built-In RP & HDRP only)
     path: Assets/Plugins/Kamgam/UGUIBlurredBackground/Examples/UGUIBlurredBackgroundUIOverUI-Layers-Demo
       (Built-In RP & HDRP only).unity
-  - name: UGUIBlurredBackgroundMaskableDemo
-    path: Assets/Plugins/Kamgam/UGUIBlurredBackground/Examples/UGUIBlurredBackgroundMaskableDemo.unity

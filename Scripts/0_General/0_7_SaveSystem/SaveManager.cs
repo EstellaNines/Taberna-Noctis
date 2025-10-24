@@ -221,6 +221,33 @@ public class SaveManager : MonoBehaviour
         WriteWithMetadata(snap);
     }
 
+    // ====== 经济与采购：应用一次材料购买并立即保存 ======
+    public void ApplyPurchase(string itemKey, int price)
+    {
+        EnsureCurrentLoaded();
+        if (_current == null)
+        {
+            _current = GenerateSaveData();
+        }
+        if (_current.todayPurchasedItems == null)
+        {
+            _current.todayPurchasedItems = new List<string>();
+        }
+        // 记账
+        int cost = Mathf.Max(0, price);
+        _current.todayPurchasedItems.Add(itemKey ?? string.Empty);
+        _current.todayExpense += cost;
+        _current.totalSpentMoney += cost;
+        _current.currentMoney = Mathf.Max(0, _current.currentMoney - cost);
+
+        // 序列化落盘
+        if (!SaveDataValidator.Validate(_current, out var errors))
+        {
+            Debug.LogWarning("[SaveManager] ApplyPurchase Validate failed:\n" + string.Join("\n", errors));
+        }
+        WriteWithMetadata(_current);
+    }
+
     // 应用层自动保存（暂停/退出）
     private void OnApplicationPause(bool pause)
     {

@@ -18,8 +18,11 @@ MonoBehaviour:
   category: "\u7ECF\u5178\u9E21\u5C3E\u9152"
   feature: "\u5FD9\u788C\u6025\u8E81\u53CB\u597D\u578B\uFF0C\u5E73\u8861\u7A33\u5065\u7684\u5E38\u9752\u6B3E"
   tags:
-  - "\u7ECF\u5178\u9152"
-  themeColor: {r: 0.53, g: 0.81, b: 0.98, a: 1}
+  - Classic
+  themeColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  mainBackgroundColor: {r: 0.53, g: 0.81, b: 0.98, a: 1}
+  outlineBackgroundColor: {r: 0.42, g: 0.65, b: 0.78, a: 1}
+  textBackgroundColor: {r: 0.56, g: 0.85, b: 1, a: 1}
   effects:
     busy: 2
     impatient: 2

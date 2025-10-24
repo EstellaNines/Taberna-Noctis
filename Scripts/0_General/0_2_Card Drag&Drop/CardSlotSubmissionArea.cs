@@ -9,6 +9,10 @@ namespace TabernaNoctis.CardSystem
 	/// </summary>
 	public class CardSlotSubmissionArea : MonoBehaviour, ICardSlotDropArea, IDropHandler
 	{
+			[Header("作为合成槽使用（可选）")]
+			[SerializeField] private bool useAsCraftingSlot = false;
+			[SerializeField] private int craftingSlotIndex = 0; // 0..2
+			
 		public void OnCardSlotDropped(CardSlot cardSlot, BaseCardSO cardData)
 		{
 			if (cardData == null)
@@ -28,6 +32,24 @@ namespace TabernaNoctis.CardSystem
 				Debug.Log($"  - 材料: {material.nameEN}, 价格: ${material.price}");
 				// MessageManager.Send<MaterialCardSO>(MessageDefine.MATERIAL_SUBMITTED, material);
 			}
+
+				// 如果作为“合成槽”使用：只记录材料，不消费和销毁卡槽
+				if (useAsCraftingSlot)
+				{
+					MessageManager.Send<(int slotIndex, int materialId)>(MessageDefine.CRAFTING_SLOT_FILLED, (craftingSlotIndex, cardData.id));
+					// 不清卡、不销毁，留给玩家继续操作
+					return;
+				}
+
+				// 否则：正常提交（购买/结算逻辑）
+				if (SaveManager.Instance != null)
+				{
+					string itemKey = cardData.id.ToString();
+					int price = 0;
+					if (cardData is MaterialCardSO mat) price = Mathf.RoundToInt(mat.price);
+					SaveManager.Instance.ApplyPurchase(itemKey, price);
+					MessageManager.Send<(string itemKey, int price)>(MessageDefine.MATERIAL_PURCHASED, (itemKey, price));
+				}
 
 			// 清空卡槽并销毁（或回收）
 			cardSlot.ClearCard();

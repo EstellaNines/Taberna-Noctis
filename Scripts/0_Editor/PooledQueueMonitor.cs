@@ -38,8 +38,16 @@ public class PooledQueueMonitor : EditorWindow
         public MethodInfo getStatsMethod;
         
         public int Count => (int)(countMethod?.Invoke(queueInstance, null) ?? 0);
-        public object[] ToArray() => (object[])(toArrayMethod?.Invoke(queueInstance, null) ?? new object[0]);
-        public string GetStats() => (string)(getStatsMethod?.Invoke(queueInstance, null) ?? "无统计信息");
+        public System.Array ToArray()
+        {
+            var obj = toArrayMethod?.Invoke(queueInstance, null);
+            return obj as System.Array ?? System.Array.Empty<object>();
+        }
+        public string GetStats()
+        {
+            var obj = getStatsMethod?.Invoke(queueInstance, null);
+            return obj != null ? obj.ToString() : "无统计信息";
+        }
         public void Clear() => clearMethod?.Invoke(queueInstance, null);
     }
 
@@ -190,29 +198,31 @@ public class PooledQueueMonitor : EditorWindow
     private void DrawQueueList()
     {
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-
-        if (!Application.isPlaying)
+        try
         {
-            EditorGUILayout.HelpBox("请在运行时使用此监控器", MessageType.Warning);
+            if (!Application.isPlaying)
+            {
+                EditorGUILayout.HelpBox("请在运行时使用此监控器", MessageType.Warning);
+                return;
+            }
+
+            if (_discoveredQueues.Count == 0)
+            {
+                EditorGUILayout.HelpBox("未发现任何PooledQueue实例\n\n确保场景中有使用PooledQueue的组件", MessageType.Info);
+                return;
+            }
+
+            // 绘制队列列表
+            foreach (var queueInfo in _discoveredQueues)
+            {
+                DrawQueueItem(queueInfo);
+                EditorGUILayout.Space(5);
+            }
+        }
+        finally
+        {
             EditorGUILayout.EndScrollView();
-            return;
         }
-
-        if (_discoveredQueues.Count == 0)
-        {
-            EditorGUILayout.HelpBox("未发现任何PooledQueue实例\n\n确保场景中有使用PooledQueue的组件", MessageType.Info);
-            EditorGUILayout.EndScrollView();
-            return;
-        }
-
-        // 绘制队列列表
-        foreach (var queueInfo in _discoveredQueues)
-        {
-            DrawQueueItem(queueInfo);
-            EditorGUILayout.Space(5);
-        }
-
-        EditorGUILayout.EndScrollView();
     }
     
     /// <summary>
@@ -342,72 +352,76 @@ public class QueueDetailWindow : EditorWindow
     private void DrawQueueContent()
     {
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-        
-        // 队列基本信息
-        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-        EditorGUILayout.LabelField("队列信息", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField($"名称: {_queueInfo.name}");
-        EditorGUILayout.LabelField($"类型: {_queueInfo.typeName}");
-        EditorGUILayout.LabelField($"所属组件: {_queueInfo.owner.GetType().Name}");
-        EditorGUILayout.LabelField($"GameObject: {_queueInfo.owner.name}");
-        EditorGUILayout.LabelField($"当前数量: {_queueInfo.Count}");
-        EditorGUILayout.EndVertical();
-        
-        EditorGUILayout.Space(10);
-        
-        // 统计信息
-        if (_queueInfo.getStatsMethod != null)
+        try
         {
+            // 队列基本信息
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            EditorGUILayout.LabelField("性能统计", EditorStyles.boldLabel);
-            var stats = _queueInfo.GetStats();
-            EditorGUILayout.LabelField(stats, EditorStyles.wordWrappedLabel);
+            EditorGUILayout.LabelField("队列信息", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField($"名称: {_queueInfo.name}");
+            EditorGUILayout.LabelField($"类型: {_queueInfo.typeName}");
+            EditorGUILayout.LabelField($"所属组件: {_queueInfo.owner.GetType().Name}");
+            EditorGUILayout.LabelField($"GameObject: {_queueInfo.owner.name}");
+            EditorGUILayout.LabelField($"当前数量: {_queueInfo.Count}");
             EditorGUILayout.EndVertical();
             
             EditorGUILayout.Space(10);
-        }
-        
-        // 队列内容
-        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-        EditorGUILayout.LabelField("队列内容", EditorStyles.boldLabel);
-        
-        var items = _queueInfo.ToArray();
-        if (items.Length == 0)
-        {
-            EditorGUILayout.LabelField("队列为空", EditorStyles.centeredGreyMiniLabel);
-        }
-        else
-        {
-            for (int i = 0; i < items.Length; i++)
+            
+            // 统计信息
+            if (_queueInfo.getStatsMethod != null)
             {
-                DrawQueueItem(i, items[i]);
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                EditorGUILayout.LabelField("性能统计", EditorStyles.boldLabel);
+                var stats = _queueInfo.GetStats();
+                EditorGUILayout.LabelField(stats, EditorStyles.wordWrappedLabel);
+                EditorGUILayout.EndVertical();
+                
+                EditorGUILayout.Space(10);
             }
-        }
-        
-        EditorGUILayout.EndVertical();
-        
-        EditorGUILayout.Space(10);
-        
-        // 操作按钮
-        EditorGUILayout.BeginHorizontal();
-        
-        if (GUILayout.Button("清空队列"))
-        {
-            if (EditorUtility.DisplayDialog("确认清空", $"确定要清空队列 '{_queueInfo.name}' 吗？", "确定", "取消"))
+            
+            // 队列内容
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.LabelField("队列内容", EditorStyles.boldLabel);
+            
+            var items = _queueInfo.ToArray();
+            if (items.Length == 0)
             {
-                _queueInfo.Clear();
+                EditorGUILayout.LabelField("队列为空", EditorStyles.centeredGreyMiniLabel);
             }
+            else
+            {
+                for (int i = 0; i < items.Length; i++)
+                {
+                    DrawQueueItem(i, items.GetValue(i));
+                }
+            }
+            
+            EditorGUILayout.EndVertical();
+            
+            EditorGUILayout.Space(10);
+            
+            // 操作按钮
+            EditorGUILayout.BeginHorizontal();
+            
+            if (GUILayout.Button("清空队列"))
+            {
+                if (EditorUtility.DisplayDialog("确认清空", $"确定要清空队列 '{_queueInfo.name}' 吗？", "确定", "取消"))
+                {
+                    _queueInfo.Clear();
+                }
+            }
+            
+            if (GUILayout.Button("定位组件"))
+            {
+                Selection.activeGameObject = _queueInfo.owner.gameObject;
+                EditorGUIUtility.PingObject(_queueInfo.owner.gameObject);
+            }
+            
+            EditorGUILayout.EndHorizontal();
         }
-        
-        if (GUILayout.Button("定位组件"))
+        finally
         {
-            Selection.activeGameObject = _queueInfo.owner.gameObject;
-            EditorGUIUtility.PingObject(_queueInfo.owner.gameObject);
+            EditorGUILayout.EndScrollView();
         }
-        
-        EditorGUILayout.EndHorizontal();
-        
-        EditorGUILayout.EndScrollView();
     }
     
     private void DrawQueueItem(int index, object item)

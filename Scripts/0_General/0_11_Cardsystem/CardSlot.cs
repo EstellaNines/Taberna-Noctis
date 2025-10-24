@@ -149,14 +149,23 @@ namespace TabernaNoctis.CardSystem
         {
             // 无卡时，不响应
             if (!HasCard) return;
-            // 当描边由悬停驱动时，点击不切换描边
-            if (hoverDrivesOutline) return;
-            // 左键点击切换描边
-            if (eventData.button == PointerEventData.InputButton.Left)
-            {
-                isHighlighted = !isHighlighted;
-                UpdateVisuals();
-            }
+			// 左键点击：始终广播点击事件；描边是否切换取决于 hoverDrivesOutline
+			if (eventData.button == PointerEventData.InputButton.Left)
+			{
+				// 广播点击（供提交槽/合成使用）
+				var data = GetCardData();
+				if (data != null)
+				{
+					MessageManager.Send<TabernaNoctis.Cards.BaseCardSO>(MessageDefine.CARD_CLICKED, data);
+				}
+
+				// 若描边不是由悬停控制，则点击切换描边
+				if (!hoverDrivesOutline)
+				{
+					isHighlighted = !isHighlighted;
+					UpdateVisuals();
+				}
+			}
         }
 
         public void OnPointerEnter(PointerEventData eventData)

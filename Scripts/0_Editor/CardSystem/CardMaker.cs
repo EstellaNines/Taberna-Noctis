@@ -72,6 +72,10 @@ namespace TabernaNoctis.Editor
             public int reputation_change;
             public string feature;
             public string ui_path;
+            // 新增：每条卡牌可直接指定三种背景颜色
+            public float[] color_main;    // [r,g,b]
+            public float[] color_outline; // [r,g,b]
+            public float[] color_textBg;  // [r,g,b]
         }
 
         [System.Serializable]
@@ -86,6 +90,10 @@ namespace TabernaNoctis.Editor
             public int price;
             public string feature;
             public string ui_path;
+            // 新增：每条卡牌可直接指定三种背景颜色
+            public float[] color_main;    // [r,g,b]
+            public float[] color_outline; // [r,g,b]
+            public float[] color_textBg;  // [r,g,b]
         }
 
         [System.Serializable]
@@ -106,6 +114,7 @@ namespace TabernaNoctis.Editor
 
         private const string COCKTAILS_JSON_PATH = "Assets/Resources/Cards/Cocktails.json";
         private const string MATERIALS_JSON_PATH = "Assets/Resources/Cards/Materials.json";
+        private const string TAG_COLORS_JSON_PATH = "Assets/Resources/Cards/TagColors.json";
         private const string OUTPUT_FOLDER = "Assets/Scripts/0_ScriptableObject/Cards";
         private const string COCKTAILS_FOLDER = "Assets/Scripts/0_ScriptableObject/Cards/Cocktails";
         private const string MATERIALS_FOLDER = "Assets/Scripts/0_ScriptableObject/Cards/Materials";
@@ -113,6 +122,8 @@ namespace TabernaNoctis.Editor
 		// 预制件模板与输出目录
 		private const string CARD_TEMPLATE_PREFAB_PATH = "Assets/Resources/Prefabs/0_General/1_CardSystem/Card.prefab";
 		private const string CARD_PREFAB_OUTPUT_FOLDER = "Assets/Resources/Prefabs/0_General/1_CardSystem";
+		private const string CARD_PREFAB_OUTPUT_MATERIALS = "Assets/Resources/Prefabs/0_General/1_CardSystem/Materials";
+		private const string CARD_PREFAB_OUTPUT_COCKTAILS = "Assets/Resources/Prefabs/0_General/1_CardSystem/Cocktails";
 
         #endregion
 
@@ -131,6 +142,7 @@ namespace TabernaNoctis.Editor
 
         private void OnEnable()
         {
+            LoadTagColors();
             LoadAllCards();
         }
 
@@ -157,6 +169,64 @@ namespace TabernaNoctis.Editor
         private List<CocktailCardSO> loadedCocktails = new List<CocktailCardSO>();
         private List<MaterialCardSO> loadedMaterials = new List<MaterialCardSO>();
         private string searchFilter = "";
+        private Dictionary<string, TagColorSet> tagColorLookup = new Dictionary<string, TagColorSet>();
+
+        #endregion
+
+        #region 标签颜色结构
+
+        [System.Serializable]
+        public class TagColorSet
+        {
+            public Color main;
+            public Color outline;
+            public Color textBg;
+        }
+
+        [System.Serializable]
+        public class TagColorsWrapper
+        {
+            public List<TagColorItem> items;
+        }
+
+        [System.Serializable]
+        public class TagColorItem
+        {
+            public string tag;
+            public float[] main;
+            public float[] outline;
+            public float[] textBg;
+        }
+
+        private void LoadTagColors()
+        {
+            tagColorLookup.Clear();
+            if (!File.Exists(TAG_COLORS_JSON_PATH)) return;
+            try
+            {
+                string json = File.ReadAllText(TAG_COLORS_JSON_PATH);
+                TagColorsWrapper data = JsonUtility.FromJson<TagColorsWrapper>(json);
+                if (data?.items == null) return;
+                foreach (var it in data.items)
+                {
+                    if (string.IsNullOrEmpty(it.tag)) continue;
+                    TagColorSet set = new TagColorSet
+                    {
+                        main = ArrayToColor(it.main),
+                        outline = ArrayToColor(it.outline),
+                        textBg = ArrayToColor(it.textBg)
+                    };
+                    tagColorLookup[it.tag] = set;
+                }
+            }
+            catch { }
+        }
+
+        private Color ArrayToColor(float[] arr)
+        {
+            if (arr == null || arr.Length < 3) return Color.white;
+            return new Color(Mathf.Clamp01(arr[0]), Mathf.Clamp01(arr[1]), Mathf.Clamp01(arr[2]), 1f);
+        }
         
         // 右侧板块
         private Vector2 rightScrollPos;
@@ -234,6 +304,8 @@ namespace TabernaNoctis.Editor
 		{
 			LoadAllCards();
 			EnsureFolderExists(CARD_PREFAB_OUTPUT_FOLDER);
+			EnsureFolderExists(CARD_PREFAB_OUTPUT_MATERIALS);
+			EnsureFolderExists(CARD_PREFAB_OUTPUT_COCKTAILS);
 
 			var template = AssetDatabase.LoadAssetAtPath<GameObject>(CARD_TEMPLATE_PREFAB_PATH);
 			if (template == null)
@@ -286,13 +358,16 @@ namespace TabernaNoctis.Editor
 					}
 				}
 
-				// 保存为预制件
-				string assetPath = System.IO.Path.Combine(CARD_PREFAB_OUTPUT_FOLDER, instance.name + ".prefab").Replace("\\", "/");
+				// 保存为预制件（按类型分类到不同子文件夹）
+				string outputFolder = (card is MaterialCardSO) ? CARD_PREFAB_OUTPUT_MATERIALS : CARD_PREFAB_OUTPUT_COCKTAILS;
+				EnsureFolderExists(outputFolder);
+				string assetPath = System.IO.Path.Combine(outputFolder, instance.name + ".prefab").Replace("\\", "/");
+				bool existed = System.IO.File.Exists(assetPath);
 				PrefabUtility.SaveAsPrefabAsset(instance, assetPath, out bool success);
 				Object.DestroyImmediate(instance);
 				if (success)
 				{
-					Log($"  生成预制件: {assetPath}");
+					Log(existed ? $"  替换预制件: {assetPath}" : $"  生成预制件: {assetPath}");
 					return true;
 				}
 				LogError($"  生成失败: {assetPath}");
@@ -1058,6 +1133,25 @@ namespace TabernaNoctis.Editor
             }
         }
 
+        private void ApplyTagColorsToCard(string[] tags, BaseCardSO card)
+        {
+            Color fallbackMain = GetThemeColorFromTags(tags);
+            card.themeColor = fallbackMain;
+
+            if (tags != null && tags.Length > 0 && tagColorLookup.TryGetValue(tags[0], out var set))
+            {
+                card.mainBackgroundColor = set.main;
+                card.outlineBackgroundColor = set.outline;
+                card.textBackgroundColor = set.textBg;
+            }
+            else
+            {
+                card.mainBackgroundColor = fallbackMain;
+                card.outlineBackgroundColor = new Color(fallbackMain.r * 0.8f, fallbackMain.g * 0.8f, fallbackMain.b * 0.8f, 1f);
+                card.textBackgroundColor = new Color(fallbackMain.r * 1.05f, fallbackMain.g * 1.05f, fallbackMain.b * 1.05f, 0.9f);
+            }
+        }
+
         private void DrawEffectBar(string label, int value)
         {
             EditorGUILayout.BeginHorizontal();
@@ -1611,7 +1705,11 @@ namespace TabernaNoctis.Editor
                 cocktail.nameEN = jsonData.name_en;
                 cocktail.category = jsonData.category;
                 cocktail.tags = jsonData.tags ?? new string[0];  // 标签处理
-                cocktail.themeColor = GetThemeColorFromTags(cocktail.tags);  // 根据标签设置颜色基调
+                ApplyTagColorsToCard(cocktail.tags, cocktail);
+                // 若 JSON 直接提供三色，则覆盖
+                if (jsonData.color_main != null)  cocktail.mainBackgroundColor = ArrayToColor(jsonData.color_main);
+                if (jsonData.color_outline != null) cocktail.outlineBackgroundColor = ArrayToColor(jsonData.color_outline);
+                if (jsonData.color_textBg != null)  cocktail.textBackgroundColor = ArrayToColor(jsonData.color_textBg);
                 cocktail.feature = jsonData.feature;
                 cocktail.uiPath = jsonData.ui_path;
 
@@ -1700,7 +1798,11 @@ namespace TabernaNoctis.Editor
                 material.nameEN = jsonData.name_en;
                 material.category = jsonData.category;
                 material.tags = jsonData.tags ?? new string[0];  // 标签处理
-                material.themeColor = GetThemeColorFromTags(material.tags);  // 根据标签设置颜色基调
+                ApplyTagColorsToCard(material.tags, material);
+                // 若 JSON 直接提供三色，则覆盖
+                if (jsonData.color_main != null)  material.mainBackgroundColor = ArrayToColor(jsonData.color_main);
+                if (jsonData.color_outline != null) material.outlineBackgroundColor = ArrayToColor(jsonData.color_outline);
+                if (jsonData.color_textBg != null)  material.textBackgroundColor = ArrayToColor(jsonData.color_textBg);
                 material.feature = jsonData.feature;
                 material.uiPath = jsonData.ui_path;
 

@@ -20,9 +20,17 @@ namespace TabernaNoctis.CardSystem
         [Tooltip("卡牌外边框背�?（Outline�?")]
         private Image outlineBackground;
 
+		[SerializeField]
+		[Tooltip("外边框组（可多个）")]
+		private Image[] outlineBackgrounds;
+
         [SerializeField]
         [Tooltip("卡牌主背�?")]
         private Image mainBackground;
+
+		[SerializeField]
+		[Tooltip("卡牌主背景组（可多个）")]
+		private Image[] mainBackgrounds;
 
         [SerializeField]
 		[Tooltip("文字区域背景（单个）")]
@@ -286,37 +294,56 @@ namespace TabernaNoctis.CardSystem
             DisplayEffects();
         }
 
-        private void ApplyThemeColor()
+		private void ApplyThemeColor()
         {
             if (currentCardData == null) return;
 
-            Color themeColor = currentCardData.themeColor;
+			// 优先使用新字段；若未设置则回退 themeColor
+			Color themeColor = currentCardData.mainBackgroundColor.a > 0f ? currentCardData.mainBackgroundColor : currentCardData.themeColor;
 
-            // 应用到�?�边框（颜色稍深�?
+			// 应用到单个外边框（颜色稍深）
             if (outlineBackground != null)
             {
-                Color darkerTheme = new Color(
-                    themeColor.r * 0.8f,
-                    themeColor.g * 0.8f,
-                    themeColor.b * 0.8f,
-                    1f
-                );
+				Color darkerTheme = currentCardData.outlineBackgroundColor.a > 0f
+					? currentCardData.outlineBackgroundColor
+					: new Color(themeColor.r * 0.8f, themeColor.g * 0.8f, themeColor.b * 0.8f, 1f);
                 outlineBackground.color = darkerTheme;
             }
+			// 组外边框
+			if (outlineBackgrounds != null)
+			{
+				Color darkerTheme = new Color(
+					themeColor.r * 0.8f,
+					themeColor.g * 0.8f,
+					themeColor.b * 0.8f,
+					1f
+				);
+				for (int i = 0; i < outlineBackgrounds.Length; i++)
+				{
+					var img = outlineBackgrounds[i];
+					if (img != null) img.color = darkerTheme;
+				}
+			}
 
-            // 应用到主背景
-            if (mainBackground != null)
+			// 应用到主背景
+			if (mainBackground != null)
             {
-                mainBackground.color = themeColor;
+				mainBackground.color = themeColor;
             }
+			// 组主背景
+			if (mainBackgrounds != null)
+			{
+				for (int i = 0; i < mainBackgrounds.Length; i++)
+				{
+					var img = mainBackgrounds[i];
+					if (img != null) img.color = themeColor;
+				}
+			}
 
 			// 应用到文字背景（可多个，颜色更浅，带透明度）
-			Color lighterTheme = new Color(
-				themeColor.r * 1.05f,
-				themeColor.g * 1.05f,
-				themeColor.b * 1.05f,
-				0.9f
-			);
+			Color lighterTheme = currentCardData.textBackgroundColor.a > 0f
+				? currentCardData.textBackgroundColor
+				: new Color(themeColor.r * 1.05f, themeColor.g * 1.05f, themeColor.b * 1.05f, 0.9f);
 			if (textBackground != null)
 			{
 				textBackground.color = lighterTheme;
