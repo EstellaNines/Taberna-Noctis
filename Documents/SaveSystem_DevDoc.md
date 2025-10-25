@@ -6,6 +6,10 @@
 
 ---
 
+## 功能综述
+
+存档系统在白天结束、夜晚结束与新一天开始三个关键节点自动生成快照并持久化至 ES3，内置统一键命名、备份与回滚、版本升级和数据校验机制，既保证状态一致性又降低玩家操作成本；同时提供存档槽 UI 的关键信息展示与读写操作，并通过 SAVE_COMPLETED/SAVE_LOADED 等消息与其他系统解耦联动。
+
 ## 📋 目录
 
 1. [系统概述](#系统概述)
@@ -888,6 +892,7 @@ private SaveData UpgradeSaveData(SaveData oldData)
   - [ ] 今日收入、服务人数、平均评分、星级奖励
 
 ### Phase 2：SaveManager 核心
+
 - [ ] **实现 SaveManager.cs**
 
   - [ ] 单例模式

@@ -88,6 +88,9 @@ public class DayEndScreen : MonoBehaviour
 		// 场景激活时自动刷新数据
 		if (autoRefreshOnEnable && Application.isPlaying)
 		{
+			// 清空当日菜单，准备新一天
+			var sm = SaveManager.Instance;
+			if (sm != null) sm.ClearTodayMenu();
 			// 先结算利润到金钱
 			SettleProfitToMoney();
 			// 再刷新界面显示
@@ -184,9 +187,9 @@ public class DayEndScreen : MonoBehaviour
 		
 		var snap = sm.GenerateSaveData();
 		
-		// 结算利润到金钱
-		int profit = snap.todayIncome - snap.todayExpense;
-		snap.currentMoney += profit;
+		// 结算到金钱：材料在购买时已即时扣除（ApplyPurchase），
+		// 因此此处只需把“今日收入”加回，避免对“今日支出”二次扣减。
+		snap.currentMoney += snap.todayIncome;
 		
 		// 结算评价增量到累计评分
 		snap.cumulativeScore += snap.todayReputationChange;
@@ -194,6 +197,7 @@ public class DayEndScreen : MonoBehaviour
 		// 计算星级（100分/星）
 		snap.starRating = Mathf.FloorToInt(snap.cumulativeScore / 100f);
 		
+		int profit = snap.todayIncome - snap.todayExpense;
 		Debug.Log($"[DayEndScreen] 结算完成 - 利润:{profit} 新金钱:{snap.currentMoney} 累计评分:{snap.cumulativeScore:F1} 星级:{snap.starRating}");
 		
 		// 保存到存档

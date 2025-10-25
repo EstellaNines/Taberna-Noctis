@@ -6,6 +6,10 @@
 
 ---
 
+## 功能综述
+
+场景管理器统一负责场景命名规范化与按名路由，协同 Loading 场景完成异步加载与激活，并响应时间系统的阶段消息执行 Day/Night/Settlement 的切换；在此过程中提供加载重入保护与错误回退的最小契约，支持 Single/Additive 模式与 `SceneTimeCoordinator` 协作，作为全局场景流切换的可靠中转站。
+
 ## 1. 文档目的与范围
 
 - 定义 `GlobalSceneManager` 与 `SceneTimeCoordinator` 的职责边界与协作方式。

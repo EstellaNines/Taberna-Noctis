@@ -19,13 +19,15 @@ public class CocktailMenuController : MonoBehaviour
 	[SerializeField] private RectTransform areaRoot;
 	[LabelText("鸡尾酒条目预制体")]
 	[SerializeField] private GameObject cocktailItemPrefab; // 结构如 Resources/Prefabs/0_General/3_Menu/Cocktail.prefab
+	[LabelText("确定按钮(可选)")]
+	[SerializeField] private Button confirmButton;
 
 	[LabelText("起始序号(从1开始)")]
 	[SerializeField] private int startIndex = 1;
 
 	[Header("过滤/忽略")]
-	[LabelText("忽略的鸡尾酒英文名(含保底)")]
-	[SerializeField] private string[] ignoreCocktailNamesEN = new string[] { "Unspeakable" };
+	[LabelText("忽略的鸡尾酒英文名")]
+	[SerializeField] private string[] ignoreCocktailNamesEN = new string[0];
 
 	private CanvasGroup canvasGroup;
 	private readonly System.Collections.Generic.Dictionary<int, int> cocktailIdToIndex = new System.Collections.Generic.Dictionary<int, int>();
@@ -38,6 +40,7 @@ public class CocktailMenuController : MonoBehaviour
 		if (canvasGroup == null) canvasGroup = target.gameObject.AddComponent<CanvasGroup>();
 		nextIndexAssigned = startIndex;
 		if (hideOnStart) SetVisible(false);
+		if (confirmButton != null) confirmButton.onClick.AddListener(OnConfirmClicked);
 	}
 
 	private void OnEnable()
@@ -54,6 +57,7 @@ public class CocktailMenuController : MonoBehaviour
 			"COCKTAIL_CRAFTED_DETAIL", OnCraftedDetail);
 		MessageManager.Remove<CocktailCardSO>(
 			"COCKTAIL_CRAFTED", OnCraftedCocktailOnly);
+		if (confirmButton != null) confirmButton.onClick.RemoveListener(OnConfirmClicked);
 	}
 
 	[Button("打开菜单", ButtonSizes.Medium)]
@@ -134,7 +138,43 @@ public class CocktailMenuController : MonoBehaviour
 			valueText.text = BuildValuesMultiline(cocktail.effects);
 		}
 
+		// 交互：为条目添加 CocktailMenuItem 以支持 √/× 切换
+		var marker = item.GetComponent<CocktailMenuItem>();
+		if (marker == null) marker = item.AddComponent<CocktailMenuItem>();
+		marker.Setup(cocktail);
+
 		// 不自动打开菜单：由外部菜单按钮控制
+	}
+
+	private void OnConfirmClicked()
+	{
+		if (areaRoot == null) return;
+		var items = areaRoot.GetComponentsInChildren<CocktailMenuItem>(true);
+		var list = new System.Collections.Generic.List<CocktailCardSO>();
+		for (int i = 0; i < items.Length; i++)
+		{
+			var it = items[i];
+			if (it != null && it.IsAccepted() && it.GetData() != null)
+			{
+				list.Add(it.GetData());
+			}
+		}
+		if (list.Count > 0)
+		{
+			MessageManager.Send(System.String.Intern("COCKTAIL_MENU_CONFIRMED"), list);
+			Debug.Log($"[CocktailMenu] 确认选择，共{list.Count} 项：" + string.Join(", ", list.ConvertAll(x => x.nameEN)));
+
+			// 保存为当日菜单（以 CocktailCardSO.id 字符串）
+			var sm = SaveManager.Instance;
+			if (sm != null)
+			{
+				var keys = new System.Collections.Generic.List<string>(list.Count);
+				for (int i = 0; i < list.Count; i++) keys.Add(list[i].id.ToString());
+				sm.UpdateDailyMenu(keys);
+				MessageManager.Send(System.String.Intern("COCKTAIL_MENU_SAVED"), keys);
+				Debug.Log("[CocktailMenu] 当日菜单已保存: " + string.Join(", ", keys));
+			}
+		}
 	}
 
 	private bool IsIgnorable(CocktailCardSO cocktail)

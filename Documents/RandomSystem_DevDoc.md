@@ -1,5 +1,9 @@
 ## 随机系统开发文档（Daily Stable + ES3 持久化）
 
+### 功能综述
+
+随机系统提供“每日稳定”与“真随机”两种模式，统一以 IRandomSource 封装 Range/Shuffle/Deal/Pick/Weighted 等接口，并通过 ES3 持久化 UnityEngine.Random.State 实现状态延续；调用前后自动还原全局随机状态避免污染，辅以监控器与直方图等工具，兼顾生产不可预测性与 QA 可复现性。
+
 ### 目标与特性
 
 - **每日稳定**: 按玩家 ID+日期+流 Key 生成稳定结果；跨天变化。

@@ -195,6 +195,43 @@ public class SaveManager : MonoBehaviour
         return data;
 	}
 
+	// ====== 菜单（当日） ======
+	public void UpdateDailyMenu(System.Collections.Generic.List<string> cocktailIdStrings)
+	{
+		EnsureCurrentLoaded();
+		if (_current == null)
+		{
+			_current = GenerateSaveData();
+		}
+		if (_current.currentMenuRecipeIDs == null)
+		{
+			_current.currentMenuRecipeIDs = new System.Collections.Generic.List<string>();
+		}
+		_current.currentMenuRecipeIDs.Clear();
+		if (cocktailIdStrings != null && cocktailIdStrings.Count > 0)
+		{
+			_current.currentMenuRecipeIDs.AddRange(cocktailIdStrings);
+		}
+		_current.todayMenuSelected = _current.currentMenuRecipeIDs.Count > 0;
+		WriteWithMetadata(_current);
+	}
+
+	public void ClearTodayMenu()
+	{
+		EnsureCurrentLoaded();
+		if (_current == null)
+		{
+			_current = GenerateSaveData();
+		}
+		if (_current.currentMenuRecipeIDs == null)
+		{
+			_current.currentMenuRecipeIDs = new System.Collections.Generic.List<string>();
+		}
+		_current.currentMenuRecipeIDs.Clear();
+		_current.todayMenuSelected = false;
+		WriteWithMetadata(_current);
+	}
+
 	private void WriteWithMetadata(SaveData snap)
 	{
 		snap.lastSaveDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");

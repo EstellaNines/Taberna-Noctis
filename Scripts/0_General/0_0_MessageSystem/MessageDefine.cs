@@ -53,6 +53,10 @@ public static class MessageDefine
     // ====== 采购/经济事件 ======
     public static readonly string MATERIAL_PURCHASED = "MATERIAL_PURCHASED"; // 携带 (string itemKey, int price)
     
+    // ====== 菜单选择确认 ======
+    public static readonly string COCKTAIL_MENU_CONFIRMED = "COCKTAIL_MENU_CONFIRMED"; // 携带 List<CocktailCardSO>
+    public static readonly string COCKTAIL_MENU_SAVED = "COCKTAIL_MENU_SAVED";         // 携带 List<string> (cocktailId as string)
+    
     // ========== 每日消息查看器 ==========
     // 可选：用于编辑器查看器主动请求刷新
     public static readonly string DAILY_MESSAGE_LOG_REFRESH = "DAILY_MESSAGE_LOG_REFRESH";

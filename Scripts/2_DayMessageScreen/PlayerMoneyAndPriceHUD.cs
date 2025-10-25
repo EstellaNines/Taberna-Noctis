@@ -43,18 +43,33 @@ public class PlayerMoneyAndPriceHUD : MonoBehaviour
 
     private void OnEnable()
     {
-        MessageManager.Register<string>(MessageDefine.SAVE_LOADED, OnSaveLoaded);
+		MessageManager.Register<string>(MessageDefine.SAVE_LOADED, OnSaveLoaded);
+		MessageManager.Register<string>(MessageDefine.SAVE_COMPLETED, OnSaveLoaded);
         MessageManager.Register<BaseCardSO>(MessageDefine.CARD_DRAG_STARTED, OnCardDragStarted);
         MessageManager.Register<bool>(MessageDefine.CARD_DRAG_ENDED, OnCardDragEnded);
         MessageManager.Register<(string itemKey, int price)>(MessageDefine.MATERIAL_PURCHASED, OnMaterialPurchased);
-        RefreshMoneyFromSave();
+		// 立即刷新一次
+		RefreshMoneyFromSave();
         // 初始进入时隐藏价格显示，直到开始拖拽
         HidePriceImmediate();
     }
 
+	private void Start()
+	{
+		// 延后一帧再次刷新，确保跨场景时 SaveManager/SAVE_LOADED 先行到达
+		StartCoroutine(RefreshAfterOneFrame());
+	}
+
+	private System.Collections.IEnumerator RefreshAfterOneFrame()
+	{
+		yield return null;
+		RefreshMoneyFromSave();
+	}
+
     private void OnDisable()
     {
-        MessageManager.Remove<string>(MessageDefine.SAVE_LOADED, OnSaveLoaded);
+		MessageManager.Remove<string>(MessageDefine.SAVE_LOADED, OnSaveLoaded);
+		MessageManager.Remove<string>(MessageDefine.SAVE_COMPLETED, OnSaveLoaded);
         MessageManager.Remove<BaseCardSO>(MessageDefine.CARD_DRAG_STARTED, OnCardDragStarted);
         MessageManager.Remove<bool>(MessageDefine.CARD_DRAG_ENDED, OnCardDragEnded);
         MessageManager.Remove<(string itemKey, int price)>(MessageDefine.MATERIAL_PURCHASED, OnMaterialPurchased);
