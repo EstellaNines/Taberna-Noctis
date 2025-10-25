@@ -100,7 +100,18 @@ public class RecipeCraftingController : MonoBehaviour
             resultSlot.SetHighlight(true);
             resultSlot.SetResult(cocktail);
         }
-        Debug.Log($"[RecipeCraftingController] 合成结果: {cocktail.nameEN} (ID:{cocktail.id})");
+		Debug.Log($"[RecipeCraftingController] 合成结果: {cocktail.nameEN} (ID:{cocktail.id})");
+
+		// 广播：合成成功（仅鸡尾酒）
+		MessageManager.Send<CocktailCardSO>("COCKTAIL_CRAFTED", cocktail);
+		// 广播：合成成功（含配方材料明细）
+		MessageManager.Send<(CocktailCardSO cocktail, MaterialCardSO a, MaterialCardSO b, MaterialCardSO c)>(
+			"COCKTAIL_CRAFTED_DETAIL",
+			(cocktail, slotMat0, slotMat1, slotMat2)
+		);
+		// 控制台一句话
+		var tags = (cocktail.tags != null && cocktail.tags.Length > 0) ? string.Join("/", cocktail.tags) : "-";
+		Debug.Log($"[Crafted] {cocktail.nameEN} | Category={cocktail.category} | Tags={tags} | Price=${cocktail.price} | Cost=${cocktail.cost} | Profit=${cocktail.profit}");
 
 		// 合成成功后按需清空三个槽
 		if (clearSlotsOnSuccess)

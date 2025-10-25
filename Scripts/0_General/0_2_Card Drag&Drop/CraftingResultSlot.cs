@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using TabernaNoctis.Cards;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 /// <summary>
 /// 显示合成结果的空槽（仅展示，不参与拖拽/提交）。
@@ -51,6 +52,24 @@ public class CraftingResultSlot : MonoBehaviour
     private TMP_Text cardNameText;  // 子节点："Name" 的 TMP_Text
 	private TMP_Text cardCategoryText; // 子节点："Category" 的 TMP_Text
 
+    [Header("飞向菜单动效")]
+    [LabelText("启用生成后飞向菜单按钮")]
+    [SerializeField] private bool playFlyToMenu = true;
+    [LabelText("菜单按钮(目标)RectTransform")]
+    [SerializeField] private RectTransform menuButtonTarget;
+    [LabelText("等待秒数")]
+    [SerializeField] private float flyDelaySeconds = 2f;
+    [LabelText("飞行时长(秒)")]
+    [SerializeField] private float flyDurationSeconds = 0.6f;
+    [LabelText("移动缓动")]
+    [SerializeField] private Ease flyEase = Ease.InCubic;
+    [LabelText("完成后隐藏卡牌")]
+    [SerializeField] private bool hideCardAfterFly = true;
+
+    private Sequence flySequence;
+    private Vector2 initialAnchoredPos;
+    private Vector3 initialLocalScale = Vector3.one;
+
     private void Awake()
     {
         // 初始仅显示背景；高亮与卡牌隐藏
@@ -81,10 +100,11 @@ public class CraftingResultSlot : MonoBehaviour
         }
 
         EnsureCardInstance();
-		UpdateCardVisual(cocktail);
-		ShowCard();
-		FitCardWithinBackground();
-		TryApplyBarMaterialOverride();
+        ResetCardTransform();
+        UpdateCardVisual(cocktail);
+        ShowCard();
+        FitCardWithinBackground();
+        TryApplyBarMaterialOverride();
 
         // 外部名称文本（可选）
 		if (resultNameText != null)
@@ -92,6 +112,9 @@ public class CraftingResultSlot : MonoBehaviour
 			// 始终显示英文名
 			resultNameText.text = cocktail.nameEN;
 		}
+
+        // 动效
+        PlayFlyToMenuAnim();
     }
 
     public void Clear()
@@ -124,6 +147,13 @@ public class CraftingResultSlot : MonoBehaviour
 		cardUISprite = FindChildByName<Image>(cardInstance.transform, "UI Sprite");
 		cardNameText = FindChildByName<TMP_Text>(cardInstance.transform, "Name");
 		cardCategoryText = FindChildByName<TMP_Text>(cardInstance.transform, "Category");
+
+        var rt = cardInstance.transform as RectTransform;
+        if (rt != null)
+        {
+            initialAnchoredPos = rt.anchoredPosition;
+            initialLocalScale = rt.localScale;
+        }
     }
 
     private void UpdateCardVisual(CocktailCardSO cocktail)
@@ -154,6 +184,21 @@ public class CraftingResultSlot : MonoBehaviour
     private void HideCard()
     {
         if (cardInstance != null) cardInstance.SetActive(false);
+    }
+
+    private void ResetCardTransform()
+    {
+        if (cardInstance == null) return;
+        var rt = cardInstance.transform as RectTransform;
+        if (rt == null) return;
+        // 终止上一次动画并复位
+        if (flySequence != null && flySequence.IsActive())
+        {
+            flySequence.Kill();
+            flySequence = null;
+        }
+        rt.anchoredPosition = initialAnchoredPos;
+        rt.localScale = initialLocalScale;
     }
 
     private T FindChildByName<T>(Transform parent, string targetName) where T : Component
@@ -223,6 +268,34 @@ public class CraftingResultSlot : MonoBehaviour
 		}
 		return false;
 	}
+
+    private void PlayFlyToMenuAnim()
+    {
+        if (!playFlyToMenu) return;
+        if (cardInstance == null) return;
+        if (menuButtonTarget == null) return;
+
+        var rt = cardInstance.transform as RectTransform;
+        if (rt == null) return;
+
+        // 若有未完成序列，先终止
+        if (flySequence != null && flySequence.IsActive())
+        {
+            flySequence.Kill();
+            flySequence = null;
+        }
+
+        // 以世界坐标飞向按钮位置，同时缩放至0
+        Vector3 targetWorldPos = menuButtonTarget.position;
+        flySequence = DOTween.Sequence();
+        flySequence.AppendInterval(Mathf.Max(0f, flyDelaySeconds));
+        flySequence.Append(rt.DOMove(targetWorldPos, Mathf.Max(0.01f, flyDurationSeconds)).SetEase(flyEase));
+        flySequence.Join(rt.DOScale(0f, Mathf.Max(0.01f, flyDurationSeconds)).SetEase(Ease.InQuad));
+        flySequence.OnComplete(() =>
+        {
+            if (hideCardAfterFly) HideCard();
+        });
+    }
 
 	private string ResolveEnglishCategory(BaseCardSO card)
 	{

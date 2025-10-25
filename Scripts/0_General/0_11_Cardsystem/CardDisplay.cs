@@ -8,16 +8,16 @@ using System.Collections.Generic;
 namespace TabernaNoctis.CardSystem
 {
     /// <summary>
-    /// 卡牌显示组件 - 负责将CardSO数据显示到UI�?
+    /// 卡牌显示组件 - 负责将 CardSO 数据显示到 UI
     /// </summary>
-    [ExecuteAlways]  // �ڱ༭ģʽ��Ҳִ�У�����ʵʱԤ��
+    [ExecuteAlways]  // 在编辑模式下也执行，支持实时预览
     public class CardDisplay : MonoBehaviour
     {
-        #region 序列化字�? - 基�?�UI组件
+        #region 序列化字段 - 基础 UI 组件
 
         [Header("背景组件")]
         [SerializeField]
-        [Tooltip("卡牌外边框背�?（Outline�?")]
+        [Tooltip("卡牌外边框背景（Outline）")]
         private Image outlineBackground;
 
 		[SerializeField]
@@ -25,7 +25,7 @@ namespace TabernaNoctis.CardSystem
 		private Image[] outlineBackgrounds;
 
         [SerializeField]
-        [Tooltip("卡牌主背�?")]
+        [Tooltip("卡牌主背景")]
         private Image mainBackground;
 
 		[SerializeField]
@@ -33,24 +33,24 @@ namespace TabernaNoctis.CardSystem
 		private Image[] mainBackgrounds;
 
         [SerializeField]
-		[Tooltip("文字区域背景（单个）")]
+        [Tooltip("文字区域背景（单个）")]
 		private Image textBackground;
 
 		[SerializeField]
 		[Tooltip("文字区域背景（多个）")]
 		private Image[] textBackgrounds;
 
-        [Header("基�?�显示组件")]
+        [Header("基础显示组件")]
         [SerializeField]
-        [Tooltip("显示卡牌标�?�的文本")]
+        [Tooltip("显示卡牌标签的文本")]
         private TextMeshProUGUI tagsText;
 
         [SerializeField]
-        [Tooltip("显示卡牌名称的文�?")]
+        [Tooltip("显示卡牌名称的文本")]
         private TextMeshProUGUI nameText;
 
         [SerializeField]
-        [Tooltip("显示价格的文�?")]
+        [Tooltip("显示价格的文本")]
         private TextMeshProUGUI priceText;
 
         [SerializeField]
@@ -59,32 +59,32 @@ namespace TabernaNoctis.CardSystem
 
         #endregion
 
-        #region 序列化字�? - 状态滑�?
+        #region 序列化字段 - 状态滑条
 
-        [Header("状态效果显示（5�?�?")]
+        [Header("状态效果显示（5项）")]
         [SerializeField]
-        [Tooltip("忙�?�状�?")]
+        [Tooltip("忙碌状态")]
         private StateEffectBar busyBar;
 
         [SerializeField]
-        [Tooltip("急躁状�?")]
+        [Tooltip("急躁状态")]
         private StateEffectBar impatientBar;
 
         [SerializeField]
-        [Tooltip("烦闷状�?")]
+        [Tooltip("烦闷状态")]
         private StateEffectBar boredBar;
 
         [SerializeField]
-        [Tooltip("挑剔状�?")]
+        [Tooltip("挑剔状态")]
         private StateEffectBar pickyBar;
 
         [SerializeField]
-        [Tooltip("友好状�?")]
+        [Tooltip("友好状态")]
         private StateEffectBar friendlyBar;
 
         #endregion
 
-        #region 序列化字�? - 颜色配置
+        #region 序列化字段 - 颜色配置
 
         [Header("显示设置")]
         [Tooltip("始终使用英文名称（已固定为true）")]
@@ -114,7 +114,7 @@ namespace TabernaNoctis.CardSystem
 
         #endregion
 
-        #region 私有字�??
+        #region 私有字段
 
         private BaseCardSO currentCardData;
         private bool isInitialized = false;
@@ -126,11 +126,11 @@ namespace TabernaNoctis.CardSystem
 
         #endregion
         
-        #region Unity��������
+        #region Unity 生命周期
         
         private void OnEnable()
         {
-            // �༭��ģʽ�£������Ԥ���������Զ���ʾ
+            // 编辑模式下，若有预览数据则自动显示
             #if UNITY_EDITOR
             if (!Application.isPlaying && editorPreviewCard != null)
             {
@@ -158,23 +158,23 @@ namespace TabernaNoctis.CardSystem
         
         #endregion
 
-        #region �?共方�?
+        #region 公共方法
 
         /// <summary>
-        /// 设置并显示卡牌数�?
+        /// 设置并显示卡牌数据
         /// </summary>
         public void SetCardData(BaseCardSO cardData)
         {
             if (cardData == null)
             {
-                Debug.LogError("[CardDisplay] 卡牌数据为空�?", this);
+                Debug.LogError("[CardDisplay] 卡牌数据为空", this);
                 return;
             }
 
             currentCardData = cardData;
             
             #if UNITY_EDITOR
-            // �ڱ༭��ģʽ�±���Ԥ����������
+            // 编辑模式下保存预览引用
             if (!Application.isPlaying)
             {
                 editorPreviewCard = cardData;
@@ -190,7 +190,7 @@ namespace TabernaNoctis.CardSystem
         }
 
         /// <summary>
-        /// 获取当前显示的卡牌数�?
+        /// 获取当前显示的卡牌数据
         /// </summary>
         public BaseCardSO GetCurrentCardData()
         {
@@ -218,7 +218,7 @@ namespace TabernaNoctis.CardSystem
         }
 
         /// <summary>
-        /// 刷新显示（当数据�?外部�?改后调用�?
+        /// 刷新显示（当数据被外部修改后调用）
         /// </summary>
         public void RefreshDisplay()
         {
@@ -230,7 +230,7 @@ namespace TabernaNoctis.CardSystem
 
         #endregion
 
-        #region 私有方法 - 初�?�化
+        #region 私有方法 - 初始化
 
         private void Initialize()
         {
@@ -241,32 +241,32 @@ namespace TabernaNoctis.CardSystem
         private void ValidateComponents()
         {
             if (nameText == null)
-                Debug.LogWarning("[CardDisplay] �?设置nameText引用", this);
+                Debug.LogWarning("[CardDisplay] 未设置 nameText 引用", this);
             
             if (tagsText == null)
-                Debug.LogWarning("[CardDisplay] �?设置tagsText引用", this);
+                Debug.LogWarning("[CardDisplay] 未设置 tagsText 引用", this);
             
             if (priceText == null)
-                Debug.LogWarning("[CardDisplay] �?设置priceText引用", this);
+                Debug.LogWarning("[CardDisplay] 未设置 priceText 引用", this);
             
             if (cardImage == null)
-                Debug.LogWarning("[CardDisplay] �?设置cardImage引用", this);
+                Debug.LogWarning("[CardDisplay] 未设置 cardImage 引用", this);
 
             // 验证状态条
             if (busyBar == null || busyBar.slider == null)
-                Debug.LogWarning("[CardDisplay] 忙�?�状态条�?正确设置", this);
+                Debug.LogWarning("[CardDisplay] 忙碌状态条未正确设置", this);
             
             if (impatientBar == null || impatientBar.slider == null)
-                Debug.LogWarning("[CardDisplay] 急躁状态条�?正确设置", this);
+                Debug.LogWarning("[CardDisplay] 急躁状态条未正确设置", this);
             
             if (boredBar == null || boredBar.slider == null)
-                Debug.LogWarning("[CardDisplay] 烦闷状态条�?正确设置", this);
+                Debug.LogWarning("[CardDisplay] 烦闷状态条未正确设置", this);
             
             if (pickyBar == null || pickyBar.slider == null)
-                Debug.LogWarning("[CardDisplay] 挑剔状态条�?正确设置", this);
+                Debug.LogWarning("[CardDisplay] 挑剔状态条未正确设置", this);
             
             if (friendlyBar == null || friendlyBar.slider == null)
-                Debug.LogWarning("[CardDisplay] 友好状态条�?正确设置", this);
+                Debug.LogWarning("[CardDisplay] 友好状态条未正确设置", this);
         }
 
         #endregion
@@ -281,7 +281,7 @@ namespace TabernaNoctis.CardSystem
             // 显示名称
             DisplayName();
 
-            // 显示标�??
+            // 显示标签
             DisplayTags();
 
             // 显示价格
@@ -290,7 +290,7 @@ namespace TabernaNoctis.CardSystem
             // 显示图片
             DisplayImage();
 
-            // 显示状态效�?
+            // 显示状态效果
             DisplayEffects();
         }
 
