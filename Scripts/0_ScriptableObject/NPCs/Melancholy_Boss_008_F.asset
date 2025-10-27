@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Melancholy
   displayName: Boss
   stateColor: {r: 0, g: 1, b: 1, a: 1}
-  initialMood: 68
+  initialMood: 4
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u8001\u677F(\u5973)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

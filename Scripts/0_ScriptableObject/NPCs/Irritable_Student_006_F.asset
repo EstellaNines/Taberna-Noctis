@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Irritable
   displayName: College Student
   stateColor: {r: 1, g: 0, b: 0, a: 1}
-  initialMood: 50
+  initialMood: 5
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u5973\u5927\u5B66\u751F"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

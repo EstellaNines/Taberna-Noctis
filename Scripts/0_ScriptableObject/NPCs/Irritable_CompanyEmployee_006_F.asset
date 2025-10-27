@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Irritable
   displayName: Company Employee
   stateColor: {r: 1, g: 0, b: 0, a: 1}
-  initialMood: 55
+  initialMood: 2
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-Impatient\u5973\u5458\u5DE5"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

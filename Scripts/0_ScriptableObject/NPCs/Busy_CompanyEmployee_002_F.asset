@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Busy
   displayName: Company Employee
   stateColor: {r: 0, g: 1, b: 0, a: 1}
-  initialMood: 75
+  initialMood: 3
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-Busy\u5973\u5458\u5DE5"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

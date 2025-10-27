@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Picky
   displayName: Small Leader
   stateColor: {r: 1, g: 1, b: 0, a: 1}
-  initialMood: 63
+  initialMood: 5
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u5C0F\u9886\u5BFC(\u5973)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

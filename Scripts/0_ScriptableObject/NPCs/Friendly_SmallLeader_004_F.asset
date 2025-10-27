@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Friendly
   displayName: Small Leader
   stateColor: {r: 0.5411765, g: 0.16862746, b: 0.8862745, a: 1}
-  initialMood: 88
+  initialMood: 8
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u5C0F\u9886\u5BFC(\u5973)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

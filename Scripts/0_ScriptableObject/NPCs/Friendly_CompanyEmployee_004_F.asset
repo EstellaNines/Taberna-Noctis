@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Friendly
   displayName: Company Employee
   stateColor: {r: 0.5411765, g: 0.16862746, b: 0.8862745, a: 1}
-  initialMood: 85
+  initialMood: 7
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-Friendly\u5973\u5458\u5DE5"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

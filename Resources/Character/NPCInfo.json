@@ -17,7 +17,7 @@
           "name": "Busy Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#00FF00",
-          "initialMood": 70,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Busy男员工"
         },
@@ -27,7 +27,7 @@
           "name": "Busy Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#00FF00",
-          "initialMood": 75,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Busy女员工"
         }
@@ -39,7 +39,7 @@
           "name": "Friendly Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#8A2BE2",
-          "initialMood": 80,
+          "initialMood": 7,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Friendly男员工"
         },
@@ -49,7 +49,7 @@
           "name": "Friendly Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#8A2BE2",
-          "initialMood": 85,
+          "initialMood": 7,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Friendly女员工"
         }
@@ -61,7 +61,7 @@
           "name": "Irritable Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#FF0000",
-          "initialMood": 60,
+          "initialMood": 2,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Impatient男员工"
         },
@@ -71,7 +71,7 @@
           "name": "Irritable Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#FF0000",
-          "initialMood": 55,
+          "initialMood": 2,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Impatient女员工"
         }
@@ -83,7 +83,7 @@
           "name": "Melancholy Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#00FFFF",
-          "initialMood": 65,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Boredom男员工"
         },
@@ -93,7 +93,7 @@
           "name": "Melancholy Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#00FFFF",
-          "initialMood": 62,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Boredom女员工"
         }
@@ -105,7 +105,7 @@
           "name": "Picky Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#FFFF00",
-          "initialMood": 58,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Picky男员工"
         },
@@ -115,7 +115,7 @@
           "name": "Picky Company Employee",
           "displayName": "Company Employee",
           "stateColor": "#FFFF00",
-          "initialMood": 60,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-Picky女员工"
         }
@@ -130,7 +130,7 @@
           "name": "Busy Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#00FF00",
-          "initialMood": 72,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(男)"
         },
@@ -140,7 +140,7 @@
           "name": "Busy Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#00FF00",
-          "initialMood": 78,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(女)"
         }
@@ -152,7 +152,7 @@
           "name": "Friendly Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#8A2BE2",
-          "initialMood": 82,
+          "initialMood": 8,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(男)"
         },
@@ -162,7 +162,7 @@
           "name": "Friendly Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#8A2BE2",
-          "initialMood": 88,
+          "initialMood": 8,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(女)"
         }
@@ -174,7 +174,7 @@
           "name": "Irritable Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#FF0000",
-          "initialMood": 62,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(男)"
         },
@@ -184,7 +184,7 @@
           "name": "Irritable Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#FF0000",
-          "initialMood": 58,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(女)"
         }
@@ -196,7 +196,7 @@
           "name": "Melancholy Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#00FFFF",
-          "initialMood": 68,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(男)"
         },
@@ -206,7 +206,7 @@
           "name": "Melancholy Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#00FFFF",
-          "initialMood": 65,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(女)"
         }
@@ -218,7 +218,7 @@
           "name": "Picky Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#FFFF00",
-          "initialMood": 60,
+          "initialMood": 5,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(男)"
         },
@@ -228,7 +228,7 @@
           "name": "Picky Small Leader",
           "displayName": "Small Leader",
           "stateColor": "#FFFF00",
-          "initialMood": 63,
+          "initialMood": 5,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-小领导(女)"
         }
@@ -243,7 +243,7 @@
           "name": "Busy Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#00FF00",
-          "initialMood": 68,
+          "initialMood": 5,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
         },
@@ -253,7 +253,7 @@
           "name": "Busy Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#00FF00",
-          "initialMood": 73,
+          "initialMood": 5,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
         }
@@ -265,7 +265,7 @@
           "name": "Friendly Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#8A2BE2",
-          "initialMood": 78,
+          "initialMood": 8,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
         },
@@ -275,7 +275,7 @@
           "name": "Friendly Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#8A2BE2",
-          "initialMood": 83,
+          "initialMood": 8,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
         }
@@ -287,7 +287,7 @@
           "name": "Irritable Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#FF0000",
-          "initialMood": 58,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
         },
@@ -297,7 +297,7 @@
           "name": "Irritable Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#FF0000",
-          "initialMood": 53,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
         }
@@ -309,7 +309,7 @@
           "name": "Melancholy Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#00FFFF",
-          "initialMood": 63,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
         },
@@ -319,7 +319,7 @@
           "name": "Melancholy Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#00FFFF",
-          "initialMood": 60,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
         }
@@ -331,7 +331,7 @@
           "name": "Picky Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#FFFF00",
-          "initialMood": 56,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(男)"
         },
@@ -341,7 +341,7 @@
           "name": "Picky Freelancer",
           "displayName": "Freelancer",
           "stateColor": "#FFFF00",
-          "initialMood": 58,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-自由职业者(女)"
         }
@@ -356,7 +356,7 @@
           "name": "Busy Boss",
           "displayName": "Boss",
           "stateColor": "#00FF00",
-          "initialMood": 75,
+          "initialMood": 6,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(男)"
         },
@@ -366,7 +366,7 @@
           "name": "Busy Boss",
           "displayName": "Boss",
           "stateColor": "#00FF00",
-          "initialMood": 80,
+          "initialMood": 6,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(女)"
         }
@@ -378,7 +378,7 @@
           "name": "Friendly Boss",
           "displayName": "Boss",
           "stateColor": "#8A2BE2",
-          "initialMood": 85,
+          "initialMood": 8,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(男)"
         },
@@ -388,7 +388,7 @@
           "name": "Friendly Boss",
           "displayName": "Boss",
           "stateColor": "#8A2BE2",
-          "initialMood": 90,
+          "initialMood": 8,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(女)"
         }
@@ -400,7 +400,7 @@
           "name": "Irritable Boss",
           "displayName": "Boss",
           "stateColor": "#FF0000",
-          "initialMood": 65,
+          "initialMood": 5,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(男)"
         },
@@ -410,7 +410,7 @@
           "name": "Irritable Boss",
           "displayName": "Boss",
           "stateColor": "#FF0000",
-          "initialMood": 60,
+          "initialMood": 5,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(女)"
         }
@@ -422,7 +422,7 @@
           "name": "Melancholy Boss",
           "displayName": "Boss",
           "stateColor": "#00FFFF",
-          "initialMood": 70,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(男)"
         },
@@ -432,7 +432,7 @@
           "name": "Melancholy Boss",
           "displayName": "Boss",
           "stateColor": "#00FFFF",
-          "initialMood": 68,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(女)"
         }
@@ -444,7 +444,7 @@
           "name": "Picky Boss",
           "displayName": "Boss",
           "stateColor": "#FFFF00",
-          "initialMood": 63,
+          "initialMood": 6,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(男)"
         },
@@ -454,7 +454,7 @@
           "name": "Picky Boss",
           "displayName": "Boss",
           "stateColor": "#FFFF00",
-          "initialMood": 65,
+          "initialMood": 6,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-老板(女)"
         }
@@ -469,7 +469,7 @@
           "name": "Busy College Student",
           "displayName": "College Student",
           "stateColor": "#00FF00",
-          "initialMood": 65,
+          "initialMood": 6,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-男大学生"
         },
@@ -479,7 +479,7 @@
           "name": "Busy College Student",
           "displayName": "College Student",
           "stateColor": "#00FF00",
-          "initialMood": 70,
+          "initialMood": 6,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-女大学生"
         }
@@ -491,7 +491,7 @@
           "name": "Friendly College Student",
           "displayName": "College Student",
           "stateColor": "#8A2BE2",
-          "initialMood": 75,
+          "initialMood": 9,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-男大学生"
         },
@@ -501,7 +501,7 @@
           "name": "Friendly College Student",
           "displayName": "College Student",
           "stateColor": "#8A2BE2",
-          "initialMood": 80,
+          "initialMood": 9,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-女大学生"
         }
@@ -513,7 +513,7 @@
           "name": "Irritable College Student",
           "displayName": "College Student",
           "stateColor": "#FF0000",
-          "initialMood": 55,
+          "initialMood": 5,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-男大学生"
         },
@@ -523,7 +523,7 @@
           "name": "Irritable College Student",
           "displayName": "College Student",
           "stateColor": "#FF0000",
-          "initialMood": 50,
+          "initialMood": 5,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-女大学生"
         }
@@ -535,7 +535,7 @@
           "name": "Melancholy College Student",
           "displayName": "College Student",
           "stateColor": "#00FFFF",
-          "initialMood": 60,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-男大学生"
         },
@@ -545,7 +545,7 @@
           "name": "Melancholy College Student",
           "displayName": "College Student",
           "stateColor": "#00FFFF",
-          "initialMood": 58,
+          "initialMood": 4,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-女大学生"
         }
@@ -557,7 +557,7 @@
           "name": "Picky College Student",
           "displayName": "College Student",
           "stateColor": "#FFFF00",
-          "initialMood": 53,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-男大学生"
         },
@@ -567,7 +567,7 @@
           "name": "Picky College Student",
           "displayName": "College Student",
           "stateColor": "#FFFF00",
-          "initialMood": 55,
+          "initialMood": 3,
           "visitPercent": 4.0,
           "portraitPath": "Character/Portrait/YH2-女大学生"
         }

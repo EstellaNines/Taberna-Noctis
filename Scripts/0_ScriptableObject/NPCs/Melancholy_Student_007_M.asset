@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Melancholy
   displayName: College Student
   stateColor: {r: 0, g: 1, b: 1, a: 1}
-  initialMood: 60
+  initialMood: 4
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u7537\u5927\u5B66\u751F"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

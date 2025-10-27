@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Friendly
   displayName: Boss
   stateColor: {r: 0.5411765, g: 0.16862746, b: 0.8862745, a: 1}
-  initialMood: 90
+  initialMood: 8
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u8001\u677F(\u5973)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

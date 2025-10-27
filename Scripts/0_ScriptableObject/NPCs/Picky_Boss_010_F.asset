@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Picky
   displayName: Boss
   stateColor: {r: 1, g: 1, b: 0, a: 1}
-  initialMood: 65
+  initialMood: 6
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u8001\u677F(\u5973)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

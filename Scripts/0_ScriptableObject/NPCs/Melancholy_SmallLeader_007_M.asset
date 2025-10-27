@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Melancholy
   displayName: Small Leader
   stateColor: {r: 0, g: 1, b: 1, a: 1}
-  initialMood: 68
+  initialMood: 3
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u5C0F\u9886\u5BFC(\u7537)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

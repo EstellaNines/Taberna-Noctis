@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Busy
   displayName: College Student
   stateColor: {r: 0, g: 1, b: 0, a: 1}
-  initialMood: 70
+  initialMood: 6
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u5973\u5927\u5B66\u751F"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

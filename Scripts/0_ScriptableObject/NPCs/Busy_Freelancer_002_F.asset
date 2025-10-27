@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Busy
   displayName: Freelancer
   stateColor: {r: 0, g: 1, b: 0, a: 1}
-  initialMood: 73
+  initialMood: 5
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u81EA\u7531\u804C\u4E1A\u8005(\u5973)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

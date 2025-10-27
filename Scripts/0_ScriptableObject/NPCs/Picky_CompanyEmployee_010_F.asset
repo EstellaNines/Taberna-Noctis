@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Picky
   displayName: Company Employee
   stateColor: {r: 1, g: 1, b: 0, a: 1}
-  initialMood: 60
+  initialMood: 4
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-Picky\u5973\u5458\u5DE5"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

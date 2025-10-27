@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Melancholy
   displayName: Company Employee
   stateColor: {r: 0, g: 1, b: 1, a: 1}
-  initialMood: 62
+  initialMood: 4
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-Boredom\u5973\u5458\u5DE5"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

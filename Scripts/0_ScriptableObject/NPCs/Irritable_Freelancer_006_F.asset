@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Irritable
   displayName: Freelancer
   stateColor: {r: 1, g: 0, b: 0, a: 1}
-  initialMood: 53
+  initialMood: 4
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u81EA\u7531\u804C\u4E1A\u8005(\u5973)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues

@@ -19,7 +19,7 @@ MonoBehaviour:
   state: Irritable
   displayName: Boss
   stateColor: {r: 1, g: 0, b: 0, a: 1}
-  initialMood: 65
+  initialMood: 5
   visitPercent: 4
   portraitPath: "Character/Portrait/YH2-\u8001\u677F(\u7537)"
   dialoguesRefCN: Character/Dialogues/NPCDialogues
