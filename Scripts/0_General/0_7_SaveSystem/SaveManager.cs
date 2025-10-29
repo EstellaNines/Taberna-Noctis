@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TabernaNoctis.Cards;
 
 
 public class SaveManager : MonoBehaviour
@@ -38,6 +39,22 @@ public class SaveManager : MonoBehaviour
             Instance = go.AddComponent<SaveManager>();
             DontDestroyOnLoad(go);
         }
+    }
+
+    private void OnEnable()
+    {
+        // 当有合成结果产出时，标记为已记录
+        MessageManager.Register<CocktailCardSO>(MessageDefine.CRAFTING_RESULT, OnCraftingResult);
+        // 详细：含三材料，便于写入展示所需的名称与图片路径
+        MessageManager.Register<(CocktailCardSO cocktail, MaterialCardSO a, MaterialCardSO b, MaterialCardSO c)>(
+            "COCKTAIL_CRAFTED_DETAIL", OnCraftedDetail);
+    }
+
+    private void OnDisable()
+    {
+        MessageManager.Remove<CocktailCardSO>(MessageDefine.CRAFTING_RESULT, OnCraftingResult);
+        MessageManager.Remove<(CocktailCardSO cocktail, MaterialCardSO a, MaterialCardSO b, MaterialCardSO c)>(
+            "COCKTAIL_CRAFTED_DETAIL", OnCraftedDetail);
     }
 
 	// ====== 对外：槽位操作 ======
@@ -283,6 +300,142 @@ public class SaveManager : MonoBehaviour
             Debug.LogWarning("[SaveManager] ApplyPurchase Validate failed:\n" + string.Join("\n", errors));
         }
         WriteWithMetadata(_current);
+    }
+
+    // ====== 夜晚经营：应用一次服务结算（收入与评价）并立即保存 ======
+    public void ApplyServiceGain(int income, int ratingDelta)
+    {
+        EnsureCurrentLoaded();
+        if (_current == null)
+        {
+            _current = GenerateSaveData();
+        }
+        int inc = Mathf.Max(0, income);
+        int rep = ratingDelta; // 评价可正可负
+
+        // 金钱相关
+        _current.currentMoney = Mathf.Max(0, _current.currentMoney + inc);
+        _current.todayIncome = Mathf.Max(0, _current.todayIncome + inc);
+        _current.totalEarnedMoney = Mathf.Max(0, _current.totalEarnedMoney + inc);
+
+        // 评价与统计
+        _current.cumulativeScore = Mathf.Max(0f, _current.cumulativeScore + rep);
+        _current.todayReputationChange += rep;
+        _current.totalCustomersServed = Mathf.Max(0, _current.totalCustomersServed + 1);
+        _current.todayCustomersServed = Mathf.Max(0, _current.todayCustomersServed + 1);
+
+        // 立即写盘，便于HUD与结算面板实时读取
+        if (!SaveDataValidator.Validate(_current, out var errors))
+        {
+            Debug.LogWarning("[SaveManager] ApplyServiceGain Validate failed:\n" + string.Join("\n", errors));
+        }
+        WriteWithMetadata(_current);
+    }
+
+    // ====== 配方书：记录一次“发现/解锁”的配方（首次做出后才显示在配方书） ======
+    public void DiscoverRecipe(string recipeId, string displayName = null)
+    {
+        if (string.IsNullOrEmpty(recipeId)) return;
+        EnsureCurrentLoaded();
+        if (_current == null) _current = GenerateSaveData();
+        SaveDataFactory.EnsureDefaults(_current);
+        // 已存在则忽略
+        bool exists = _current.unlockedRecipes.Exists(r => r != null && r.recipeId == recipeId);
+        if (!exists)
+        {
+            var entry = new RecipeData { recipeId = recipeId, displayName = displayName ?? recipeId };
+            _current.unlockedRecipes.Add(entry);
+            WriteWithMetadata(_current);
+        }
+    }
+
+    // 使用配方SO作为权威ID（取 SO.id），避免名称变化导致ID漂移
+    public void DiscoverRecipe(CocktailCardSO cocktail)
+    {
+        if (cocktail == null) return;
+        var idStr = cocktail.id.ToString();
+        EnsureCurrentLoaded();
+        if (_current == null) _current = GenerateSaveData();
+        SaveDataFactory.EnsureDefaults(_current);
+        var list = _current.unlockedRecipes;
+        var existing = list.Find(r => r != null && r.recipeId == idStr);
+        if (existing != null)
+        {
+            existing.recorded = true;
+            if (string.IsNullOrEmpty(existing.displayName)) existing.displayName = cocktail.nameEN;
+            if (string.IsNullOrEmpty(existing.cocktailSpritePath)) existing.cocktailSpritePath = SafeUiPath(cocktail);
+        }
+        else
+        {
+            var entry = new RecipeData
+            {
+                recipeId = idStr,
+                displayName = cocktail.nameEN,
+                recorded = true,
+                orderIndex = list != null ? list.Count : 0,
+                cocktailSpritePath = SafeUiPath(cocktail)
+            };
+            list.Add(entry);
+        }
+        WriteWithMetadata(_current);
+    }
+
+    private void OnCraftedDetail((CocktailCardSO cocktail, MaterialCardSO a, MaterialCardSO b, MaterialCardSO c) payload)
+    {
+        try { DiscoverRecipeWithMaterials(payload.cocktail, payload.a, payload.b, payload.c); } catch { }
+        MessageManager.Send(MessageDefine.RECIPE_BOOK_REFRESH_REQUEST, "");
+    }
+
+    private void DiscoverRecipeWithMaterials(CocktailCardSO cocktail, MaterialCardSO a, MaterialCardSO b, MaterialCardSO c)
+    {
+        if (cocktail == null) return;
+        EnsureCurrentLoaded();
+        if (_current == null) _current = GenerateSaveData();
+        SaveDataFactory.EnsureDefaults(_current);
+        var idStr = cocktail.id.ToString();
+        var list = _current.unlockedRecipes;
+        var entry = list.Find(r => r != null && r.recipeId == idStr);
+        if (entry == null)
+        {
+            entry = new RecipeData
+            {
+                recipeId = idStr,
+                displayName = cocktail.nameEN,
+                recorded = true,
+                orderIndex = list != null ? list.Count : 0
+            };
+            list.Add(entry);
+        }
+        entry.cocktailSpritePath = SafeUiPath(cocktail);
+        entry.materials.Clear();
+        entry.materialNames.Clear();
+        entry.materialSpritePaths.Clear();
+        AppendMat(entry, a);
+        AppendMat(entry, b);
+        AppendMat(entry, c);
+        WriteWithMetadata(_current);
+    }
+
+    private void AppendMat(RecipeData entry, MaterialCardSO m)
+    {
+        if (entry == null || m == null) return;
+        entry.materials.Add(m.id.ToString());
+        entry.materialNames.Add(m.nameEN);
+        entry.materialSpritePaths.Add(SafeUiPath(m));
+    }
+
+    private string SafeUiPath(BaseCardSO so)
+    {
+        if (so == null) return string.Empty;
+        if (!string.IsNullOrEmpty(so.uiPath)) return so.uiPath;
+        return string.Empty;
+    }
+
+    private void OnCraftingResult(CocktailCardSO cocktail)
+    {
+        try { DiscoverRecipe(cocktail); } catch { }
+        // 通知UI或管理器刷新配方书
+        MessageManager.Send(MessageDefine.RECIPE_BOOK_REFRESH_REQUEST, "");
     }
 
     // 应用层自动保存（暂停/退出）

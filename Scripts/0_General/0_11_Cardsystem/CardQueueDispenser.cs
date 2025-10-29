@@ -190,6 +190,9 @@ namespace TabernaNoctis.CardSystem
 				return;
 			}
 
+			// 发牌开始 → 运行时计数 + 广播锁交互
+			CardDispenseRuntime.NotifyStarted();
+			MessageManager.Send<string>(MessageDefine.QUEUE_DISPENSE_STARTED, "");
 			dispenseCoroutine = StartCoroutine(DispenseCardsCoroutine());
 		}
 
@@ -339,6 +342,9 @@ namespace TabernaNoctis.CardSystem
 		}
 
 		isDispensing = false;
+		// 发牌完成 → 运行时计数 - 广播解锁交互
+		CardDispenseRuntime.NotifyFinished();
+		MessageManager.Send<string>(MessageDefine.QUEUE_DISPENSE_FINISHED, "");
 		// 派发完成后输出当前队列顺序
 		LogCurrentCardOrder();
 	}

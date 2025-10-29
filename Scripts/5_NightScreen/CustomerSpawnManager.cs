@@ -40,6 +40,9 @@ public class CustomerSpawnManager : MonoBehaviour
     private Dictionary<string, int> cooldownPool = new Dictionary<string, int>();
     private List<string> guaranteeIds = new List<string>(3);
     private HashSet<string> visitedIds = new HashSet<string>();
+    
+    // 记录每个NPC上一次使用的台词索引（1..3），避免连续重复
+    private Dictionary<string, int> npcLastDialogueIndex = new Dictionary<string, int>();
 
     [Title("数据引用")]
     [LabelText("角色索引SO")][SerializeField] private CharacterRolesIndex characterRolesIndex;
@@ -233,6 +236,7 @@ public class CustomerSpawnManager : MonoBehaviour
         cooldownPool.Clear();
         guaranteeIds.Clear();
         visitedIds.Clear();
+        npcLastDialogueIndex.Clear();
         globalVisitorCount = 0;
         totalSpawnedCount = 0;
         spawnTimer = 0f;
@@ -652,6 +656,9 @@ public class CustomerSpawnManager : MonoBehaviour
             visitedIds.Add(id);
         }
 
+        // 不持久化上次台词索引，运行期每晚重置
+        npcLastDialogueIndex.Clear();
+
         UpdateDebugInfo();
         Debug.Log($"[CustomerSpawnManager] 状态恢复完成");
     }
@@ -708,6 +715,29 @@ public class CustomerSpawnManager : MonoBehaviour
                 Debug.Log($"  {kvp.Key}: {kvp.Value}");
             }
         }
+    }
+
+    #endregion
+
+    #region 台词索引记录 API
+
+    /// <summary>
+    /// 获取指定NPC上一次使用的台词索引（1..3）；未记录则返回-1。
+    /// </summary>
+    public int GetLastDialogueIndex(string npcId)
+    {
+        if (string.IsNullOrEmpty(npcId)) return -1;
+        return npcLastDialogueIndex.TryGetValue(npcId, out var idx) ? idx : -1;
+    }
+
+    /// <summary>
+    /// 记录指定NPC最新使用的台词索引（1..3）。
+    /// </summary>
+    public void SetLastDialogueIndex(string npcId, int index)
+    {
+        if (string.IsNullOrEmpty(npcId)) return;
+        if (index < 1 || index > 3) return;
+        npcLastDialogueIndex[npcId] = index;
     }
 
     #endregion

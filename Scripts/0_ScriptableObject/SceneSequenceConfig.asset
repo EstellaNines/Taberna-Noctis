@@ -36,3 +36,6 @@ MonoBehaviour:
   - sceneName: 6_SettlementScreen
     sceneAsset: {fileID: 102900000, guid: 19fd6b80944ff514f9173495c093b620, type: 3}
     loadMode: 0
+  - sceneName: 7_CongratulationScreen
+    sceneAsset: {fileID: 102900000, guid: 441d93e2674fb2245a58ef9c31f7fb44, type: 3}
+    loadMode: 0

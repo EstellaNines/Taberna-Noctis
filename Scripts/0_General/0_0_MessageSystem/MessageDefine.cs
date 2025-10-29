@@ -50,6 +50,15 @@ public static class MessageDefine
     public static readonly string CRAFTING_RESULT = "CRAFTING_RESULT";       // 携带 CocktailCardSO
     public static readonly string CRAFTING_SLOT_CONTENT_UPDATED = "CRAFTING_SLOT_CONTENT_UPDATED"; // 携带 (int slotIndex, BaseCardSO card)
 
+    // ====== 配方书/发现 ======
+    public static readonly string RECIPE_DISCOVERED = "RECIPE_DISCOVERED";   // 携带 string recipeId
+    public static readonly string RECIPE_BOOK_REFRESH_REQUEST = "RECIPE_BOOK_REFRESH_REQUEST"; // 无载荷：下午场景请求刷新
+    public static readonly string MENU_REFRESH_REQUEST = "MENU_REFRESH_REQUEST"; // 无载荷：菜单刷新
+
+    // ====== 发牌/交互锁 ======
+    public static readonly string QUEUE_DISPENSE_STARTED = "QUEUE_DISPENSE_STARTED";   // 无载荷：开始发牌，锁交互
+    public static readonly string QUEUE_DISPENSE_FINISHED = "QUEUE_DISPENSE_FINISHED"; // 无载荷：发牌完成，解锁交互
+
     // ====== 采购/经济事件 ======
     public static readonly string MATERIAL_PURCHASED = "MATERIAL_PURCHASED"; // 携带 (string itemKey, int price)
     

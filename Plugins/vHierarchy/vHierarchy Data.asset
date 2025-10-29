@@ -15,6 +15,7 @@ MonoBehaviour:
   sceneDatas_byGuid:
     keys:
     - 5a109691759f14b418ac64af2e8ef705
+    - 45cb79fddfeba2349bd9ff937b0fb498
     values:
     - goDatas_byGlobalId:
         keys:
@@ -37,6 +38,14 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: EventSystem Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-2-45cb79fddfeba2349bd9ff937b0fb498-1876235479-0
+        values:
+        - colorIndex: 0
+          iconNameOrGuid: cs Script Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []

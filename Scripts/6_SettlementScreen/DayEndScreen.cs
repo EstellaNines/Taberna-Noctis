@@ -61,6 +61,76 @@ public class DayEndScreen : MonoBehaviour
 	[LabelText("星星填充动画曲线")] 
 	public Ease starFillEase = Ease.OutCubic;
 
+	[BoxGroup("星级判定")]
+	[LabelText("使用阈值判定星级(默认极限线)")]
+	public bool useThresholdsForMilestone = true;
+
+	[BoxGroup("星级判定")]
+	[LabelText("星级阈值(1~5星累计分)")]
+	[InfoBox("默认极难经营线: 1★=150, 2★=350, 3★=650, 4★=1000, 5★=1500", InfoMessageType.None)]
+	public int[] starThresholds = new int[5] { 150, 350, 650, 1000, 1500 };
+
+	[BoxGroup("测试工具")]
+	[LabelText("启用测试按钮")] public bool enableTestButtons = true;
+
+	[BoxGroup("测试工具")]
+	[ShowIf("enableTestButtons")]
+	[LabelText("目标星级(1-5)")]
+	[Range(1,5)] public int testTargetStar = 1;
+
+	[BoxGroup("测试工具")]
+	[ShowIf("enableTestButtons")]
+	[Button("测试：一键达到下一星级")]
+	public void TestReachNextStar()
+	{
+		var sm = SaveManager.Instance;
+		if (sm == null)
+		{
+			Debug.LogWarning("[DayEndScreen][Test] SaveManager 未就绪，无法写入测试分数");
+			return;
+		}
+
+		var snap = sm.GenerateSaveData();
+		int currentStar = Mathf.Clamp(snap.starRating, 0, 5);
+		int nextStar = Mathf.Clamp(currentStar + 1, 1, 5);
+		if (starThresholds == null || starThresholds.Length < nextStar)
+		{
+			Debug.LogWarning("[DayEndScreen][Test] 星级阈值配置不足，无法计算下一星级");
+			return;
+		}
+
+		snap.cumulativeScore = starThresholds[nextStar - 1];
+		sm.SaveCheckpoint();
+		RefreshFromSystems();
+		Debug.Log($"[DayEndScreen][Test] 已将累计评分设置为 {snap.cumulativeScore}，点击 Continue 可解锁到 {nextStar}★");
+	}
+
+	[BoxGroup("测试工具")]
+	[ShowIf("enableTestButtons")]
+	[Button("测试：直达目标星级")]
+	public void TestReachTargetStar()
+	{
+		var sm = SaveManager.Instance;
+		if (sm == null)
+		{
+			Debug.LogWarning("[DayEndScreen][Test] SaveManager 未就绪，无法写入测试分数");
+			return;
+		}
+
+		int target = Mathf.Clamp(testTargetStar, 1, 5);
+		if (starThresholds == null || starThresholds.Length < target)
+		{
+			Debug.LogWarning("[DayEndScreen][Test] 星级阈值配置不足，无法直达目标星级");
+			return;
+		}
+
+		var snap = sm.GenerateSaveData();
+		snap.cumulativeScore = starThresholds[target - 1];
+		sm.SaveCheckpoint();
+		RefreshFromSystems();
+		Debug.Log($"[DayEndScreen][Test] 已将累计评分设置为 {snap.cumulativeScore}，目标星级 {target}★。点击 Continue 测试祝贺流程。");
+	}
+
 	[BoxGroup("按钮")]
 	[LabelText("前往新一天按钮")] public Button continueButton;
 
@@ -73,6 +143,7 @@ public class DayEndScreen : MonoBehaviour
 	public bool autoRefreshOnEnable = true;
 
 	private UnityAction<int> _onDayCompleted;
+	private bool _isProcessingContinue = false; // 防重入，避免重复触发继续逻辑
 
 	private void Awake()
 	{
@@ -91,9 +162,7 @@ public class DayEndScreen : MonoBehaviour
 			// 清空当日菜单，准备新一天
 			var sm = SaveManager.Instance;
 			if (sm != null) sm.ClearTodayMenu();
-			// 先结算利润到金钱
-			SettleProfitToMoney();
-			// 再刷新界面显示
+			// 刷新界面显示（注意：夜晚经营过程已实时入账，此处不再二次结算）
 			RefreshFromSystems();
 		}
 	}
@@ -180,29 +249,8 @@ public class DayEndScreen : MonoBehaviour
 	/// <summary>
 	/// 结算当日利润到持有金钱，并将评价增量累加到总评分
 	/// </summary>
-	private void SettleProfitToMoney()
-	{
-		var sm = SaveManager.Instance;
-		if (sm == null) return;
-		
-		var snap = sm.GenerateSaveData();
-		
-		// 结算到金钱：材料在购买时已即时扣除（ApplyPurchase），
-		// 因此此处只需把“今日收入”加回，避免对“今日支出”二次扣减。
-		snap.currentMoney += snap.todayIncome;
-		
-		// 结算评价增量到累计评分
-		snap.cumulativeScore += snap.todayReputationChange;
-		
-		// 计算星级（100分/星）
-		snap.starRating = Mathf.FloorToInt(snap.cumulativeScore / 100f);
-		
-		int profit = snap.todayIncome - snap.todayExpense;
-		Debug.Log($"[DayEndScreen] 结算完成 - 利润:{profit} 新金钱:{snap.currentMoney} 累计评分:{snap.cumulativeScore:F1} 星级:{snap.starRating}");
-		
-		// 保存到存档
-		sm.SaveCheckpoint();
-	}
+    // 旧的“结算到金钱”逻辑已由夜晚流程实时入账取代，此处保留空实现以防误调用
+    private void SettleProfitToMoney() { }
 	
 	/// <summary>
 	/// 从保存系统聚合当日增量数据并刷新界面
@@ -365,19 +413,45 @@ public class DayEndScreen : MonoBehaviour
 
 	public void OnContinueClicked()
 	{
-		// 1. 重置今日数值（准备新的一天）
-		ResetTodayData();
-		
-		// 2. 时间系统推进到新一天（内部已包含自动保存流程）
-		if (TimeSystemManager.Instance != null)
+		// 防抖：避免重复点击或多实例监听导致重复执行
+		if (_isProcessingContinue) return;
+		_isProcessingContinue = true;
+		var sm = SaveManager.Instance;
+		var snap = sm != null ? sm.GenerateSaveData() : null;
+		if (snap != null)
 		{
-			TimeSystemManager.Instance.StartNewDay();
+			// 统一按累计评分计算应达星级（优先使用阈值；无阈值则按 scorePerStar 连续计算并取整）
+			int computedStar = 0;
+			if (useThresholdsForMilestone && starThresholds != null && starThresholds.Length > 0)
+			{
+				computedStar = ComputeStarByThresholds(snap.cumulativeScore);
+			}
+			else if (scorePerStar > 0f)
+			{
+				computedStar = Mathf.Clamp(Mathf.FloorToInt(snap.cumulativeScore / scorePerStar), 0, 5);
+			}
+
+			bool firstStarReached = (computedStar >= 1) && (snap.starRating < 1);
+			bool reachedNewStar = computedStar > snap.starRating;
+
+			if (firstStarReached || reachedNewStar)
+			{
+				// 写入新星级并保存
+				int oldStar = snap.starRating;
+				snap.starRating = computedStar;
+				snap.highestStarRatingAchieved = Mathf.Max(snap.highestStarRatingAchieved, computedStar);
+				if (sm != null) sm.SaveCheckpoint();
+				Debug.Log($"[DayEndScreen] 达到新星级: {computedStar}★ (原:{oldStar})，进入祝贺场景");
+				TryLoadScene("7_CongratulationScreen");
+				return; // 跳转祝贺：不进入新一天
+			}
 		}
-		
-		// 3. 关闭结算界面（或通过场景切换回 DayScene）
+
+		// 常规路径：直接进入新的一天
+		ResetTodayData();
+		if (TimeSystemManager.Instance != null) TimeSystemManager.Instance.StartNewDay();
 		gameObject.SetActive(false);
-		// 可选：通过 GlobalSceneManager 切换到 DayScene
-		// GlobalSceneManager.LoadWithLoadingScreen("DayScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+		_isProcessingContinue = false;
 	}
 	
 	/// <summary>
@@ -393,10 +467,40 @@ public class DayEndScreen : MonoBehaviour
 		snap.todayExpense = 0;
 		snap.todayReputationChange = 0f;
 		snap.todayCustomersServed = 0;
+		// 每天必须重新采购：清空“今日购买”并重置相关标记；菜单也需每日重新上架
+		if (snap.todayPurchasedItems != null) snap.todayPurchasedItems.Clear();
+		snap.todayStockingCompleted = false;
+		snap.todayMenuSelected = false;
+		if (snap.currentMenuRecipeIDs != null) snap.currentMenuRecipeIDs.Clear();
 		
 		Debug.Log("[DayEndScreen] 今日数值已重置，准备新的一天");
 		
 		sm.SaveCheckpoint();
+	}
+
+	private int ComputeStarByThresholds(float cumulativeScore)
+	{
+		if (starThresholds == null || starThresholds.Length == 0) return 0;
+		int star = 0;
+		for (int i = 0; i < starThresholds.Length; i++)
+		{
+			if (cumulativeScore >= starThresholds[i]) star = i + 1;
+		}
+		return Mathf.Clamp(star, 0, 5);
+	}
+
+	private void TryLoadScene(string sceneName)
+	{
+		// 优先使用全局场景管理器（若存在加载过渡）
+		var gsm = typeof(GlobalSceneManager);
+		try
+		{
+			GlobalSceneManager.LoadWithLoadingScreen(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
+		}
+		catch
+		{
+			UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
+		}
 	}
 
 	private static void SetTextIfNotNull(TMP_Text t, string v)

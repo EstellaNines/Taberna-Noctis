@@ -458,7 +458,7 @@ MonoBehaviour:
   rootVisual: {fileID: 0}
   hideOnStart: 1
   areaRoot: {fileID: 1307529107344447374}
-  cocktailItemPrefab: {fileID: 6324729610361815858, guid: 16526e43f5b66ae42b15630f32af8c94, type: 3}
+  cocktailItemPrefab: {fileID: 6324729610361815858, guid: 112d2d6cb05f88646b803b110f53ca92, type: 3}
   confirmButton: {fileID: 503864997310023726}
   startIndex: 1
   ignoreCocktailNamesEN:

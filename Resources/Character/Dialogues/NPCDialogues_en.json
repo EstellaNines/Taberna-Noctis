@@ -5,61 +5,61 @@
 		"Busy": {
 			"Male": {
 				"Dialogue:[1]": "Third round of revisions still didn't pass and the server's throwing alerts... Might crash on the office cot tonight. Hit me with something that keeps me going.",
-				"Dialogue:[2]": "Review in the morning, bugs in the afternoon, pitch deck at night—my day got diced to bits. Pour me something that glues my brain back together.",
-				"Dialogue:[3]": "Fired off the urgent email, instantly dragged into another meeting. No time to even hit the pantry. I need a down-the-hatch kind of drink—battle resumes after this."
+				"Dialogue:[2]": "Review in the morning, bugs in the afternoon, pitch deck at night膭艦my day got diced to bits. Pour me something that glues my brain back together.",
+				"Dialogue:[3]": "Fired off the urgent email, instantly dragged into another meeting. No time to even hit the pantry. I need a down-the-hatch kind of drink膭艦battle resumes after this."
 			},
 			"Female": {
-				"Dialogue:[1]": "Just got out of a cross‑timezone call. Fifth cup of coffee and my head's like a full hard drive. Grabbing a breath here is the best thing today—make it clean and crisp.",
-				"Dialogue:[2]": "Client dumped scope changes for tomorrow's deadline. Everything looks like garbled code—bartender, mix me something to sharpen the signal.",
-				"Dialogue:[3]": "Whole team is crunching past midnight, lotion's made my keyboard sticky. I need a nerve‑untangling drink or I'm tapping out."
+				"Dialogue:[1]": "Just got out of a cross聛6慕2timezone call. Fifth cup of coffee and my head's like a full hard drive. Grabbing a breath here is the best thing today膭艦make it clean and crisp.",
+				"Dialogue:[2]": "Client dumped scope changes for tomorrow's deadline. Everything looks like garbled code膭艦bartender, mix me something to sharpen the signal.",
+				"Dialogue:[3]": "Whole team is crunching past midnight, lotion's made my keyboard sticky. I need a nerve聛6慕2untangling drink or I'm tapping out."
 			}
 		},
 		"Irritable": {
 			"Male": {
-				"Dialogue:[1]": "Boss keeps knee‑jerk pivoting—ever seen a calendar? Three all‑nighters already—one more push and I'm flipping tables. Make it strong, tame the fire.",
-				"Dialogue:[2]": "Blue screen three times, doc didn't autosave. This rig has beef with me. Everything's rubbing me wrong—give me something with punch.",
-				"Dialogue:[3]": "Four hours of meetings, zero progress—just hot air. Throat's sandpaper, patience is toast—ice‑cold fire extinguisher, please."
+				"Dialogue:[1]": "Boss keeps knee聛6慕2jerk pivoting膭艦ever seen a calendar? Three all聛6慕2nighters already膭艦one more push and I'm flipping tables. Make it strong, tame the fire.",
+				"Dialogue:[2]": "Blue screen three times, doc didn't autosave. This rig has beef with me. Everything's rubbing me wrong膭艦give me something with punch.",
+				"Dialogue:[3]": "Four hours of meetings, zero progress膭艦just hot air. Throat's sandpaper, patience is toast膭艦ice聛6慕2cold fire extinguisher, please."
 			},
 			"Female": {
 				"Dialogue:[1]": "Printer jammed, metro delayed, wrong delivery... feels like the world picked me for target practice. Strongest you got. No small talk.",
-				"Dialogue:[2]": "Coworker tossed me the blame like a frisbee. I'm one more nudge away from snapping—pour me something that shuts the heat down.",
-				"Dialogue:[3]": "Neighbor desk chomps nonstop—max volume can't drown it. I'm this close to wrapping the cord around his neck—start with a fire‑killer."
+				"Dialogue:[2]": "Coworker tossed me the blame like a frisbee. I'm one more nudge away from snapping膭艦pour me something that shuts the heat down.",
+				"Dialogue:[3]": "Neighbor desk chomps nonstop膭艦max volume can't drown it. I'm this close to wrapping the cord around his neck膭艦start with a fire聛6慕2killer."
 			}
 		},
 		"Melancholy": {
 			"Male": {
-				"Dialogue:[1]": "Staring at my screen I wondered—what's all this for? Feel like a pre‑programmed bot. Something soft, please.",
-				"Dialogue:[2]": "Alumni chat flexing promos and raises while I'm stuck in place. Typing a hello then deleting it—even words feel heavy. Quiet drink, thanks.",
-				"Dialogue:[3]": "Said I'd grind while I'm young—now I've got a bad back and no clue what for. This hollow feeling? Needs a filler on ice."
+				"Dialogue:[1]": "Staring at my screen I wondered膭艦what's all this for? Feel like a pre聛6慕2programmed bot. Something soft, please.",
+				"Dialogue:[2]": "Alumni chat flexing promos and raises while I'm stuck in place. Typing a hello then deleting it膭艦even words feel heavy. Quiet drink, thanks.",
+				"Dialogue:[3]": "Said I'd grind while I'm young膭艦now I've got a bad back and no clue what for. This hollow feeling? Needs a filler on ice."
 			},
 			"Female": {
-				"Dialogue:[1]": "College art dreams got buried by KPIs; the brushes in my drawer grew mold. This city's colder than midnight—warm me up a little.",
-				"Dialogue:[2]": "Month‑end again—paycheck loses to rent hike. Dreams got crushed in the subway rush—give me something to ease the squeeze.",
-				"Dialogue:[3]": "Past 2 a.m., only my floor's lights are on. Stars outside look dimmer than my desk lamp. I feel like a loose screw—make it gentle."
+				"Dialogue:[1]": "College art dreams got buried by KPIs; the brushes in my drawer grew mold. This city's colder than midnight膭艦warm me up a little.",
+				"Dialogue:[2]": "Month聛6慕2end again膭艦paycheck loses to rent hike. Dreams got crushed in the subway rush膭艦give me something to ease the squeeze.",
+				"Dialogue:[3]": "Past 2 a.m., only my floor's lights are on. Stars outside look dimmer than my desk lamp. I feel like a loose screw膭艦make it gentle."
 			}
 		},
 		"Picky": {
 			"Male": {
-				"Dialogue:[1]": "Cup rim could be cleaner—love's in the details. Overall not bad though—I'll take it.",
-				"Dialogue:[2]": "Stir time could be tighter for a smoother merge—but we're still in the green.",
-				"Dialogue:[3]": "ABV's well‑controlled—I'm sensitive to that. A smidge over and I'd know. This pour is dialed."
+				"Dialogue:[1]": "Cup rim could be cleaner膭艦love's in the details. Overall not bad though膭艦I'll take it.",
+				"Dialogue:[2]": "Stir time could be tighter for a smoother merge膭艦but we're still in the green.",
+				"Dialogue:[3]": "ABV's well聛6慕2controlled膭艦I'm sensitive to that. A smidge over and I'd know. This pour is dialed."
 			},
 			"Female": {
-				"Dialogue:[1]": "Ice shape messes with dilution—saw diamond ice last time, fancy stuff. This cube's basic but workable.",
-				"Dialogue:[2]": "Mint garnish could be fresher—the edges curl a bit, but the aroma holds up. We're fine.",
-				"Dialogue:[3]": "Frost faded too fast—fridge timing's off. Still drinks okay—roll with it."
+				"Dialogue:[1]": "Ice shape messes with dilution膭艦saw diamond ice last time, fancy stuff. This cube's basic but workable.",
+				"Dialogue:[2]": "Mint garnish could be fresher膭艦the edges curl a bit, but the aroma holds up. We're fine.",
+				"Dialogue:[3]": "Frost faded too fast膭艦fridge timing's off. Still drinks okay膭艦roll with it."
 			}
 		},
 		"Friendly": {
 			"Male": {
-				"Dialogue:[1]": "Our intern brought me hot cocoa—made overtime feel kinda human. Got anything warm‑hearted in a glass?",
+				"Dialogue:[1]": "Our intern brought me hot cocoa膭艦made overtime feel kinda human. Got anything warm聛6慕2hearted in a glass?",
 				"Dialogue:[2]": "Finally burned a day of PTO and woke up naturally. That easy vibe needs a crisp companion.",
-				"Dialogue:[3]": "Beat that silly stress game my coworker shared—turns out I've got the touch. Give me something bubbly to match the mood."
+				"Dialogue:[3]": "Beat that silly stress game my coworker shared膭艦turns out I've got the touch. Give me something bubbly to match the mood."
 			},
 			"Female": {
-				"Dialogue:[1]": "Stray cat had kittens by the corner—instant serotonin boost. Let's celebrate with something sweet.",
-				"Dialogue:[2]": "My feature finally shipped and users dig it. I'm wrecked but proud—that deserves a proper drink.",
-				"Dialogue:[3]": "The lobby guard signed for my package and warned me it might rain—little kindness goes a long way. Sweet side, please."
+				"Dialogue:[1]": "Stray cat had kittens by the corner膭艦instant serotonin boost. Let's celebrate with something sweet.",
+				"Dialogue:[2]": "My feature finally shipped and users dig it. I'm wrecked but proud膭艦that deserves a proper drink.",
+				"Dialogue:[3]": "The lobby guard signed for my package and warned me it might rain膭艦little kindness goes a long way. Sweet side, please."
 			}
 		}
 	},
@@ -68,62 +68,62 @@
 		"tag": "SmallLeader",
 		"Busy": {
 			"Male": {
-				"Dialogue:[1]": "Reports, cross‑team herding, performance reviews—my to‑do list ate three pages. Mix me something that blurs reality for a minute.",
-				"Dialogue:[2]": "Mediating staff beef, then HQ audits, then budgets at night—my day’s on fast‑forward. I need a brake pedal in a glass.",
-				"Dialogue:[3]": "Shipped one hot project, got three more dumped on me. Calendar's slammed till next month—fuel me up."
+				"Dialogue:[1]": "Reports, cross聛6慕2team herding, performance reviews膭艦my to聛6慕2do list ate three pages. Mix me something that blurs reality for a minute.",
+				"Dialogue:[2]": "Mediating staff beef, then HQ audits, then budgets at night膭艦my day膭呕s on fast聛6慕2forward. I need a brake pedal in a glass.",
+				"Dialogue:[3]": "Shipped one hot project, got three more dumped on me. Calendar's slammed till next month膭艦fuel me up."
 			},
 			"Female": {
-				"Dialogue:[1]": "Just finished with HQ; targets climbed again. Team wants plans, bosses want results—I'm the filling in the corporate sandwich. Make it sharp.",
-				"Dialogue:[2]": "Client flipped the script—whole flow needs rewriting. Breathing room is a luxury—something quick, please.",
-				"Dialogue:[3]": "Partner pulled funding—entire crew's looking at me for answers. Sixth coffee and my brain's still scrambled—stabilizer on ice."
+				"Dialogue:[1]": "Just finished with HQ; targets climbed again. Team wants plans, bosses want results膭艦I'm the filling in the corporate sandwich. Make it sharp.",
+				"Dialogue:[2]": "Client flipped the script膭艦whole flow needs rewriting. Breathing room is a luxury膭艦something quick, please.",
+				"Dialogue:[3]": "Partner pulled funding膭艦entire crew's looking at me for answers. Sixth coffee and my brain's still scrambled膭艦stabilizer on ice."
 			}
 		},
 		"Irritable": {
 			"Male": {
-				"Dialogue:[1]": "PPT full of rookie mistakes—still broken at 2 a.m. You think my time grows on trees? Hit me with a wake‑up wallop.",
-				"Dialogue:[2]": "Signed‑off plan got axed for a ‘vibe’—where was that vibe three weeks ago? My liver hurts—make it the strongest.",
-				"Dialogue:[3]": "Cross‑dept folks ghost emails for sport—ten sent, one reply. With this pace, we’re doomed. I need it cold and mean."
+				"Dialogue:[1]": "PPT full of rookie mistakes膭艦still broken at 2 a.m. You think my time grows on trees? Hit me with a wake聛6慕2up wallop.",
+				"Dialogue:[2]": "Signed聛6慕2off plan got axed for a 膭沤vibe膭呕膭艦where was that vibe three weeks ago? My liver hurts膭艦make it the strongest.",
+				"Dialogue:[3]": "Cross聛6慕2dept folks ghost emails for sport膭艦ten sent, one reply. With this pace, we膭呕re doomed. I need it cold and mean."
 			},
 			"Female": {
-				"Dialogue:[1]": "Top paints rainbows, bottom yells ‘too hard,’ and I'm the one patching craters. If I hear ‘I don't know how’ again, I’ll blow—pour power, hold the mercy.",
-				"Dialogue:[2]": "Budget slashed, asks ballooned—mission impossible much? Every nonsense triggers me—smooth me out, strong.",
-				"Dialogue:[3]": "Caught someone goofing off and he claimed ‘creative thinking.’ Do I look blind? Give me something to muzzle my temper."
+				"Dialogue:[1]": "Top paints rainbows, bottom yells 膭沤too hard,膭呕 and I'm the one patching craters. If I hear 膭沤I don't know how膭呕 again, I膭呕ll blow膭艦pour power, hold the mercy.",
+				"Dialogue:[2]": "Budget slashed, asks ballooned膭艦mission impossible much? Every nonsense triggers me膭艦smooth me out, strong.",
+				"Dialogue:[3]": "Caught someone goofing off and he claimed 膭沤creative thinking.膭呕 Do I look blind? Give me something to muzzle my temper."
 			}
 		},
 		"Melancholy": {
 			"Male": {
-				"Dialogue:[1]": "Walked past our old rehearsal room—now a milk tea shop. Haven't touched my guitar in three years—work cuffed me. Pour nostalgia, lightly sweet.",
-				"Dialogue:[2]": "Parents keep asking ‘when's the promo?’ when I barely make it home for dinner. Only booze gets this middle‑man grind.",
-				"Dialogue:[3]": "Skipped the reunion—people who trailed me in class now run companies. I'm here guarding headcount—make it calming."
+				"Dialogue:[1]": "Walked past our old rehearsal room膭艦now a milk tea shop. Haven't touched my guitar in three years膭艦work cuffed me. Pour nostalgia, lightly sweet.",
+				"Dialogue:[2]": "Parents keep asking 膭沤when's the promo?膭呕 when I barely make it home for dinner. Only booze gets this middle聛6慕2man grind.",
+				"Dialogue:[3]": "Skipped the reunion膭艦people who trailed me in class now run companies. I'm here guarding headcount膭艦make it calming."
 			},
 			"Female": {
-				"Dialogue:[1]": "Team calls me strict, boss says not hungry enough. Staring at the office lights, I wonder who I'm proving this to—something gentle, please.",
-				"Dialogue:[2]": "All‑nighter passed, but the win felt hollow. Those under‑eye bags in the mirror hit harder than any KPI—warm me up.",
+				"Dialogue:[1]": "Team calls me strict, boss says not hungry enough. Staring at the office lights, I wonder who I'm proving this to膭艦something gentle, please.",
+				"Dialogue:[2]": "All聛6慕2nighter passed, but the win felt hollow. Those under聛6慕2eye bags in the mirror hit harder than any KPI膭艦warm me up.",
 				"Dialogue:[3]": "We hit the numbers, lost half the team. If success costs this much, I need a hug in a glass."
 			}
 		},
 		"Picky": {
 			"Male": {
-				"Dialogue:[1]": "Color’s near textbook amber—missing a touch of depth. Still, tone’s on point.",
-				"Dialogue:[2]": "Foam on the pour ran a tad high—dings the first sip. It recovers fine afterward.",
-				"Dialogue:[3]": "Serving temp’s a hair warm, tannins show up more—but within spec."
+				"Dialogue:[1]": "Color膭呕s near textbook amber膭艦missing a touch of depth. Still, tone膭呕s on point.",
+				"Dialogue:[2]": "Foam on the pour ran a tad high膭艦dings the first sip. It recovers fine afterward.",
+				"Dialogue:[3]": "Serving temp膭呕s a hair warm, tannins show up more膭艦but within spec."
 			},
 			"Female": {
-				"Dialogue:[1]": "Matching coasters would look pro—details matter. Flavor holds up, though—no complaints there.",
-				"Dialogue:[2]": "Stir could be more even for cleaner layers—like keeping team tempo. Still, this glass doesn't flop.",
-				"Dialogue:[3]": "Slightly sweet on the ratio—base note got masked a bit, but balance's okay. I taste the effort."
+				"Dialogue:[1]": "Matching coasters would look pro膭艦details matter. Flavor holds up, though膭艦no complaints there.",
+				"Dialogue:[2]": "Stir could be more even for cleaner layers膭艦like keeping team tempo. Still, this glass doesn't flop.",
+				"Dialogue:[3]": "Slightly sweet on the ratio膭艦base note got masked a bit, but balance's okay. I taste the effort."
 			}
 		},
 		"Friendly": {
 			"Male": {
-				"Dialogue:[1]": "A report dropped on my desk and a teammate stepped up—guess this squad's worth the grind. Something easy, for small wins.",
-				"Dialogue:[2]": "Six months of sparring with a partner and we finally shook hands—turns out patience beats headbutts. This relief calls for a smooth pour.",
-				"Dialogue:[3]": "Used to tinker drinks at home. Your technique's legit—mind swapping recipes sometime? Start me with your signature."
+				"Dialogue:[1]": "A report dropped on my desk and a teammate stepped up膭艦guess this squad's worth the grind. Something easy, for small wins.",
+				"Dialogue:[2]": "Six months of sparring with a partner and we finally shook hands膭艦turns out patience beats headbutts. This relief calls for a smooth pour.",
+				"Dialogue:[3]": "Used to tinker drinks at home. Your technique's legit膭艦mind swapping recipes sometime? Start me with your signature."
 			},
 			"Female": {
-				"Dialogue:[1]": "Snagged budget for team offsite—seeing them hyped beat any bonus. Recommend a share‑friendly cocktail?",
-				"Dialogue:[2]": "Our intern finished her first task solo and brought me candy. That little ‘thanks’ felt better than KPI green. Make it sweet.",
-				"Dialogue:[3]": "Junior brought me hometown tea and said ‘skip the coffee, boss.’ Being cared for hits different—maybe something with tea notes?"
+				"Dialogue:[1]": "Snagged budget for team offsite膭艦seeing them hyped beat any bonus. Recommend a share聛6慕2friendly cocktail?",
+				"Dialogue:[2]": "Our intern finished her first task solo and brought me candy. That little 膭沤thanks膭呕 felt better than KPI green. Make it sweet.",
+				"Dialogue:[3]": "Junior brought me hometown tea and said 膭沤skip the coffee, boss.膭呕 Being cared for hits different膭艦maybe something with tea notes?"
 			}
 		}
 	},
@@ -132,62 +132,62 @@
 		"tag": "Freelancer",
 		"Busy": {
 			"Male": {
-				"Dialogue:[1]": "Three clients spamming, four apps open, mouse hand’s on fire. I need a life‑support cocktail or I'm face‑planting tonight.",
-				"Dialogue:[2]": "Product shoot at dawn, video edits by noon, copy at dusk—wearing three hats and splitting eight ways. Glue‑my‑pieces potion, please.",
-				"Dialogue:[3]": "Drive screamed ‘disk full,’ export nearly bricked. Two hours of panic cleanup later, shirt's soaked—ice me down."
+				"Dialogue:[1]": "Three clients spamming, four apps open, mouse hand膭呕s on fire. I need a life聛6慕2support cocktail or I'm face聛6慕2planting tonight.",
+				"Dialogue:[2]": "Product shoot at dawn, video edits by noon, copy at dusk膭艦wearing three hats and splitting eight ways. Glue聛6慕2my聛6慕2pieces potion, please.",
+				"Dialogue:[3]": "Drive screamed 膭沤disk full,膭呕 export nearly bricked. Two hours of panic cleanup later, shirt's soaked膭艦ice me down."
 			},
 			"Female": {
-				"Dialogue:[1]": "Fifth poster revision and the client goes ‘first version was better.’ Brain feels erased—give me a reboot in a glass.",
-				"Dialogue:[2]": "Three decks due tomorrow and the printer's chewing paper. ‘Freelance’ is just 24/7 with no benefits—something light and clear, please.",
-				"Dialogue:[3]": "Client pinged at 3 a.m.: ‘tiny idea’—sure, tiny like a meteor. Rocking raccoon eyes—send caffeine's classy cousin."
+				"Dialogue:[1]": "Fifth poster revision and the client goes 膭沤first version was better.膭呕 Brain feels erased膭艦give me a reboot in a glass.",
+				"Dialogue:[2]": "Three decks due tomorrow and the printer's chewing paper. 膭沤Freelance膭呕 is just 24/7 with no benefits膭艦something light and clear, please.",
+				"Dialogue:[3]": "Client pinged at 3 a.m.: 膭沤tiny idea膭呕膭艦sure, tiny like a meteor. Rocking raccoon eyes膭艦send caffeine's classy cousin."
 			}
 		},
 		"Irritable": {
 			"Male": {
-				"Dialogue:[1]": "‘Luxury yet down‑to‑earth’—what even is that brief? Eight hundred clarifications later and they still can’t talk human. Just give me something blunt.",
-				"Dialogue:[2]": "Seventh revision and they go ‘we like the original.’ Where was that yesterday? My time isn't Monopoly money—I'll drink before I throw this USB.",
-				"Dialogue:[3]": "Pulled an all‑nighter and they said ‘no soul.’ Bro, you wouldn't spot soul if it bit you. Load me something heavy."
+				"Dialogue:[1]": "膭沤Luxury yet down聛6慕2to聛6慕2earth膭呕膭艦what even is that brief? Eight hundred clarifications later and they still can膭呕t talk human. Just give me something blunt.",
+				"Dialogue:[2]": "Seventh revision and they go 膭沤we like the original.膭呕 Where was that yesterday? My time isn't Monopoly money膭艦I'll drink before I throw this USB.",
+				"Dialogue:[3]": "Pulled an all聛6慕2nighter and they said 膭沤no soul.膭呕 Bro, you wouldn't spot soul if it bit you. Load me something heavy."
 			},
 			"Female": {
-				"Dialogue:[1]": "Three months and the invoice still ‘in process.’ Does money grow on my balcony? I'm fuming—pour me rocket fuel.",
-				"Dialogue:[2]": "Platform changed rules overnight—weeks of effort down the drain. Feels like they're speed‑running us off a cliff. Strongest you got.",
-				"Dialogue:[3]": "Assistant relayed the brief like a broken radio—ask details and he goes ‘you decide.’ Decide your face. I need something frosty and fierce."
+				"Dialogue:[1]": "Three months and the invoice still 膭沤in process.膭呕 Does money grow on my balcony? I'm fuming膭艦pour me rocket fuel.",
+				"Dialogue:[2]": "Platform changed rules overnight膭艦weeks of effort down the drain. Feels like they're speed聛6慕2running us off a cliff. Strongest you got.",
+				"Dialogue:[3]": "Assistant relayed the brief like a broken radio膭艦ask details and he goes 膭沤you decide.膭呕 Decide your face. I need something frosty and fierce."
 			}
 		},
 		"Melancholy": {
 			"Male": {
-				"Dialogue:[1]": "Haven't left the house in a week; fridge has expired milk only. No one to rant to about clients—lonely hits different. Warm me up.",
-				"Dialogue:[2]": "Looked at my work from three years ago—edges used to sparkle. Now it's just ‘as requested.’ I'm a compliant machine—make it soft.",
-				"Dialogue:[3]": "I craved freedom; now I envy payroll and team dinners. Stability suddenly looks kinda cute—calm me down."
+				"Dialogue:[1]": "Haven't left the house in a week; fridge has expired milk only. No one to rant to about clients膭艦lonely hits different. Warm me up.",
+				"Dialogue:[2]": "Looked at my work from three years ago膭艦edges used to sparkle. Now it's just 膭沤as requested.膭呕 I'm a compliant machine膭艦make it soft.",
+				"Dialogue:[3]": "I craved freedom; now I envy payroll and team dinners. Stability suddenly looks kinda cute膭艦calm me down."
 			},
 			"Female": {
-				"Dialogue:[1]": "No gigs? Anxious. Too many gigs? Also anxious. This job's a tightrope—you never know when you slip. Gentle, please.",
-				"Dialogue:[2]": "Back home they ask ‘why not take the civil exam for stability?’ Hard to explain a job they can't see. That sting's bitter—add warmth.",
-				"Dialogue:[3]": "Rainy days make the freelance blues louder—pickups, print runs, errands in the drizzle. I need a drink with heat."
+				"Dialogue:[1]": "No gigs? Anxious. Too many gigs? Also anxious. This job's a tightrope膭艦you never know when you slip. Gentle, please.",
+				"Dialogue:[2]": "Back home they ask 膭沤why not take the civil exam for stability?膭呕 Hard to explain a job they can't see. That sting's bitter膭艦add warmth.",
+				"Dialogue:[3]": "Rainy days make the freelance blues louder膭艦pickups, print runs, errands in the drizzle. I need a drink with heat."
 			}
 		},
 		"Picky": {
 			"Male": {
-				"Dialogue:[1]": "Aroma layers could pop more—the lead's a bit shy. Cleaner than last time, though.",
-				"Dialogue:[2]": "Base's tail ends short—older stock would sing longer. Still on flavor track.",
-				"Dialogue:[3]": "Shake's too gentle—bubble lift underwhelms. Lacks snap, but mouthfeel's tidy."
+				"Dialogue:[1]": "Aroma layers could pop more膭艦the lead's a bit shy. Cleaner than last time, though.",
+				"Dialogue:[2]": "Base's tail ends short膭艦older stock would sing longer. Still on flavor track.",
+				"Dialogue:[3]": "Shake's too gentle膭艦bubble lift underwhelms. Lacks snap, but mouthfeel's tidy."
 			},
 			"Female": {
 				"Dialogue:[1]": "Salt rim could be more even; angle's a touch off. Salinity hits right, so we're good.",
-				"Dialogue:[2]": "Olive's aftertaste is faint—longer cure would help. Freshness is decent, though.",
+				"Dialogue:[2]": "Olive's aftertaste is faint膭艦longer cure would help. Freshness is decent, though.",
 				"Dialogue:[3]": "Garnish colors clash a tad with the drink's mood, but it's still easy on the eyes."
 			}
 		},
 		"Friendly": {
 			"Male": {
-				"Dialogue:[1]": "Closed a nightmare client—when he said ‘that's it,’ I nearly teared up. This win needs a proper toast.",
-				"Dialogue:[2]": "Took a day off, sat under trees—the rustle beats any keyboard clack. Pour something breezy.",
-				"Dialogue:[3]": "Photog buddy tossed me a bag of misprints ‘you might remix this.’ That pro‑to‑pro nod beats any ‘nice job’—let's share a pitcher."
+				"Dialogue:[1]": "Closed a nightmare client膭艦when he said 膭沤that's it,膭呕 I nearly teared up. This win needs a proper toast.",
+				"Dialogue:[2]": "Took a day off, sat under trees膭艦the rustle beats any keyboard clack. Pour something breezy.",
+				"Dialogue:[3]": "Photog buddy tossed me a bag of misprints 膭沤you might remix this.膭呕 That pro聛6慕2to聛6慕2pro nod beats any 膭沤nice job膭呕膭艦let's share a pitcher."
 			},
 			"Female": {
-				"Dialogue:[1]": "Found an old design mag—remembered why I started. That pure ‘make good stuff’ itch is back—give me something light.",
-				"Dialogue:[2]": "Sketched your bar yesterday—lighting's got stories. I'll bring it next time. Serve me a glass that fits this vibe.",
-				"Dialogue:[3]": "Fan DMed ‘your work got me into art school’—suddenly the grind feels worth it. Sweet sip for small joys."
+				"Dialogue:[1]": "Found an old design mag膭艦remembered why I started. That pure 膭沤make good stuff膭呕 itch is back膭艦give me something light.",
+				"Dialogue:[2]": "Sketched your bar yesterday膭艦lighting's got stories. I'll bring it next time. Serve me a glass that fits this vibe.",
+				"Dialogue:[3]": "Fan DMed 膭沤your work got me into art school膭呕膭艦suddenly the grind feels worth it. Sweet sip for small joys."
 			}
 		}
 	},
@@ -196,62 +196,62 @@
 		"tag": "Boss",
 		"Busy": {
 			"Male": {
-				"Dialogue:[1]": "Third dinner, seven signatures, my gut's a booze grenade. I need a pressure‑drop pour—and don't cheap out on me.",
-				"Dialogue:[2]": "Airport this morning, three cities tomorrow—luggage still shut and I'm already wiped. Quick‑heal tonic, please.",
-				"Dialogue:[3]": "Six‑hour review, my hand's numb from signing. Numbers are starting to swim—clear my head."
+				"Dialogue:[1]": "Third dinner, seven signatures, my gut's a booze grenade. I need a pressure聛6慕2drop pour膭艦and don't cheap out on me.",
+				"Dialogue:[2]": "Airport this morning, three cities tomorrow膭艦luggage still shut and I'm already wiped. Quick聛6慕2heal tonic, please.",
+				"Dialogue:[3]": "Six聛6慕2hour review, my hand's numb from signing. Numbers are starting to swim膭艦clear my head."
 			},
 			"Female": {
-				"Dialogue:[1]": "Scouted real estate, pitched investments, schmoozed clients—time's pricier than gold. Bring the most efficient sipper.",
-				"Dialogue:[2]": "Assistant stacked my schedule to midnight—breathing requires reservations. This money grind hits harder than manual labor—give me a breather.",
-				"Dialogue:[3]": "Partner demanded a face‑to‑face; ditched my checkup for it. Body's a machine running hot—need a lubricant in a coupe."
+				"Dialogue:[1]": "Scouted real estate, pitched investments, schmoozed clients膭艦time's pricier than gold. Bring the most efficient sipper.",
+				"Dialogue:[2]": "Assistant stacked my schedule to midnight膭艦breathing requires reservations. This money grind hits harder than manual labor膭艦give me a breather.",
+				"Dialogue:[3]": "Partner demanded a face聛6慕2to聛6慕2face; ditched my checkup for it. Body's a machine running hot膭艦need a lubricant in a coupe."
 			}
 		},
 		"Irritable": {
 			"Male": {
-				"Dialogue:[1]": "Driver rolled in late—again. That slippage costs deals. I'm steamed—load me the heavy stuff.",
-				"Dialogue:[2]": "Event audio bombed after three months of prep—blame game on repeat. I'm this close to switching the whole team—make it Arctic.",
-				"Dialogue:[3]": "Assistant misfiled key docs—I looked like a clown in front of clients. Rookie mistake territory—pour the max."
+				"Dialogue:[1]": "Driver rolled in late膭艦again. That slippage costs deals. I'm steamed膭艦load me the heavy stuff.",
+				"Dialogue:[2]": "Event audio bombed after three months of prep膭艦blame game on repeat. I'm this close to switching the whole team膭艦make it Arctic.",
+				"Dialogue:[3]": "Assistant misfiled key docs膭艦I looked like a clown in front of clients. Rookie mistake territory膭艦pour the max."
 			},
 			"Female": {
-				"Dialogue:[1]": "Restaurant watered down stock and thought I wouldn't taste it? Standards are tanking—strong but smooth, help me chill.",
-				"Dialogue:[2]": "Just unboxed a piece with a flaw and the clerk called it ‘normal.’ Bare minimum's extinct—give me something to quiet the storm.",
-				"Dialogue:[3]": "‘Experts’ talked for an hour and said nothing—wrong room, wrong field. I almost flipped the table—drink first, rage later."
+				"Dialogue:[1]": "Restaurant watered down stock and thought I wouldn't taste it? Standards are tanking膭艦strong but smooth, help me chill.",
+				"Dialogue:[2]": "Just unboxed a piece with a flaw and the clerk called it 膭沤normal.膭呕 Bare minimum's extinct膭艦give me something to quiet the storm.",
+				"Dialogue:[3]": "膭沤Experts膭呕 talked for an hour and said nothing膭艦wrong room, wrong field. I almost flipped the table膭艦drink first, rage later."
 			}
 		},
 		"Melancholy": {
 			"Male": {
-				"Dialogue:[1]": "Got showered in luxury gifts for my birthday, but no one remembered I love Grandma's sugar cakes. Money can't pad that hollow—warm pour, please.",
+				"Dialogue:[1]": "Got showered in luxury gifts for my birthday, but no one remembered I love Grandma's sugar cakes. Money can't pad that hollow膭艦warm pour, please.",
 				"Dialogue:[2]": "City view's bright from the penthouse, but none of those lights are for me. Emptiness hits richer men harder.",
 				"Dialogue:[3]": "Thought money equals happiness; turns out it buys louder worries. Were those who drifted away worth the price? Calm me down."
 			},
 			"Female": {
-				"Dialogue:[1]": "I know half the banquet hall by name, but when it matters, my contacts list goes quiet—I'll take something gentle.",
-				"Dialogue:[2]": "Kidhood tree‑climbing buddy only talks market caps now. Those carefree days don't come back—serve me a memory‑soaked sip.",
-				"Dialogue:[3]": "Doc says lay off booze and socials for my blood pressure, but the table never stops toasting. Feels like I'm on rails—go light."
+				"Dialogue:[1]": "I know half the banquet hall by name, but when it matters, my contacts list goes quiet膭艦I'll take something gentle.",
+				"Dialogue:[2]": "Kidhood tree聛6慕2climbing buddy only talks market caps now. Those carefree days don't come back膭艦serve me a memory聛6慕2soaked sip.",
+				"Dialogue:[3]": "Doc says lay off booze and socials for my blood pressure, but the table never stops toasting. Feels like I'm on rails膭艦go light."
 			}
 		},
 		"Picky": {
 			"Male": {
-				"Dialogue:[1]": "Tannins and I don't get along—this level's decent, not overboard. You know your craft.",
-				"Dialogue:[2]": "Base got a tad drowned by the mix—hierarchy's fuzzy. Still, the core note's alive.",
-				"Dialogue:[3]": "Finish fades a bit fast—not exactly lingering—but the journey holds together."
+				"Dialogue:[1]": "Tannins and I don't get along膭艦this level's decent, not overboard. You know your craft.",
+				"Dialogue:[2]": "Base got a tad drowned by the mix膭艦hierarchy's fuzzy. Still, the core note's alive.",
+				"Dialogue:[3]": "Finish fades a bit fast膭艦not exactly lingering膭艦but the journey holds together."
 			},
 			"Female": {
-				"Dialogue:[1]": "Ice purity shifts the mouthfeel—these cubes carry a hint, but melt rate's good. Flavor stays intact.",
-				"Dialogue:[2]": "Glassware's quality shows—fit matters for tasting. This pairing works.",
-				"Dialogue:[3]": "Hands off the bowl next time—temp would stay truer. Still drinks fine."
+				"Dialogue:[1]": "Ice purity shifts the mouthfeel膭艦these cubes carry a hint, but melt rate's good. Flavor stays intact.",
+				"Dialogue:[2]": "Glassware's quality shows膭艦fit matters for tasting. This pairing works.",
+				"Dialogue:[3]": "Hands off the bowl next time膭艦temp would stay truer. Still drinks fine."
 			}
 		},
 		"Friendly": {
 			"Male": {
-				"Dialogue:[1]": "Grew up around this block—there used to be a sugar‑art grandpa on the corner. Can't believe it's a cozy bar now—something smooth, please.",
-				"Dialogue:[2]": "Dusted off old band photos—kinda want to restring the guitar. We were broke, but happy—pour me a youth‑coded drink.",
-				"Dialogue:[3]": "Your cocktails beat five‑star hotels—less pretense, more heart. I'll bring friends—start me with your best."
+				"Dialogue:[1]": "Grew up around this block膭艦there used to be a sugar聛6慕2art grandpa on the corner. Can't believe it's a cozy bar now膭艦something smooth, please.",
+				"Dialogue:[2]": "Dusted off old band photos膭艦kinda want to restring the guitar. We were broke, but happy膭艦pour me a youth聛6慕2coded drink.",
+				"Dialogue:[3]": "Your cocktails beat five聛6慕2star hotels膭艦less pretense, more heart. I'll bring friends膭艦start me with your best."
 			},
 			"Female": {
-				"Dialogue:[1]": "Donated a new school last week—those smiles beat a fat contract. Keep it simple, skip the fireworks.",
-				"Dialogue:[2]": "Helped an old neighbor fix a leak—he insisted I take veggies from his garden. That homey warmth beats clinking crystal—light and easy, thanks.",
-				"Dialogue:[3]": "Let my assistant take her birthday off—watching her bounce out reminded me I used to have that spark. A bright pick‑me‑up, please."
+				"Dialogue:[1]": "Donated a new school last week膭艦those smiles beat a fat contract. Keep it simple, skip the fireworks.",
+				"Dialogue:[2]": "Helped an old neighbor fix a leak膭艦he insisted I take veggies from his garden. That homey warmth beats clinking crystal膭艦light and easy, thanks.",
+				"Dialogue:[3]": "Let my assistant take her birthday off膭艦watching her bounce out reminded me I used to have that spark. A bright pick聛6慕2me聛6慕2up, please."
 			}
 		}
 	},
@@ -260,62 +260,62 @@
 		"tag": "Student",
 		"Busy": {
 			"Male": {
-				"Dialogue:[1]": "Four papers due, two finished—on my eighth coffee. Any anti‑sleep potion on the menu? Not too strong, I still gotta grind.",
-				"Dialogue:[2]": "Two exams down, three tomorrow. Backpack's stuffed with notes, shoulders are cooked—something that loosens the screws.",
-				"Dialogue:[3]": "Speech comp plus sports practice plus counselor paperwork—I’m a spinning top. Park me with a pit‑stop drink."
+				"Dialogue:[1]": "Four papers due, two finished膭艦on my eighth coffee. Any anti聛6慕2sleep potion on the menu? Not too strong, I still gotta grind.",
+				"Dialogue:[2]": "Two exams down, three tomorrow. Backpack's stuffed with notes, shoulders are cooked膭艦something that loosens the screws.",
+				"Dialogue:[3]": "Speech comp plus sports practice plus counselor paperwork膭艦I膭呕m a spinning top. Park me with a pit聛6慕2stop drink."
 			},
 			"Female": {
-				"Dialogue:[1]": "Lab report at dawn, group presentation at noon, elective exam by night—my day's on fast‑forward. Sweet breather, please.",
-				"Dialogue:[2]": "Club recruiting chewed my voice up. Heard you’ve got a night‑owl special—hook me up.",
-				"Dialogue:[3]": "Three days to build a contest prototype—pulling an all‑nighter soldering. Fumes fried my head—clean and bright, thanks."
+				"Dialogue:[1]": "Lab report at dawn, group presentation at noon, elective exam by night膭艦my day's on fast聛6慕2forward. Sweet breather, please.",
+				"Dialogue:[2]": "Club recruiting chewed my voice up. Heard you膭呕ve got a night聛6慕2owl special膭艦hook me up.",
+				"Dialogue:[3]": "Three days to build a contest prototype膭艦pulling an all聛6慕2nighter soldering. Fumes fried my head膭艦clean and bright, thanks."
 			}
 		},
 		"Irritable": {
 			"Male": {
-				"Dialogue:[1]": "Group project? More like solo speedrun—everyone else went AFK. I'm livid—cool me down.",
-				"Dialogue:[2]": "Library seat hog ghosted for two hours—books down, nowhere to be seen. I wanna toss his stuff out—ice me.",
-				"Dialogue:[3]": "Tried three times and failed to grab an elective—registration system crawls like a snail. Chill pill in a glass, please."
+				"Dialogue:[1]": "Group project? More like solo speedrun膭艦everyone else went AFK. I'm livid膭艦cool me down.",
+				"Dialogue:[2]": "Library seat hog ghosted for two hours膭艦books down, nowhere to be seen. I wanna toss his stuff out膭艦ice me.",
+				"Dialogue:[3]": "Tried three times and failed to grab an elective膭艦registration system crawls like a snail. Chill pill in a glass, please."
 			},
 			"Female": {
-				"Dialogue:[1]": "Fresh prints flew off in the wind—rescued them covered in mud. Why do disasters all pick me? Smooth the edges, please.",
-				"Dialogue:[2]": "Roomie cooked stinky noodles again—the smell could knock out a roach. I'm suffocating—need a scent eraser.",
-				"Dialogue:[3]": "Pop quiz out of nowhere—last week you said ‘not on the test!’ Feels like a prank. I'm tearing up inside—drink first."
+				"Dialogue:[1]": "Fresh prints flew off in the wind膭艦rescued them covered in mud. Why do disasters all pick me? Smooth the edges, please.",
+				"Dialogue:[2]": "Roomie cooked stinky noodles again膭艦the smell could knock out a roach. I'm suffocating膭艦need a scent eraser.",
+				"Dialogue:[3]": "Pop quiz out of nowhere膭艦last week you said 膭沤not on the test!膭呕 Feels like a prank. I'm tearing up inside膭艦drink first."
 			}
 		},
 		"Melancholy": {
 			"Male": {
-				"Dialogue:[1]": "Watching seniors get bounced on job apps makes me wonder—did I waste four years? Give me something soft.",
-				"Dialogue:[2]": "Parents say ‘stop playing, get certifications,’ but I don't even know what I love. Living on rails sucks—sweeten the sting.",
-				"Dialogue:[3]": "Studied all term, still mid‑pack. Others snag scholarships like it's nothing—maybe I'm just slow. I need a gentle pour."
+				"Dialogue:[1]": "Watching seniors get bounced on job apps makes me wonder膭艦did I waste four years? Give me something soft.",
+				"Dialogue:[2]": "Parents say 膭沤stop playing, get certifications,膭呕 but I don't even know what I love. Living on rails sucks膭艦sweeten the sting.",
+				"Dialogue:[3]": "Studied all term, still mid聛6慕2pack. Others snag scholarships like it's nothing膭艦maybe I'm just slow. I need a gentle pour."
 			},
 			"Female": {
-				"Dialogue:[1]": "My crush got taken today—and it wasn't me. Cried half an hour in the library—I'd like to forget for one night.",
-				"Dialogue:[2]": "Picked a major on a whim and now it hurts—no guts to switch. Feels like a maze—help me breathe.",
-				"Dialogue:[3]": "Birthday with instant noodles alone—feeds full of parties I wasn't at. Guess loneliness hits loud—make it warm."
+				"Dialogue:[1]": "My crush got taken today膭艦and it wasn't me. Cried half an hour in the library膭艦I'd like to forget for one night.",
+				"Dialogue:[2]": "Picked a major on a whim and now it hurts膭艦no guts to switch. Feels like a maze膭艦help me breathe.",
+				"Dialogue:[3]": "Birthday with instant noodles alone膭艦feeds full of parties I wasn't at. Guess loneliness hits loud膭艦make it warm."
 			}
 		},
 		"Picky": {
 			"Male": {
-				"Dialogue:[1]": "Sweetness is on point, but the ice melts fast—consistency takes a hit. Flavor's fine, though.",
-				"Dialogue:[2]": "Could use more fizz—right now it's shy like flat soda. Acid and sugar land okay.",
+				"Dialogue:[1]": "Sweetness is on point, but the ice melts fast膭艦consistency takes a hit. Flavor's fine, though.",
+				"Dialogue:[2]": "Could use more fizz膭艦right now it's shy like flat soda. Acid and sugar land okay.",
 				"Dialogue:[3]": "Looks a bit light on volume, but the taste isn't phoned in. I'll allow it."
 			},
 			"Female": {
-				"Dialogue:[1]": "Lemon slice could be thinner and cleaner—our art prof says details show attitude. Aroma's there, so we're good.",
-				"Dialogue:[2]": "Color's off from the pic—maybe a tweaked recipe? Flavor's still on‑track—I'll take it.",
-				"Dialogue:[3]": "Condensation dripped onto the table—chill wasn't nailed. Wipe it down and we're fine; the drink hits right."
+				"Dialogue:[1]": "Lemon slice could be thinner and cleaner膭艦our art prof says details show attitude. Aroma's there, so we're good.",
+				"Dialogue:[2]": "Color's off from the pic膭艦maybe a tweaked recipe? Flavor's still on聛6慕2track膭艦I'll take it.",
+				"Dialogue:[3]": "Condensation dripped onto the table膭艦chill wasn't nailed. Wipe it down and we're fine; the drink hits right."
 			}
 		},
 		"Friendly": {
 			"Male": {
-				"Dialogue:[1]": "Helped a girl find her lost USB at the library—she bought me milk tea. Vibes are high—sweet cocktail to match, please.",
-				"Dialogue:[2]": "Fixed a freshman's PC—he lent me his prized game disc. Sharing wins feel better than a leaderboard. Give me something lively.",
-				"Dialogue:[3]": "Final exam's done—freedom unlocked! Recommend a chill‑out drink? I want to treat myself."
+				"Dialogue:[1]": "Helped a girl find her lost USB at the library膭艦she bought me milk tea. Vibes are high膭艦sweet cocktail to match, please.",
+				"Dialogue:[2]": "Fixed a freshman's PC膭艦he lent me his prized game disc. Sharing wins feel better than a leaderboard. Give me something lively.",
+				"Dialogue:[3]": "Final exam's done膭艦freedom unlocked! Recommend a chill聛6慕2out drink? I want to treat myself."
 			},
 			"Female": {
-				"Dialogue:[1]": "Our band had its first gig—kinda scuffed, but people clapped! Celebrate on me—your pick.",
-				"Dialogue:[2]": "Cafeteria auntie loaded my plate and said I look too skinny. That kind of care beats any scholarship—something sweet, please.",
-				"Dialogue:[3]": "Grabbed dorm laundry during a storm and everyone's calling me a lifesaver. Being needed feels nice—make it crisp and fresh."
+				"Dialogue:[1]": "Our band had its first gig膭艦kinda scuffed, but people clapped! Celebrate on me膭艦your pick.",
+				"Dialogue:[2]": "Cafeteria auntie loaded my plate and said I look too skinny. That kind of care beats any scholarship膭艦something sweet, please.",
+				"Dialogue:[3]": "Grabbed dorm laundry during a storm and everyone's calling me a lifesaver. Being needed feels nice膭艦make it crisp and fresh."
 			}
 		}
 	}

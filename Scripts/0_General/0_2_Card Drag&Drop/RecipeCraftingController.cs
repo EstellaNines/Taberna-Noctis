@@ -103,6 +103,8 @@ public class RecipeCraftingController : MonoBehaviour
 		Debug.Log($"[RecipeCraftingController] 合成结果: {cocktail.nameEN} (ID:{cocktail.id})");
 
 		// 广播：合成成功（仅鸡尾酒）
+		MessageManager.Send<CocktailCardSO>(MessageDefine.CRAFTING_RESULT, cocktail);
+		// 兼容旧事件名（若其它系统使用了字符串消息）
 		MessageManager.Send<CocktailCardSO>("COCKTAIL_CRAFTED", cocktail);
 		// 广播：合成成功（含配方材料明细）
 		MessageManager.Send<(CocktailCardSO cocktail, MaterialCardSO a, MaterialCardSO b, MaterialCardSO c)>(

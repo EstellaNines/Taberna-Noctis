@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 8397406904025127566}
   - component: {fileID: 7414129505019396121}
   - component: {fileID: 2933036262063555450}
+  - component: {fileID: 6903501786900285992}
   m_Layer: 5
   m_Name: FormulaBook
   m_TagString: Untagged
@@ -158,12 +159,30 @@ MonoBehaviour:
   rootVisual: {fileID: 0}
   hideOnStart: 1
   startIndex: 1
+  ignoreCocktailNamesEN:
+  - Unspeakable
   testCocktail: {fileID: 0}
   testMaterialA: {fileID: 0}
   testMaterialB: {fileID: 0}
   testMaterialC: {fileID: 0}
   recipeDatabase: {fileID: 11400000, guid: ec455c7b183693e449d876707a791202, type: 2}
   testRecipeIndex: 0
+--- !u!114 &6903501786900285992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2800397962452380877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 197b698c28b6f1143813a0e4aced5c3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftPage: {fileID: 7904366823757367896}
+  rightPage: {fileID: 4457213194514930721}
+  formulaItemPrefab: {fileID: 8537013731381756987, guid: 7385ab59342d8c244957c4436b57d088, type: 3}
+  refreshOnEnable: 1
 --- !u!1 &8211642151808629085
 GameObject:
   m_ObjectHideFlags: 0

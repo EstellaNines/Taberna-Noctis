@@ -1555,6 +1555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   daySceneName: 3_DayScreen
+  afternoonSceneName: 4_AfternoonScreen
   nightSceneName: 4_NightScreen
 --- !u!1 &1584329691
 GameObject:

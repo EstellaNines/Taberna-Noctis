@@ -1521,6 +1521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2720474453056110636}
+  - component: {fileID: 7429810941670459411}
   m_Layer: 5
   m_Name: Formula
   m_TagString: Untagged
@@ -1553,3 +1554,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 286}
   m_SizeDelta: {x: 550, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7429810941670459411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8537013731381756987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 626f854adb2f5214c8996493ea2f0680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cocktailImage: {fileID: 2717019056036860992}
+  cocktailNameText: {fileID: 1486960067850212974}
+  mat1Image: {fileID: 3900427638854163136}
+  mat1NameText: {fileID: 750364487769500809}
+  mat2Image: {fileID: 2783968854063600446}
+  mat2NameText: {fileID: 3079899141900684935}
+  mat3Image: {fileID: 5527690161162021785}
+  mat3NameText: {fileID: 1463093039058808889}
