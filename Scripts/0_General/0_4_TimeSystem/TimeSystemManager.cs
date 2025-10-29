@@ -69,6 +69,22 @@ public class TimeSystemManager : MonoBehaviour
 #endif
     [SerializeField] private bool autoStartNightOnAfternoonEnd = true;
 
+    [Header("倒计时结束音效")]
+#if ODIN_INSPECTOR
+    [LabelText("启用倒计时结束音效(01秒开始)")]
+#endif
+    [SerializeField] private bool enableCountdownEndSfx = true;
+#if ODIN_INSPECTOR
+    [LabelText("触发提前秒数(通常=1)")]
+#endif
+    [SerializeField, Min(0f)] private float countdownEndLeadSeconds = 1f;
+#if ODIN_INSPECTOR
+    [LabelText("播放时长(秒)")]
+#endif
+    [SerializeField, Min(0.1f)] private float countdownEndPlaySeconds = 2f;
+    private bool countdownEndTriggeredThisPhase = false;
+    private int countdownEndPlayId = -1;
+
 	[Header("加载场景设置")]
 #if ODIN_INSPECTOR
 	[LabelText("Loading 场景名")]
@@ -159,6 +175,17 @@ public class TimeSystemManager : MonoBehaviour
             }
         }
 
+        // 01秒开始播放倒计时结束音效（暂停计时，播放指定秒数后推进阶段）
+        if (enableCountdownEndSfx && !countdownEndTriggeredThisPhase)
+        {
+            float remaining = PhaseRemainingTime;
+            if (remaining <= countdownEndLeadSeconds && remaining > 0f)
+            {
+                countdownEndTriggeredThisPhase = true;
+                StartCoroutine(PlayCountdownEndAndAdvance());
+            }
+        }
+
         // 检查阶段是否结束
         if (phaseTimer >= phaseDuration)
         {
@@ -184,12 +211,46 @@ public class TimeSystemManager : MonoBehaviour
         phaseTimer = 0f;
         phaseDuration = config.durationSeconds;
         autoSaveFiredThisPhase = false; // 新阶段开始，重置自动保存标记
+        countdownEndTriggeredThisPhase = false;
+        countdownEndPlayId = -1;
 
         // 初始化游戏时钟
         gameClock.Initialize(config.startHour, config.startMinute, config.timeScale);
 
         Debug.Log($"[TimeSystem] 初始化阶段: {phase}, 时长={phaseDuration}秒, " +
                   $"起始时间={config.startHour:D2}:{config.startMinute:D2}, 流速={config.timeScale}");
+    }
+
+    private System.Collections.IEnumerator PlayCountdownEndAndAdvance()
+    {
+        // 暂停推进，播放结束音效
+        bool wasPaused = isTimerPaused;
+        PauseTimer();
+        if (AudioManager.instance != null)
+        {
+            countdownEndPlayId = AudioManager.instance.PlayControllableSE(GlobalAudio.CountdownEnd, 1f, loop: true);
+            if (countdownEndPlayId != -1)
+            {
+                AudioManager.instance.StopControllableSEAfter(countdownEndPlayId, countdownEndPlaySeconds);
+            }
+        }
+        yield return new WaitForSeconds(countdownEndPlaySeconds);
+
+        // 确保音效被停止
+        if (countdownEndPlayId != -1)
+        {
+            AudioManager.instance?.StopControllableSE(countdownEndPlayId);
+            countdownEndPlayId = -1;
+        }
+
+        // 直接推进到下一阶段
+        AdvanceToNextPhase();
+
+        // 若先前未暂停（理论上此处必为暂停），推进后根据状态恢复/保持
+        if (!wasPaused && !inSettlementFlow)
+        {
+            ResumeTimer();
+        }
     }
 
     [Header("启动阶段检测")]

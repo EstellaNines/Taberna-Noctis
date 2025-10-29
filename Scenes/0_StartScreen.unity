@@ -2118,6 +2118,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1945909330}
   m_CullTransparentMesh: 1
+--- !u!1 &1953797645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1953797646}
+  - component: {fileID: 1953797647}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1953797646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953797645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1131.4775, y: 843.63184, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1953797647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953797645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290fd633b353c5f4a8538e46caca05bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayBgmScenes:
+  - 0_StartScreen
+  - 1_SaveFilesScreen
+  - 2_DayMessageScreen
+  - 3_DayScreen
+  - 4_AfternoonScreen
+  loadingSceneName: S_LoadingScreen
+  bgmVolume: 0.25
 --- !u!1 &1954972396
 GameObject:
   m_ObjectHideFlags: 0
@@ -2188,6 +2240,9 @@ MonoBehaviour:
     timeScale: 96
     sceneName: 4_NightScreen
   autoStartNightOnAfternoonEnd: 1
+  enableCountdownEndSfx: 1
+  countdownEndLeadSeconds: 1
+  countdownEndPlaySeconds: 2
   loadingScreenName: S_LoadingScreen
   setPhaseByActiveSceneOnStart: 1
   debugTimeScale: 1
@@ -2224,3 +2279,4 @@ SceneRoots:
   - {fileID: 1954972397}
   - {fileID: 1104411129}
   - {fileID: 1806508108}
+  - {fileID: 1953797646}

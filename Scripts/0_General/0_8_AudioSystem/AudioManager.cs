@@ -6,7 +6,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance; // 全局单例
 
-    private AudioSource audioSource; // 用于BGM与默认SE
+    private AudioSource audioSource; // 用于默认SE
+    private AudioSource bgmSource;   // 专用BGM源（避免淡入淡出影响SE）
     private readonly Dictionary<string, AudioClip> dictAudio = new Dictionary<string, AudioClip>(StringComparer.OrdinalIgnoreCase);
     
     // 可控音效管理
@@ -31,6 +32,10 @@ public class AudioManager : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+        // 创建专用BGM源
+        bgmSource = gameObject.AddComponent<AudioSource>();
+        bgmSource.playOnAwake = false;
+        bgmSource.loop = true;
 
         PreloadAllResourcesAudio();
     }
@@ -82,17 +87,60 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning($"[AudioManager] BGM 未找到：{nameOrPath}");
             return;
         }
-        audioSource.Stop();
-        audioSource.clip = clip;
-        audioSource.volume = Mathf.Clamp01(volume);
-        audioSource.loop = loop;
-        audioSource.Play();
+        bgmSource.Stop();
+        bgmSource.clip = clip;
+        bgmSource.volume = Mathf.Clamp01(volume);
+        bgmSource.loop = loop;
+        bgmSource.Play();
     }
 
     // 背景音乐停止
     public void StopBGM()
     {
-        audioSource.Stop();
+        bgmSource.Stop();
+    }
+
+    // ============ BGM 淡入淡出 ============
+    public void FadeInBGM(string nameOrPath, float targetVolume, float seconds, bool loop = true)
+    {
+        var clip = GetAudio(nameOrPath);
+        if (clip == null)
+        {
+            Debug.LogWarning($"[AudioManager] BGM 未找到：{nameOrPath}");
+            return;
+        }
+        StopAllCoroutines(); // 取消可能的上一次淡入淡出
+        bgmSource.clip = clip;
+        bgmSource.loop = loop;
+        bgmSource.volume = 0f;
+        bgmSource.Play();
+        StartCoroutine(FadeAudioSource(bgmSource, 0f, Mathf.Clamp01(targetVolume), Mathf.Max(0.01f, seconds)));
+    }
+
+    public void FadeOutBGM(float seconds, bool stopAtEnd = true)
+    {
+        StopAllCoroutines();
+        StartCoroutine(FadeOutBgmRoutine(Mathf.Max(0.01f, seconds), stopAtEnd));
+    }
+
+    private System.Collections.IEnumerator FadeOutBgmRoutine(float seconds, bool stopAtEnd)
+    {
+        yield return FadeAudioSource(bgmSource, bgmSource.volume, 0f, seconds);
+        if (stopAtEnd) bgmSource.Stop();
+    }
+
+    private System.Collections.IEnumerator FadeAudioSource(AudioSource src, float from, float to, float seconds)
+    {
+        float t = 0f;
+        src.volume = from;
+        while (t < seconds)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.Clamp01(t / seconds);
+            src.volume = Mathf.Lerp(from, to, k);
+            yield return null;
+        }
+        src.volume = to;
     }
 
     // 音效播放（默认源）
@@ -243,6 +291,69 @@ public class AudioManager : MonoBehaviour
         }
         controllableSources.Clear();
         Debug.Log("[AudioManager] 停止所有可控音效");
+    }
+
+    /// <summary>
+    /// 设置可控音效的播放音高（会影响播放速度）
+    /// </summary>
+    public void SetControllableSEPitch(int playId, float pitch)
+    {
+        if (controllableSources.TryGetValue(playId, out var source) && source != null)
+        {
+            source.pitch = Mathf.Clamp(pitch, 0.1f, 3f);
+            Debug.Log($"[AudioManager] 设置可控音效音高 ID:{playId}, pitch:{source.pitch:F2}");
+        }
+    }
+
+    /// <summary>
+    /// 将可控音效在指定时长内淡出（线性降音量），结束后可选停止并释放
+    /// </summary>
+    public void FadeOutControllableSE(int playId, float duration, bool stopAndCleanup = true)
+    {
+        if (duration <= 0f)
+        {
+            if (stopAndCleanup) StopControllableSE(playId);
+            return;
+        }
+        if (controllableSources.TryGetValue(playId, out var source) && source != null)
+        {
+            StartCoroutine(FadeOutRoutine(playId, source, duration, stopAndCleanup));
+        }
+    }
+
+    private System.Collections.IEnumerator FadeOutRoutine(int playId, AudioSource source, float duration, bool stopAndCleanup)
+    {
+        float startVol = source.volume;
+        float t = 0f;
+        while (t < duration && source != null)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.Clamp01(t / duration);
+            source.volume = Mathf.Lerp(startVol, 0f, k);
+            yield return null;
+        }
+        if (source != null)
+        {
+            source.volume = 0f;
+            if (stopAndCleanup)
+            {
+                StopControllableSE(playId);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 在指定秒数后停止可控音效
+    /// </summary>
+    public void StopControllableSEAfter(int playId, float seconds)
+    {
+        StartCoroutine(StopAfterDelay(playId, Mathf.Max(0f, seconds)));
+    }
+
+    private System.Collections.IEnumerator StopAfterDelay(int playId, float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        StopControllableSE(playId);
     }
 
     private System.Collections.IEnumerator AutoCleanupAfterPlay(int playId, float duration)

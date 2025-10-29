@@ -80,6 +80,34 @@ namespace TabernaNoctis.CardSystem
 		[Tooltip("额外的Content水平内边距（像素），用于在最右侧预留空白")]
 		private float extraContentPadding = 0f;
 
+		[Header("音效设置")]
+		[SerializeField]
+		[Tooltip("开始发牌时播放摆放玻璃瓶音效并按窗口时长自适应")] 
+		private bool playPlaceBottleSfx = true;
+
+		[SerializeField]
+		[Tooltip("摆放玻璃瓶音效路径（Resources）")] 
+		private string placeBottleSfxPath = GlobalAudio.PlaceGlassBottle;
+
+		[SerializeField]
+		[Range(0f, 1f)]
+		[Tooltip("摆放玻璃瓶音效音量")] 
+		private float placeBottleSfxVolume = 1f;
+
+		#endregion
+
+		#region 公共属性（只读）
+
+		/// <summary>
+		/// 派发间隔（秒）
+		/// </summary>
+		public float DispenseInterval => dispenseInterval;
+
+		/// <summary>
+		/// 卡牌移动动画时长（秒）
+		/// </summary>
+		public float MoveAnimationDuration => moveAnimationDuration;
+
 		#endregion
 
 		#region 私有字段
@@ -94,6 +122,10 @@ namespace TabernaNoctis.CardSystem
 		private ContentSizeFitter contentSizeFitter;
 
 		private CardSlot currentHoverSlot;
+
+		// 音效控制
+		private int placeBottleSfxPlayId = -1;
+		private float estimatedDispenseWindow = -1f;
 
 		#endregion
 
@@ -193,6 +225,9 @@ namespace TabernaNoctis.CardSystem
 			// 发牌开始 → 运行时计数 + 广播锁交互
 			CardDispenseRuntime.NotifyStarted();
 			MessageManager.Send<string>(MessageDefine.QUEUE_DISPENSE_STARTED, "");
+
+			// 播放发牌窗口音效（循环或加速），在窗口结束或停止时停止
+			StartPlaceBottleSfx();
 			dispenseCoroutine = StartCoroutine(DispenseCardsCoroutine());
 		}
 
@@ -208,6 +243,7 @@ namespace TabernaNoctis.CardSystem
 			}
 
 			isDispensing = false;
+			StopPlaceBottleSfx();
 			Debug.Log("[CardQueueDispenser] 停止派发");
 		}
 
@@ -345,6 +381,7 @@ namespace TabernaNoctis.CardSystem
 		// 发牌完成 → 运行时计数 - 广播解锁交互
 		CardDispenseRuntime.NotifyFinished();
 		MessageManager.Send<string>(MessageDefine.QUEUE_DISPENSE_FINISHED, "");
+		StopPlaceBottleSfx();
 		// 派发完成后输出当前队列顺序
 		LogCurrentCardOrder();
 	}
@@ -454,6 +491,57 @@ namespace TabernaNoctis.CardSystem
 			}
 		}
 	}
+
+		#endregion
+
+		#region 私有方法 - 发牌音效
+
+		private void StartPlaceBottleSfx()
+		{
+			if (!playPlaceBottleSfx) return;
+			var audio = AudioManager.instance;
+			if (audio == null) return;
+
+			var clip = audio.LoadAudio(placeBottleSfxPath);
+			if (clip == null)
+			{
+				Debug.LogWarning($"[CardQueueDispenser] 未找到音效：{placeBottleSfxPath}");
+				return;
+			}
+
+			// 估算发牌窗口时长： (队列数量-1)*间隔 + 移动动画时长（至少一段动画）
+			float interval = DispenseInterval;
+			float moveDur = MoveAnimationDuration;
+			int count = GetQueueCount();
+			estimatedDispenseWindow = Mathf.Max(moveDur, ((count - 1) * Mathf.Max(0f, interval)) + moveDur);
+
+			bool needLoop = estimatedDispenseWindow > clip.length;
+			placeBottleSfxPlayId = audio.PlayControllableSE(placeBottleSfxPath, placeBottleSfxVolume, loop: needLoop);
+			if (placeBottleSfxPlayId != -1)
+			{
+				if (!needLoop && clip.length > 0f && estimatedDispenseWindow > 0.01f)
+				{
+					// 音效长于窗口：提高 pitch 以在窗口内播完
+					float targetPitch = Mathf.Clamp(clip.length / estimatedDispenseWindow, 0.1f, 3f);
+					audio.SetControllableSEPitch(placeBottleSfxPlayId, targetPitch);
+					audio.StopControllableSEAfter(placeBottleSfxPlayId, estimatedDispenseWindow);
+				}
+				else if (needLoop)
+				{
+					// 窗口长于音效：循环播放，窗口结束时停止
+					audio.StopControllableSEAfter(placeBottleSfxPlayId, estimatedDispenseWindow);
+				}
+			}
+		}
+
+		private void StopPlaceBottleSfx()
+		{
+			if (placeBottleSfxPlayId != -1)
+			{
+				AudioManager.instance?.StopControllableSE(placeBottleSfxPlayId);
+				placeBottleSfxPlayId = -1;
+			}
+		}
 
 		#endregion
 

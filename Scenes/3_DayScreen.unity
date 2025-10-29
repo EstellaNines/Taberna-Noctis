@@ -640,6 +640,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &684253040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 684253041}
+  - component: {fileID: 684253042}
+  m_Layer: 0
+  m_Name: DaytimeBgmController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &684253041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684253040}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &684253042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684253040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290fd633b353c5f4a8538e46caca05bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayBgmScenes:
+  - 0_StartScreen
+  - 1_SaveFilesScreen
+  - 2_DayMessageScreen
+  - 3_DayScreen
+  - 4_AfternoonScreen
+  loadingSceneName: S_LoadingScreen
+  bgmVolume: 0.75
 --- !u!1 &704924433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1691,6 +1743,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1173810722}
   m_CullTransparentMesh: 1
+--- !u!1 &1233248823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1233248825}
+  - component: {fileID: 1233248824}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1233248824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233248823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e73c92ab6bfd964dadf90b291be6533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourcesAudioFolder: Audio
+  dontDestroyOnLoad: 1
+--- !u!4 &1233248825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233248823}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1356937205
 GameObject:
   m_ObjectHideFlags: 0
@@ -2579,6 +2677,9 @@ MonoBehaviour:
   useViewportAsMinWidth: 1
   minContentWidth: 1920
   extraContentPadding: 0
+  playPlaceBottleSfx: 1
+  placeBottleSfxPath: Audio/71236__handfan__setting-class-on-table_02-01
+  placeBottleSfxVolume: 1
 --- !u!114 &1866490318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3203,3 +3304,5 @@ SceneRoots:
   - {fileID: 1121507114}
   - {fileID: 2091880853}
   - {fileID: 22913824}
+  - {fileID: 1233248825}
+  - {fileID: 684253041}

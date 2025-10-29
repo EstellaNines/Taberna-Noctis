@@ -16,6 +16,23 @@ public class GlobalAudio
     public const string DrinkTaste4 = "Audio/品尝4";
     public const string DrinkTaste5 = "Audio/品尝5";
 
+    // 4. 摆放玻璃瓶音效
+    public const string PlaceGlassBottle = "Audio/71236__handfan__setting-class-on-table_02-01";
+
+    // 5. 调酒音效
+    public const string MixingDrink = "Audio/IceShake";
+
+    // 6. 上酒音效
+    public const string ServeDrink = "Audio/SeverCocktail";
+
+    // 7. 倒计时结束音效
+    public const string CountdownEnd = "Audio/CountDownEnd";
+
 
     // 背景音乐Background Music
+    // 1. 白天所有场景背景音乐
+    public const string DayBackgroundMusic = "Audio/lockdown_instrum";
+
+    // 2. 夜晚所有场景背景音乐
+    public const string NightBackgroundMusic = "Audio/Give You Up (Darius Remix)";
 }

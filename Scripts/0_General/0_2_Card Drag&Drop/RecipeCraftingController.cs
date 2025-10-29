@@ -24,6 +24,18 @@ public class RecipeCraftingController : MonoBehaviour
 	[LabelText("合成成功后清空三个槽")]
 	[SerializeField] private bool clearSlotsOnSuccess = true;
 
+	[Header("音效")]
+	[LabelText("调酒音效(循环)")]
+	[SerializeField] private string mixingSfxPath = GlobalAudio.MixingDrink;
+	[LabelText("音量")]
+	[Range(0f,1f)]
+	[SerializeField] private float mixingSfxVolume = 1f;
+	[LabelText("淡出时长(秒)")]
+	[Range(0f,2f)]
+	[SerializeField] private float mixingFadeOutSeconds = 0.25f;
+	[LabelText("放入首个材料即开始播放")]
+	[SerializeField] private bool autoStartMixingOnFirstMaterial = true;
+
     [Header("当前三槽（调试）")]
     [SerializeField, ReadOnly] private MaterialCardSO slotMat0;
     [SerializeField, ReadOnly] private MaterialCardSO slotMat1;
@@ -44,9 +56,20 @@ public class RecipeCraftingController : MonoBehaviour
     private void OnSlotUpdated((int slotIndex, BaseCardSO card) payload)
     {
         var idx = Mathf.Clamp(payload.slotIndex, 0, 2);
+        int before = GetFilledCount();
         var material = payload.card as MaterialCardSO; // 只有材料才计入
         SetSlot(idx, material);
         Debug.Log($"[RecipeCraftingController] 槽{idx} -> {(material != null ? material.nameEN + "(ID:" + material.id + ")" : "<空>")}");
+
+        int after = GetFilledCount();
+        if (autoStartMixingOnFirstMaterial && before == 0 && after > 0)
+        {
+            StartMixingLoop();
+        }
+        if (after == 0)
+        {
+            StopMixingLoop();
+        }
         if (autoCraftOnReady && AllFilled())
         {
             Craft();
@@ -57,6 +80,10 @@ public class RecipeCraftingController : MonoBehaviour
     {
         var idx = Mathf.Clamp(slotIndex, 0, 2);
         SetSlot(idx, null);
+        if (GetFilledCount() == 0)
+        {
+            StopMixingLoop();
+        }
     }
 
     private void SetSlot(int idx, MaterialCardSO mat)
@@ -101,6 +128,8 @@ public class RecipeCraftingController : MonoBehaviour
             resultSlot.SetResult(cocktail);
         }
 		Debug.Log($"[RecipeCraftingController] 合成结果: {cocktail.nameEN} (ID:{cocktail.id})");
+		// 成功产出结果 → 停止调酒音效
+		StopMixingLoop();
 
 		// 广播：合成成功（仅鸡尾酒）
 		MessageManager.Send<CocktailCardSO>(MessageDefine.CRAFTING_RESULT, cocktail);
@@ -126,6 +155,36 @@ public class RecipeCraftingController : MonoBehaviour
 			slotMat1 = null;
 			slotMat2 = null;
 		}
+    }
+
+    private int mixingPlayId = -1;
+
+    private int GetFilledCount()
+    {
+        int c = 0;
+        if (slotMat0 != null) c++;
+        if (slotMat1 != null) c++;
+        if (slotMat2 != null) c++;
+        return c;
+    }
+
+    private void StartMixingLoop()
+    {
+        if (!autoStartMixingOnFirstMaterial) return;
+        if (mixingPlayId != -1) return;
+        var audio = AudioManager.instance;
+        if (audio == null) return;
+        mixingPlayId = audio.PlayControllableSE(mixingSfxPath, mixingSfxVolume, loop: true);
+    }
+
+    private void StopMixingLoop()
+    {
+        if (mixingPlayId != -1)
+        {
+            var id = mixingPlayId;
+            mixingPlayId = -1;
+            AudioManager.instance?.FadeOutControllableSE(id, mixingFadeOutSeconds, stopAndCleanup: true);
+        }
     }
 }
 

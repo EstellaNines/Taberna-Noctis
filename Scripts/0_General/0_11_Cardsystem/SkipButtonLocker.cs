@@ -29,9 +29,16 @@ public class SkipButtonLocker : MonoBehaviour
     {
         MessageManager.Register<string>(MessageDefine.QUEUE_DISPENSE_STARTED, OnQueueStarted);
         MessageManager.Register<string>(MessageDefine.QUEUE_DISPENSE_FINISHED, OnQueueFinished);
-        // 初始状态与当前“是否正在发牌”同步；若未在发牌则立即显示
-        bool locked = CardDispenseRuntime.IsLocked;
-        SafeSetActive(!locked);
+        // 初始：若要求启用即隐藏则直接隐藏；否则与当前发牌状态同步
+        if (hideOnEnable)
+        {
+            SafeSetActive(false);
+        }
+        else
+        {
+            bool locked = CardDispenseRuntime.IsLocked;
+            SafeSetActive(!locked);
+        }
     }
 
     private void OnDisable()

@@ -2018,6 +2018,9 @@ MonoBehaviour:
   useViewportAsMinWidth: 1
   minContentWidth: 1920
   extraContentPadding: 0
+  playPlaceBottleSfx: 1
+  placeBottleSfxPath: Audio/71236__handfan__setting-class-on-table_02-01
+  placeBottleSfxVolume: 1
 --- !u!114 &885565892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3776,6 +3779,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NightMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 7901392690234873947, guid: 5b8ec9392582efe4886b3c15513b7327, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3962,6 +3969,10 @@ PrefabInstance:
     - target: {fileID: 2800397962452380877, guid: 04778b4190769384cad7f06e4060ce88, type: 3}
       propertyPath: m_Name
       value: FormulaBook
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800397962452380877, guid: 04778b4190769384cad7f06e4060ce88, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6262704349580010665, guid: 04778b4190769384cad7f06e4060ce88, type: 3}
       propertyPath: m_Pivot.x

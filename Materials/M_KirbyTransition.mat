@@ -46,7 +46,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Degrees: 45
-    - _Slider: 2.1
+    - _Slider: 1.768562
     m_Colors:
     - _GridX_Y: {r: 15, g: 15, b: 0, a: 0}
   m_BuildTextureStacks: []

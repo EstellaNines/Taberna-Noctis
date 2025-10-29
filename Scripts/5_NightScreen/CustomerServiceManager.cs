@@ -142,6 +142,14 @@ namespace TabernaNoctis.NightScreen
         [LabelText("最长品尝时间（秒）")]
         [SerializeField] private float maxDrinkingTime = 15f;
 
+        [Title("上酒与前奏设置")]
+        [LabelText("上酒前奏最短延迟（秒）")]
+        [SerializeField] private float serveLeadDelayMin = 2f;
+        [LabelText("上酒前奏最长延迟（秒）")]
+        [SerializeField] private float serveLeadDelayMax = 3f;
+        [LabelText("上酒音效音量")] 
+        [SerializeField] private float serveSfxVolume = 1f;
+
         [Title("运行时状态")]
         [ShowInInspector] private bool isNightActive = false;
         [ShowInInspector] private int currentServedCount = 0;
@@ -396,7 +404,16 @@ namespace TabernaNoctis.NightScreen
             float drinkingTime = Random.Range(minDrinkingTime, maxDrinkingTime);
             Debug.Log($"[CustomerService] 顾客品尝中... ({drinkingTime:F1}秒) [配置范围: {minDrinkingTime}-{maxDrinkingTime}秒]");
 
-            // 播放喝酒音效（规则：开始时一次；结尾离场前再一次）
+            // 台词框立即隐藏 + 上酒音效 → 等待2-3秒 → 再开始播放原先的品尝音效
+            if (dialogueRoot != null) dialogueRoot.SetActive(false);
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlaySE(GlobalAudio.ServeDrink, Mathf.Clamp01(serveSfxVolume));
+            }
+            float serveLead = Random.Range(Mathf.Min(serveLeadDelayMin, serveLeadDelayMax), Mathf.Max(serveLeadDelayMin, serveLeadDelayMax));
+            yield return new WaitForSeconds(serveLead);
+
+            // 开始播放（原）品尝音效一次
             PlayDrinkingSoundAtStart();
 
             yield return new WaitForSeconds(drinkingTime);
@@ -433,16 +450,7 @@ namespace TabernaNoctis.NightScreen
                 });
             }
 
-            // 结束前（离场淡出前）再播放一遍喝酒音效，并等待其播放完成
-            if (AudioManager.instance != null && !string.IsNullOrEmpty(currentDrinkingClipPath))
-            {
-                var clip = AudioManager.instance.LoadAudio(currentDrinkingClipPath);
-                if (clip != null)
-                {
-                    AudioManager.instance.PlaySE(clip, 1f);
-                    yield return new WaitForSeconds(clip.length);
-                }
-            }
+            // 不再在结束前重复播放品尝音效（只在开始时播放一次）
 
             Debug.Log($"[CustomerService] 服务完成: {customerData.displayName} (第{currentServedCount}位)");
 
@@ -491,7 +499,16 @@ namespace TabernaNoctis.NightScreen
             float drinkingTime = Random.Range(minDrinkingTime, maxDrinkingTime);
             Debug.Log($"[CustomerService] 顾客品尝中... ({drinkingTime:F1}秒) [配置范围: {minDrinkingTime}-{maxDrinkingTime}秒]");
 
-            // 播放喝酒音效
+            // 台词框立即隐藏 + 上酒音效 → 等待2-3秒 → 再开始播放原先的品尝音效
+            if (dialogueRoot != null) dialogueRoot.SetActive(false);
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlaySE(GlobalAudio.ServeDrink, Mathf.Clamp01(serveSfxVolume));
+            }
+            float serveLead = Random.Range(Mathf.Min(serveLeadDelayMin, serveLeadDelayMax), Mathf.Max(serveLeadDelayMin, serveLeadDelayMax));
+            yield return new WaitForSeconds(serveLead);
+
+            // 开始播放（原）品尝音效一次
             PlayDrinkingSoundAtStart();
 
             yield return new WaitForSeconds(drinkingTime);
@@ -521,16 +538,7 @@ namespace TabernaNoctis.NightScreen
                 bRating = debugRatingDelta;
             }
 
-            // 结束前（离场淡出前）再播放一遍喝酒音效，并等待其播放完成
-            if (AudioManager.instance != null && !string.IsNullOrEmpty(currentDrinkingClipPath))
-            {
-                var clip = AudioManager.instance.LoadAudio(currentDrinkingClipPath);
-                if (clip != null)
-                {
-                    AudioManager.instance.PlaySE(clip, 1f);
-                    yield return new WaitForSeconds(clip.length);
-                }
-            }
+            // 不再在结束前重复播放品尝音效（只在开始时播放一次）
 
             // 广播真实结算（或回退模拟值）
             BroadcastSettlement(new SettlementBroadcast
