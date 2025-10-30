@@ -563,7 +563,6 @@ GameObject:
   - component: {fileID: 5701070528199787065}
   - component: {fileID: 8533276286730930075}
   - component: {fileID: 7878059315124336492}
-  - component: {fileID: 127662685387039605}
   - component: {fileID: 8890753448127405872}
   m_Layer: 5
   m_Name: Progress
@@ -630,37 +629,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &127662685387039605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1405041876924814850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e06fc056a6b98141a769f547ffd6f36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIndividualCorners: 0
-  cornerRadius: 7.5
-  topLeftRadius: 7.5
-  topRightRadius: 7.5
-  bottomLeftRadius: 7.5
-  bottomRightRadius: 7.5
-  edgeSmoothing: 0
-  useGradient: 1
-  gradientType: 0
-  startColor: {r: 1, g: 0, b: 0, a: 1}
-  endColor: {r: 0, g: 1, b: 0.12483883, a: 1}
-  gradientAngle: 0
-  gradientOffset: 0
-  gradientCenter: {x: 0.5, y: 0.5}
-  gradientRadius: 1
-  blendMode: 2
-  ignoreImageColor: 1
-  useRectSize: 1
-  manualResolution: {x: 512, y: 512}
 --- !u!114 &8890753448127405872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1053,7 +1021,6 @@ GameObject:
   - component: {fileID: 1053061654572355769}
   - component: {fileID: 1945397137222720925}
   - component: {fileID: 8686693046969407997}
-  - component: {fileID: 4065209877568905341}
   m_Layer: 5
   m_Name: CardBackgound
   m_TagString: Untagged
@@ -1118,29 +1085,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4065209877568905341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3935985988566029533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIndividualCorners: 0
-  cornerRadius: 25
-  topLeftRadius: 25
-  topRightRadius: 25
-  bottomLeftRadius: 25
-  bottomRightRadius: 25
-  edgeSmoothing: 0
-  ignoreImageColor: 0
-  autoSetWhiteColor: 0
-  useRectSize: 1
-  manualResolution: {x: 512, y: 512}
 --- !u!1 &4169918967701509216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,7 +1096,7 @@ GameObject:
   - component: {fileID: 3504281844960692775}
   - component: {fileID: 5517281223154986988}
   - component: {fileID: 6135996944445612679}
-  - component: {fileID: 5645016516781595700}
+  - component: {fileID: 6238327003316780655}
   m_Layer: 5
   m_Name: Round
   m_TagString: Untagged
@@ -1217,7 +1161,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5645016516781595700
+--- !u!114 &6238327003316780655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1226,7 +1170,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4169918967701509216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 0
@@ -1251,7 +1195,6 @@ GameObject:
   - component: {fileID: 3730440291370140024}
   - component: {fileID: 4790260523649728288}
   - component: {fileID: 7463880096956558636}
-  - component: {fileID: 3475612839215328430}
   - component: {fileID: 4419988022583096443}
   m_Layer: 5
   m_Name: Progress
@@ -1318,37 +1261,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3475612839215328430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4551849697152485766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e06fc056a6b98141a769f547ffd6f36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIndividualCorners: 0
-  cornerRadius: 7.5
-  topLeftRadius: 7.5
-  topRightRadius: 7.5
-  bottomLeftRadius: 7.5
-  bottomRightRadius: 7.5
-  edgeSmoothing: 0
-  useGradient: 1
-  gradientType: 0
-  startColor: {r: 1, g: 0, b: 0, a: 1}
-  endColor: {r: 0, g: 1, b: 0.12483883, a: 1}
-  gradientAngle: 0
-  gradientOffset: 0
-  gradientCenter: {x: 0.5, y: 0.5}
-  gradientRadius: 1
-  blendMode: 2
-  ignoreImageColor: 1
-  useRectSize: 1
-  manualResolution: {x: 512, y: 512}
 --- !u!114 &4419988022583096443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1522,7 +1434,6 @@ GameObject:
   - component: {fileID: 6247625554100986674}
   - component: {fileID: 5497230028187972562}
   - component: {fileID: 3508607453007964404}
-  - component: {fileID: 47745497048898594}
   - component: {fileID: 8624217559777456740}
   m_Layer: 5
   m_Name: Progress
@@ -1589,37 +1500,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &47745497048898594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4657773601396768368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e06fc056a6b98141a769f547ffd6f36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIndividualCorners: 0
-  cornerRadius: 7.5
-  topLeftRadius: 7.5
-  topRightRadius: 7.5
-  bottomLeftRadius: 7.5
-  bottomRightRadius: 7.5
-  edgeSmoothing: 0
-  useGradient: 1
-  gradientType: 0
-  startColor: {r: 1, g: 0, b: 0, a: 1}
-  endColor: {r: 0, g: 1, b: 0.12483883, a: 1}
-  gradientAngle: 0
-  gradientOffset: 0
-  gradientCenter: {x: 0.5, y: 0.5}
-  gradientRadius: 1
-  blendMode: 2
-  ignoreImageColor: 1
-  useRectSize: 1
-  manualResolution: {x: 512, y: 512}
 --- !u!114 &8624217559777456740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1832,7 +1712,6 @@ GameObject:
   - component: {fileID: 8195893382487750090}
   - component: {fileID: 6352325208272767629}
   - component: {fileID: 7797442328676919893}
-  - component: {fileID: 6544069910865269468}
   - component: {fileID: 3079122502286985690}
   m_Layer: 5
   m_Name: Progress
@@ -1899,37 +1778,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6544069910865269468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4895807313032104892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e06fc056a6b98141a769f547ffd6f36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIndividualCorners: 0
-  cornerRadius: 7.5
-  topLeftRadius: 7.5
-  topRightRadius: 7.5
-  bottomLeftRadius: 7.5
-  bottomRightRadius: 7.5
-  edgeSmoothing: 0
-  useGradient: 1
-  gradientType: 0
-  startColor: {r: 1, g: 0, b: 0, a: 1}
-  endColor: {r: 0, g: 1, b: 0.12483883, a: 1}
-  gradientAngle: 0
-  gradientOffset: 0
-  gradientCenter: {x: 0.5, y: 0.5}
-  gradientRadius: 1
-  blendMode: 2
-  ignoreImageColor: 1
-  useRectSize: 1
-  manualResolution: {x: 512, y: 512}
 --- !u!114 &3079122502286985690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2178,7 +2026,7 @@ GameObject:
   - component: {fileID: 2120789643714645363}
   - component: {fileID: 6008758515618672568}
   - component: {fileID: 2989801219807552471}
-  - component: {fileID: 3437330687851233389}
+  - component: {fileID: 3321441278105523759}
   m_Layer: 5
   m_Name: Round
   m_TagString: Untagged
@@ -2243,7 +2091,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3437330687851233389
+--- !u!114 &3321441278105523759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2252,7 +2100,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5204726151746743842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 0
@@ -2277,7 +2125,7 @@ GameObject:
   - component: {fileID: 6682128815487305237}
   - component: {fileID: 2857913423660556058}
   - component: {fileID: 8153490464124354879}
-  - component: {fileID: 2640807742845595751}
+  - component: {fileID: 8065346605919773497}
   m_Layer: 5
   m_Name: Round
   m_TagString: Untagged
@@ -2342,7 +2190,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2640807742845595751
+--- !u!114 &8065346605919773497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2351,7 +2199,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5413116024614489941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 0
@@ -2415,7 +2263,7 @@ GameObject:
   - component: {fileID: 763868510497795424}
   - component: {fileID: 9022358598206755140}
   - component: {fileID: 8566341819614431534}
-  - component: {fileID: 5552259718787594776}
+  - component: {fileID: 2255225018087346246}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -2464,7 +2312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.73499995, g: 0.8925, b: 1.05, a: 0.9}
+  m_Color: {r: 0.73333335, g: 0.89019614, b: 0.9960785, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2481,7 +2329,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5552259718787594776
+--- !u!114 &2255225018087346246
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2490,7 +2338,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5622898726704922964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 1
@@ -2554,7 +2402,7 @@ GameObject:
   - component: {fileID: 4378261428698536666}
   - component: {fileID: 6587027423763016313}
   - component: {fileID: 9106836081736181302}
-  - component: {fileID: 1905032320967445656}
+  - component: {fileID: 5987464359418885867}
   m_Layer: 5
   m_Name: Round
   m_TagString: Untagged
@@ -2619,7 +2467,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1905032320967445656
+--- !u!114 &5987464359418885867
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2628,7 +2476,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5868668913855938606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 0
@@ -2696,7 +2544,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineBackground: {fileID: 7185565677827901673}
+  outlineBackgrounds: []
   mainBackground: {fileID: 8686693046969407997}
+  mainBackgrounds: []
   textBackground: {fileID: 0}
   textBackgrounds:
   - {fileID: 951552006816569375}
@@ -2754,7 +2604,7 @@ GameObject:
   - component: {fileID: 1215857092541649369}
   - component: {fileID: 733555247288153928}
   - component: {fileID: 951569955960255731}
-  - component: {fileID: 3008906946687167274}
+  - component: {fileID: 5618644947915046681}
   m_Layer: 5
   m_Name: Round
   m_TagString: Untagged
@@ -2819,7 +2669,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3008906946687167274
+--- !u!114 &5618644947915046681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2828,7 +2678,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6018349342302022677}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 0
@@ -3121,7 +2971,7 @@ GameObject:
   - component: {fileID: 2321573442716693595}
   - component: {fileID: 3731031209439227605}
   - component: {fileID: 7185565677827901673}
-  - component: {fileID: 4624633251414786662}
+  - component: {fileID: 4860354820561133139}
   m_Layer: 5
   m_Name: CardOutlineBackground
   m_TagString: Untagged
@@ -3169,7 +3019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.56, g: 0.68, b: 0.8, a: 1}
+  m_Color: {r: 0.56078434, g: 0.6784314, b: 0.8, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3186,7 +3036,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4624633251414786662
+--- !u!114 &4860354820561133139
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3195,7 +3045,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6941412464699989132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 0
@@ -3204,7 +3054,7 @@ MonoBehaviour:
   topRightRadius: 25
   bottomLeftRadius: 25
   bottomRightRadius: 25
-  edgeSmoothing: 1
+  edgeSmoothing: 0
   ignoreImageColor: 0
   autoSetWhiteColor: 0
   useRectSize: 1
@@ -3697,7 +3547,7 @@ GameObject:
   - component: {fileID: 1510110735478793383}
   - component: {fileID: 5003904007054218410}
   - component: {fileID: 951552006816569375}
-  - component: {fileID: 8728660808127602376}
+  - component: {fileID: 2723853753629891865}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -3746,7 +3596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.73499995, g: 0.8925, b: 1.05, a: 0.9}
+  m_Color: {r: 0.73333335, g: 0.89019614, b: 0.9960785, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3763,7 +3613,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8728660808127602376
+--- !u!114 &2723853753629891865
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3772,11 +3622,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8018017295988439042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 1
-  cornerRadius: 0
+  cornerRadius: 25
   topLeftRadius: 25
   topRightRadius: 25
   bottomLeftRadius: 0
@@ -3970,7 +3820,6 @@ GameObject:
   - component: {fileID: 8844992189630106154}
   - component: {fileID: 4648352419102114747}
   - component: {fileID: 3178517309394420628}
-  - component: {fileID: 5777402843677135331}
   m_Layer: 5
   m_Name: UI Sprite
   m_TagString: Untagged
@@ -4037,29 +3886,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5777402843677135331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8345863014822425031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useIndividualCorners: 0
-  cornerRadius: 0
-  topLeftRadius: 0
-  topRightRadius: 0
-  bottomLeftRadius: 0
-  bottomRightRadius: 0
-  edgeSmoothing: 0
-  ignoreImageColor: 0
-  autoSetWhiteColor: 0
-  useRectSize: 1
-  manualResolution: {x: 512, y: 512}
 --- !u!1 &8575332789315906571
 GameObject:
   m_ObjectHideFlags: 0

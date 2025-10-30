@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7802979266750953706}
   - component: {fileID: 8758037271121060060}
   - component: {fileID: 6387402110559569270}
-  - component: {fileID: 197320122286169744}
+  - component: {fileID: 8009891983649337017}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &197320122286169744
+--- !u!114 &8009891983649337017
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 868545364963870708}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 0
@@ -165,6 +165,12 @@ MonoBehaviour:
   fitCardToBackground: 1
   fitPadding: 8
   currentCocktail: {fileID: 0}
+  playFlyToMenu: 1
+  menuButtonTarget: {fileID: 0}
+  flyDelaySeconds: 2
+  flyDurationSeconds: 0.6
+  flyEase: 8
+  hideCardAfterFly: 1
 --- !u!1 &3783681600211795847
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +182,7 @@ GameObject:
   - component: {fileID: 4870170344982586115}
   - component: {fileID: 487147361254675625}
   - component: {fileID: 6750003314414434509}
-  - component: {fileID: 5746531043854810379}
+  - component: {fileID: 9016548227143758137}
   m_Layer: 5
   m_Name: HighlightBackground
   m_TagString: Untagged
@@ -224,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21568629, g: 0.90196085, b: 0.93725497, a: 1}
+  m_Color: {r: 0.21568628, g: 0.9019608, b: 0.9372549, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -241,7 +247,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5746531043854810379
+--- !u!114 &9016548227143758137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,7 +256,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3783681600211795847}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e2aa70482011b469c2ca36bd14387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46ba11f8bda98ad458d8835d43a33b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useIndividualCorners: 0

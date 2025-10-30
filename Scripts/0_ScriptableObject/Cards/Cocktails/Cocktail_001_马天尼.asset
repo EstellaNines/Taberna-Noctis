@@ -20,9 +20,9 @@ MonoBehaviour:
   tags:
   - Classic
   themeColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
-  mainBackgroundColor: {r: 0.53, g: 0.81, b: 0.98, a: 1}
-  outlineBackgroundColor: {r: 0.42, g: 0.65, b: 0.78, a: 1}
-  textBackgroundColor: {r: 0.56, g: 0.85, b: 1, a: 1}
+  mainBackgroundColor: {r: 0.37334993, g: 0.6814197, b: 0.87169814, a: 1}
+  outlineBackgroundColor: {r: 0.30320397, g: 0.51290077, b: 0.6301887, a: 1}
+  textBackgroundColor: {r: 0.44127443, g: 0.6957425, b: 0.82641506, a: 1}
   effects:
     busy: 1
     impatient: -2

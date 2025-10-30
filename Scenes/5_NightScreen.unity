@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20c91c68ef1b52c47afc3cc206d7d545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpawnInterval: 20
+  baseSpawnInterval: 15
   queueCapacity: 18
   guaranteeThreshold: 15
   cooldownRequirement: 10
@@ -3428,10 +3428,13 @@ MonoBehaviour:
   gainBetweenDelay: 0.08
   dialogueResolverComponent: {fileID: 1666338763}
   initialDelay: 3
-  normalSpawnInterval: 20
+  normalSpawnInterval: 15
   fastServeCount: 5
-  minDrinkingTime: 10
-  maxDrinkingTime: 15
+  minDrinkingTime: 7
+  maxDrinkingTime: 13.5
+  serveLeadDelayMin: 2
+  serveLeadDelayMax: 3
+  serveSfxVolume: 1
 --- !u!1 &1181136068
 GameObject:
   m_ObjectHideFlags: 0

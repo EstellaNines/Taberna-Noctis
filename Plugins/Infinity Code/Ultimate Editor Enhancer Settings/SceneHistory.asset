@@ -13,24 +13,24 @@ MonoBehaviour:
   m_Name: SceneHistory
   m_EditorClassIdentifier: 
   _items:
-  - name: 7_CongratulationScreen
-    path: Assets/Scenes/7_CongratulationScreen.unity
   - name: 6_SettlementScreen
     path: Assets/Scenes/6_SettlementScreen.unity
-  - name: 5_NightScreen
-    path: Assets/Scenes/5_NightScreen.unity
-  - name: 4_AfternoonScreen
-    path: Assets/Scenes/4_AfternoonScreen.unity
+  - name: 0_StartScreen
+    path: Assets/Scenes/0_StartScreen.unity
   - name: 3_DayScreen
     path: Assets/Scenes/3_DayScreen.unity
+  - name: 5_NightScreen
+    path: Assets/Scenes/5_NightScreen.unity
+  - name: S_LoadingScreen
+    path: Assets/Scenes/S_LoadingScreen.unity
+  - name: 7_CongratulationScreen
+    path: Assets/Scenes/7_CongratulationScreen.unity
+  - name: 4_AfternoonScreen
+    path: Assets/Scenes/4_AfternoonScreen.unity
   - name: 2_DayMessageScreen
     path: Assets/Scenes/2_DayMessageScreen.unity
   - name: 1_SaveFilesScreen
     path: Assets/Scenes/1_SaveFilesScreen.unity
-  - name: 0_StartScreen
-    path: Assets/Scenes/0_StartScreen.unity
-  - name: S_LoadingScreen
-    path: Assets/Scenes/S_LoadingScreen.unity
   - name: TEST
     path: Assets/Scenes/Test/TEST.unity
   - name: 5_SettlementScreen
