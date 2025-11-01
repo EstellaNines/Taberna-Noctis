@@ -1,4 +1,4 @@
-## CustomerMonitorWindow (Customer Arrival/Service State Monitor)
+## CustomerMonitorWindow EditorScript (Customer Arrival/Service State Monitor)
 
 ### Overview
 

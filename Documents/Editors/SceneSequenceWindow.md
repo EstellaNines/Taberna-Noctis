@@ -1,4 +1,4 @@
-## SceneSequenceWindow（场景顺序管理器）
+## SceneSequenceWindow（Eidtor场景顺序管理器）
 
 ### 概述
 

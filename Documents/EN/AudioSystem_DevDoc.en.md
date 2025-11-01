@@ -85,7 +85,7 @@ sequenceDiagram
 | AudioManager | StopControllableSEAfter(id, seconds)                     | Delayed stop                      |
 | AudioManager | FadeOutControllableSE(id, duration, stopAndCleanup=true) | Fade out SE                       |
 
-### 6. Typical Flow
+### 6. Typical FlowKv
 
 ```mermaid
 sequenceDiagram

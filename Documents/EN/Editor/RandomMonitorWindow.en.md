@@ -1,4 +1,4 @@
-## RandomMonitorWindow (RNG Monitor)
+## RandomMonitorWindow (RNG Monitor Editor Window)
 
 ### Overview
 

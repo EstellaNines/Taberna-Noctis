@@ -1,4 +1,4 @@
-## SceneSequenceWindow (Build Scene Order Manager)
+## SceneSequenceWindow (Build Scene Order Manager Editor script)
 
 ### Overview
 

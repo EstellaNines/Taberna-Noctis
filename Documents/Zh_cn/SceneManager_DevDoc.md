@@ -57,7 +57,7 @@ stateDiagram-v2
 
 ---
 
-## 4. 时序图：加载时机总览
+## 4. Sequence diagram: Overview of loading timing
 
 ```mermaid
 sequenceDiagram
@@ -82,7 +82,7 @@ sequenceDiagram
 
 ---
 
-## 5. 时序图：时间系统驱动场景切换
+## 5. Sequence diagram: The time system drives scene switchingA
 
 ```mermaid
 sequenceDiagram

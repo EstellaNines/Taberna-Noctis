@@ -1,4 +1,4 @@
-## SaveViewerWindow（存档监控器）
+## SaveViewerWindow（存档监控器Editor Script）
 
 ### 概述
 
