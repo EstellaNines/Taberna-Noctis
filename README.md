@@ -10,6 +10,8 @@
 
 *Master the art of mixology, manage customer moods, and build your bar's reputation in this strategic cocktail crafting experience.*
 
+**Language / 语言版本 / Kieli / Språk**: [English](#) | [中文](README_ZH.md) | [Suomi](README_FI.md) | [Svenska](README_SV.md) | [Dansk](README_DA.md)
+
 [Features](#-features) • [Gameplay](#-gameplay-systems) • [Architecture](#-architecture) • [Documentation](#-documentation) • [Getting Started](#-getting-started)
 
 </div>
@@ -141,7 +143,6 @@ flowchart TD
     subgraph Data
         SO[(ScriptableObjects)]
         RES[(Resources)]
-        I2[(I2Localization)]
     end
     
     MSG <--> Runtime
@@ -154,13 +155,12 @@ flowchart TD
 - **Unity Engine**: Core game framework
 - **Easy Save 3**: Persistent data management
 - **DOTween**: Animation and tweening
-- **I2 Localization**: Multi-language support
 - **Message Bus Pattern**: Decoupled system communication
 - **ScriptableObjects**: Data-driven design
 
 ### Directory Structure
 
-````
+```
 Assets/
 ├── Scripts/
 │   ├── 0_General/          # Core systems (messages, save, audio, cards)
@@ -224,7 +224,6 @@ Comprehensive technical documentation is available in the `Documents/EN/` folder
 3. **Import Dependencies**
    - Easy Save 3
    - DOTween (Free or Pro)
-   - I2 Localization
    - Other packages (see `Packages/manifest.json`)
 
 4. **Build Settings**
@@ -315,7 +314,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### Third-Party Assets
 - **Easy Save 3** - Persistent data management
 - **DOTween** (Demigiant) - Animation framework
-- **I2 Localization** - Multi-language support
 - **Febucci** - Text animation effects
 - **ParadoxNotion** - Behavior framework
 - **Sirenix Odin** - Inspector enhancements
